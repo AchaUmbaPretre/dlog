@@ -1,15 +1,11 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { Typography, DatePicker, Table, notification, Spin, Tag, Input, Button, Tooltip, Space } from 'antd';
+import  { useEffect, useState,  useRef } from 'react';
+import { Typography, DatePicker, Table, notification, Input,Space } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
-import { CarOutlined, ArrowUpOutlined, ArrowRightOutlined, ArrowDownOutlined, SearchOutlined, FileExcelOutlined, FilePdfOutlined } from '@ant-design/icons';
-import ExcelJS from 'exceljs';
-import { saveAs } from 'file-saver';
-import html2pdf from 'html2pdf.js';
+import { CarOutlined, SearchOutlined } from '@ant-design/icons';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 import { getRapportVehiculePeriode } from '../../../../../../services/carburantService';
 
-const { Search } = Input;
 const { Text, Title } = Typography;
 
 const RapportVehiculePeriode = () => {
@@ -20,6 +16,7 @@ const RapportVehiculePeriode = () => {
     const tableRef = useRef();
 
     const fetchData = async() => {
+        setLoading(true)
         try {
             const { data } = await getRapportVehiculePeriode(month);
             setData(data)           
@@ -136,30 +133,29 @@ const RapportVehiculePeriode = () => {
     ]
 
   return (
-    <>
-      <Title level={3} style={{ marginBottom: 24 }}>
-        📅 Rapport par véhicule
-      </Title>
-
-      <Space style={{ marginBottom: 24 }}>
-        <DatePicker
-          picker="month"
-          defaultValue={moment()}
-          onChange={(date) => setMonth(date.format('YYYY-MM'))}
-        />
-      </Space>
-        <div ref={tableRef}>
-          <Table
-            dataSource={data}
-            columns={columns}
-            scroll={{ x: 'max-content' }}
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-            pagination={false}
-            bordered
-            size="middle"
-          />
+    <div className="client">
+        <div className="client-wrapper">
+            <Space style={{ marginBottom: 24 }}>
+                <DatePicker
+                picker="month"
+                defaultValue={moment()}
+                onChange={(date) => setMonth(date.format('YYYY-MM'))}
+                />
+            </Space>
+            <div ref={tableRef}>
+            <Table
+                dataSource={data}
+                columns={columns}
+                scroll={{ x: 'max-content' }}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                pagination={false}
+                loading={loading}
+                bordered
+                size="middle"
+            />
+            </div>
         </div>
-    </>
+    </div>
   )
 }
 

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Typography, Select, DatePicker, Table, notification, Input, Space } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
-import { CarOutlined, SearchOutlined } from '@ant-design/icons';
+import {SearchOutlined } from '@ant-design/icons';
 import { getCarburantVehicule, getRapportCatPeriode } from '../../../../../../services/carburantService';
-import { getSite, getVehicule } from '../../../../../../services/charroiService';
+import { getSite } from '../../../../../../services/charroiService';
 
 const { Title } = Typography;
 
@@ -147,58 +147,56 @@ const RapportCatPeriode = () => {
   ];
 
   return (
-    <>
-      <Title level={3} style={{ marginBottom: 24 }}>
-        📅 Rapport de categorie
-      </Title>
+    <div className="client">
+        <div className="client-wrapper">
+            <Space style={{ marginBottom: 24 }}>
+                <DatePicker
+                picker="month"
+                defaultValue={moment()}
+                onChange={(date) => setMonth(date.format('YYYY-MM'))}
+                />
 
-      <Space style={{ marginBottom: 24 }}>
-        <DatePicker
-          picker="month"
-          defaultValue={moment()}
-          onChange={(date) => setMonth(date.format('YYYY-MM'))}
-        />
+                <Select
+                    showSearch
+                    allowClear
+                    options={vehicule.map(item => ({
+                        value: item.id_enregistrement,
+                        label: `${item.nom_marque} / ${item.immatriculation}`,
+                    }))}
+                    placeholder="Sélectionnez un véhicule..."
+                    optionFilterProp="label"
+                    onChange={setVehiculeData}
+                    style={{ width: 200 }}
+                />
 
-        <Select
-          showSearch
-          allowClear
-          options={vehicule.map(item => ({
-            value: item.id_enregistrement,
-            label: `${item.nom_marque} / ${item.immatriculation}`,
-          }))}
-          placeholder="Sélectionnez un véhicule..."
-          optionFilterProp="label"
-          onChange={setVehiculeData}
-          style={{ width: 200 }}
-        />
+                <Select
+                    showSearch
+                    allowClear
+                    options={site.map(item => ({
+                        value: item.id_site,
+                        label: item.nom_site,
+                    }))}
+                    placeholder="Sélectionnez un site..."
+                    optionFilterProp="label"
+                    onChange={setSiteData}
+                    style={{ width: 200 }}
+                />
+            </Space>
 
-        <Select
-          showSearch
-          allowClear
-          options={site.map(item => ({
-            value: item.id_site,
-            label: item.nom_site,
-          }))}
-          placeholder="Sélectionnez un site..."
-          optionFilterProp="label"
-          onChange={setSiteData}
-          style={{ width: 200 }}
-        />
-      </Space>
-
-      <div ref={tableRef}>
-        <Table
-          dataSource={data}
-          columns={columns}
-          scroll={{ x: 'max-content' }}
-          pagination={false}
-          bordered
-          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-          size="middle"
-          loading={loading}
-        />
-      </div>
-    </>
+            <div ref={tableRef}>
+                <Table
+                dataSource={data}
+                columns={columns}
+                scroll={{ x: 'max-content' }}
+                pagination={false}
+                bordered
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                size="middle"
+                loading={loading}
+                />
+            </div>
+        </div>
+    </div>
   );
 };
 
