@@ -7,6 +7,7 @@ import { getConnectivityMonth } from '../../../../services/eventService';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
+import { getSite, getVehicule } from '../../../../services/charroiService';
 
 const { Title } = Typography;
 
@@ -15,7 +16,18 @@ const ConnectivityMonth = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [site, setSite] = useState([]);
+  const [vehicule, setVehicule] = useState([]);
   const tableRef = useRef();
+
+  const fetchDatas = async() => {
+    const [vehiculeData, siteData] = await Promise.all([
+      getVehicule(),
+      getSite()
+    ])
+    setVehicule(vehiculeData?.data?.data)
+    setSite(siteData.data)
+  }
 
   const fetchData = async () => {
     setLoading(true);
@@ -34,6 +46,7 @@ const ConnectivityMonth = () => {
 
   useEffect(() => {
     fetchData();
+    fetchDatas();
   }, [month]);
 
   const devices = useMemo(() => [...new Set(data.map(item => item.device_name))], [data]);
