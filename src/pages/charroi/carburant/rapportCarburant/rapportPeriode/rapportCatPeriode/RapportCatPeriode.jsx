@@ -14,6 +14,8 @@ const RapportCatPeriode = () => {
   const [data, setData] = useState([]);
   const [vehicule, setVehicule] = useState([]);
   const [site, setSite] = useState([]);
+  const [vehiculeData, setVehiculeData] = useState([]);
+  const [siteData, setSiteData] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [rawData, setRawData] = useState([]);
   const tableRef = useRef();
@@ -191,12 +193,13 @@ const RapportCatPeriode = () => {
             showSearch
             allowClear
             options={vehicule.map((item) => ({
-                value: item.id_vehicule                                           ,
-                label: item.immatriculation,
+                value: item.id_vehicule                                      ,
+                label: `${item.nom_marque} / ${item.immatriculation}`,
             }))}
             placeholder="Sélectionnez un véhicule..."
             optionFilterProp="label"
-            onChange={setVehicule}
+            onChange={setVehiculeData}
+            style={{width:'200px'}}
         />
 
         <Select
@@ -208,7 +211,8 @@ const RapportCatPeriode = () => {
             }))}
             placeholder="Sélectionnez un site..."
             optionFilterProp="label"
-            onChange={setSite}
+            onChange={setSiteData}
+            style={{width:'200px'}}
         />
       </Space>
 
