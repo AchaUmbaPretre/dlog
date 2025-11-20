@@ -6,6 +6,7 @@ import {
   DashboardOutlined,
 } from "@ant-design/icons";
 import { Card, Table, Tag, Tooltip, Typography } from "antd";
+import { formatNumber } from '../../../../../../utils/formatNumber';
 const { Text } = Typography;
 
 const ConsomInfoSites = ({siteData, loading}) => {
@@ -37,7 +38,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
       title: "Plein",
       dataIndex: "total_pleins",
       render: (text) => (
-        <Text type="secondary">{text}</Text>
+        <Text type="secondary">{formatNumber(text)}</Text>
       ),
     },
     {
@@ -59,7 +60,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
       ),
       dataIndex: "total_litres",
       render: (text) => (
-        <Text type="secondary">{text}</Text>
+        <Text type="secondary">{formatNumber(text)}</Text>
       ),
     },
     {
@@ -70,7 +71,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
       ),
       dataIndex: "total_kilometrage",
       render: (text) => (
-        <Text type="secondary">{text}</Text>
+        <Text type="secondary">{formatNumber(text)}</Text>
       ),
     },
   ];

@@ -28,6 +28,7 @@ import moment from "moment";
 import "./carburant.scss";
 import { getCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
+import { formatNumber } from "../../../utils/formatNumber";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -90,8 +91,6 @@ const Carburant = () => {
   }, [data, searchValue]);
 
   const columns = useMemo(() => {
-    const formatNumber = (num, suffix = "") =>
-      `${new Intl.NumberFormat("fr-FR").format(num || 0)}${suffix}`;
 
     const allColumns = [
       {
@@ -157,7 +156,7 @@ const Carburant = () => {
         dataIndex: "compteur_km",
         key: "compteur_km",
         align: "right",
-        render: (text) => <Text>{formatNumber(text, " km")}</Text>,
+        render: (text) => <Text>{formatNumber(text)} km</Text>,
       },
       {
         title: "Cons./100km",
