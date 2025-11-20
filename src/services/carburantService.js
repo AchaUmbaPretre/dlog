@@ -72,3 +72,15 @@ export const getRapportCatPeriode = async (month, id_vehicule, id_site, date_sta
     }
   });
 };
+
+export const getRapportVehiculePeriode = async (month, id_vehicule, id_site, date_start, date_end ) => {
+  return axios.get(`${DOMAIN}/api/carburant/rapport_periode_vehicule`, {
+    params: {
+      month,
+      id_vehicule, 
+      id_site,
+      date_start, 
+      date_end
+    }
+  });
+};

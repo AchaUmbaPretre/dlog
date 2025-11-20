@@ -287,9 +287,7 @@ const Carburant = () => {
           }}
           onChange={(pagination) => setPagination(pagination)}
           scroll={{ x: 1100 }}
-          rowClassName={(_, index) =>
-            index % 2 === 0 ? "table-row-light" : "table-row-dark"
-          }
+          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           locale={{
             emptyText: (
               <Empty

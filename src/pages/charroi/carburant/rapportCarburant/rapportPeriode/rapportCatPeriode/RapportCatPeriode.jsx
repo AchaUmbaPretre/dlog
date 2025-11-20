@@ -127,7 +127,6 @@ const RapportCatPeriode = () => {
       ),
       render: (text) => (
         <strong>
-          <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
           {text}
         </strong>
       ),
@@ -175,6 +174,7 @@ const RapportCatPeriode = () => {
           scroll={{ x: 'max-content' }}
           pagination={false}
           bordered
+          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
           size="middle"
           loading={loading}
         />
