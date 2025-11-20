@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { Typography, DatePicker, Table, notification, Input, Space } from 'antd';
+import { Typography, Select, DatePicker, Table, notification, Input, Space } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { CarOutlined, SearchOutlined } from '@ant-design/icons';
 import { getRapportCatPeriode } from '../../../../../../services/carburantService';
+import { getSite, getVehicule } from '../../../../../../services/charroiService';
 
 const { Title } = Typography;
 
@@ -11,6 +12,8 @@ const RapportCatPeriode = () => {
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [vehicule, setVehicule] = useState([]);
+  const [site, setSite] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [rawData, setRawData] = useState([]);
   const tableRef = useRef();
@@ -99,8 +102,26 @@ const RapportCatPeriode = () => {
     }
   };
 
+  const fetchDatas = async() => {
+    try {
+        const [vehiculeData, siteData] = await Promise.all([
+            getVehicule(),
+            getSite()
+        ])
+
+        setVehicule(vehiculeData?.data?.data)
+        setSite(siteData?.data?.data)
+    } catch (error) {
+        console.log(error)
+    } finally {
+      setLoading(false);
+    }
+
+  };
+
   useEffect(() => {
     fetchData();
+    fetchDatas()
   }, [month]);
 
   // Colonnes pour le tableau
@@ -164,6 +185,30 @@ const RapportCatPeriode = () => {
           picker="month"
           defaultValue={moment()}
           onChange={(date) => setMonth(date.format('YYYY-MM'))}
+        />
+
+        <Select
+            showSearch
+            allowClear
+            options={vehicule.map((item) => ({
+                value: item.id_vehicule                                           ,
+                label: item.immatriculation,
+            }))}
+            placeholder="Sélectionnez un véhicule..."
+            optionFilterProp="label"
+            onChange={setVehicule}
+        />
+
+        <Select
+            showSearch
+            allowClear
+            options={site.map((item) => ({
+                value: item.id_site                                           ,
+                label: item.nom_site,
+            }))}
+            placeholder="Sélectionnez un site..."
+            optionFilterProp="label"
+            onChange={setSite}
         />
       </Space>
 
