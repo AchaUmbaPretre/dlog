@@ -50,7 +50,6 @@ const columns = [
 ];
 
 
-
   return (
     <section className="card table-card">
       <h2 className="card__title"><InfoCircleOutlined /> Détails des véhicules</h2>
