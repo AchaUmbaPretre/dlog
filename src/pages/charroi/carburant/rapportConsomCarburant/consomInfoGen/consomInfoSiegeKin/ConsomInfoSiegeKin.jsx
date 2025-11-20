@@ -10,7 +10,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
 
     const columns = [
     {
-      title: '#',
+      title: '#', 
       dataIndex: 'id',
       key: 'id',
       render: (text, record, index) => (

@@ -21,7 +21,7 @@ const ConsomInfoGen = ({ siteData, siegeData, parValue, vehiculeData, loading })
         </div>
 
         <div className="consomInfoGen__row">
-          <ConsomInfoSiegeKin siegeData={siegeData} />
+          <ConsomInfoSiegeKin siegeData={siegeData} loading={loading} />
         </div>
       </div>
     </div>
