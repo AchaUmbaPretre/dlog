@@ -17,7 +17,6 @@ const ConnectivityMonth = () => {
   const [searchText, setSearchText] = useState('');
   const tableRef = useRef();
 
-  // 🔹 Fetch data
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -37,7 +36,6 @@ const ConnectivityMonth = () => {
     fetchData();
   }, [month]);
 
-  // 🔹 Transformation des données
   const devices = useMemo(() => [...new Set(data.map(item => item.device_name))], [data]);
   const jours = useMemo(() => [...new Set(data.map(item => item.jour))].sort((a,b) => a-b), [data]);
 
@@ -69,7 +67,6 @@ const ConnectivityMonth = () => {
     }
   };
 
-  // 🔹 Construction des lignes du tableau
   const tableData = devices
     .filter(name => name.toLowerCase().includes(searchText.toLowerCase()))
     .map(name => {
