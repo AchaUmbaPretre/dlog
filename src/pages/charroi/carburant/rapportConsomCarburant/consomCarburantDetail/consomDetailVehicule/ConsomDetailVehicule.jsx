@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { DashboardOutlined, FireOutlined, CarOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
+import { DashboardOutlined, FireOutlined, CarOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
+import { formatNumber } from '../../../../../../utils/formatNumber';
 
 const ConsomDetailVehicule = ({siegeData, loading}) => {
     const [selectedVehicles, setSelectedVehicles] = useState([]);
@@ -74,7 +75,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
       key: 'total_litres',
       render: (text) => (
         <div>
-          {text}
+          {formatNumber(text)}
         </div>
       ),
     },
@@ -87,7 +88,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
           <CheckCircleOutlined
             style={{ color: "#52c41a", marginRight: "8px" }}
           />
-          {text}
+          {formatNumber(text)}
         </div>
       ),
     },
@@ -98,7 +99,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
       render: (text) => (
         <div>
           <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
-          {text}
+          {formatNumber(text)}
         </div>
       ),
     },

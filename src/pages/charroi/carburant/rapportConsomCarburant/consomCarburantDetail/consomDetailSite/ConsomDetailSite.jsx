@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { DashboardOutlined, BankOutlined, EnvironmentOutlined, CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
 import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
+import { formatNumber } from '../../../../../../utils/formatNumber';
 
 const ConsomDetailSite = ({siteAllData, loading}) => {
     const [data,setData] = useState();
@@ -63,7 +64,7 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
         render: (text) => (
             <div>
             <LoadingOutlined style={{ color: "#722ed1", marginRight: "8px" }} />
-            {text}
+            {formatNumber(text)}
             </div>
         ),
         },
@@ -76,7 +77,7 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
             <CheckCircleOutlined
                 style={{ color: "#52c41a", marginRight: "8px" }}
             />
-            {text}
+            {formatNumber(text)}
             </div>
         ),
         },
@@ -91,7 +92,7 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
         render: (text) => (
             <div>
             <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
-            {text}
+            {formatNumber(text)}
             </div>
         ),
         },
