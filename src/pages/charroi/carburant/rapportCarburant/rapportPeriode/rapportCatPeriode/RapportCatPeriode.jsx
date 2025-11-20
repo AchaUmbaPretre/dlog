@@ -3,7 +3,7 @@ import { Typography, Select, DatePicker, Table, notification, Input, Space } fro
 import moment from 'moment';
 import 'moment/locale/fr';
 import { CarOutlined, SearchOutlined } from '@ant-design/icons';
-import { getRapportCatPeriode } from '../../../../../../services/carburantService';
+import { getCarburantVehicule, getRapportCatPeriode } from '../../../../../../services/carburantService';
 import { getSite, getVehicule } from '../../../../../../services/charroiService';
 
 const { Title } = Typography;
@@ -14,125 +14,98 @@ const RapportCatPeriode = () => {
   const [data, setData] = useState([]);
   const [vehicule, setVehicule] = useState([]);
   const [site, setSite] = useState([]);
-  const [vehiculeData, setVehiculeData] = useState([]);
-  const [siteData, setSiteData] = useState([]);
+  const [vehiculeData, setVehiculeData] = useState(null);
+  const [siteData, setSiteData] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [rawData, setRawData] = useState([]);
   const tableRef = useRef();
 
-  // Générer tous les jours du mois
-  const jours = useMemo(() => {
-    const totalDays = moment(month, "YYYY-MM").daysInMonth();
-    return Array.from({ length: totalDays }, (_, i) => i + 1);
-  }, [month]);
+  // Récupérer les données API
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const { data } = await getRapportCatPeriode(month, vehiculeData, siteData);
+      setRawData(data);
 
-  // Formater les jours pour l'affichage
+      // Générer les lignes du tableau
+      const formatted = [
+        {
+          titre: "Total Pleins",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_pleins])),
+        },
+        {
+          titre: "Total Kilométrage",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_kilometrage])),
+        },
+        {
+          titre: "Total Litres",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_litres])),
+        },
+        {
+          titre: "Consommation",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_consom])),
+        },
+        {
+          titre: "Distance",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_distance])),
+        },
+        {
+          titre: "Montant Total (CDF)",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_total_cdf])),
+        },
+        {
+          titre: "Montant Total (USD)",
+          ...Object.fromEntries(data.map(d => [parseInt(d.jour), d.total_total_usd])),
+        },
+      ];
+
+      setData(formatted);
+    } catch (err) {
+        const errorMessage = err?.response?.data?.message || "Impossible de récupérer les données du rapport";
+
+        notification.error({
+            message: "Erreur de chargement",
+            description: errorMessage,
+        });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Récupérer les véhicules et sites
+  const fetchDatas = async () => {
+    try {
+      const [vehiculeData, siteData] = await Promise.all([getCarburantVehicule(), getSite()]);
+      setVehicule(vehiculeData?.data || []);
+      setSite(siteData?.data?.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    fetchDatas();
+  }, [month, vehiculeData, siteData]);
+
+  // Récupérer uniquement les jours présents dans l'API
+  const jours = useMemo(() => {
+    return rawData.map(d => parseInt(d.jour)).sort((a, b) => a - b);
+  }, [rawData]);
+
   const formatDayWithMonth = (day) => {
     const monthYear = moment(month, 'YYYY-MM');
     const fullDate = monthYear.date(day);
     return fullDate.format('D MMM'); // ex: "1 janv."
   };
 
-  // Récupérer les données
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const { data } = await getRapportCatPeriode(month);
-      setRawData(data);
-
-      const formatted = [
-        {
-          titre: "Total Pleins",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_pleins : 0];
-          }))
-        },
-        {
-          titre: "Total Kilométrage",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_kilometrage : 0];
-          }))
-        },
-        {
-          titre: "Total Litres",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_litres : 0];
-          }))
-        },
-        {
-          titre: "Consommation",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_consom : 0];
-          }))
-        },
-        {
-          titre: "Distance",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_distance : 0];
-          }))
-        },
-        {
-          titre: "Montant Total (CDF)",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_total_cdf : 0];
-          }))
-        },
-        {
-          titre: "Montant Total (USD)",
-          ...Object.fromEntries(jours.map(j => {
-            const day = data.find(d => parseInt(d.jour) === j);
-            return [j, day ? day.total_total_usd : 0];
-          }))
-        }
-      ];
-
-      setData(formatted);
-
-    } catch (err) {
-      notification.error({
-        message: "Erreur de chargement",
-        description: "Impossible de récupérer les données du rapport",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchDatas = async() => {
-    try {
-        const [vehiculeData, siteData] = await Promise.all([
-            getVehicule(),
-            getSite()
-        ])
-
-        setVehicule(vehiculeData?.data?.data)
-        setSite(siteData?.data?.data)
-    } catch (error) {
-        console.log(error)
-    } finally {
-      setLoading(false);
-    }
-
-  };
-
-  useEffect(() => {
-    fetchData();
-    fetchDatas()
-  }, [month]);
-
-  // Colonnes pour le tableau
+  // Colonnes du tableau
   const columns = [
     {
       title: '#',
-      render: (text, record, index) => index + 1,
+      render: (_, __, index) => index + 1,
       width: 10,
-      fixed: 'left'
+      fixed: 'left',
     },
     {
       title: 'Titre',
@@ -159,10 +132,7 @@ const RapportCatPeriode = () => {
       dataIndex: j,
       key: j,
       align: 'center',
-      render: (value) => {
-        const rounded = Math.round(value || 0);
-        return rounded.toLocaleString('fr-FR');
-      }
+      render: (value) => (value != null ? Math.round(value).toLocaleString('fr-FR') : '0'),
     })),
     {
       title: 'Total',
@@ -172,8 +142,8 @@ const RapportCatPeriode = () => {
       render: (record) => {
         const total = jours.reduce((sum, j) => sum + (record[j] || 0), 0);
         return Math.round(total).toLocaleString('fr-FR');
-      }
-    }
+      },
+    },
   ];
 
   return (
@@ -190,29 +160,29 @@ const RapportCatPeriode = () => {
         />
 
         <Select
-            showSearch
-            allowClear
-            options={vehicule.map((item) => ({
-                value: item.id_vehicule                                      ,
-                label: `${item.nom_marque} / ${item.immatriculation}`,
-            }))}
-            placeholder="Sélectionnez un véhicule..."
-            optionFilterProp="label"
-            onChange={setVehiculeData}
-            style={{width:'200px'}}
+          showSearch
+          allowClear
+          options={vehicule.map(item => ({
+            value: item.id_enregistrement,
+            label: `${item.nom_marque} / ${item.immatriculation}`,
+          }))}
+          placeholder="Sélectionnez un véhicule..."
+          optionFilterProp="label"
+          onChange={setVehiculeData}
+          style={{ width: 200 }}
         />
 
         <Select
-            showSearch
-            allowClear
-            options={site.map((item) => ({
-                value: item.id_site                                           ,
-                label: item.nom_site,
-            }))}
-            placeholder="Sélectionnez un site..."
-            optionFilterProp="label"
-            onChange={setSiteData}
-            style={{width:'200px'}}
+          showSearch
+          allowClear
+          options={site.map(item => ({
+            value: item.id_site,
+            label: item.nom_site,
+          }))}
+          placeholder="Sélectionnez un site..."
+          optionFilterProp="label"
+          onChange={setSiteData}
+          style={{ width: 200 }}
         />
       </Space>
 
