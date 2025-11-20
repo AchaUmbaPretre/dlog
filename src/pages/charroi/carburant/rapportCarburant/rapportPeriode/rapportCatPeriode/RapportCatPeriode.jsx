@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Typography, DatePicker, Table, notification, Space, Input } from 'antd';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { Typography, DatePicker, Table, notification, Input, Space } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { CarOutlined, SearchOutlined } from '@ant-design/icons';
@@ -12,64 +12,75 @@ const RapportCatPeriode = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [rawData, setRawData] = useState([]);
   const tableRef = useRef();
 
+  // Générer tous les jours du mois
+  const jours = useMemo(() => {
+    const totalDays = moment(month, "YYYY-MM").daysInMonth();
+    return Array.from({ length: totalDays }, (_, i) => i + 1);
+  }, [month]);
+
+  // Formater les jours pour l'affichage
+  const formatDayWithMonth = (day) => {
+    const monthYear = moment(month, 'YYYY-MM');
+    const fullDate = monthYear.date(day);
+    return fullDate.format('D MMM'); // ex: "1 janv."
+  };
+
+  // Récupérer les données
   const fetchData = async () => {
     setLoading(true);
     try {
       const { data } = await getRapportCatPeriode(month);
+      setRawData(data);
 
-      // Nombre de jours dans le mois sélectionné
-      const totalDays = moment(month, "YYYY-MM").daysInMonth();
-      const joursDuMois = Array.from({ length: totalDays }, (_, i) => i + 1);
-
-      // Créer le tableau formaté
       const formatted = [
         {
           titre: "Total Pleins",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_pleins : 0];
           }))
         },
         {
           titre: "Total Kilométrage",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_kilometrage : 0];
           }))
         },
         {
           titre: "Total Litres",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_litres : 0];
           }))
         },
         {
           titre: "Consommation",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_consom : 0];
           }))
         },
         {
           titre: "Distance",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_distance : 0];
           }))
         },
         {
           titre: "Montant Total (CDF)",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_total_cdf : 0];
           }))
         },
         {
           titre: "Montant Total (USD)",
-          ...Object.fromEntries(joursDuMois.map(j => {
+          ...Object.fromEntries(jours.map(j => {
             const day = data.find(d => parseInt(d.jour) === j);
             return [j, day ? day.total_total_usd : 0];
           }))
@@ -92,48 +103,52 @@ const RapportCatPeriode = () => {
     fetchData();
   }, [month]);
 
-  const formatDayWithMonth = (day) => {
-    const monthYear = moment(month, 'YYYY-MM');
-    const fullDate = monthYear.date(day);
-    return fullDate.format('D MMM'); // ex: 1 janv.
-  };
-
-  // Colonnes du tableau
-  const totalDays = moment(month, "YYYY-MM").daysInMonth();
-  const joursDuMois = Array.from({ length: totalDays }, (_, i) => i + 1);
-
+  // Colonnes pour le tableau
   const columns = [
-    { title: '#', render: (t,r,i)=>i+1, width: 10, fixed: 'left' },
-    { 
-      title: 'Titre', 
-      dataIndex: 'titre', 
-      fixed: 'left', 
-      width: 180, 
+    {
+      title: '#',
+      render: (text, record, index) => index + 1,
+      width: 10,
+      fixed: 'left'
+    },
+    {
+      title: 'Titre',
+      dataIndex: 'titre',
+      fixed: 'left',
+      width: 180,
       filterDropdown: () => (
         <Input
-          placeholder="Rechercher véhicule"
+          placeholder="Rechercher"
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
           style={{ width: 180, marginBottom: 8 }}
           prefix={<SearchOutlined />}
         />
       ),
-      render: text => <strong>{text}</strong>
+      render: (text) => (
+        <strong>
+          <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
+          {text}
+        </strong>
+      ),
     },
-    ...joursDuMois.map(j => ({
+    ...jours.map(j => ({
       title: formatDayWithMonth(j),
       dataIndex: j,
       key: j,
       align: 'center',
-      render: v => (Math.round(v || 0)).toLocaleString('fr-FR')
+      render: (value) => {
+        const rounded = Math.round(value || 0);
+        return rounded.toLocaleString('fr-FR');
+      }
     })),
     {
       title: 'Total',
       key: 'total',
       fixed: 'right',
       align: 'center',
-      render: record => {
-        const total = joursDuMois.reduce((sum, j) => sum + (record[j] || 0), 0);
+      render: (record) => {
+        const total = jours.reduce((sum, j) => sum + (record[j] || 0), 0);
         return Math.round(total).toLocaleString('fr-FR');
       }
     }
@@ -149,7 +164,7 @@ const RapportCatPeriode = () => {
         <DatePicker
           picker="month"
           defaultValue={moment()}
-          onChange={date => setMonth(date.format('YYYY-MM'))}
+          onChange={(date) => setMonth(date.format('YYYY-MM'))}
         />
       </Space>
 
@@ -161,6 +176,7 @@ const RapportCatPeriode = () => {
           pagination={false}
           bordered
           size="middle"
+          loading={loading}
         />
       </div>
     </>
