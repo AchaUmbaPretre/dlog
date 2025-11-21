@@ -10,10 +10,10 @@ export const availableFields = [
 ];
 
 export const availableFieldsRapPeriode = [
-  { key: 'total_plein', label: '#Plein' },
+  { key: 'total_pleins', label: '#Plein' },
   { key: 'total_quantite', label: 'Qté' },
   { key: 'total_distance', label: 'Dist.(Km)' },
-  { key: 'total_km', label: 'Km actuel' },
+  { key: 'total_kilometrage', label: 'Km actuel' },
   { key: 'total_consom', label: 'Cons./100km' },
   { key: 'total_montant_cdf', label: 'Montant CDF' },
   { key: 'total_montant_usd', label: 'Montant USD' },

@@ -20,6 +20,7 @@ const RapportVehiculePeriode = () => {
     const [activeKeys, setActiveKeys] = useState(['1', '2']);
     const [detail, setDetail] = useState([]);
     const tableRef = useRef();
+    const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
 
     const fetchData = async() => {
         setLoading(true)
@@ -66,103 +67,38 @@ const RapportVehiculePeriode = () => {
       useEffect(() => {
         fetchData();
       }, [month]);
-
-    const columns = [
-        {
-          title: '#',
-          render: (text, record, index) => index + 1,
-          width: 10,
-          fixed: 'left',
-        },
-        {
-          title: 'Marque',
-          dataIndex: 'nom_marque',
-          fixed: 'left',
-          filterDropdown: () => (
-            <Input
-              placeholder="Rechercher véhicule"
-              value={searchText}
-              onChange={e => setSearchText(e.target.value)}          
-              style={{ width: 180, marginBottom: 8 }}
-              prefix={<SearchOutlined />}
-            />
-          ),
-          render: (text) => (
-            <strong>
-              <CarOutlined style={{ color: '#1890ff', marginRight: 6 }} />
-              {text?? 'N/A'}
-            </strong>
-          ),
-        }, 
-        {
-          title: 'Immatriculation',
-          dataIndex: 'immatriculation',
-          fixed: 'left',
-          filterDropdown: () => (
-            <Input
-              placeholder="Rechercher véhicule"
-              value={searchText}
-              onChange={e => setSearchText(e.target.value)}
-              style={{ width: 180, marginBottom: 8 }}
-              prefix={<SearchOutlined />}
-            />
-          ),
-          render: (text) => (
-            <strong>
-              {text ?? 'N/A'}
-            </strong>
-          ),
-        },
-        {
-            title: "#Plein",
-            dataIndex: "total_pleins",
-            key: "total_pleins",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text)}</Text>,
-        },
-        {
-            title: "Qté (L)",
-            dataIndex: "total_litres",
-            key: "total_litres",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text)}</Text>,
-        },
-        {
-            title: "Dist. (km)",
-            dataIndex: "total_distance",
-            key: "total_distance",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text)}</Text>,
-        },
-        {
-            title: "Km actuel",
-            dataIndex: "total_kilometrage",
-            key: "total_kilometrage",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text)} km</Text>,
-        },
-        {
-            title: "Cons./100km",
-            dataIndex: "total_consom",
-            key: "total_consom",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text, " L")}</Text>,
-        },
-        {
-            title: "Montant CDF",
-            dataIndex: "total_total_cdf",
-            key: "total_total_cdf",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text, " L")}</Text>,
-        },
-        {
-            title: "Montant USD",
-            dataIndex: "total_total_usd",
-            key: "total_total_usd",
-            align: "right",
-            render: (text) => <Text>{formatNumber(text, " L")}</Text>,
-        },
-    ]
+    
+      useEffect(() => {
+        const generateColumns = () => {
+            const baseColumns = [
+                {
+                    title: "#",
+                    dataIndex: "id",
+                    key: "id",
+                    render: (text, record, index) => {
+                        const { pageSize, current } = pagination;
+                        return (current - 1) * pageSize + index + 1;
+                    },
+                    width: "5%",
+                },
+                {
+                    title: 'Marque',
+                    dataIndex: 'marque',
+                    key: 'marque',
+                    fixed: "left",
+                    render: (text, record) => (
+                        <div>
+                            <Text>{text}</Text>
+                            <br />
+                            <span style={{ fontSize: "12px", fontStyle: "italic", color: "#888" }}>
+                                {record.immatriculation}
+                            </span>
+                        </div>
+                    )
+                }
+            ]
+        }
+      }, []);
 
   return (
     <div className="client">
