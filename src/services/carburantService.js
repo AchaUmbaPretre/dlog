@@ -84,3 +84,11 @@ export const getRapportVehiculePeriode = async (month, id_vehicule, id_site, dat
     }
   });
 };
+
+export const getMoisCarburant = async (annee) => {
+  return axios.get(`${DOMAIN}/api/carburant/mois?annee=${annee}`);
+};
+
+export const getAnneeCarburant = async () => {
+  return axios.get(`${DOMAIN}/api/carburant/annee`);
+};

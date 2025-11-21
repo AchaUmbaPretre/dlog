@@ -1,11 +1,12 @@
 import  { useEffect, useState,  useRef } from 'react';
-import { Typography, Tag, DatePicker, Radio, Card, Table, notification, Input } from 'antd';
+import { Typography, Button, Tag, Radio, Card, Table, notification, Input } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { CarOutlined, SearchOutlined } from '@ant-design/icons';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 import { getRapportVehiculePeriode } from '../../../../../../services/carburantService';
 import { availableFieldsRapPeriode } from '../../../../../../utils/availableFields';
+import RapportPeriodeFiltrage from './../rapportPeriodeFiltrage/RapportPeriodeFiltrage';
 
 const { Text, Title } = Typography;
 
@@ -141,8 +142,8 @@ const RapportVehiculePeriode = () => {
         setFilteredDatas(newFilters);
     };
   return (
-    <div className="client">
-        <div className="client-wrapper">
+    <>
+        <div className="rapport-facture">
             <Card>
                 <div>
                     <span>Afficher : </span>
@@ -158,6 +159,16 @@ const RapportVehiculePeriode = () => {
                     </Radio.Group>
                 </div>
             </Card>
+            <div className='rapport_row_excel'>
+                <Button
+                    type={filterVisible ? 'primary' : 'default'}
+                    onClick={() => setFilterVisible(!filterVisible)}
+                    style={{ margin: '10px 10px 10px 0' }}
+                >
+                    {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
+                </Button>
+            </div>
+            {filterVisible && <RapportPeriodeFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
             <div ref={tableRef}>
                 <Table
                     dataSource={data}
@@ -172,7 +183,7 @@ const RapportVehiculePeriode = () => {
                 />
             </div>
         </div>
-    </div>
+    </>
   )
 }
 
