@@ -142,7 +142,7 @@ const RapportVehiculePeriode = () => {
     <div className="client">
         <div className="client-wrapper">
             <Card>
-                <div style={{ marginBottom: 16 }}>
+                <div>
                     <span>Afficher : </span>
                     <Radio.Group
                         value={selectedField}
@@ -157,16 +157,16 @@ const RapportVehiculePeriode = () => {
                 </div>
             </Card>
             <div ref={tableRef}>
-            <Table
-                dataSource={data}
-                columns={columns}
-                scroll={{ x: 'max-content' }}
-                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                pagination={false}
-                loading={loading}
-                bordered
-                size="middle"
-            />
+                <Table
+                    dataSource={data}
+                    columns={columns}
+                    scroll={{ x: 'max-content' }}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    pagination={false}
+                    loading={loading}
+                    bordered
+                    size="middle"
+                />
             </div>
         </div>
     </div>
