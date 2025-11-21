@@ -25,7 +25,32 @@ const RapportVehiculePeriode = () => {
         setLoading(true)
         try {
             const { data } = await getRapportVehiculePeriode(month);
-            setData(data)           
+
+            const uniqueMonths = Array.from(new Set(data.data.map(item => `${item.Mois}-${item.Année}`)))
+                .sort((a, b) => {
+                    const [monthA, yearA] = a.split('-').map(Number);
+                    const [monthB, yearB] = b.split('-').map(Number);
+                    return yearA - yearB || monthA - monthB;
+                });
+            const groupedData = data.reduce((acc, curr) => {
+                let existing = acc.find(item => item.id_vehicule === curr.id_vehicule);
+                const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
+
+                if(!existing) {
+                    existing = {marque: curr.nom_marque, immatriculation: curr.immatriculation};
+                    acc.push(existing);
+                }
+
+                existing[`${monthName}_${selectedField}`] = {
+                    value: curr[selectedField] ?? 0,
+                    id: curr.id_vehicue
+                };
+
+                return acc;
+            }, [])
+
+            setData(groupedData)
+            setUniqueMonths(uniqueMonths);          
         } catch (error) {
             notification.error({
                 message: "Erreur de chargement",
@@ -41,6 +66,7 @@ const RapportVehiculePeriode = () => {
       useEffect(() => {
         fetchData();
       }, [month]);
+
     const columns = [
         {
           title: '#',
@@ -56,7 +82,7 @@ const RapportVehiculePeriode = () => {
             <Input
               placeholder="Rechercher véhicule"
               value={searchText}
-              onChange={e => setSearchText(e.target.value)}
+              onChange={e => setSearchText(e.target.value)}          
               style={{ width: 180, marginBottom: 8 }}
               prefix={<SearchOutlined />}
             />

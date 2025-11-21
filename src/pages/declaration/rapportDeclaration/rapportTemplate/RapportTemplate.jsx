@@ -59,11 +59,10 @@ const RapportTemplate = () => {
           acc.push(existing);
         }
 
-/*         existing[`${monthName}_${selectedField}`] = curr[selectedField] ?? 0;
- */
         existing[`${monthName}_${selectedField}`] = {
           value: curr[selectedField] ?? 0,
-          id: curr.id_declaration_super,        };
+          id: curr.id_declaration_super
+        };
 
         return acc;
       }, []);
