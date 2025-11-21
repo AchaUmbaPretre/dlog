@@ -73,16 +73,8 @@ export const getRapportCatPeriode = async (month, id_vehicule, id_site, date_sta
   });
 };
 
-export const getRapportVehiculePeriode = async (month, id_vehicule, id_site, date_start, date_end ) => {
-  return axios.get(`${DOMAIN}/api/carburant/rapport_periode_vehicule`, {
-    params: {
-      month,
-      id_vehicule, 
-      id_site,
-      date_start, 
-      date_end
-    }
-  });
+export const getRapportVehiculePeriode = async (filter) => {
+  return axios.post(`${DOMAIN}/api/carburant/rapport_periode_vehicule`, filter);
 };
 
 export const getMoisCarburant = async (annee) => {

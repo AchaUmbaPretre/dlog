@@ -2,8 +2,6 @@ import  { useEffect, useState,  useRef } from 'react';
 import { Typography, Button, Tag, Radio, Card, Table, notification, Input } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
-import { CarOutlined, SearchOutlined } from '@ant-design/icons';
-import { formatNumber } from '../../../../../../utils/formatNumber';
 import { getRapportVehiculePeriode } from '../../../../../../services/carburantService';
 import { availableFieldsRapPeriode } from '../../../../../../utils/availableFields';
 import RapportPeriodeFiltrage from './../rapportPeriodeFiltrage/RapportPeriodeFiltrage';
@@ -15,11 +13,8 @@ const RapportVehiculePeriode = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [selectedField, setSelectedField] = useState('total_pleins');
-    const [searchText, setSearchText] = useState('');
     const [filterVisible, setFilterVisible] = useState(false);
     const [uniqueMonths, setUniqueMonths] = useState([]);
-    const [activeKeys, setActiveKeys] = useState(['1', '2']);
-    const [detail, setDetail] = useState([]);
     const tableRef = useRef();
     const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
     const [filteredDatas, setFilteredDatas] = useState(null);
@@ -28,7 +23,7 @@ const RapportVehiculePeriode = () => {
     const fetchData = async() => {
         setLoading(true)
         try {
-            const { data } = await getRapportVehiculePeriode(month);
+            const { data } = await getRapportVehiculePeriode(filteredDatas);
 
             const uniqueMonths = Array.from(new Set(data.map(item => `${item.Mois}-${item.Année}`)))
                 .sort((a, b) => {
@@ -69,7 +64,7 @@ const RapportVehiculePeriode = () => {
 
     useEffect(() => {
         fetchData();
-    }, [month, selectedField]);
+    }, [month, selectedField, filteredDatas]);
 
       useEffect(() => {
         const generateColumns = () => {
@@ -141,6 +136,7 @@ const RapportVehiculePeriode = () => {
     const handleFilterChange = newFilters => {
         setFilteredDatas(newFilters);
     };
+
   return (
     <>
         <div className="rapport-facture">
@@ -168,7 +164,7 @@ const RapportVehiculePeriode = () => {
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                 </Button>
             </div>
-            {filterVisible && <RapportPeriodeFiltrage onFilter={handleFilterChange} filtraVille={true} filtraClient={true} filtraStatus={true} filtreBatiment={true} filtreTemplate={true} filtreMontant={false} />}
+            {filterVisible && <RapportPeriodeFiltrage onFilter={handleFilterChange} />}
             <div ref={tableRef}>
                 <Table
                     dataSource={data}
