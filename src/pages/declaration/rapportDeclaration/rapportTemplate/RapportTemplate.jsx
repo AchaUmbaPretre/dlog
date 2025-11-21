@@ -14,18 +14,8 @@ import RapportFiltrage from '../rapportFiltrage/RapportFiltrage';
 import TabPane from 'antd/es/tabs/TabPane';
 import RapportTemplateLine from './rapportTemplateLine/RapportTemplateLine';
 import RapportTemplatePie from './rapportTemplatePie/RapportTemplatePie';
-import RapportTemplateModify from './rapportTemplateModify/RapportTemplateModify';
 import DeclarationForm from '../../declarationForm/DeclarationForm';
-
-const availableFields = [
-  { key: 'total_facture', label: 'M² Facture' },
-  { key: 'total_occupe', label: 'M² Occupé' },
-  { key: 'total_entreposage', label: 'Entreposage' },
-  { key: 'total_manutation', label: 'Manutention' },
-  { key: 'total_entreManu', label: 'Entrep + Manut' },
-  { key: 'ttc_entreposage', label: 'TTC Entreposage' },
-  { key: 'ttc_manutation', label: 'TTC Manutention' },
-];
+import { availableFields } from '../../../../utils/availableFields';
 
 const RapportTemplate = () => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +34,6 @@ const RapportTemplate = () => {
   const [activeKeys, setActiveKeys] = useState(['1', '2']);
   const scroll = { x: 'max-content' };
   const [modalType, setModalType] = useState(null);
-  
 
   const fetchData = async () => {
     try {

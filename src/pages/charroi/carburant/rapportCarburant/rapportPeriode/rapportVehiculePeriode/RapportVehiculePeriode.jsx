@@ -1,10 +1,11 @@
 import  { useEffect, useState,  useRef } from 'react';
-import { Typography, DatePicker, Table, notification, Input,Space } from 'antd';
+import { Typography, DatePicker, Radio, Card, Table, notification, Input } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { CarOutlined, SearchOutlined } from '@ant-design/icons';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 import { getRapportVehiculePeriode } from '../../../../../../services/carburantService';
+import { availableFieldsRapPeriode } from '../../../../../../utils/availableFields';
 
 const { Text, Title } = Typography;
 
@@ -12,7 +13,12 @@ const RapportVehiculePeriode = () => {
     const [month, setMonth] = useState(moment().format('YYYY-MM'));
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
+    const [selectedField, setSelectedField] = useState('total_plein');
     const [searchText, setSearchText] = useState('');
+    const [filterVisible, setFilterVisible] = useState(false);
+    const [uniqueMonths, setUniqueMonths] = useState([]);
+    const [activeKeys, setActiveKeys] = useState(['1', '2']);
+    const [detail, setDetail] = useState([]);
     const tableRef = useRef();
 
     const fetchData = async() => {
@@ -135,13 +141,21 @@ const RapportVehiculePeriode = () => {
   return (
     <div className="client">
         <div className="client-wrapper">
-            <Space style={{ marginBottom: 24 }}>
-                <DatePicker
-                picker="month"
-                defaultValue={moment()}
-                onChange={(date) => setMonth(date.format('YYYY-MM'))}
-                />
-            </Space>
+            <Card>
+                <div style={{ marginBottom: 16 }}>
+                    <span>Afficher : </span>
+                    <Radio.Group
+                        value={selectedField}
+                        onChange={(e) => setSelectedField(e.target.value)}
+                    >
+                        {availableFieldsRapPeriode.map(({ key, label }) => (
+                        <Radio key={key} value={key}>
+                            {label}
+                        </Radio>
+                        ))}
+                    </Radio.Group>
+                </div>
+            </Card>
             <div ref={tableRef}>
             <Table
                 dataSource={data}
