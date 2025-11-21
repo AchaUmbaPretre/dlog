@@ -129,18 +129,18 @@ const RapportTemplate = () => {
           width: "5%",
         },
         {
-            title: "Template",
-            dataIndex: "desc_template",
-            key: "desc_template",
+          title: "Template",
+          dataIndex: "desc_template",
+          key: "desc_template",
             ...getColumnSearchProps(
-                'desc_template',
-                searchText,
-                setSearchText,
-                setSearchedColumn,
-                searchInput
-              ),
-            fixed: "left",
-            render: (text, record) => (
+            'desc_template',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+          ),
+          fixed: "left",
+          render: (text, record) => (
               <div>
                 <span style={columnStyles.title} className={columnStyles.hideScroll}>{text}</span>
                 <br />
@@ -152,21 +152,21 @@ const RapportTemplate = () => {
             width: "15%",
           },
           {
-        title: "Bâtiment",
-        dataIndex: "batiment",
-        key: "batiment",
-        ...getColumnSearchProps(
-          'batiment',
-          searchText,
-          setSearchText,
-          setSearchedColumn,
-          searchInput
-        ),
-        render: (text) => (
-          <span style={{ whiteSpace: "nowrap" }}>{text}</span>
-        ),
-        width: "12%",
-      }
+            title: "Bâtiment",
+            dataIndex: "batiment",
+            key: "batiment",
+            ...getColumnSearchProps(
+              'batiment',
+              searchText,
+              setSearchText,
+              setSearchedColumn,
+              searchInput
+            ),
+            render: (text) => (
+              <span style={{ whiteSpace: "nowrap" }}>{text}</span>
+            ),
+            width: "12%",
+          }
       ];
 
     const dynamicColumns = uniqueMonths.map(month => {
