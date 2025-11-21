@@ -51,9 +51,10 @@ const RapportVehiculePeriode = () => {
             setData(groupedData)
             setUniqueMonths(uniqueMonths);          
         } catch (error) {
+            const errorMessage = error?.response?.data?.message || "Impossible de récupérer les données carburant.";
             notification.error({
                 message: "Erreur de chargement",
-                description: "Impossible de récupérer les données carburant.",
+                description: errorMessage,
                 placement: "topRight",
             });
         } finally {
