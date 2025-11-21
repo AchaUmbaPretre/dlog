@@ -148,7 +148,7 @@ useEffect(()=> {
                         },
                         ...vehicule?.map((item) => ({
                         value: item.id_enregistrement,
-                        label: `${item.marque} / ${item.immatriculation}`,
+                        label: `${item.nom_marque} / ${item.immatriculation}`,
                         }))
                     ]}
                     placeholder="Sélectionnez un ou plusieur..."
@@ -207,7 +207,7 @@ useEffect(()=> {
                                 label: selectAllCat ? 'Tout désélectionner' : 'Tout sélectionner',
                                 },
                                 ...cat.map((item) => ({
-                                value: item.nom_cat,
+                                value: item.id_cat_vehicule,
                                 label: item.abreviation,
                             }))
                             ]}
