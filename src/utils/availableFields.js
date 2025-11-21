@@ -11,7 +11,7 @@ export const availableFields = [
 
 export const availableFieldsRapPeriode = [
   { key: 'total_pleins', label: '#Plein' },
-  { key: 'total_quantite', label: 'Qté' },
+  { key: 'total_litres', label: 'Qté' },
   { key: 'total_distance', label: 'Dist.(Km)' },
   { key: 'total_kilometrage', label: 'Km actuel' },
   { key: 'total_consom', label: 'Cons./100km' },

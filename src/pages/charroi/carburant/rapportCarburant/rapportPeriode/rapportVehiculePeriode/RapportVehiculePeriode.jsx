@@ -1,162 +1,159 @@
-import  { useEffect, useState,  useRef } from 'react';
-import { Typography, Button, Tag, Radio, Card, Table, notification, Input } from 'antd';
+import { useEffect, useState, useRef } from 'react';
+import { Typography, Button, Tag, Radio, Card, Table, notification } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
 import { getRapportVehiculePeriode } from '../../../../../../services/carburantService';
 import { availableFieldsRapPeriode } from '../../../../../../utils/availableFields';
 import RapportPeriodeFiltrage from './../rapportPeriodeFiltrage/RapportPeriodeFiltrage';
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const RapportVehiculePeriode = () => {
-    const [month, setMonth] = useState(moment().format('YYYY-MM'));
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [selectedField, setSelectedField] = useState('total_pleins');
     const [filterVisible, setFilterVisible] = useState(false);
     const [uniqueMonths, setUniqueMonths] = useState([]);
-    const tableRef = useRef();
     const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
     const [filteredDatas, setFilteredDatas] = useState(null);
     const [columns, setColumns] = useState([]);
 
-    const fetchData = async() => {
-        setLoading(true)
+    const fetchData = async () => {
+        setLoading(true);
         try {
             const { data } = await getRapportVehiculePeriode(filteredDatas);
 
-            const uniqueMonths = Array.from(new Set(data.map(item => `${item.Mois}-${item.Année}`)))
-                .sort((a, b) => {
-                    const [monthA, yearA] = a.split('-').map(Number);
-                    const [monthB, yearB] = b.split('-').map(Number);
-                    return yearA - yearB || monthA - monthB;
-                });
-            const groupedData = data.reduce((acc, curr) => {
-                let existing = acc.find(item => item.id_vehicule === curr.id_vehicule);
-                const monthName = moment(`${curr.Année}-${curr.Mois}-01`).format('MMM-YYYY');
+            // 1️⃣ Créer une clé stable "YYYY-MM"
+            const months = Array.from(
+                new Set(
+                    data.map(item =>
+                        `${item.Année}-${String(item.Mois).padStart(2, "0")}`
+                    )
+                )
+            ).sort();
 
-                if(!existing) {
-                    existing = {marque: curr.nom_marque, immatriculation: curr.immatriculation};
+            const grouped = data.reduce((acc, curr) => {
+                const key = `${curr.Année}-${String(curr.Mois).padStart(2, "0")}`;
+
+                let existing = acc.find(item => item.id_vehicule === curr.id_vehicule);
+
+                if (!existing) {
+                    existing = {
+                        id_vehicule: curr.id_vehicule,
+                        marque: curr.nom_marque,
+                        immatriculation: curr.immatriculation
+                    };
                     acc.push(existing);
                 }
 
-                existing[`${monthName}_${selectedField}`] = {
+                existing[key] = {
                     value: curr[selectedField] ?? 0,
                     id: curr.id_vehicule
                 };
 
                 return acc;
-            }, [])
+            }, []);
 
-            setData(groupedData)
-            setUniqueMonths(uniqueMonths);          
+            setData(grouped);
+            setUniqueMonths(months);
+
         } catch (error) {
-            const errorMessage = error?.response?.data?.message || "Impossible de récupérer les données carburant.";
             notification.error({
-                message: "Erreur de chargement",
-                description: errorMessage,
-                placement: "topRight",
+                message: "Erreur",
+                description: "Impossible de charger les données.",
             });
         } finally {
             setLoading(false);
         }
-
-    }
+    };
 
     useEffect(() => {
         fetchData();
-    }, [month, selectedField, filteredDatas]);
+    }, [selectedField, filteredDatas]);
 
-      useEffect(() => {
+    // Colonnes
+    useEffect(() => {
         const generateColumns = () => {
-            const baseColumns = [
+            const base = [
                 {
                     title: "#",
-                    dataIndex: "id",
                     key: "id",
+                    width: "5%",
                     render: (text, record, index) => {
                         const { pageSize, current } = pagination;
                         return (current - 1) * pageSize + index + 1;
-                    },
-                    width: "5%",
+                    }
                 },
                 {
                     title: 'Marque',
                     dataIndex: 'marque',
                     key: 'marque',
                     fixed: "left",
+                    width: "15%",
                     render: (text, record) => (
                         <div>
-                            <Text>{text}</Text>
+                            <Text type="success" strong>{text}</Text>
                             <br />
-                            <span style={{ fontSize: "12px", fontStyle: "italic", color: "#888" }}>
+                            <Text type="secondary">
                                 {record.immatriculation}
-                            </span>
+                            </Text>
                         </div>
-                    ),
-                    width: "15%"
+                    )
                 }
             ];
 
-            const dynamicColumns = uniqueMonths.map(month => {
-                const monthName = moment(`${month.split('-')[1]}-${month.split('-')[0]}-01`).format('MMM-YYYY');
-                const columnKey = `${monthName}_${selectedField}`;
+            // 2️⃣ Colonnes dynamiques basées sur YYYY-MM
+            const dynamic = uniqueMonths.map(key => {
+                const title = moment(`${key}-01`).format('MMM-YYYY');
 
                 return {
                     title: (
                         <div style={{ textAlign: "center" }}>
-                            <Tag color={"#2db7f5"}>{monthName}</Tag>
+                            <Tag color="#2db7f5">{title}</Tag>
                         </div>
                     ),
-                    dataIndex: columnKey, 
-                    key: columnKey,
+                    dataIndex: key,
+                    key,
+                    align: "right",
                     sorter: (a, b) => {
-                        const aValue = a[columnKey]?.value ?? 0;
-                        const bValue = b[columnKey]?.value ?? 0;
-                        return aValue - bValue;
-                    }, 
-                    sortDirections: ["descend", "ascend"],
-                    render: (valueObj, record) => {
+                        const aVal = a[key]?.value ?? 0;
+                        const bVal = b[key]?.value ?? 0;
+                        return aVal - bVal;
+                    },
+                    render: (valueObj) => {
                         const val = valueObj?.value ?? 0;
-                        const id = valueObj?.id
-
                         return (
-                            <span style={{ color: val > 0 ? "black" : "red"}}>
-                                {`${val.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
+                            <span style={{ color: val > 0 ? "black" : "red" }}>
+                                {val.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                             </span>
                         )
-                    },
-                    align: "right",                       
+                    }
                 };
             });
-            return [...baseColumns, ...dynamicColumns];
+
+            return [...base, ...dynamic];
         };
+
         setColumns(generateColumns());
-      }, [uniqueMonths, selectedField, filteredDatas]);
+    }, [uniqueMonths, selectedField, pagination]);
 
-    const handleFilterChange = newFilters => {
-        setFilteredDatas(newFilters);
-    };
-
-  return (
-    <>
-        <div className="rapport-facture">
-            <Card>
-                <div>
+    return (
+        <>
+            <div className="rapport-facture">
+                <Card>
                     <span>Afficher : </span>
                     <Radio.Group
                         value={selectedField}
                         onChange={(e) => setSelectedField(e.target.value)}
                     >
                         {availableFieldsRapPeriode.map(({ key, label }) => (
-                        <Radio key={key} value={key}>
-                            {label}
-                        </Radio>
+                            <Radio key={key} value={key}>
+                                {label}
+                            </Radio>
                         ))}
                     </Radio.Group>
-                </div>
-            </Card>
-            <div className='rapport_row_excel'>
+                </Card>
+
                 <Button
                     type={filterVisible ? 'primary' : 'default'}
                     onClick={() => setFilterVisible(!filterVisible)}
@@ -164,14 +161,18 @@ const RapportVehiculePeriode = () => {
                 >
                     {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
                 </Button>
-            </div>
-            {filterVisible && <RapportPeriodeFiltrage onFilter={handleFilterChange} />}
-            <div ref={tableRef}>
+
+                {filterVisible && (
+                    <RapportPeriodeFiltrage onFilter={setFilteredDatas} />
+                )}
+
                 <Table
                     dataSource={data}
                     columns={columns}
                     scroll={{ x: 'max-content' }}
-                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                    rowClassName={(record, index) =>
+                        index % 2 === 0 ? 'odd-row' : 'even-row'
+                    }
                     bordered
                     size="small"
                     pagination={pagination}
@@ -179,9 +180,8 @@ const RapportVehiculePeriode = () => {
                     onChange={pagination => setPagination(pagination)}
                 />
             </div>
-        </div>
-    </>
-  )
-}
+        </>
+    );
+};
 
-export default RapportVehiculePeriode
+export default RapportVehiculePeriode;
