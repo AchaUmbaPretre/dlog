@@ -41,7 +41,7 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             dataIndex: "immatriculation",
             key: "immatriculation",
             ellipsis:'true',
-            render: (text) => <Tag color="blue">{text}</Tag>,
+            render: (text, record) => <Tag color="blue" onClick={() => handleRowClick(record.id_carburant)}>{text}</Tag>,
           },
           {
             title: "Date",
