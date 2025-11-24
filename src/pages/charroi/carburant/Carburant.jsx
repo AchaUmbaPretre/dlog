@@ -12,13 +12,14 @@ import {
   notification,
   Empty,
   Checkbox,
+  Tooltip
 } from "antd";
 import {
   CarOutlined,
+  UserOutlined,
   PrinterOutlined,
   FireOutlined,
   PlusCircleOutlined,
-  DeleteOutlined,
   CalendarOutlined,
   ReloadOutlined,
   DownOutlined,
@@ -29,7 +30,6 @@ import "./carburant.scss";
 import { getCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
-import { render } from "@testing-library/react";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -47,6 +47,7 @@ const Carburant = () => {
     Marque: true,
     Chauffeur: true,
     Véhicule: true,
+    "Type vehi.": true,
     Fournisseur: false,
     "Qté (L)": true,
     "Distance (km)": false,
@@ -54,7 +55,8 @@ const Carburant = () => {
     "Cons./100km": true,
     "P.U ($)": false,
     "Date opération": true,
-    "Montant total ($)": true,
+    "M. ($)": true,
+    "M. (CDF)": true
   });
 
   const fetchData = async () => {
@@ -121,9 +123,12 @@ const columns = useMemo(() => {
       title: "Chauffeur",
       dataIndex: "nom_chauffeur",
       render: (value, record) => (
-        <Text strong>
-          {value && record.prenom ? `${value} ${record.prenom}` : record.commentaire}
-        </Text>
+        <Space>
+          <UserOutlined style={{ color: "#a87857ff" }} />
+          <Text strong>
+            {value && record.prenom ? `${value} ${record.prenom}` : record.commentaire}
+          </Text>
+        </Space>
       ),
     },
     {
@@ -182,14 +187,23 @@ const columns = useMemo(() => {
       key: "consommation",
       align: "right",
       render: (value) => {
-        let color = "🟢"; // Normal
-        if (value > 15 && value <= 30) color = "🟡"; // À surveiller
-        else if (value > 30) color = "🔴"; // Anormal
+        let color = "🟢";
+        let statusText = "Normal"; // Valeur par défaut
+
+        if (value > 15 && value <= 30) {
+          color = "🟡";
+          statusText = "À surveiller";
+        } else if (value > 30) {
+          color = "🔴";
+          statusText = "Anormal";
+        }
 
         return (
-          <span>
-            {formatNumber(value, " L")} / 100km {color}
-          </span>
+          <Tooltip title={statusText}>
+            <span>
+              {formatNumber(value, " L")} / 100km {color}
+            </span>
+          </Tooltip>
         );
       },
     },
@@ -201,7 +215,7 @@ const columns = useMemo(() => {
       render: (text) => <Text>{formatNumber(text, " $")}</Text>,
     },
     {
-      title: "Montant ($)",
+      title: "M. ($)",
       dataIndex: "montant_total_usd",
       key: "montant_total_usd",
       align: "right",
