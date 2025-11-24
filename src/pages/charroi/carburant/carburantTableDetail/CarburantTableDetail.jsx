@@ -89,7 +89,7 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
     <>
         <div className="carburantTableDetail">
             <div className="carburant_title_rows">
-                <h1 className="carburant_h1">Tableau de bord</h1>
+                <h1 className="carburant_h1">Statistiques des 10 derniers enregistrements</h1>
             </div>
             <div className="carburant_table">
                 <Table
