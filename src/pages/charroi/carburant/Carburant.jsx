@@ -16,6 +16,8 @@ import {
 } from "antd";
 import {
   CarOutlined,
+  DashboardOutlined,
+  DollarOutlined,
   UserOutlined,
   PrinterOutlined,
   FireOutlined,
@@ -30,6 +32,7 @@ import "./carburant.scss";
 import { getCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
+import CarburantKpi from "./carburantkpi/Carburantkpi";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -58,6 +61,26 @@ const Carburant = () => {
     "M. ($)": true,
     "M. (CDF)": true
   });
+
+  // --- KPI Calculations ---
+const totalKmActuel = useMemo(() => {
+  return data.reduce((sum, item) => sum + (item.compteur_km || 0), 0);
+}, [data]);
+
+const totalConsommation = useMemo(() => {
+  return data.reduce((sum, item) => sum + (item.consommation || 0), 0);
+}, [data]);
+
+const distanceMoyenne = useMemo(() => {
+  if (data.length === 0) return 0;
+  const totalDistance = data.reduce((sum, item) => sum + (item.distance || 0), 0);
+  return totalDistance / data.length;
+}, [data]);
+
+const montantTotalUsd = useMemo(() => {
+  return data.reduce((sum, item) => sum + (item.montant_total_usd || 0), 0);
+}, [data]);
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -319,6 +342,38 @@ const columns = useMemo(() => {
           </Space>
         }
       >
+        <div className="kpi-wrapper">
+
+          <CarburantKpi
+            icon={<DashboardOutlined />}
+            title="Total KM actuel"
+            value={`${formatNumber(totalKmActuel)} km`}
+            color="linear-gradient(135deg, #1677ff7e, #69b1ff)"
+          />
+
+          <CarburantKpi
+            icon={<FireOutlined />}
+            title="Consom/100km totale"
+            value={`${formatNumber(totalConsommation)} L`}
+            color="linear-gradient(135deg, #ff4d5042, #ff7875)"
+          />
+
+          <CarburantKpi
+            icon={<CarOutlined />}
+            title="Distance moyenne"
+            value={`${formatNumber(distanceMoyenne)} km`}
+            color="linear-gradient(135deg, #53c41a4f, #95de64)"
+          />
+
+          <CarburantKpi
+            icon={<DollarOutlined />}
+            title="Montant total ($)"
+            value={formatNumber(montantTotalUsd, " $")}
+            color="linear-gradient(135deg, #722ed12c, #b37feb)"
+          />
+
+        </div>
+
         <Table
           columns={columns}
           dataSource={filteredData}

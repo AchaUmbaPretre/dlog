@@ -3,6 +3,14 @@
   background: #f5f7fa;
   min-height: 100vh;
 
+  .kpi-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
   // 🪶 Carte principale
   .ant-card {
     background: #fff;
