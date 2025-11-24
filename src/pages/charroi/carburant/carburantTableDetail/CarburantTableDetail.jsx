@@ -8,7 +8,7 @@ import moment from 'moment';
 
 const { Text } = Typography;
 
-const CarburantTableDetail = ({data, loading}) => {
+const CarburantTableDetail = ({data, vehiculeData, loading}) => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,

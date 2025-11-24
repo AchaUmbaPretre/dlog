@@ -380,7 +380,7 @@ const handleSubmit = async (values) => {
         </div>
 
         <div className="controle_right">
-          <CarburantTableDetail data={data} loading={loading.data} />
+          <CarburantTableDetail data={data} vehiculeData={vehiculeData} loading={loading.data} />
         </div>
       </div>
     </div>
