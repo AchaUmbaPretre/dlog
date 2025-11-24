@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Typography, Tag} from 'antd';
+import { Table, Typography, Tag, Tooltip} from 'antd';
 import {
   CalendarOutlined
 } from "@ant-design/icons";
@@ -34,7 +34,11 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             dataIndex: "nom_marque",
             key: "nom_marque",
             ellipsis:'true',
-            render: (text, record) => <Text strong onClick={() => handleRowClick(record.id_carburant)}>{text}</Text>,
+            render: (text, record) => (
+              <Tooltip title='Cliquez ici pour recuperer ces donnees'>
+                <Text strong onClick={() => handleRowClick(record.id_carburant)}>{text}</Text>
+              </Tooltip>
+            )
           },
           {
             title: "Véhicule",
