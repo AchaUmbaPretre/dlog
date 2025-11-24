@@ -29,7 +29,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
       dataIndex: 'nom_type_carburant',
       render: (text) => (
         <Tooltip title="Nom du site">
-          <Tag color="green">{text}</Tag>
+          <Tag color="green">{text ?? 'N/A'}</Tag>
         </Tooltip>
       )
     },
