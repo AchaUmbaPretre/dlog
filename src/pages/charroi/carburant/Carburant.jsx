@@ -312,7 +312,7 @@ const Carburant = () => {
         open={modalType === "Add"}
         onCancel={closeAllModals}
         footer={null}
-        width={1350}
+        width={1400}
         centered
         destroyOnClose
       >

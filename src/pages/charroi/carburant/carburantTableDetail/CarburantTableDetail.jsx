@@ -13,7 +13,7 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
         current: 1,
         pageSize: 20,
     });
-    const scroll = { x: 400 };
+    const scroll = { x: 'max-content' };
 
     const handleRowClick = (id) => {
       setCarburantId(id)
