@@ -353,7 +353,7 @@ const columns = useMemo(() => {
 
           <CarburantKpi
             icon={<FireOutlined />}
-            title="Consom/100km totale"
+            title="Totale Consom/100km"
             value={`${formatNumber(totalConsommation)} L`}
             color="linear-gradient(135deg, #ff4d5042, #ff7875)"
           />
