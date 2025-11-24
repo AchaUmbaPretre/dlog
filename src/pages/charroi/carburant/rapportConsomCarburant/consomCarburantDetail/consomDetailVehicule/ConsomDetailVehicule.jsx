@@ -103,7 +103,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
         </div>
       ),
     },
-    {
+/*     {
       title: 'Sélection',
       dataIndex: 'id',
       key: 'checkbox',
@@ -114,7 +114,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
         />
       ),
       width: "5%",
-    },
+    }, */
   ];
 
     const handleCheckboxChange = (id, checked) => {

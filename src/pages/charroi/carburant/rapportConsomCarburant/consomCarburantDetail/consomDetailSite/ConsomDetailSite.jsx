@@ -96,7 +96,7 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
             </div>
         ),
         },
-        {
+/*         {
         title: 'Sélection',
         dataIndex: 'id',
         key: 'checkbox',
@@ -107,7 +107,7 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
             />
         ),
         width: "5%",
-        },
+        }, */
     ];
 
     const handleCheckboxChange = (id, checked) => {
