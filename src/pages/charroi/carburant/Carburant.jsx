@@ -8,13 +8,13 @@ import {
   Modal,
   Typography,
   Tag,
-  Tooltip,
   Card,
   notification,
   Empty,
   Checkbox,
 } from "antd";
 import {
+  CarOutlined,
   PrinterOutlined,
   FireOutlined,
   PlusCircleOutlined,
@@ -29,6 +29,7 @@ import "./carburant.scss";
 import { getCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
+import { render } from "@testing-library/react";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -126,7 +127,7 @@ const columns = useMemo(() => {
       ),
     },
     {
-      title: "Véhicule / Marque",
+      title: "Marque / Immat.",
       key: "vehicule_marque",
       render: (_, record) => (
         <div>
@@ -139,6 +140,17 @@ const columns = useMemo(() => {
       width: 180,
     },
     {
+      title: "Type vehi.",
+      dataIndex: "abreviation",
+      key: "abreviation",
+      render: (text) => (
+        <Space>
+          <CarOutlined style={{ color: "#1890ff" }} />
+          <Text>{text ?? "N/A"}</Text>
+        </Space>
+      ),
+    },
+    {
       title: "Fournisseur",
       dataIndex: "nom_fournisseur",
       key: "nom_fournisseur",
@@ -148,14 +160,7 @@ const columns = useMemo(() => {
       dataIndex: "quantite_litres",
       key: "quantite_litres",
       align: "right",
-      render: (text) => <Text>{formatNumber(text)}</Text>,
-    },
-    {
-      title: "Dist. (km)",
-      dataIndex: "distance",
-      key: "distance",
-      align: "right",
-      render: (text) => <Text>{formatNumber(text)}</Text>,
+      render: (text) => <Text>{formatNumber(text)} L</Text>,
     },
     {
       title: "Km actuel",
@@ -165,11 +170,28 @@ const columns = useMemo(() => {
       render: (text) => <Text>{formatNumber(text)} km</Text>,
     },
     {
+      title: "Dist. (km)",
+      dataIndex: "distance",
+      key: "distance",
+      align: "right",
+      render: (text) => <Text>{formatNumber(text)} km</Text>,
+    },
+    {
       title: "Cons./100km",
       dataIndex: "consommation",
       key: "consommation",
       align: "right",
-      render: (text) => <Text>{formatNumber(text, " L")}</Text>,
+      render: (value) => {
+        let color = "🟢"; // Normal
+        if (value > 15 && value <= 30) color = "🟡"; // À surveiller
+        else if (value > 30) color = "🔴"; // Anormal
+
+        return (
+          <span>
+            {formatNumber(value, " L")} / 100km {color}
+          </span>
+        );
+      },
     },
     {
       title: "P.U ($)",
@@ -200,27 +222,8 @@ const columns = useMemo(() => {
         </Text>
       ),
     },
-    {
-      title: "Actions",
-      key: "actions",
-      align: "center",
-      fixed: "right",
-      render: (record) => (
-        <Space>
-          <Tooltip title="Supprimer">
-            <Button
-              type="text"
-              danger
-              icon={<DeleteOutlined />}
-              onClick={() => console.log("Supprimer", record)}
-            />
-          </Tooltip>
-        </Space>
-      ),
-    },
   ];
 
-  // Filtrer les colonnes visibles
   return allColumns.filter((col) => columnsVisibility[col.title] !== false);
 }, [pagination, columnsVisibility]);
 
