@@ -39,6 +39,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [vehicules, setVehicules] = useState([]);
   const [chauffeurs, setChauffeurs] = useState([]);
   const [data, setData] = useState([]);
+  const [vehiculeData, setVehiculeData] = useState([]);
 
   // 💰 États pour les prix et montants
   const [prixCDF, setPrixCDF] = useState(0);
@@ -235,6 +236,7 @@ const handleSubmit = async (values) => {
                           value: v.id_enregistrement,
                           label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
+                        onChange={setVehiculeData}
                       />
                     )}
                   </Form.Item>
