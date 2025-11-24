@@ -181,13 +181,24 @@ const Carburant = () => {
         render: (text) => <Text>{formatNumber(text, " $")}</Text>,
       },
       {
-        title: "M. total ($)",
+        title: "Montant ($)",
         dataIndex: "montant_total_usd",
         key: "montant_total_usd",
         align: "right",
         render: (text) => (
           <Text strong style={{ color: "#1677ff" }}>
-            {formatNumber(text, " $")}
+            {text ? formatNumber(text, " $"): 'N/A'}
+          </Text>
+        ),
+      },
+      {
+        title: "M. (CDF)",
+        dataIndex: "montant_total_cdf",
+        key: "montant_total_cdf",
+        align: "right",
+        render: (text) => (
+          <Text strong style={{ color: "#1677ff" }}>
+            {text?formatNumber(text, " CDF") :'N/A'}
           </Text>
         ),
       },
