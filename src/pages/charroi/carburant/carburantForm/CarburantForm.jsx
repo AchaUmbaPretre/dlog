@@ -17,20 +17,21 @@ import {
   FireOutlined
 } from "@ant-design/icons";
 import { 
-  getChauffeur, 
-  getVehicule 
+  getChauffeur
 } from '../../../../services/charroiService';
 import { 
   getFournisseur_activiteOne 
 } from '../../../../services/fournisseurService';
 import { 
   getCarburantLimitTen, 
+  getCarburantOne, 
   getCarburantPriceLimit, 
   getCarburantVehicule, 
   postCarburant 
 } from '../../../../services/carburantService';
 import './carburantForm.scss';
 import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
+import moment from 'moment';
 
 const CarburantForm = ({ closeModal, fetchData }) => {
   const [form] = Form.useForm();
@@ -40,13 +41,14 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [chauffeurs, setChauffeurs] = useState([]);
   const [data, setData] = useState([]);
   const [vehiculeData, setVehiculeData] = useState([]);
+  const [vehiculeId, setVehiculeId] = useState(null);
+  const [carburantId, setCarburantId] = useState(null);
 
   const [prixCDF, setPrixCDF] = useState(0);
   const [prixUSD, setPrixUSD] = useState(0);
   const [montantTotalCDF, setMontantTotalCDF] = useState(0);
   const [montantTotalUSD, setMontantTotalUSD] = useState(0);
 
-  //  Chargement du tableau et du prix carburant
   const fetchDatas = async () => {
     try {
       const [carburantData, prixData] = await Promise.all([
@@ -55,6 +57,16 @@ const CarburantForm = ({ closeModal, fetchData }) => {
       ]);
 
       setData(carburantData.data);
+
+      if(carburantId) {
+        const { data: vehicules } = await getCarburantOne(vehiculeId,carburantId);
+        if(vehicules && vehicules[0]) {
+          form.setFieldsValue({
+            ...vehicules[0],
+            date_operation: moment(vehicules[0].date_operation, 'YYYY-MM-DD')
+          })
+        }
+      } 
 
       if (prixData.data && prixData.data.length > 0) {
         const lastPrix = prixData.data[0];
@@ -68,7 +80,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [vehiculeData]);
+  }, [vehiculeData, carburantId]);
 
   // Chargement des véhicules, chauffeurs et fournisseurs
   const fetchInitialData = useCallback(async () => {
@@ -97,7 +109,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   useEffect(() => {
     fetchInitialData();
     form.resetFields();
-  }, [fetchInitialData, form]);
+  }, [fetchInitialData, form, carburantId]);
 
   // Calcul automatique du montant total en CDF et USD
   const handleQuantiteChange = (value) => {
@@ -379,7 +391,7 @@ const handleSubmit = async (values) => {
         </div>
 
         <div className="controle_right">
-          <CarburantTableDetail data={data} loading={loading.data} />
+          <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} />
         </div>
       </div>
     </div>

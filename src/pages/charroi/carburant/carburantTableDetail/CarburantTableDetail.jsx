@@ -8,12 +8,16 @@ import moment from 'moment';
 
 const { Text } = Typography;
 
-const CarburantTableDetail = ({data,loading}) => {
+const CarburantTableDetail = ({data, setCarburantId, loading}) => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
     });
-    const scroll = { x: 'max-content' };
+    const scroll = { x: 400 };
+
+    const handleRowClick = (id) => {
+      setCarburantId(id)
+    }
 
     const columns = 
         [
@@ -30,7 +34,7 @@ const CarburantTableDetail = ({data,loading}) => {
             dataIndex: "nom_marque",
             key: "nom_marque",
             ellipsis:'true',
-            render: (text) => <Text strong>{text}</Text>,
+            render: (text, record) => <Text strong onClick={() => handleRowClick(record.id_carburant)}>{text}</Text>,
           },
           {
             title: "Véhicule",
