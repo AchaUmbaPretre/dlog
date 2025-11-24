@@ -8,7 +8,7 @@ import moment from 'moment';
 
 const { Text } = Typography;
 
-const CarburantTableDetail = ({data, vehiculeData, loading}) => {
+const CarburantTableDetail = ({data,loading}) => {
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
@@ -16,60 +16,66 @@ const CarburantTableDetail = ({data, vehiculeData, loading}) => {
     const scroll = { x: 'max-content' };
 
     const columns = 
-   [
-      {
-        title: "#",
-        key: "index",
-        width: 40,
-        align: "center",
-        render: (_, __, index) =>
-          (pagination.current - 1) * pagination.pageSize + index + 1,
-      },
-      { title: "N° PC", dataIndex: "num_pc", key: "num_pc", ellipsis:'true', render : (text) => <Text>{text ?? 'N/A'}</Text> },
-      {
-        title: "Véhicule",
-        dataIndex: "immatriculation",
-        key: "immatriculation",
-        ellipsis:'true',
-        render: (text) => <Tag color="blue">{text}</Tag>,
-      },
-      {
-        title: "Date",
-        dataIndex: "date_operation",
-        key: "date_operation",
-        ellipsis:'true',
-        sorter: (a, b) =>
-          moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-        render: (text) => (
-          <Tag icon={<CalendarOutlined />} color="red">
-            {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
-          </Tag>
-        ),
-      },
-      {
-        title: "Dist. (km)",
-        dataIndex: "distance",
-        key: "distance",
-        align: "right",
-        ellipsis:'true',
-        render: (text) => <Text>{text}</Text>,
-      },
-      {
-        title: "Km actuel",
-        dataIndex: "compteur_km",
-        key: "compteur_km",
-        align: "right",
-        ellipsis:'true',
-        render: (text) => <Text>{text} Km</Text>,
-      },
-      {
-        title: "Cons.",
-        dataIndex: "consommation",
-        key: "consommation",
-        align: "right",
-        render: (text) => <Text>{text} L</Text>,
-      }
-    ];
+        [
+          {
+            title: "#",
+            key: "index",
+            width: 40,
+            align: "center",
+            render: (_, __, index) =>
+              (pagination.current - 1) * pagination.pageSize + index + 1,
+          },
+          {
+            title: "Marque",
+            dataIndex: "nom_marque",
+            key: "nom_marque",
+            ellipsis:'true',
+            render: (text) => <Text strong>{text}</Text>,
+          },
+          {
+            title: "Véhicule",
+            dataIndex: "immatriculation",
+            key: "immatriculation",
+            ellipsis:'true',
+            render: (text) => <Tag color="blue">{text}</Tag>,
+          },
+          {
+            title: "Date",
+            dataIndex: "date_operation",
+            key: "date_operation",
+            ellipsis:'true',
+            sorter: (a, b) =>
+              moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+            render: (text) => (
+              <Tag icon={<CalendarOutlined />} color="red">
+                {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+              </Tag>
+            ),
+          },
+          {
+            title: "Dist. (km)",
+            dataIndex: "distance",
+            key: "distance",
+            align: "right",
+            ellipsis:'true',
+            render: (text) => <Text>{text}</Text>,
+          },
+          {
+            title: "Km actuel",
+            dataIndex: "compteur_km",
+            key: "compteur_km",
+            align: "right",
+            ellipsis:'true',
+            render: (text) => <Text>{text} Km</Text>,
+          },
+          {
+            title: "Cons.",
+            dataIndex: "consommation",
+            key: "consommation",
+            align: "right",
+            render: (text) => <Text>{text} L</Text>,
+          }
+        ];
 
   return (
     <>

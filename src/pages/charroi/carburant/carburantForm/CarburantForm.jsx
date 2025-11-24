@@ -41,17 +41,16 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [data, setData] = useState([]);
   const [vehiculeData, setVehiculeData] = useState([]);
 
-  // 💰 États pour les prix et montants
   const [prixCDF, setPrixCDF] = useState(0);
   const [prixUSD, setPrixUSD] = useState(0);
   const [montantTotalCDF, setMontantTotalCDF] = useState(0);
   const [montantTotalUSD, setMontantTotalUSD] = useState(0);
 
-  // 🔹 Chargement du tableau et du prix carburant
+  //  Chargement du tableau et du prix carburant
   const fetchDatas = async () => {
     try {
       const [carburantData, prixData] = await Promise.all([
-        getCarburantLimitTen(),
+        getCarburantLimitTen(vehiculeData),
         getCarburantPriceLimit()
       ]);
 
@@ -69,9 +68,9 @@ const CarburantForm = ({ closeModal, fetchData }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, []);
+  }, [vehiculeData]);
 
-  // 🔹 Chargement des véhicules, chauffeurs et fournisseurs
+  // Chargement des véhicules, chauffeurs et fournisseurs
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
     try {
@@ -100,7 +99,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     form.resetFields();
   }, [fetchInitialData, form]);
 
-  // 🔹 Calcul automatique du montant total en CDF et USD
+  // Calcul automatique du montant total en CDF et USD
   const handleQuantiteChange = (value) => {
     const quantite = parseFloat(value || 0);
     const totalCDF = quantite * prixCDF;
@@ -115,7 +114,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     });
   };
 
-  // 🔹 Envoi au backend
+  // Envoi au backend
 const handleSubmit = async (values) => {
   setLoading(prev => ({ ...prev, submit: true }));
 
@@ -380,7 +379,7 @@ const handleSubmit = async (values) => {
         </div>
 
         <div className="controle_right">
-          <CarburantTableDetail data={data} vehiculeData={vehiculeData} loading={loading.data} />
+          <CarburantTableDetail data={data} loading={loading.data} />
         </div>
       </div>
     </div>

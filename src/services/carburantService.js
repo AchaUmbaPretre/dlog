@@ -19,8 +19,8 @@ export const getCarburant = async () => {
     return axios.get(`${DOMAIN}/api/carburant`);
   };
 
-export const getCarburantLimitTen = async () => {
-    return axios.get(`${DOMAIN}/api/carburant/limit_ten`);
+export const getCarburantLimitTen = async (id_vehicule) => {
+    return axios.get(`${DOMAIN}/api/carburant/limit_ten?id_vehicule=${id_vehicule}`);
   };
 
 export const getCarburantOne = async (id) => {
