@@ -109,7 +109,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   useEffect(() => {
     fetchInitialData();
     form.resetFields();
-  }, [fetchInitialData, form, carburantId]);
+  }, [fetchInitialData, form, carburantId, vehiculeData]);
 
   // Calcul automatique du montant total en CDF et USD
   const handleQuantiteChange = (value) => {
