@@ -43,6 +43,7 @@ const Carburant = () => {
     "#": true,
     "Num PC": false,
     Facture: false,
+    Marque: true,
     Chauffeur: true,
     Véhicule: true,
     Fournisseur: false,
@@ -86,6 +87,7 @@ const Carburant = () => {
         item.commentaire?.toLowerCase().includes(search) ||
         item.nom_chauffeur?.toLowerCase().includes(search) ||
         item.nom?.toLowerCase().includes(search) ||
+        item.nom_marque?.toLowerCase().includes(search) ||
         item.immatriculation?.toLowerCase().includes(search)
     );
   }, [data, searchValue]);
@@ -115,10 +117,16 @@ const Carburant = () => {
         )
       },
       {
+        title: "Marque",
+        dataIndex: "nom_marque",
+        key: "nom_marque",
+        render: (text) => <Text italic>{text}</Text>,
+      },
+      {
         title: "Véhicule",
         dataIndex: "immatriculation",
         key: "immatriculation",
-        render: (text) => <Tag color="blue">{text}</Tag>,
+        render: (text) => <Tag color="blue">{text ?? 'N/A'}</Tag>,
       },
       {
         title: "Date op.",

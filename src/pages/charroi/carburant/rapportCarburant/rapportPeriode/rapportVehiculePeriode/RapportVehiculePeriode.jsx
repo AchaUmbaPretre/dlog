@@ -92,9 +92,9 @@ const RapportVehiculePeriode = () => {
                     width: "15%",
                     render: (text, record) => (
                         <div>
-                            <Text type="success" strong>{text}</Text>
+                            <Text strong>{text}</Text>
                             <br />
-                            <Text type="secondary">
+                            <Text type="secondary" italic>
                                 {record.immatriculation}
                             </Text>
                         </div>

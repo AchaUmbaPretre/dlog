@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
-import { Typography, Select, DatePicker, Table, notification, Input, Space } from 'antd';
+import { Typography, Select, Tag, DatePicker, Table, notification, Input, Space } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
 import {SearchOutlined } from '@ant-design/icons';
 import { getCarburantVehicule, getRapportCatPeriode } from '../../../../../../services/carburantService';
 import { getSite } from '../../../../../../services/charroiService';
 
-const { Title } = Typography;
 
 const RapportCatPeriode = () => {
   const [month, setMonth] = useState(moment().format('YYYY-MM'));
@@ -126,6 +125,11 @@ const RapportCatPeriode = () => {
     },
     ...jours.map(j => ({
       title: formatDayWithMonth(j),
+      title: (
+        <div style={{ textAlign: "center" }}>
+            <Tag color="#2db7f5">{formatDayWithMonth(j)}</Tag>
+        </div>
+    ),
       dataIndex: j,
       key: j,
       align: 'center',
