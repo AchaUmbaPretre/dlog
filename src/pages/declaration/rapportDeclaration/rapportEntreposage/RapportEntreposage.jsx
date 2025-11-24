@@ -3,7 +3,6 @@ import { MenuOutlined, DownOutlined, FilePdfOutlined, FileExcelOutlined, PieChar
 import { notification,Button, Space,Menu, Tooltip, Table, Tag, Dropdown, Tabs, Popover, Skeleton } from 'antd';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { getRapportEntreposage } from '../../../../services/templateService';
