@@ -92,141 +92,137 @@ const Carburant = () => {
     );
   }, [data, searchValue]);
 
-  const columns = useMemo(() => {
+const columns = useMemo(() => {
+  const allColumns = [
+    {
+      title: "#",
+      key: "index",
+      width: 60,
+      align: "center",
+      render: (_, __, index) =>
+        (pagination.current - 1) * pagination.pageSize + index + 1,
+    },
+    { title: "Num PC", dataIndex: "num_pc", key: "num_pc" },
+    { title: "Facture", dataIndex: "num_facture", key: "num_facture" },
+    {
+      title: "Date op.",
+      dataIndex: "date_operation",
+      key: "date_operation",
+      sorter: (a, b) =>
+        moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+      render: (text) => (
+        <Tag icon={<CalendarOutlined />} color="red">
+          {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+        </Tag>
+      ),
+    },
+    {
+      title: "Chauffeur",
+      dataIndex: "nom_chauffeur",
+      render: (value, record) => (
+        <Text strong>
+          {value && record.prenom ? `${value} ${record.prenom}` : record.commentaire}
+        </Text>
+      ),
+    },
+    {
+      title: "Véhicule / Marque",
+      key: "vehicule_marque",
+      render: (_, record) => (
+        <div>
+          <Text strong>{record.nom_marque ?? "N/A"}</Text>
+          <br />
+          <Tag color="blue">{record.immatriculation ?? "N/A"}</Tag>
+        </div>
+      ),
+      sorter: (a, b) => (a.nom_marque ?? "").localeCompare(b.nom_marque ?? ""),
+      width: 180,
+    },
+    {
+      title: "Fournisseur",
+      dataIndex: "nom_fournisseur",
+      key: "nom_fournisseur",
+    },
+    {
+      title: "Qté (L)",
+      dataIndex: "quantite_litres",
+      key: "quantite_litres",
+      align: "right",
+      render: (text) => <Text>{formatNumber(text)}</Text>,
+    },
+    {
+      title: "Dist. (km)",
+      dataIndex: "distance",
+      key: "distance",
+      align: "right",
+      render: (text) => <Text>{formatNumber(text)}</Text>,
+    },
+    {
+      title: "Km actuel",
+      dataIndex: "compteur_km",
+      key: "compteur_km",
+      align: "right",
+      render: (text) => <Text>{formatNumber(text)} km</Text>,
+    },
+    {
+      title: "Cons./100km",
+      dataIndex: "consommation",
+      key: "consommation",
+      align: "right",
+      render: (text) => <Text>{formatNumber(text, " L")}</Text>,
+    },
+    {
+      title: "P.U ($)",
+      dataIndex: "prix_usd",
+      key: "prix_usd",
+      align: "right",
+      render: (text) => <Text>{formatNumber(text, " $")}</Text>,
+    },
+    {
+      title: "Montant ($)",
+      dataIndex: "montant_total_usd",
+      key: "montant_total_usd",
+      align: "right",
+      render: (text) => (
+        <Text strong style={{ color: "#1677ff" }}>
+          {text ? formatNumber(text, " $") : "N/A"}
+        </Text>
+      ),
+    },
+    {
+      title: "M. (CDF)",
+      dataIndex: "montant_total_cdf",
+      key: "montant_total_cdf",
+      align: "right",
+      render: (text) => (
+        <Text strong style={{ color: "#1677ff" }}>
+          {text ? formatNumber(text, " CDF") : "N/A"}
+        </Text>
+      ),
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      align: "center",
+      fixed: "right",
+      render: (record) => (
+        <Space>
+          <Tooltip title="Supprimer">
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => console.log("Supprimer", record)}
+            />
+          </Tooltip>
+        </Space>
+      ),
+    },
+  ];
 
-    const allColumns = [
-      {
-        title: "#",
-        key: "index",
-        width: 60,
-        align: "center",
-        render: (_, __, index) =>
-          (pagination.current - 1) * pagination.pageSize + index + 1,
-      },
-      { title: "Num PC", dataIndex: "num_pc", key: "num_pc" },
-      { title: "Facture", dataIndex: "num_facture", key: "num_facture" },
-      {
-        title: "Chauffeur",
-        dataIndex: "nom_chauffeur",
-        render: (value, record) => (
-          <Text strong>
-            {value && record.prenom
-              ? `${value} ${record.prenom}`
-              : record.commentaire}
-          </Text>
-        )
-      },
-      {
-        title: "Marque",
-        dataIndex: "nom_marque",
-        key: "nom_marque",
-        render: (text) => <Text italic>{text}</Text>,
-      },
-      {
-        title: "Véhicule",
-        dataIndex: "immatriculation",
-        key: "immatriculation",
-        render: (text) => <Tag color="blue">{text ?? 'N/A'}</Tag>,
-      },
-      {
-        title: "Date op.",
-        dataIndex: "date_operation",
-        key: "date_operation",
-        sorter: (a, b) =>
-          moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-        render: (text) => (
-          <Tag icon={<CalendarOutlined />} color="red">
-            {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
-          </Tag>
-        ),
-      },
-      {
-        title: "Fournisseur",
-        dataIndex: "nom_fournisseur",
-        key: "nom_fournisseur",
-      },
-      {
-        title: "Qté (L)",
-        dataIndex: "quantite_litres",
-        key: "quantite_litres",
-        align: "right",
-        render: (text) => <Text>{formatNumber(text)}</Text>,
-      },
-      {
-        title: "Dist. (km)",
-        dataIndex: "distance",
-        key: "distance",
-        align: "right",
-        render: (text) => <Text>{formatNumber(text)}</Text>,
-      },
-      {
-        title: "Km actuel",
-        dataIndex: "compteur_km",
-        key: "compteur_km",
-        align: "right",
-        render: (text) => <Text>{formatNumber(text)} km</Text>,
-      },
-      {
-        title: "Cons./100km",
-        dataIndex: "consommation",
-        key: "consommation",
-        align: "right",
-        render: (text) => <Text>{formatNumber(text, " L")}</Text>,
-      },
-      {
-        title: "P.U ($)",
-        dataIndex: "prix_usd",
-        key: "prix_usd",
-        align: "right",
-        render: (text) => <Text>{formatNumber(text, " $")}</Text>,
-      },
-      {
-        title: "Montant ($)",
-        dataIndex: "montant_total_usd",
-        key: "montant_total_usd",
-        align: "right",
-        render: (text) => (
-          <Text strong style={{ color: "#1677ff" }}>
-            {text ? formatNumber(text, " $"): 'N/A'}
-          </Text>
-        ),
-      },
-      {
-        title: "M. (CDF)",
-        dataIndex: "montant_total_cdf",
-        key: "montant_total_cdf",
-        align: "right",
-        render: (text) => (
-          <Text strong style={{ color: "#1677ff" }}>
-            {text?formatNumber(text, " CDF") :'N/A'}
-          </Text>
-        ),
-      },
-      {
-        title: "Actions",
-        key: "actions",
-        align: "center",
-        fixed: "right",
-        render: (record) => (
-          <Space>
-            <Tooltip title="Supprimer">
-              <Button
-                type="text"
-                danger
-                icon={<DeleteOutlined />}
-                onClick={() => console.log("Supprimer", record)}
-              />
-            </Tooltip>
-          </Space>
-        ),
-      },
-    ];
-
-    // On garde seulement les colonnes visibles
-    return allColumns.filter(
-      (col) => columnsVisibility[col.title] !== false
-    );
-  }, [pagination, columnsVisibility]);
+  // Filtrer les colonnes visibles
+  return allColumns.filter((col) => columnsVisibility[col.title] !== false);
+}, [pagination, columnsVisibility]);
 
   const columnMenu = (
     <div style={{ padding: 10, background:'#fff' }}>
