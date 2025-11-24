@@ -165,6 +165,8 @@ const columns = useMemo(() => {
       dataIndex: "quantite_litres",
       key: "quantite_litres",
       align: "right",
+      sorter: (a, b) => a.quantite_litres - b.quantite_litres,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => <Text>{formatNumber(text)} L</Text>,
     },
     {
@@ -172,6 +174,8 @@ const columns = useMemo(() => {
       dataIndex: "compteur_km",
       key: "compteur_km",
       align: "right",
+      sorter: (a, b) => a.compteur_km - b.compteur_km,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => <Text>{formatNumber(text)} km</Text>,
     },
     {
@@ -179,6 +183,8 @@ const columns = useMemo(() => {
       dataIndex: "distance",
       key: "distance",
       align: "right",
+      sorter: (a, b) => a.distance - b.distance,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => <Text>{formatNumber(text)} km</Text>,
     },
     {
@@ -186,9 +192,11 @@ const columns = useMemo(() => {
       dataIndex: "consommation",
       key: "consommation",
       align: "right",
+      sorter: (a, b) => a.consommation - b.consommation,
+      sortDirections: ['descend', 'ascend'],
       render: (value) => {
         let color = "🟢";
-        let statusText = "Normal"; // Valeur par défaut
+        let statusText = "Normal";
 
         if (value > 15 && value <= 30) {
           color = "🟡";
@@ -212,6 +220,8 @@ const columns = useMemo(() => {
       dataIndex: "prix_usd",
       key: "prix_usd",
       align: "right",
+      sorter: (a, b) => a.prix_usd - b.prix_usd,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => <Text>{formatNumber(text, " $")}</Text>,
     },
     {
@@ -219,6 +229,8 @@ const columns = useMemo(() => {
       dataIndex: "montant_total_usd",
       key: "montant_total_usd",
       align: "right",
+      sorter: (a, b) => a.montant_total_usd - b.montant_total_usd,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <Text strong style={{ color: "#1677ff" }}>
           {text ? formatNumber(text, " $") : "N/A"}
@@ -230,6 +242,8 @@ const columns = useMemo(() => {
       dataIndex: "montant_total_cdf",
       key: "montant_total_cdf",
       align: "right",
+      sorter: (a, b) => a.montant_total_cdf - b.montant_total_cdf,
+      sortDirections: ['descend', 'ascend'],
       render: (text) => (
         <Text strong style={{ color: "#1677ff" }}>
           {text ? formatNumber(text, " CDF") : "N/A"}
