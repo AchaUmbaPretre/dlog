@@ -86,43 +86,50 @@ const ConsomInfoVehicule = ({ vehiculeData, loading }) => {
   const moyenneGlobal = (value) =>
     vehiculeData.length ? (value / vehiculeData.length).toFixed(2).toLocaleString('fr-FR') : 0;
 
-  return (
-    <Card type="inner" title="MES VEHICULES">
-      <Table
-        columns={columns}
-        dataSource={vehiculeData}
-        rowKey={(row) => row.id || Math.random()}
-        size="small"
-        loading={loading}
-        scroll={{ x: 600 }}
-        onChange={(pagination) => setPagination(pagination)}
-        rowClassName={(_, index) =>
-          index % 2 === 0 ? "table-row-light" : "table-row-dark"
-        }
-        summary={() => (
-          <>
-            <Table.Summary.Row className="summary-total">
-              <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-              <Table.Summary.Cell index={1}></Table.Summary.Cell>
-              <Table.Summary.Cell index={2}>{totalGlobal.totalPlein}</Table.Summary.Cell>
-              <Table.Summary.Cell index={3}></Table.Summary.Cell>
-              <Table.Summary.Cell index={4}>{totalGlobal.totalLitre}</Table.Summary.Cell>
-              <Table.Summary.Cell index={5}>{totalGlobal.totalKm}</Table.Summary.Cell>
-            </Table.Summary.Row>
+  // Fonction pour formater les nombres avec séparateur de milliers
+const formatValue = (value, decimals = 0) => 
+  Number(value).toLocaleString('fr-FR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 
-            <Table.Summary.Row className="summary-total">
-              <Table.Summary.Cell index={0}>Moyenne</Table.Summary.Cell>
-              <Table.Summary.Cell index={1}></Table.Summary.Cell>
-              <Table.Summary.Cell index={2}>{moyenneGlobal(totalGlobal.totalPlein)}</Table.Summary.Cell>
-              <Table.Summary.Cell index={3}></Table.Summary.Cell>
-              <Table.Summary.Cell index={4}>{moyenneGlobal(totalGlobal.totalLitre)}</Table.Summary.Cell>
-              <Table.Summary.Cell index={5}>{moyenneGlobal(totalGlobal.totalKm)}</Table.Summary.Cell>
-            </Table.Summary.Row>
-          </>
-        )}
-      />
-    </Card>
-  );
+return (
+  <Card type="inner" title="MES VEHICULES">
+    <Table
+      columns={columns}
+      dataSource={vehiculeData}
+      rowKey={(row) => row.id || Math.random()}
+      size="small"
+      loading={loading}
+      scroll={{ x: 600 }}
+      onChange={(pagination) => setPagination(pagination)}
+      rowClassName={(_, index) =>
+        index % 2 === 0 ? "table-row-light" : "table-row-dark"
+      }
+      summary={() => (
+        <>
+          {/* Total */}
+          <Table.Summary.Row className="summary-total">
+            <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+            <Table.Summary.Cell index={1}></Table.Summary.Cell>
+            <Table.Summary.Cell index={2}>{formatValue(totalGlobal.totalPlein)}</Table.Summary.Cell>
+            <Table.Summary.Cell index={3}></Table.Summary.Cell>
+            <Table.Summary.Cell index={4}>{formatValue(totalGlobal.totalLitre)}</Table.Summary.Cell>
+            <Table.Summary.Cell index={5}>{formatValue(totalGlobal.totalKm)}</Table.Summary.Cell>
+          </Table.Summary.Row>
+
+          {/* Moyenne */}
+          <Table.Summary.Row className="summary-total">
+            <Table.Summary.Cell index={0}>Moyenne</Table.Summary.Cell>
+            <Table.Summary.Cell index={1}></Table.Summary.Cell>
+            <Table.Summary.Cell index={2}>{formatValue(totalGlobal.totalPlein / vehiculeData.length, 2)}</Table.Summary.Cell>
+            <Table.Summary.Cell index={3}></Table.Summary.Cell>
+            <Table.Summary.Cell index={4}>{formatValue(totalGlobal.totalLitre / vehiculeData.length, 2)}</Table.Summary.Cell>
+            <Table.Summary.Cell index={5}>{formatValue(totalGlobal.totalKm / vehiculeData.length, 2)}</Table.Summary.Cell>
+          </Table.Summary.Row>
+        </>
+      )}
+    />
+  </Card>
+);
+
 };
 
 export default ConsomInfoVehicule;
