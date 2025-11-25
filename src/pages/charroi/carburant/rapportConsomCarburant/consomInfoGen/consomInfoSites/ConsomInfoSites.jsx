@@ -114,8 +114,8 @@ const ConsomInfoSites = ({siteData, loading}) => {
                   totalKm += d.total_kilometrage || 0;
                 });
 
-                const moyenne = (value) =>
-                  pageData.length ? (value / pageData.length).toFixed(2) : 0;
+                const moyenne = (value) => 
+                  pageData.length ? (value / pageData.length).toFixed(2).toLocaleString('fr-FR') : 0;
 
                 return (
                   <>
@@ -132,16 +132,16 @@ const ConsomInfoSites = ({siteData, loading}) => {
                       <Table.Summary.Cell index={0}>Moyenne</Table.Summary.Cell>
                       <Table.Summary.Cell index={1}></Table.Summary.Cell>
                       <Table.Summary.Cell index={2}>
-                        {moyenne(totalPlein)} 
+                        {Number(moyenne(totalPlein)).toLocaleString('fr-FR')} 
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={3}>
-                        {moyenne(totalVehicule)}
+                        {Number(moyenne(totalVehicule)).toLocaleString('fr-FR')}
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={4}>
-                        {moyenne(totalLitre)} L
+                        {Number(moyenne(totalLitre)).toLocaleString('fr-FR')} L
                       </Table.Summary.Cell> 
                       <Table.Summary.Cell index={5}>
-                        {moyenne(totalKm)} km
+                        {Number(moyenne(totalKm)).toLocaleString('fr-FR')} km
                       </Table.Summary.Cell>
                     </Table.Summary.Row>
                   </>

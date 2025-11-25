@@ -84,7 +84,7 @@ const ConsomInfoVehicule = ({ vehiculeData, loading }) => {
   );
 
   const moyenneGlobal = (value) =>
-    vehiculeData.length ? (value / vehiculeData.length).toFixed(2) : 0;
+    vehiculeData.length ? (value / vehiculeData.length).toFixed(2).toLocaleString('fr-FR') : 0;
 
   return (
     <Card type="inner" title="MES VEHICULES">
