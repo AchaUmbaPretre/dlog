@@ -14,9 +14,6 @@ const CarburantPrice = () => {
   const [modalType, setModalType] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  /**
-   * 🧩 Récupération des prix du carburant
-   */
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -41,9 +38,6 @@ const CarburantPrice = () => {
     fetchData();
   }, []);
 
-  /**
-   * 🔧 Gestion des modales
-   */
   const openModal = (type) => {
     setModalType(type);
   };
@@ -52,9 +46,6 @@ const CarburantPrice = () => {
     setModalType(null);
   };
 
-  /**
-   * 🧱 Colonnes du tableau
-   */
   const columns = [
     {
       title: "#",
@@ -92,12 +83,10 @@ const CarburantPrice = () => {
     <>
       <div className="client">
         <div className="client-wrapper">
-          {/* 🔹 En-tête */}
           <div className="client-row">
             <div className="client-row-icon">🛢️</div>
             <h2 className="client-h2">Gestion des prix du carburant</h2>
           </div>
-
 
           <div className="client-actions">
             <div className="client-rows-right">
@@ -110,8 +99,6 @@ const CarburantPrice = () => {
               </Button>
             </div>
           </div>
-
-          {/* 🔹 Tableau */}
           <Table
             columns={columns}
             dataSource={data}
