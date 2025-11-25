@@ -67,7 +67,7 @@ const CarburantPrice = () => {
       dataIndex: "taux_usd",
       key: "taux_usd",
       align: "right",
-      render: (value) => `${Number(value).toFixed(2)}`,
+      render: (value) => `${Number(value).toFixed(2)} CDF`,
     },
     {
       title: "Date effective",
