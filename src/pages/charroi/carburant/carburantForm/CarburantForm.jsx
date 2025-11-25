@@ -275,14 +275,12 @@ const handleSubmit = async (values) => {
                   </Form.Item>
                 </Col>
 
-                {/* Num Facture */}
                 <Col xs={24} sm={8}>
                   <Form.Item label="Numéro de facture" name="num_facture">
                     {renderField(<Input placeholder="ex: FCT-2025-01" />)}
                   </Form.Item>
                 </Col>
 
-                {/* Chauffeur */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Chauffeur"
@@ -303,7 +301,6 @@ const handleSubmit = async (values) => {
                   </Form.Item>
                 </Col>
 
-                {/* Fournisseur */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Fournisseur"
@@ -324,7 +321,6 @@ const handleSubmit = async (values) => {
                   </Form.Item>
                 </Col>
 
-                {/* Quantité */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Quantité (Litres)"

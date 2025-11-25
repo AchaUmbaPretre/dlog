@@ -63,11 +63,11 @@ const CarburantPrice = () => {
       render: (value) => `${Number(value).toLocaleString()} CDF`,
     },
     {
-      title: "Prix (USD)",
+      title: "Taux du jour",
       dataIndex: "taux_usd",
       key: "taux_usd",
       align: "right",
-      render: (value) => `${Number(value).toFixed(2)} $`,
+      render: (value) => `${Number(value).toFixed(2)}`,
     },
     {
       title: "Date effective",
