@@ -180,7 +180,7 @@ const Generale = () => {
                                 marginRight: '8px',
                             }}
                         />
-                        Price carburant
+                        Prix carburant
                     </span>
                 }
                 key="9"
