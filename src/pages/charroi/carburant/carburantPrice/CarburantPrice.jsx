@@ -56,6 +56,14 @@ const CarburantPrice = () => {
         (pagination.current - 1) * pagination.pageSize + index + 1,
     },
     {
+      title: "Date effective",
+      dataIndex: "date_effective",
+      key: "date_effective",
+      align: "center",
+      render: (value) =>
+        value ? moment(value).format("DD-MM-YYYY") : "—",
+    },
+    {
       title: "Prix (CDF)",
       dataIndex: "prix_cdf",
       key: "prix_cdf",
@@ -68,14 +76,6 @@ const CarburantPrice = () => {
       key: "taux_usd",
       align: "right",
       render: (value) => `${Number(value).toFixed(2)} CDF`,
-    },
-    {
-      title: "Date effective",
-      dataIndex: "date_effective",
-      key: "date_effective",
-      align: "center",
-      render: (value) =>
-        value ? moment(value).format("DD-MM-YYYY") : "—",
     },
   ];
 
