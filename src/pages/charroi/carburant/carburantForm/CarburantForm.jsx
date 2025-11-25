@@ -141,69 +141,68 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     });
   };
 
-const handleSubmit = (values) => {
-  const payload = {
-    ...values,
-    date_operation: values.date_operation?.format('YYYY-MM-DD HH:mm:ss'),
-    prix_cdf: prixCDF,
-    prix_usd: prixUSD,
-    montant_total_cdf: montantTotalCDF,
-    montant_total_usd: montantTotalUSD,
+  const handleSubmit = (values) => {
+    const payload = {
+      ...values,
+      date_operation: values.date_operation?.format('YYYY-MM-DD HH:mm:ss'),
+      prix_cdf: prixCDF,
+      prix_usd: prixUSD,
+      montant_total_cdf: montantTotalCDF,
+      montant_total_usd: montantTotalUSD,
+    };
+
+    setPendingPayload(payload);
+    setForceConfirmation(false);
+    setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations carburant ?");
+    setConfirmVisible(true);
   };
 
-  setPendingPayload(payload);
-  setForceConfirmation(false);
-  setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations carburant ?");
-  setConfirmVisible(true);
-};
+  const handleConfirm = async () => {
+    if (!pendingPayload) return;
 
-const handleConfirm = async () => {
-  if (!pendingPayload) return;
+    setLoadingConfirm(true);
 
-  setLoadingConfirm(true);
+    try {
+      // Si c'est une confirmation forcée (409)
+      const payloadToSend = forceConfirmation ? { ...pendingPayload, force: 1 } : pendingPayload;
 
-  try {
-    // Si c'est une confirmation forcée (409)
-    const payloadToSend = forceConfirmation ? { ...pendingPayload, force: 1 } : pendingPayload;
+      await postCarburant(payloadToSend);
 
-    await postCarburant(payloadToSend);
-
-    notification.success({
-      message: 'Succès',
-      description: forceConfirmation 
-        ? "Le plein a été enregistré malgré l'alerte kilométrage incohérent."
-        : "Les informations carburant ont été enregistrées avec succès.",
-    });
-
-    form.resetFields();
-    closeModal?.();
-    fetchData?.();
-    fetchDatas();
-
-    setConfirmVisible(false);
-    setPendingPayload(null);
-    setForceConfirmation(false);
-
-  } catch (error) {
-    if (!forceConfirmation && error?.response?.status === 409 && error.response.data?.askConfirmation) {
-      // Cas du kilométrage incohérent
-      setForceConfirmation(true);
-      setConfirmationMessage(error.response.data.message); // Message spécifique du backend
-    } else {
-      notification.error({
-        message: 'Erreur',
-        description: "Une erreur est survenue lors de l'enregistrement.",
+      notification.success({
+        message: 'Succès',
+        description: forceConfirmation 
+          ? "Le plein a été enregistré malgré l'alerte kilométrage incohérent."
+          : "Les informations carburant ont été enregistrées avec succès.",
       });
-      console.error(error);
+
+      form.resetFields();
+      closeModal?.();
+      fetchData?.();
+      fetchDatas();
+
       setConfirmVisible(false);
       setPendingPayload(null);
       setForceConfirmation(false);
-    }
-  } finally {
-    setLoadingConfirm(false);
-  }
-};
 
+    } catch (error) {
+      if (!forceConfirmation && error?.response?.status === 409 && error.response.data?.askConfirmation) {
+        // Cas du kilométrage incohérent
+        setForceConfirmation(true);
+        setConfirmationMessage(error.response.data.message); // Message spécifique du backend
+      } else {
+        notification.error({
+          message: 'Erreur',
+          description: "Une erreur est survenue lors de l'enregistrement.",
+        });
+        console.error(error);
+        setConfirmVisible(false);
+        setPendingPayload(null);
+        setForceConfirmation(false);
+      }
+    } finally {
+      setLoadingConfirm(false);
+    }
+  };
 
   const renderField = (component) =>
     loading.data ? <Skeleton.Input active style={{ width: '100%' }} /> : component;

@@ -1,15 +1,14 @@
 .confirm-modal {
   .ant-modal-content {
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
   }
 
   .ant-modal-header {
-    background-color: #fffaf0;
+    background-color: #fff7e6;
     border-bottom: none;
-    padding: 24px 32px;
+    padding: 24px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -21,100 +20,59 @@
   }
 
   .confirm-modal-icon {
-    font-size: 32px;
-    color: #fa8c16;
-    margin-right: 14px;
-    transition: transform 0.3s ease-in-out;
-
-    &:hover {
-      transform: scale(1.1);
-    }
+    font-size: 28px;
+    color: #faad14; // couleur warning dorée
+    margin-right: 12px;
   }
 
   .confirm-modal-title {
-    font-weight: 700;
-    font-size: 22px;
-    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 20px;
+    color: #1f1f1f;
   }
 
   .ant-modal-body {
-    padding: 24px 32px;
-    text-align: left;
+    padding: 24px;
   }
 
   .confirm-modal-content {
     font-size: 16px;
     color: #333;
-    line-height: 1.8;
-    white-space: pre-line;
+    line-height: 1.6;
   }
 
   .ant-modal-footer {
     border-top: none;
-    padding: 20px 32px;
+    padding: 16px 24px;
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
 
-    .confirm-btn {
+    .ant-btn-primary {
       background-color: #fa541c;
       border-color: #fa541c;
       font-weight: 600;
-      padding: 0 28px;
-      height: 44px;
-      border-radius: 10px;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      padding: 0 24px;
+      height: 40px;
+      border-radius: 8px;
 
       &:hover, &:focus {
         background-color: #d4380d;
         border-color: #d4380d;
       }
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
     }
 
-    .cancel-btn {
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      font-weight: 500;
-      padding: 0 28px;
-      height: 44px;
-      border-radius: 10px;
+    .ant-btn-default {
       color: #555;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
+      border-color: #ccc;
+      font-weight: 500;
+      padding: 0 24px;
+      height: 40px;
+      border-radius: 8px;
 
       &:hover, &:focus {
         color: #333;
         border-color: #999;
       }
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  @media (max-width: 576px) {
-    .ant-modal-content {
-      margin: 0 16px;
-    }
-    .ant-modal-body {
-      padding: 16px 16px;
-    }
-    .ant-modal-footer {
-      padding: 16px 16px;
-      flex-direction: column-reverse;
-      gap: 8px;
-    }
-    .confirm-btn, .cancel-btn {
-      width: 100%;
     }
   }
 }
