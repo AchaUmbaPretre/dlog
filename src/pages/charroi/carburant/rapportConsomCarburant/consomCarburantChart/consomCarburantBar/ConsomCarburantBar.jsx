@@ -27,7 +27,7 @@ const ConsomCarburantBar = ({ consomMonth = [] }) => {
     "#ef5350",
   ];
 
-  // ⚙️ Préparation PRO des données avec useMemo
+  // Préparation PRO des données avec useMemo
   const preparedData = useMemo(() => {
     if (!Array.isArray(consomMonth) || consomMonth.length === 0) return null;
 
@@ -43,27 +43,26 @@ const ConsomCarburantBar = ({ consomMonth = [] }) => {
     const datasets = fuelTypes.map((fuel, index) => {
       const data = Array(12).fill(0);
 
-      consomMonth.forEach((item) => {
+    consomMonth.forEach((item) => {
         if (item.nom_type_carburant === fuel) {
           const monthIndex = item.mois - 1;
           data[monthIndex] += item.total_conso || 0;
         }
-      });
+    });
 
-      return {
+    return {
         label: fuel,
         data,
         backgroundColor: COLORS[index % COLORS.length],
         borderColor: COLORS[index % COLORS.length],
         borderWidth: 1.5,
-        borderRadius: 5, // barres arrondies
+        borderRadius: 5,
       };
     });
 
     return { labels, datasets };
   }, [consomMonth]);
 
-  // ⚙️ Options PRO
   const options = {
     responsive: true,
     plugins: {
