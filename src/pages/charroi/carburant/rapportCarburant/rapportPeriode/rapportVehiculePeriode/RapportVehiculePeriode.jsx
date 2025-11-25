@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography, Button, Tag, Radio, Card, Table, notification } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
