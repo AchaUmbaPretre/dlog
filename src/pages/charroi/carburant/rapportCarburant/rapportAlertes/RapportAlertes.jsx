@@ -2,8 +2,7 @@ import React from "react";
 import {
   InfoCircleOutlined,
   WarningOutlined,
-  CloseCircleOutlined,
-  CheckCircleOutlined,
+  CloseCircleOutlined
 } from "@ant-design/icons";
 import { Tag, Empty, Tooltip } from "antd";
 import "./rapportAlertes.scss";

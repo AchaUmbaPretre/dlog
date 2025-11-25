@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Select, Skeleton, Input, Checkbox, Collapse } from 'antd';
+import { Select, Skeleton, Checkbox, Collapse } from 'antd';
 import 'antd/dist/reset.css';
 import moment from 'moment';
 import { getAnneeCarburant, getCarburantVehicule, getMoisCarburant } from '../../../../../../services/carburantService';
@@ -24,31 +24,31 @@ const RapportPeriodeFiltrage = ({ onFilter, filtraVille, filtraClient, filtraSta
     const [selectAllCat, setSelectAllCat] = useState(false);
 
 
-useEffect(()=> {
-    const handleFilter = () => {
-        const period = {
-            mois: [],
-            annees: selectedAnnees,
+    useEffect(()=> {
+        const handleFilter = () => {
+            const period = {
+                mois: [],
+                annees: selectedAnnees,
+            };
+        
+            selectedAnnees.forEach(year => {
+                if (selectedMois[year]) {
+                    selectedMois[year].forEach(mois => {
+                    period.mois.push(mois.split('-')[0]); 
+                    });
+                }
+            });
+        
+            onFilter({
+                vehicule: selectedVehicule,
+                site: selectedSite,
+                cat: selectedCat,
+                period,
+            });
+        
         };
-    
-        selectedAnnees.forEach(year => {
-            if (selectedMois[year]) {
-                selectedMois[year].forEach(mois => {
-                period.mois.push(mois.split('-')[0]); 
-                });
-            }
-        });
-    
-        onFilter({
-            vehicule: selectedVehicule,
-            site: selectedSite,
-            cat: selectedCat,
-            period,
-        });
-    
-    };
-    handleFilter();
-}, [ selectedAnnees, selectedCat, selectedMois, selectedVehicule, selectedSite ])
+        handleFilter();
+    }, [ selectedAnnees, selectedCat, selectedMois, selectedVehicule, selectedSite ])
 
     const fetchMoisParAnnee = async (annee) => {
         try {
@@ -130,8 +130,6 @@ useEffect(()=> {
         }
     };
     
-    
-    
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
             <div className="filter_row">
@@ -154,55 +152,55 @@ useEffect(()=> {
                     placeholder="Sélectionnez un ou plusieur..."
                     optionFilterProp="label"
                     onChange={(newValue) => {
-                                    if (newValue.includes('selectAll')) {
-                                        toggleSelectAll(selectAllVehicule, setSelectAllVehicule, vehicule, setSelectedVehicule);
-                                    } else {
-                                        setSelectedVehicule(newValue);
-                                    }
-                                }}
-                    />
+                        if (newValue.includes('selectAll')) {
+                            toggleSelectAll(selectAllVehicule, setSelectAllVehicule, vehicule, setSelectedVehicule);
+                        } else {
+                            setSelectedVehicule(newValue);
+                        }
+                    }}
+                />
             </div>
 
             <div className="filter_row">
                 <label>Site :</label>
                 <Select
-                        mode="multiple"
-                        style={{ width: '100%' }}
-                        showSearch
-                        value={selectedSite}
-                        options={[
-                            {
-                                value: 'selectAll',
-                                label: selectAllSite ? 'Tout désélectionner' : 'Tout sélectionner',
-                            },
-                            ...site.map((item) => ({
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    showSearch
+                    value={selectedSite}
+                    options={[
+                        {
+                            value: 'selectAll',
+                            label: selectAllSite ? 'Tout désélectionner' : 'Tout sélectionner',
+                        },
+                        ...site.map((item) => ({
                                 value: item.id_site,
                                 label: item.nom_site,
                             }))
-                        ]}
-                        placeholder="Sélectionnez un ou plusieur..."
-                        optionFilterProp="label"
-                        onChange={(newValue) => {
-                            if (newValue.includes('selectAll')) {
-                                toggleSelectAll(selectAllSite, setSelectAllSite, site, setSelectedSite);
-                            } else {
-                                setSelectedSite(newValue);
-                            }
-                        }}
-                    />
+                    ]}
+                    placeholder="Sélectionnez un ou plusieur..."
+                    optionFilterProp="label"
+                    onChange={(newValue) => {
+                        if (newValue.includes('selectAll')) {
+                            toggleSelectAll(selectAllSite, setSelectAllSite, site, setSelectedSite);
+                        } else {
+                            setSelectedSite(newValue);
+                        }
+                    }}
+                />
             </div>
             <div className="filter_row">
-                    <label>Type véhicule :</label>
-                    {isLoading ? (
-                        <Skeleton.Input active={true} />
-                    ) : (
-                        <Select
-                            mode="multiple"
-                            showSearch
-                            value={selectedCat}
-                            style={{ width: '100%' }}
-                            options={[
-                                {
+                <label>Type véhicule :</label>
+                {isLoading ? (
+                    <Skeleton.Input active={true} />
+                ) : (
+                    <Select
+                        mode="multiple"
+                        showSearch
+                        value={selectedCat}
+                        style={{ width: '100%' }}
+                        options={[
+                            {
                                 value: 'selectAll',
                                 label: selectAllCat ? 'Tout désélectionner' : 'Tout sélectionner',
                                 },
@@ -210,18 +208,18 @@ useEffect(()=> {
                                 value: item.id_cat_vehicule,
                                 label: item.abreviation,
                             }))
-                            ]}
-                            placeholder="Sélectionnez..."
-                            optionFilterProp="label"
-                            onChange={(newValue) => {
-                                    if (newValue.includes('selectAll')) {
-                                        toggleSelectAll(selectAllCat, setSelectAllCat, cat, setSelectedCat);
-                                    } else {
-                                        setSelectedCat(newValue);
-                                    }
-                                }}
-                        />
-                    )}
+                        ]}
+                        placeholder="Sélectionnez..."
+                        optionFilterProp="label"
+                        onChange={(newValue) => {
+                            if (newValue.includes('selectAll')) {
+                                toggleSelectAll(selectAllCat, setSelectAllCat, cat, setSelectedCat);
+                            } else {
+                                setSelectedCat(newValue);
+                            }
+                        }}
+                    />
+                )}
             </div>
 
             <div className="filter_row">
