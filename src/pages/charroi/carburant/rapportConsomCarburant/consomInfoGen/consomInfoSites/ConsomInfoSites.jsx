@@ -60,7 +60,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
       ),
       dataIndex: "total_litres",
       render: (text) => (
-        <Text type="secondary">{formatNumber(text)}</Text>
+        <Text type="secondary" mark>{formatNumber(text)} L</Text>
       ),
     },
     {
@@ -71,7 +71,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
       ),
       dataIndex: "total_kilometrage",
       render: (text) => (
-        <Text type="secondary">{formatNumber(text)}</Text>
+        <Text type="secondary">{formatNumber(text)} Km</Text>
       ),
     },
   ];
@@ -119,7 +119,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
 
                 return (
                   <>
-                    <Table.Summary.Row>
+                    <Table.Summary.Row className="summary-total">
                       <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
                       <Table.Summary.Cell index={1}></Table.Summary.Cell>
                       <Table.Summary.Cell index={2}>{formatNumber(totalPlein)}</Table.Summary.Cell>
@@ -128,7 +128,7 @@ const ConsomInfoSites = ({siteData, loading}) => {
                       <Table.Summary.Cell index={5}>{formatNumber(totalKm)}</Table.Summary.Cell>
                     </Table.Summary.Row>
 
-                    <Table.Summary.Row>
+                    <Table.Summary.Row className="summary-total">
                       <Table.Summary.Cell index={0}>Moyenne</Table.Summary.Cell>
                       <Table.Summary.Cell index={1}></Table.Summary.Cell>
                       <Table.Summary.Cell index={2}>
