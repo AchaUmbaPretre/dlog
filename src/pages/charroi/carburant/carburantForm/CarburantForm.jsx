@@ -17,7 +17,8 @@ import {
   FireOutlined
 } from "@ant-design/icons";
 import { 
-  getChauffeur
+  getChauffeur,
+  getTypeCarburant
 } from '../../../../services/charroiService';
 import { 
   getFournisseur_activiteOne 
@@ -40,6 +41,8 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [vehicules, setVehicules] = useState([]);
   const [chauffeurs, setChauffeurs] = useState([]);
   const [data, setData] = useState([]);
+  const [type, setType] = useState([]);
+  const [idType, setIdType] = useState(null);
   const [vehiculeData, setVehiculeData] = useState([]);
   const [vehiculeId, setVehiculeId] = useState(null);
   const [carburantId, setCarburantId] = useState(null);
@@ -51,12 +54,22 @@ const CarburantForm = ({ closeModal, fetchData }) => {
 
   const fetchDatas = async () => {
     try {
-      const [carburantData, prixData] = await Promise.all([
+      const [carburantData, typeData] = await Promise.all([
         getCarburantLimitTen(vehiculeData),
-        getCarburantPriceLimit()
+        getTypeCarburant()
       ]);
 
       setData(carburantData.data);
+      setType(typeData.data);
+
+      if(idType) {
+        const { data } = await getCarburantPriceLimit(idType);
+        if (data) {
+          const lastPrix = data;
+          setPrixCDF(lastPrix.prix_cdf);
+          setPrixUSD(lastPrix.taux_usd);
+        }
+      }
 
       if(carburantId) {
         const { data: vehicules } = await getCarburantOne(vehiculeId,carburantId);
@@ -68,11 +81,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
         }
       } 
 
-      if (prixData.data && prixData.data.length > 0) {
-        const lastPrix = prixData.data[0];
-        setPrixCDF(lastPrix.prix_cdf);
-        setPrixUSD(lastPrix.taux_usd);
-      }
     } catch (error) {
       console.error("Erreur chargement prix carburant :", error);
     }
@@ -80,7 +88,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [vehiculeData, carburantId]);
+  }, [vehiculeData, carburantId, idType]);
 
   // Chargement des véhicules, chauffeurs et fournisseurs
   const fetchInitialData = useCallback(async () => {
@@ -115,7 +123,8 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const handleQuantiteChange = (value) => {
     const quantite = parseFloat(value || 0);
     const totalCDF = quantite * prixCDF;
-    const totalUSD = prixUSD > 0 ? totalCDF / prixCDF * prixUSD : 0;
+    const totalUSD = prixUSD > 0 ? totalCDF / prixUSD : 0;
+;
 
     setMontantTotalCDF(totalCDF);
     setMontantTotalUSD(totalUSD);
@@ -144,7 +153,6 @@ const handleSubmit = async (values) => {
     // Première tentative d’enregistrement
     await postCarburant(payload);
 
-    // Si tout va bien
     notification.success({
       message: 'Succès',
       description: 'Les informations carburant ont été enregistrées avec succès.',
@@ -157,7 +165,6 @@ const handleSubmit = async (values) => {
 
   } catch (error) {
 
-    // ⭐ CAS SPÉCIAL : KM INCOHÉRENT, API DEMANDE CONFIRMATION
     if (error?.response?.status === 409 && error.response.data?.askConfirmation) {
 
       Modal.confirm({
@@ -323,6 +330,27 @@ const handleSubmit = async (values) => {
 
                 <Col xs={24} sm={8}>
                   <Form.Item
+                    label="Type de carburant"
+                    name="id_type_carburant"
+                    rules={[{ required: true, message: 'Veuillez sélectionner un type.' }]}
+                  >
+                    {renderField(
+                      <Select
+                        showSearch
+                        placeholder="Sélectionnez un type de carburant"
+                        optionFilterProp="label"
+                        options={type.map(t => ({
+                          value: t.id_type_carburant,
+                          label: t.nom_type_carburant,
+                        }))}
+                        onChange={setIdType}
+                      />
+                    )}
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24} sm={8}>
+                  <Form.Item
                     label="Quantité (Litres)"
                     name="quantite_litres"
                     rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
@@ -363,7 +391,7 @@ const handleSubmit = async (values) => {
                 </Col>
 
                 {/* Commentaire */}
-                <Col xs={24} sm={16}>
+                <Col xs={24} sm={8}>
                   <Form.Item label="Commentaire" name="commentaire">
                     {renderField(<Input.TextArea placeholder="Écrire..." style={{ height: '50px', resize: 'none' }} />)}
                   </Form.Item>

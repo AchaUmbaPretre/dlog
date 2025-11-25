@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, notification } from "antd";
+import { Table, Button, Modal, notification, Typography } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CarburantPriceForm from "./carburantPriceForm/CarburantPriceForm";
 import { getCarburantPrice } from "../../../../services/carburantService";
 import moment from "moment";
+
+const { Text } = Typography;
 
 const CarburantPrice = () => {
   const [pagination, setPagination] = useState({
@@ -62,6 +64,17 @@ const CarburantPrice = () => {
       align: "center",
       render: (value) =>
         value ? moment(value).format("DD-MM-YYYY") : "—",
+    },
+    {
+      title: "Type carburant",
+      dataIndex: "nom_type_carburant",
+      key: "nom_type_carburant",
+      align: "center",
+      render: (text) => (
+        <Text italic type="success">
+          { text }
+        </Text>
+      )
     },
     {
       title: "Prix (CDF)",
