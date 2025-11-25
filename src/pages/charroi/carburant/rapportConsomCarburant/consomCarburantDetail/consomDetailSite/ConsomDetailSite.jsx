@@ -64,37 +64,37 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
         render: (text) => (
             <div>
             <LoadingOutlined style={{ color: "#722ed1", marginRight: "8px" }} />
-            {formatNumber(text)}
+            {formatNumber(text)} L
             </div>
         ),
         },
         {
-        title: 'Plein',
-        dataIndex: 'total_pleins',
-        key: 'total_pleins',
-        render: (text) => (
-            <div>
-            <CheckCircleOutlined
-                style={{ color: "#52c41a", marginRight: "8px" }}
-            />
-            {formatNumber(text)}
-            </div>
-        ),
+            title: 'Plein',
+            dataIndex: 'total_pleins',
+            key: 'total_pleins',
+            render: (text) => (
+                <div>
+                <CheckCircleOutlined
+                    style={{ color: "#52c41a", marginRight: "8px" }}
+                />
+                {formatNumber(text)}
+                </div>
+            ),
         },
         {
-        title: (
-            <>
-            <DashboardOutlined style={{ color: "#eb2f96" }} /> Km
-            </>
-        ),
-        dataIndex: 'total_kilometrage',
-        key: 'total_kilometrage',
-        render: (text) => (
-            <div>
-            <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
-            {formatNumber(text)}
-            </div>
-        ),
+            title: (
+                <>
+                <DashboardOutlined style={{ color: "#eb2f96" }} /> Km
+                </>
+            ),
+            dataIndex: 'total_kilometrage',
+            key: 'total_kilometrage',
+            render: (text) => (
+                <div>
+                <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
+                {formatNumber(text)} Km
+                </div>
+            ),
         },
 /*         {
         title: 'Sélection',

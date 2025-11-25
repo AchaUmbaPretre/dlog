@@ -64,7 +64,7 @@ const ConsomInfoSiegeKin = ({siegeData, loading}) => {
       dataIndex: 'total_litres',
       render: (text) => (
         <Tooltip title="Quantité totale en litres">
-            <Text type="secondary">{formatNumber(text)} L</Text>
+            <Text type="secondary" mark>{formatNumber(text)} L</Text>
         </Tooltip>
       )
     },

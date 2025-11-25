@@ -75,7 +75,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
       key: 'total_litres',
       render: (text) => (
         <div>
-          {formatNumber(text)}
+          {formatNumber(text)} L
         </div>
       ),
     },
@@ -99,7 +99,7 @@ const ConsomDetailVehicule = ({siegeData, loading}) => {
       render: (text) => (
         <div>
           <DashboardOutlined style={{ color: "#1890ff", marginRight: "8px" }} />
-          {formatNumber(text)}
+          {formatNumber(text)} Km
         </div>
       ),
     },
