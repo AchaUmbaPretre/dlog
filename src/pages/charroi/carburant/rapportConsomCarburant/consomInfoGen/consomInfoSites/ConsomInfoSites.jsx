@@ -124,24 +124,24 @@ const ConsomInfoSites = ({siteData, loading}) => {
                       <Table.Summary.Cell index={1}></Table.Summary.Cell>
                       <Table.Summary.Cell index={2}>{formatNumber(totalPlein)}</Table.Summary.Cell>
                       <Table.Summary.Cell index={3}>{formatNumber(totalVehicule)}</Table.Summary.Cell>
-                      <Table.Summary.Cell index={4}>{formatNumber(totalLitre)}</Table.Summary.Cell>
-                      <Table.Summary.Cell index={5}>{formatNumber(totalKm)}</Table.Summary.Cell>
+                      <Table.Summary.Cell index={4}>{formatNumber(totalLitre)} L</Table.Summary.Cell>
+                      <Table.Summary.Cell index={5}>{formatNumber(totalKm)} Km</Table.Summary.Cell>
                     </Table.Summary.Row>
 
                     <Table.Summary.Row className="summary-total">
                       <Table.Summary.Cell index={0}>Moyenne</Table.Summary.Cell>
                       <Table.Summary.Cell index={1}></Table.Summary.Cell>
                       <Table.Summary.Cell index={2}>
-                        {moyenne(totalPlein)}
+                        {moyenne(totalPlein)} 
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={3}>
                         {moyenne(totalVehicule)}
                       </Table.Summary.Cell>
                       <Table.Summary.Cell index={4}>
-                        {moyenne(totalLitre)}
-                      </Table.Summary.Cell>
+                        {moyenne(totalLitre)} L
+                      </Table.Summary.Cell> 
                       <Table.Summary.Cell index={5}>
-                        {moyenne(totalKm)}
+                        {moyenne(totalKm)} km
                       </Table.Summary.Cell>
                     </Table.Summary.Row>
                   </>
