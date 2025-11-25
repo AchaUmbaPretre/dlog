@@ -36,13 +36,13 @@ const ConsomInfoVehicule = ({vehiculeData, loading}) => {
       title: (
         <Space>
           <CarOutlined style={{ color: "#1890ff" }} />
-          Véhicule
+          Immatr.
         </Space>
       ),
       dataIndex: "immatriculation",
       render: (text) => (
         <Tooltip title={text || "N/A"}>
-          <Tag color="blue">{text || "N/A"}</Tag>
+          <Text code>{text || "N/A"}</Text>
         </Tooltip>
       ),
     },
@@ -59,7 +59,7 @@ const ConsomInfoVehicule = ({vehiculeData, loading}) => {
         </Space>
       ),
       dataIndex: "total_litres",
-      render: (text) => <Text type="secondary">{formatNumber(text)}</Text>,
+      render: (text) => <Text type="secondary" mark>{formatNumber(text)} L</Text>,
     },
     {
       title: (
@@ -69,7 +69,7 @@ const ConsomInfoVehicule = ({vehiculeData, loading}) => {
         </Space>
       ),
       dataIndex: "total_kilometrage",
-      render: (text) => <Text type="secondary">{formatNumber(text)}</Text>,
+      render: (text) => <Text type="secondary">{formatNumber(text)} Km</Text>,
     },
   ];
 
