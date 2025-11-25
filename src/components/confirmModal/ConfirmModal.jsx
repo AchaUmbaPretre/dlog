@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Typography } from 'antd';
+import { Modal, Typography, Spin } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import './confirmModal.scss';
 
@@ -13,6 +13,7 @@ const ConfirmModal = ({
   onCancel,
   okText = "Confirmer",
   cancelText = "Annuler",
+  loading = false,
 }) => {
   return (
     <Modal
@@ -31,6 +32,24 @@ const ConfirmModal = ({
       maskClosable={false}
       closable={false}
       className="confirm-modal"
+      footer={[
+        <button
+          key="cancel"
+          className="ant-btn cancel-btn"
+          onClick={onCancel}
+          disabled={loading}
+        >
+          {cancelText}
+        </button>,
+        <button
+          key="confirm"
+          className="ant-btn confirm-btn"
+          onClick={onConfirm}
+          disabled={loading}
+        >
+          {loading ? <Spin size="small" /> : okText}
+        </button>
+      ]}
     >
       <Text className="confirm-modal-content">{content}</Text>
     </Modal>
