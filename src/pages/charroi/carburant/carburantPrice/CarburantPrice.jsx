@@ -48,67 +48,67 @@ const CarburantPrice = () => {
     setModalType(null);
   };
 
-const columns = [
-  {
-    title: "#",
-    key: "index",
-    width: 80,
-    align: "center",
-    render: (_, __, index) =>
-      (pagination.current - 1) * pagination.pageSize + index + 1,
-  },
-  {
-    title: (
-      <span>
-        <CalendarOutlined style={{ color: "#1677ff", marginRight: 6 }} />
-        Date effective
-      </span>
-    ),
-    dataIndex: "date_effective",
-    key: "date_effective",
-    align: "center",
-    render: (value) => (value ? moment(value).format("DD-MM-YYYY") : "—"),
-  },
-  {
-    title: (
-      <span>
-        <FireOutlined style={{ color: "#fa8c16", marginRight: 6 }} />
-        Type carburant
-      </span>
-    ),
-    dataIndex: "nom_type_carburant",
-    key: "nom_type_carburant",
-    align: "center",
-    render: (text) => {
-      let color = text === "Essence" ? "volcano" : "green"; // couleur selon le type
-      return <Tag color={color}>{text}</Tag>;
+  const columns = [
+    {
+      title: "#",
+      key: "index",
+      width: 80,
+      align: "center",
+      render: (_, __, index) =>
+        (pagination.current - 1) * pagination.pageSize + index + 1,
     },
-  },
-  {
-    title: (
-      <span>
-        <DollarOutlined style={{ color: "#52c41a", marginRight: 6 }} />
-        Prix (CDF)
-      </span>
-    ),
-    dataIndex: "prix_cdf",
-    key: "prix_cdf",
-    align: "right",
-    render: (value) => <Text strong style={{ color: "#52c41a" }}>{Number(value).toLocaleString()} CDF</Text>,
-  },
-  {
-    title: (
-      <span>
-        <PercentageOutlined style={{ color: "#722ed1", marginRight: 6 }} />
-        Taux du jour
-      </span>
-    ),
-    dataIndex: "taux_usd",
-    key: "taux_usd",
-    align: "right",
-    render: (value) => <Text strong style={{ color: "#722ed1" }}>{Number(value).toFixed(2)} CDF</Text>,
-  },
-];
+    {
+      title: (
+        <span>
+          <CalendarOutlined style={{ color: "#1677ff", marginRight: 6 }} />
+          Date effective
+        </span>
+      ),
+      dataIndex: "date_effective",
+      key: "date_effective",
+      align: "center",
+      render: (value) => (value ? moment(value).format("DD-MM-YYYY") : "—"),
+    },
+    {
+      title: (
+        <span>
+          <FireOutlined style={{ color: "#fa8c16", marginRight: 6 }} />
+          Type carburant
+        </span>
+      ),
+      dataIndex: "nom_type_carburant",
+      key: "nom_type_carburant",
+      align: "center",
+      render: (text) => {
+        let color = text === "Essence" ? "volcano" : "green"; // couleur selon le type
+        return <Tag color={color}>{text}</Tag>;
+      },
+    },
+    {
+      title: (
+        <span>
+          <DollarOutlined style={{ color: "#52c41a", marginRight: 6 }} />
+          Prix (CDF)
+        </span>
+      ),
+      dataIndex: "prix_cdf",
+      key: "prix_cdf",
+      align: "right",
+      render: (value) => <Text strong style={{ color: "#52c41a" }}>{Number(value).toLocaleString()} CDF</Text>,
+    },
+    {
+      title: (
+        <span>
+          <PercentageOutlined style={{ color: "#722ed1", marginRight: 6 }} />
+          Taux du jour
+        </span>
+      ),
+      dataIndex: "taux_usd",
+      key: "taux_usd",
+      align: "right",
+      render: (value) => <Text strong style={{ color: "#722ed1" }}>{Number(value).toFixed(2)} CDF</Text>,
+    },
+  ];
 
 
   return (
