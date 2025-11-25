@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CarOutlined,
   AppstoreOutlined,
@@ -10,16 +10,15 @@ import { formatNumber } from '../../../../../../utils/formatNumber';
 const { Text } = Typography;
 
 const ConsomInfoVehicule = ({vehiculeData, loading}) => {
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
 
   const columns = [
     {
       title: "#",
-      render: (_, __, index) => (
-        <Tooltip title={`Ligne ${index + 1}`}>
-          <Tag color="blue">{index + 1}</Tag>
-        </Tooltip>
-      ),
-      width: "3%",
+      key: "index",
+      width: 30,
+      render: (_, __, index) =>
+        (pagination.current - 1) * pagination.pageSize + index + 1,
     },
     {
       title: (
@@ -30,7 +29,7 @@ const ConsomInfoVehicule = ({vehiculeData, loading}) => {
       ),
       dataIndex: "nom_marque",
       render: (text) => (
-          <Text color="green">{text || "N/A"}</Text>
+          <Text italic>{text || "N/A"}</Text>
       ),
     },
     {
@@ -83,7 +82,7 @@ const ConsomInfoVehicule = ({vehiculeData, loading}) => {
         size="small"
         loading={loading}
         scroll={{ x: 600 }}
-        pagination={false}
+        onChange={(pagination) => setPagination(pagination)}
         rowClassName={(_, index) =>
           index % 2 === 0 ? "table-row-light" : "table-row-dark"
         }
