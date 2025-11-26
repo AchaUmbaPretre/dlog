@@ -42,7 +42,7 @@ const RapportKPIs = ({ kpis, loading }) => {
       bg: "#f5f3ff",
     },
     {
-      label: "Consommation moyenne",
+      label: "Consom moyenne",
       value: `${kpis?.conso_moyenne || "-"} L/100km`,
       icon: <DashboardOutlined />,
       color: "#ec4899",

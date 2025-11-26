@@ -29,9 +29,14 @@ const RapportHeader = ({ onPeriodChange, alertCount = 0 }) => {
             <div>
                 <div style={{display:"flex", alignItems:'center', gap:'10px'}}>
                     <FileSearchOutlined className="rapport-header__icon" />
+                    <div>
                     <Title level={3} className="rapport-header__title">
                         RAPPORT GENERAL DU CARBURANT
                     </Title>
+                    <Text type="secondary" className="rapport-header__subtitle">
+                      Suivi, analyse et performance générale
+                    </Text>
+                    </div>
                 </div>
             </div>
 

@@ -54,7 +54,7 @@ const ConsomCarburantLine = ({ consomYear = [], loading }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: "bottom",
+        position: "top",
         labels: { font: { size: 13, family: "Nunito" } },
       },
       tooltip: {
