@@ -75,44 +75,98 @@ const RapportCharts = ({ charts }) => {
   const repartition = charts?.repartition || [];
   const [showUSD, setShowUSD] = useState(false);
 
-  // Consommation par véhicule
+// --- Préparer les datasets (NUMERIQUES et yAxisID) ---
 const vehiculeLabels = parVehicule.map(
   (v) => `${v.nom_marque} - ${v.immatriculation || "N/A"}`
 );
 
-// Dataset pour CDF
+const litersData = parVehicule.map((v) => Number(v.total_litres ?? 0));
+const cdfData = parVehicule.map((v) => Number(v.total_cdf ?? 0));
+const usdData = parVehicule.map((v) => Number(v.total_usd ?? 0));
+
 const vehiculeDataCDF = {
   labels: vehiculeLabels,
   datasets: [
     {
       label: "Litres consommés",
-      data: parVehicule.map((v) => v.total_litres),
-      backgroundColor: "rgba(54, 162, 235, 0.7)",
+      data: litersData,
+      backgroundColor: "rgba(54, 162, 235, 0.8)",
+      yAxisID: "yLitres",        // <-- litres -> axe gauche
+      order: 1,
     },
     {
       label: "Coût (CDF)",
-      data: parVehicule.map((v) => v.total_cdf),
-      backgroundColor: "rgba(255, 99, 132, 0.7)",
+      data: cdfData,
+      backgroundColor: "rgba(255, 99, 132, 0.8)",
+      yAxisID: "yMoney",         // <-- coût -> axe droit
+      order: 2,
     },
   ],
 };
 
-// Dataset pour USD
 const vehiculeDataUSD = {
   labels: vehiculeLabels,
   datasets: [
     {
       label: "Litres consommés",
-      data: parVehicule.map((v) => v.total_litres),
-      backgroundColor: "rgba(54, 162, 235, 0.7)",
+      data: litersData,
+      backgroundColor: "rgba(54, 162, 235, 0.8)",
+      yAxisID: "yLitres",
+      order: 1,
     },
     {
       label: "Coût (USD)",
-      data: parVehicule.map((v) => v.total_usd),
-      backgroundColor: "rgba(255, 205, 86, 0.7)",
+      data: usdData,
+      backgroundColor: "rgba(255, 205, 86, 0.8)",
+      yAxisID: "yMoney",
+      order: 2,
     },
   ],
 };
+
+// --- Options avec 2 axes Y ---
+const vehiculeOptions = {
+  responsive: true,
+  interaction: { mode: "index", intersect: false },
+  stacked: false,
+  plugins: {
+    legend: { position: "top" },
+    tooltip: {
+      callbacks: {
+        label: (ctx) => {
+          const label = ctx.dataset.label || "";
+          const value = ctx.raw;
+          if (/Litres/i.test(label)) return `${label}: ${value} L`;
+          return `${label}: ${value}`;
+        },
+      },
+    },
+  },
+  scales: {
+    yLitres: {
+      type: "linear",
+      position: "left",
+      title: { display: true, text: "Litres" },
+      ticks: {
+        beginAtZero: true,
+      },
+      grid: { drawOnChartArea: true },
+    },
+    yMoney: {
+      type: "linear",
+      position: "right",
+      title: { display: true, text: "Coût" },
+      ticks: {
+        beginAtZero: true,
+        callback: function (value) {
+          return value >= 1000 ? value.toLocaleString() : value;
+        },
+      },
+      grid: { drawOnChartArea: false },
+    },
+  },
+};
+
 
 
   //Évolution du coût par semaine
@@ -205,7 +259,6 @@ const vehiculeDataUSD = {
         <div className="chart chart--primary chart--small">
           <div className="chart__title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span><InfoCircleOutlined /> Consommation par véhicule</span>
-
             <button 
               onClick={() => setShowUSD(!showUSD)}
               style={{
@@ -222,10 +275,15 @@ const vehiculeDataUSD = {
             </button>
           </div>
           {parVehicule.length > 0 ? (
-            <Bar data={showUSD ? vehiculeDataUSD : vehiculeDataCDF} />
-          ) : (
-            <p className="chart__empty">Aucune donnée disponible</p>
-          )}
+              <Bar
+                key={showUSD ? "usd" : "cdf"}
+                data={showUSD ? vehiculeDataUSD : vehiculeDataCDF}
+                options={vehiculeOptions}
+              />
+            ) : (
+              <p className="chart__empty">Aucune donnée disponible</p>
+            )}
+
         </div>
 
         <div className="charts__right">
