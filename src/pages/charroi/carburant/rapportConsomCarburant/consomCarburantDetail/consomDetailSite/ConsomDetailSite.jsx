@@ -5,7 +5,6 @@ import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 
 const ConsomDetailSite = ({siteAllData, loading}) => {
-    const [data,setData] = useState();
     const [selectedVehicles, setSelectedVehicles] = useState([]);
     const [modalType, setModalType] = useState(null);
     const scroll = { x: 400 };
@@ -124,11 +123,12 @@ const ConsomDetailSite = ({siteAllData, loading}) => {
                     dataSource={siteAllData} 
                     columns={columns} 
                     size="small"  
+                    loading={loading}
                     bordered
                     scroll={scroll}
                 />
             </Card>
-        </div>
+        </div>loading
     </>
   )
 }

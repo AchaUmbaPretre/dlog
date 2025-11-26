@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { DashboardOutlined, FireOutlined, CarOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import getColumnSearchProps from '../../../../../../utils/columnSearchUtils';
-import { Checkbox, Card, Table, Tag, Tooltip } from 'antd';
+import { Card, Table, Tag, Tooltip } from 'antd';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 
 const ConsomDetailVehicule = ({siegeData, loading}) => {
