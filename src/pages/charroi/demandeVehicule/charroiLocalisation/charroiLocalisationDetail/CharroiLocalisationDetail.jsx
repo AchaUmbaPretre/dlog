@@ -78,11 +78,14 @@ const CharroiLocalisationDetail = ({ id }) => {
     </Tag>
   ));
 
+  const safeSpeedData = (speedData && speedData.length > 0 ? speedData : [0]).map(v => Number(v) || 0);
+  const safeEngineData = (engineData && engineData.length > 0 ? engineData : [0]).map(v => Number(v) || 0);
+
   const chartData = {
-    labels: speedData.map((_, i) => i + 1),
+    labels: speedData.length ? speedData.map((_, i) => i + 1) : [0],
     datasets: [
-      { label: 'Vitesse (km/h)', data: speedData, fill: false, borderColor: 'blue', tension: 0.3 },
-      { label: 'Moteur (On=1, Off=0)', data: engineData, fill: false, borderColor: 'red', tension: 0.3 },
+      { label: 'Vitesse (km/h)', data: speedData.length ? speedData : [0], fill: false, borderColor: 'blue', tension: 0.3 },
+      { label: 'Moteur (On=1, Off=0)', data: engineData.length ? engineData : [0], fill: false, borderColor: 'red', tension: 0.3 },
     ],
   };
 
@@ -109,9 +112,10 @@ const CharroiLocalisationDetail = ({ id }) => {
         <div className="charroi_local_left">
           <CharroiLeaflet vehicle={vehicle} address={address} />
 
-          <Card title="Graphique vitesse / moteur" bordered style={{ marginBottom: 20 }}>
+          {safeSpeedData.length > 0 && safeEngineData.length > 0 && (
             <Line data={chartData} options={chartOptions} />
-          </Card>
+          )}
+
         </div>
 
         <div className="charroi_local_right">
