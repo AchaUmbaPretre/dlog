@@ -13,6 +13,8 @@ import {
   Tooltip,
   Divider,
   Progress,
+  Skeleton,
+  Select,
   AutoComplete
 } from "antd";
 import {
@@ -25,12 +27,13 @@ import {
   SaveOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
-import { getCarburantVehiculeOne, postCarburantVehicule } from "../../../../services/carburantService";
+import { getCarburantVehiculeOne, postCarburantVehicule, putCarburantVehicule } from "../../../../../services/carburantService";
 import "./carburantVehiculeForm.scss";
+import { getTypeCarburant } from "../../../../../services/charroiService";
 
 const { Title, Text } = Typography;
 
-// Exemples de suggestions prédictives
+//suggestions prédictives
 const marques = ["Toyota", "Ford", "Honda", "BMW", "Mercedes"];
 const modeles = ["Corolla", "Civic", "Mustang", "X5", "Sprinter"];
 
@@ -41,25 +44,33 @@ export default function CarburantVehiculeForm({ closeModal, fetchData, iDvehicul
   const [progress, setProgress] = useState(0);
   const [filteredMarques, setFilteredMarques] = useState([]);
   const [filteredModeles, setFilteredModeles] = useState([]);
+  const [type, setType] = useState([]);
+  const [loadingData, setLoadingData] = useState(false);
   const progressRef = useRef(null);
 
 useEffect(() => {
   const fetchData = async () => {
     try {
-      const { data } = await getCarburantVehiculeOne(iDvehicule_carburant);
-        form.setFieldsValue(data[0]);
+      setLoadingData(true)
+      const [catData] = await Promise.all([getTypeCarburant()]);
+          setType(catData.data);
+
+        if(iDvehicule_carburant) {
+            const {data: datas} = await getCarburantVehiculeOne(iDvehicule_carburant);
+            form.setFieldsValue(datas[0]);
+        }
     } catch (error) {
       notification.error({
         message: "Erreur de chargement",
         description: "Impossible de récupérer les données carburant.",
         placement: "topRight",
       });
+    } finally {
+      setLoadingData(false)
     }
   };
 
-  if (iDvehicule_carburant) { 
     fetchData();
-  }
 }, [iDvehicule_carburant]);
 
 
@@ -85,18 +96,24 @@ useEffect(() => {
       setLoading(true);
       setSuccess(false);
       startProgress();
+      const action = iDvehicule_carburant ? "modifié" : "enregistré";
 
       try {
+
+        if (iDvehicule_carburant) {
+        await putCarburantVehicule(iDvehicule_carburant, values);
+      } else {
         await postCarburantVehicule(values);
+      }
         finishProgress();
         setSuccess(true);
 
-        notification.success({
-          message: "Succès",
-          description: "Le véhicule a été enregistré avec succès 🚗💨",
-          placement: "topRight",
-          className: "success-notification",
-        });
+      notification.success({
+        message: "Succès",
+        description: `Le véhicule a été ${action} avec succès 🚗💨`,
+        placement: "topRight",
+        className: "success-notification",
+      });
 
         setTimeout(() => {
           form.resetFields();
@@ -147,7 +164,8 @@ useEffect(() => {
 
             <div style={{ flex: 1 }}>
               <Title level={3} className="vehicule-title">
-                Enregistrer un véhicule / groupe électrogène
+              { iDvehicule_carburant ? 'Modifier un véhicule' : 'Enregistrer un véhicule' }
+                 / groupe électrogène
               </Title>
               <Text type="secondary">
                 Remplissez les champs ci-dessous avec soin.
@@ -246,6 +264,32 @@ useEffect(() => {
               </Form.Item>
             </Col>
 
+            <Col xs={24} md={24}>
+              <Form.Item
+                name="id_type_carburant"
+                label="Type carburant"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Veuillez fournir un type du carburant...',
+                  },
+                ]}
+              >
+                { loadingData ? <Skeleton.Input active={true} /> : 
+                  <Select
+                    showSearch
+                    allowClear
+                    options={type.map((item) => ({
+                      value: item.id_type_carburant                                          ,
+                      label: item.nom_type_carburant,
+                    }))}
+                    placeholder="Sélectionnez un type de carburant..."
+                    optionFilterProp="label"
+                    size="large"
+                  />
+                }
+              </Form.Item>
+            </Col>
             <Col span={24} className="vehicule-actions">
               <Space size="middle">
                 <Tooltip title="Enregistrer ce véhicule">
@@ -257,7 +301,7 @@ useEffect(() => {
                     className="vehicule-btn shine-btn"
                     size="large"
                   >
-                    Enregistrer
+                  {iDvehicule_carburant ? 'Modifier' : 'Enregistrer'}
                   </Button>
                 </Tooltip>
 

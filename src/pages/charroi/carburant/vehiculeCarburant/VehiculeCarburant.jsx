@@ -23,7 +23,7 @@ import {
 } from "@ant-design/icons";
 import { getCarburantVehicule } from '../../../../services/carburantService';
 import RelierCarburantVehicule from '../relierCarburantVehicule/RelierCarburantVehicule';
-import CarburantVehiculeForm from '../carburantVehiculeForm/CarburantVehiculeForm';
+import CarburantVehiculeForm from './carburantVehiculeForm/CarburantVehiculeForm';
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -102,6 +102,9 @@ const VehiculeCarburant = () => {
     },
     { title: "Marque", dataIndex: "nom_marque", key: "nom_marque" },
     { title: "Modèle", dataIndex: "nom_modele", key: "nom_modele" },
+    { title: "Type carb.", dataIndex: "nom_type_carburant", key: "nom_type_carburant", render:(text) => (
+        <div>{text}</div>
+    )},
     {
       title: "Immatric.",
       dataIndex: "immatriculation",
@@ -206,7 +209,7 @@ const VehiculeCarburant = () => {
         </Modal>
 
         <Modal
-            open={modalType === "Add"}
+            open={modalType === "Modify"}
             onCancel={closeAllModals}
             footer={null}
             width={850}
