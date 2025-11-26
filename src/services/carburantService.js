@@ -7,8 +7,12 @@ export const getCarburantVehicule = async () => {
   return axios.get(`${DOMAIN}/api/carburant/vehicule_carburant`);
 };
 
-export const getCarburantVehiculeOne = async () => {
-  return axios.get(`${DOMAIN}/api/carburant/vehicule_carburantOne`);
+export const getCarburantVehiculeOne = async (id_vehicule_carburant) => {
+  return axios.get(`${DOMAIN}/api/carburant/vehicule_carburantOne`, {
+    params:{
+      id_vehicule_carburant
+    }
+  });
 };
 
 export const postCarburantVehicule = async (data) => {

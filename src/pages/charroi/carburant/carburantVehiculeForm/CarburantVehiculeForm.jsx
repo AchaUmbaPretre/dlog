@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   Button,
   Form,
@@ -25,7 +25,7 @@ import {
   SaveOutlined,
   CheckCircleOutlined,
 } from "@ant-design/icons";
-import { postCarburantVehicule } from "../../../../services/carburantService";
+import { getCarburantVehiculeOne, postCarburantVehicule } from "../../../../services/carburantService";
 import "./carburantVehiculeForm.scss";
 
 const { Title, Text } = Typography;
@@ -34,7 +34,7 @@ const { Title, Text } = Typography;
 const marques = ["Toyota", "Ford", "Honda", "BMW", "Mercedes"];
 const modeles = ["Corolla", "Civic", "Mustang", "X5", "Sprinter"];
 
-export default function CarburantVehiculeForm({ closeModal, fetchData }) {
+export default function CarburantVehiculeForm({ closeModal, fetchData, iDvehicule_carburant }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -42,6 +42,26 @@ export default function CarburantVehiculeForm({ closeModal, fetchData }) {
   const [filteredMarques, setFilteredMarques] = useState([]);
   const [filteredModeles, setFilteredModeles] = useState([]);
   const progressRef = useRef(null);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const { data } = await getCarburantVehiculeOne(iDvehicule_carburant);
+        form.setFieldsValue(data[0]);
+    } catch (error) {
+      notification.error({
+        message: "Erreur de chargement",
+        description: "Impossible de récupérer les données carburant.",
+        placement: "topRight",
+      });
+    }
+  };
+
+  if (iDvehicule_carburant) { 
+    fetchData();
+  }
+}, [iDvehicule_carburant]);
+
 
   const startProgress = () => {
     setProgress(10);

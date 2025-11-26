@@ -34,13 +34,22 @@ const VehiculeCarburant = () => {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-
+  const [id, setId] = useState(null);
   const closeAllModals = () => setModalType(null);
-  const openModal = (type) => setModalType(type);
+
+  const openModal = (type, id='') => {
+        setModalType(type);
+        setId(id)
+  } 
 
   const handleRelier = () => {
     openModal('Relier')
   };
+
+  const handleModify = (id) => {
+    openModal('Modify', id)
+  };
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -112,12 +121,11 @@ const VehiculeCarburant = () => {
       width: "90px",
       render: (record) => (
         <Space>
-            <Tooltip title="Supprimer">
+            <Tooltip title="Modifier">
             <Button
                 type="text"
                 icon={<FormOutlined />}
-                onClick={() => handleDelete(record)}
-
+                onClick={() => handleModify(record.id_vehicule_carburant)}
             />
             </Tooltip>
             <Tooltip title="Supprimer">
@@ -125,7 +133,7 @@ const VehiculeCarburant = () => {
                 type="text"
                 danger
                 icon={<DeleteOutlined />}
-                onClick={() => handleDelete(record)}
+                onClick={() => handleDelete(record.id_vehicule_carburant)}
             />
             </Tooltip>
         </Space>
@@ -195,6 +203,17 @@ const VehiculeCarburant = () => {
             destroyOnClose
         >
             <CarburantVehiculeForm closeModal={closeAllModals} fetchData={fetchData} />
+        </Modal>
+
+        <Modal
+            open={modalType === "Add"}
+            onCancel={closeAllModals}
+            footer={null}
+            width={850}
+            centered
+            destroyOnClose
+        >
+            <CarburantVehiculeForm closeModal={closeAllModals} fetchData={fetchData} iDvehicule_carburant={id} />
         </Modal>
 
         <Modal
