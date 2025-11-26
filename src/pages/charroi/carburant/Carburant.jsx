@@ -12,7 +12,8 @@ import {
   notification,
   Empty,
   Checkbox,
-  Tooltip
+  Tooltip,
+  Skeleton
 } from "antd";
 import {
   CarOutlined,
@@ -343,35 +344,41 @@ const columns = useMemo(() => {
         }
       >
         <div className="kpi-wrapper">
-
           <CarburantKpi
             icon={<DashboardOutlined />}
             title="Total KM actuel"
-            value={`${formatNumber(totalKmActuel)} km`}
+            value={
+              loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : `${formatNumber(totalKmActuel)} km`
+            }
             color="linear-gradient(135deg, #1677ff7e, #69b1ff)"
           />
 
           <CarburantKpi
             icon={<FireOutlined />}
             title="Totale Consom/100km"
-            value={`${formatNumber(totalConsommation)} L`}
+            value={
+              loading ? <Skeleton.Input style={{ width: 60 }} active size="small" /> : `${formatNumber(totalConsommation)} L`
+            }
             color="linear-gradient(135deg, #ff4d5042, #ff7875)"
           />
 
           <CarburantKpi
             icon={<CarOutlined />}
             title="Distance moyenne"
-            value={`${formatNumber(distanceMoyenne)} km`}
+            value={
+              loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : `${formatNumber(distanceMoyenne)} km`
+            }
             color="linear-gradient(135deg, #53c41a4f, #95de64)"
           />
 
           <CarburantKpi
             icon={<DollarOutlined />}
             title="Montant total ($)"
-            value={formatNumber(montantTotalUsd, " $")}
+            value={
+              loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : formatNumber(montantTotalUsd, " $")
+            }
             color="linear-gradient(135deg, #722ed12c, #b37feb)"
           />
-
         </div>
 
         <Table
