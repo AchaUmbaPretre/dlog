@@ -27,7 +27,6 @@ try {
   console.warn('Impossible de lire le cache localStorage', err);
 }
 
-// -------- CHARROI LOCALISATION DETAIL --------
 const CharroiLocalisationDetail = ({ id }) => {
   const [vehicle, setVehicle] = useState(null);
   const [address, setAddress] = useState('');
@@ -43,7 +42,7 @@ const CharroiLocalisationDetail = ({ id }) => {
     const fetchData = async () => {
       try {
         const { data } = await getFalcon();
-        const items = data?.[0]?.items || [];
+        const items = Array.isArray(data) && data.length > 0 ? data[0].items || [] : [];
         const selected = items.find(v => v.id === id);
         if (!selected) throw new Error('Véhicule introuvable');
         setVehicle(selected);
