@@ -4,11 +4,23 @@ import config from '../config';
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 export const getCarburantVehicule = async () => {
-    return axios.get(`${DOMAIN}/api/carburant/vehicule_carburant`);
+  return axios.get(`${DOMAIN}/api/carburant/vehicule_carburant`);
+};
+
+export const getCarburantVehiculeOne = async () => {
+  return axios.get(`${DOMAIN}/api/carburant/vehicule_carburantOne`);
 };
 
 export const postCarburantVehicule = async (data) => {
   return axios.post(`${DOMAIN}/api/carburant/vehicule_carburant`, data);
+};
+
+export const putCarburantVehicule = async (id_vehicule_carburant) => {
+    return axios.put(`${DOMAIN}/api/carburant/vehicule_carburant`, {
+      params: {
+        id_vehicule_carburant
+      }
+    });
 };
 
 export const putRelierCarburantVehicule = async (id, data) => {

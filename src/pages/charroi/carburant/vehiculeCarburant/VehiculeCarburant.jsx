@@ -19,6 +19,7 @@ import {
   DeleteOutlined,
   ReloadOutlined,
   ExclamationCircleOutlined,
+  FormOutlined
 } from "@ant-design/icons";
 import { getCarburantVehicule } from '../../../../services/carburantService';
 import RelierCarburantVehicule from '../relierCarburantVehicule/RelierCarburantVehicule';
@@ -108,16 +109,26 @@ const VehiculeCarburant = () => {
       title: "Actions",
       key: "actions",
       align: "center",
-      fixed: "right",
+      width: "90px",
       render: (record) => (
-        <Tooltip title="Supprimer">
-          <Button
-            type="text"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record)}
-          />
-        </Tooltip>
+        <Space>
+            <Tooltip title="Supprimer">
+            <Button
+                type="text"
+                icon={<FormOutlined />}
+                onClick={() => handleDelete(record)}
+
+            />
+            </Tooltip>
+            <Tooltip title="Supprimer">
+            <Button
+                type="text"
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => handleDelete(record)}
+            />
+            </Tooltip>
+        </Space>
       ),
     },
   ];
