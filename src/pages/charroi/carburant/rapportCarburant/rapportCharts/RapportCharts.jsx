@@ -15,7 +15,7 @@ import {
 } from "chart.js";
 import "./rapportChart.scss";
 
-// ---- DOUGHNUT 3D PLUGIN ---- //
+//DOUGHNUT 3D PLUGIN
 const doughnut3DPlugin = {
   id: "doughnut3DPlugin",
   beforeDraw(chart) {
@@ -115,7 +115,7 @@ const vehiculeDataUSD = {
 };
 
 
-  // === Évolution du coût par semaine ===
+  //Évolution du coût par semaine
   const coutLabels = coutHebdo.map((c) => `Semaine ${c.semaine}`);
   const coutData = {
     labels: coutLabels,
@@ -141,7 +141,7 @@ const vehiculeDataUSD = {
     ],
   };
 
-  // === Répartition du carburant ===
+  //Répartition du carburant
   const generateProColors = (count) => {
     const arr = [];
     const step = 360 / count;
@@ -193,7 +193,6 @@ const vehiculeDataUSD = {
         duration: 1200,
       },
   };
-
 
   return (
     <section className="card charts">
