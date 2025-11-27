@@ -275,7 +275,10 @@ const columns = useMemo(() => {
         </Text>
       ),
     },
-    { title: "Créé par", dataIndex: "createur", key: "createur", render: (text) => (
+    { title: "Créé par", 
+      dataIndex: "createur", 
+      key: "createur", 
+      render: (text) => (
       <Text>{text ?? 'N/A'}</Text>
     )},
   ];
