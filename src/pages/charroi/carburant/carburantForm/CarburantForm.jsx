@@ -34,6 +34,7 @@ import './carburantForm.scss';
 import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
 import moment from 'moment';
 import ConfirmModal from '../../../../components/confirmModal/ConfirmModal';
+import { useSelector } from 'react-redux';
 
 const CarburantForm = ({ closeModal, fetchData }) => {
   const [form] = Form.useForm();
@@ -57,6 +58,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
   const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [forceConfirmation, setForceConfirmation] = useState(false); // Pour le 409
   const [confirmationMessage, setConfirmationMessage] = useState(""); // Message spécifique 409
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const fetchDatas = async () => {
     try {
@@ -149,6 +151,7 @@ const CarburantForm = ({ closeModal, fetchData }) => {
       prix_usd: prixUSD,
       montant_total_cdf: montantTotalCDF,
       montant_total_usd: montantTotalUSD,
+      user_cr: userId
     };
 
     setPendingPayload(payload);
