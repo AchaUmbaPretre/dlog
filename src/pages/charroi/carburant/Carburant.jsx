@@ -60,7 +60,8 @@ const Carburant = () => {
     "P.U ($)": false,
     "Date opération": true,
     "M. ($)": true,
-    "M. (CDF)": true
+    "M. (CDF)": true,
+    "Créé par" : false
   });
 
   // --- KPI Calculations ---
@@ -274,6 +275,7 @@ const columns = useMemo(() => {
         </Text>
       ),
     },
+    { title: "Créé par", dataIndex: "createur", key: "createur" },
   ];
 
   return allColumns.filter((col) => columnsVisibility[col.title] !== false);
