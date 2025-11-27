@@ -52,7 +52,6 @@ const CharroiLocalisation = () => {
   };
 
     useEffect(() => {
-        // Chargement initial
         fetchData();
 
         const interval = setInterval(() => {

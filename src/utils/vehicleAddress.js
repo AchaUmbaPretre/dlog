@@ -62,8 +62,7 @@ export const VehicleAddress = memo(({ record }) => {
         {isSignalLost && (
           <WifiOutlined
             style={{
-              color: "#ff4d4f", // rouge pour signal perdu
-              fontSize: 18,
+              color: "#ff4d4f",
             }}
           />
         )}

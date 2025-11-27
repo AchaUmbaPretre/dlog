@@ -8,24 +8,16 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Tooltip as ChartTooltip,
-  Legend
+  Tooltip,
+  Legend,
 } from 'chart.js';
 import { getFalcon } from '../../../../../services/rapportService';
 import './charroiLocalisationDetail.scss';
 import { fetchAddress } from '../../../../../utils/fetchAddress';
 import { CharroiLeaflet } from '../../../../../components/charroiLeaflet/CharroiLeaflet';
+import TailAddresses from './tailAddresses/TailAddresses';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ChartTooltip, Legend);
-
-// -------- CACHE PERSISTANT --------
-let addressCache = {};
-try {
-  const stored = localStorage.getItem('vehicleAddressCache');
-  if (stored) addressCache = JSON.parse(stored);
-} catch (err) {
-  console.warn('Impossible de lire le cache localStorage', err);
-}
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 const CharroiLocalisationDetail = ({ id }) => {
   const [vehicle, setVehicle] = useState(null);
@@ -34,7 +26,6 @@ const CharroiLocalisationDetail = ({ id }) => {
   const [error, setError] = useState('');
   const [speedData, setSpeedData] = useState([]);
   const [engineData, setEngineData] = useState([]);
-  const API_KEY = 'f7c5292b587d4fff9fb1d00f3b6f3f73';
 
   useEffect(() => {
     let interval;
@@ -50,8 +41,10 @@ const CharroiLocalisationDetail = ({ id }) => {
         const addr = await fetchAddress(selected);
         setAddress(addr);
 
-        setSpeedData(prev => [...prev.slice(-9), selected?.speed || 0]);
-        setEngineData(prev => [...prev.slice(-9), selected.sensors?.find(s => s.type === 'engine')?.val ? 1 : 0]);
+        // Mise à jour des datas proprement
+        setSpeedData(prev => [...prev.slice(-9), Number(selected?.speed || 0)]);
+        const engineVal = selected.sensors?.find(s => s.type === 'engine')?.val ? 1 : 0;
+        setEngineData(prev => [...prev.slice(-9), engineVal]);
       } catch (err) {
         setError(err.message || 'Erreur lors du chargement des données.');
         notification.error({
@@ -78,28 +71,66 @@ const CharroiLocalisationDetail = ({ id }) => {
     </Tag>
   ));
 
-  const safeSpeedData = (speedData && speedData.length > 0 ? speedData : [0]).map(v => Number(v) || 0);
-  const safeEngineData = (engineData && engineData.length > 0 ? engineData : [0]).map(v => Number(v) || 0);
-
   const chartData = {
-    labels: speedData.length ? speedData.map((_, i) => i + 1) : [0],
+    labels: Array.from({ length: Math.max(speedData.length, engineData.length) }, (_, i) => i + 1),
     datasets: [
-      { label: 'Vitesse (km/h)', data: speedData.length ? speedData : [0], fill: false, borderColor: 'blue', tension: 0.3 },
-      { label: 'Moteur (On=1, Off=0)', data: engineData.length ? engineData : [0], fill: false, borderColor: 'red', tension: 0.3 },
+      {
+        label: 'Vitesse (km/h)',
+        data: speedData,
+        borderColor: 'blue',
+        backgroundColor: 'blue',
+        yAxisID: 'y',
+        tension: 0.3,
+        fill: false,
+      },
+      {
+        label: 'Moteur (On=1, Off=0)',
+        data: engineData,
+        borderColor: 'red',
+        backgroundColor: 'red',
+        yAxisID: 'y1',
+        tension: 0.3,
+        fill: false,
+      },
     ],
   };
 
-  const chartOptions = { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0 } } };
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // très important pour que le chart s'affiche
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: { mode: 'index', intersect: false },
+    },
+    interaction: { mode: 'nearest', axis: 'x', intersect: false },
+    scales: {
+      y: {
+        type: 'linear',
+        position: 'left',
+        beginAtZero: true,
+        title: { display: true, text: 'Vitesse (km/h)' },
+      },
+      y1: {
+        type: 'linear',
+        position: 'right',
+        beginAtZero: true,
+        max: 1,
+        title: { display: true, text: 'Moteur' },
+        grid: { drawOnChartArea: false },
+      },
+      x: { title: { display: true, text: 'Derniers signaux' } },
+    },
+  };
 
   return (
     <div className="charroi_local_detail">
       <div className="charroi_top">
         <div className="charroi_top_left">
           <h3 className="charroi_h3">
-            {vehicle.name} <Tag color={vehicle.online === 'online' ? 'green' : 'red'}>{vehicle.online.toUpperCase()}</Tag>
+            {vehicle.name}{' '}
+            <Tag color={vehicle.online === 'online' ? 'green' : 'red'}>{vehicle.online.toUpperCase()}</Tag>
           </h3>
           <span className="charroi_desc">{address || '-'}</span>
-          <div>Plate: {vehicle.plate_number || vehicle.registration_number}</div>
         </div>
         <div className="charroi_top_right">
           <span className="charroi_desc">Dernier signal : {vehicle.time}</span>
@@ -111,61 +142,37 @@ const CharroiLocalisationDetail = ({ id }) => {
       <div className="charroi_local">
         <div className="charroi_local_left">
           <CharroiLeaflet vehicle={vehicle} address={address} />
-
-          {safeSpeedData.length > 0 && safeEngineData.length > 0 && (
-            <Line data={chartData} options={chartOptions} />
-          )}
-
         </div>
-
+        <div className="charroi_infos">
+          <Card title="Informations générales" bordered style={{ marginTop: 20 }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)'}}>
+              <p>
+                <InteractionOutlined /> Statut: {vehicle.online === 'online' ? 'En mouvement' : 'Arrêté'}
+              </p>
+              <p>
+                <UserOutlined /> Course: {vehicle.course}°
+              </p>
+              <p>
+                <ClockCircleOutlined /> Stop durée: {vehicle.stop_duration}
+              </p>
+              <p>
+                <DashboardOutlined /> Distance totale: {vehicle.total_distance} km
+              </p>
+              <p>
+                <DashboardOutlined /> Odomètre virtuel: {vehicle.odometer || 0} km
+              </p>
+              <p>
+                <AlertOutlined /> Alarm: {vehicle.alarm}
+              </p>
+              {sensors && <div className="sensors">{sensors}</div>}
+            </div>
+          </Card>
+        </div>
         <div className="charroi_local_right">
-          <Card title="Informations générales" bordered style={{ marginBottom: 20 }}>
-            <p><InteractionOutlined /> Statut: {vehicle.online === 'online' ? 'En mouvement' : 'Arrêté'}</p>
-            <p><UserOutlined /> Course: {vehicle.course}°</p>
-            <p><ClockCircleOutlined /> Stop durée: {vehicle.stop_duration}</p>
-            <p><DashboardOutlined /> Distance totale: {vehicle.total_distance} km</p>
-            <p><DashboardOutlined /> Odomètre virtuel: {vehicle.odometer || 0} km</p>
-            <p><AlertOutlined /> Alarm: {vehicle.alarm}</p>
-            {sensors && <div className="sensors">{sensors}</div>}
+          <Card title="Graphique vitesse / moteur" bordered style={{ marginBottom: 20, flex: 2 }}>
+            <Line data={chartData} options={chartOptions} />
           </Card>
-
-          <Card title="Dernières positions" bordered>
-            {vehicle.latest_positions?.split(';').map((pos, i) => {
-              const [lat, lng] = pos.split('/');
-              return <p key={i}>#{i + 1}: Lat {lat}, Lng {lng}</p>;
-            })}
-          </Card>
-
-          {vehicle.tail?.length > 0 && (
-            <Card title="Trajectoire (tail)" bordered style={{ marginTop: 20 }}>
-                {vehicle?.tail.map((t, i) => {
-                const lat = parseFloat(t.lat);
-                const lng = parseFloat(t.lng);
-                const key = `${lat}_${lng}`;
-                // Vérifier si adresse déjà en cache
-                const addr = addressCache[key] || '-';
-
-                // Si pas en cache, lancer reverse geocoding async
-                if (!addressCache[key]) {
-                    fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${API_KEY}&language=fr`                    )
-                    .then(res => res.json())
-                    .then(data => {
-                        const a = data?.results?.[0]?.formatted || "";
-                        addressCache[key] = a;
-                        try { localStorage.setItem('vehicleAddressCache', JSON.stringify(addressCache)); } catch {}
-                    })
-                    .catch(err => console.error('Erreur reverse geocoding tail:', err));
-                }
-
-                return (
-                    <p key={i}>
-                    #{i + 1}: Adresse: {addr}
-                    </p>
-                );
-                })}
-            </Card>
-          )}
-
+          <TailAddresses vehicle={vehicle} />
         </div>
       </div>
     </div>

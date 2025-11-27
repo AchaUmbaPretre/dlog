@@ -26,6 +26,7 @@
     }
     .charroi_local{
         display: flex;
+        flex-direction: column;
         gap: 10px;
         width: 100%;
         margin-top: 20px;
@@ -39,7 +40,8 @@
             gap: 20px;
         }
         .charroi_local_right{
-            flex: 1;
+            display: flex;
+            gap: 10px;
             border-radius: 16px;
             padding: 10px;
             box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
