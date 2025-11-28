@@ -18,7 +18,6 @@ import {
 import {
   CarOutlined,
   DashboardOutlined,
-  DollarOutlined,
   UserOutlined,
   PrinterOutlined,
   FireOutlined,
