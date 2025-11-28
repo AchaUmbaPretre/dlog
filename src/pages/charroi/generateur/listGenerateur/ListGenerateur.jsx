@@ -41,6 +41,7 @@ const ListGenerateur = () => {
   const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
+    Marque: true
   });
 
   const closeAllModals = () => setModalType(null);
@@ -89,8 +90,9 @@ const ListGenerateur = () => {
             render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
         },
         {   title:"Marque", dataIndex: "marque", key: "marque"}
-    ]
-  });
+    ];
+    return allColumns.filter((col) => columnsVisibility[col.title] !== false);
+  }, [pagination, columnsVisibility]);
 
   const filteredData = useMemo(() => {
     const search = searchValue.toLowerCase().trim();
