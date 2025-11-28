@@ -38,7 +38,7 @@ const Generateur = () => {
                         </span>
                     }
                 >
-                {/*<RapportCarburant />*/}            
+                    <RapportCarburant />           
                 </Tabs.TabPane>
         </Tabs>
     </div>
