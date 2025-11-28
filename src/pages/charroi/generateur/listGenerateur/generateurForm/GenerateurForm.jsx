@@ -151,14 +151,39 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Numéro d'ordre (optionnel)" />}
+                                {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Entrer le code groupe" />}
                             </Form.Item>
                         </Col>
-                        
+                        <Col xs={24} md={8}>
+                            <Form.Item
+                                name="id_type_gen"
+                                label="Type générateur"
+                                rules={[
+                                    {
+                                        required: false,
+                                        message: 'Veuillez fournir un lubrifiant moteur...',
+                                    },
+                                ]}
+                            >
+                                {
+                                    loadingData ? <Skeleton.Input active={true} /> : 
+                                    <Select
+                                        showSearch
+                                        allowClear
+                                        options={lubrifiant.map((item) => ({
+                                            value: item.id_lubrifiant                                          ,
+                                            label: item.nom_lubrifiant,
+                                        }))}
+                                        placeholder="Sélectionnez un lubrifiant..."
+                                        optionFilterProp="label"
+                                    />
+                                }
+                            </Form.Item>
+                        </Col>
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_marque"
-                                label="Marque"
+                                label="Marque du générateur"
                                 rules={[
                                     {
                                         required: true,
@@ -172,8 +197,8 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                     showSearch
                                     allowClear
                                     options={marque.map((item) => ({
-                                        value: item.id_marque                                           ,
-                                        label: item.nom_marque,
+                                        value: item.id                                           ,
+                                        label: item?.nom,
                                     }))}
                                     placeholder="Sélectionnez une marque..."
                                     optionFilterProp="label"
@@ -349,7 +374,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                         </Col>
 
                         <Col xs={24} md={8}>
-                            <Form.Item name="img" label="Image du Véhicule">
+                            <Form.Item name="img" label="Image du générateur">
                                 <Upload  
                                     accept="image/*"
                                     listType="picture-card"
@@ -514,6 +539,21 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
 
+                         <Col xs={24} md={8}>
+                            <Form.Item
+                                name="tension"
+                                label="Tension"
+                                rules={[
+                                    {
+                                        required: false,
+                                        message: 'Veuillez fournir la tension...',
+                                    },
+                                ]}
+                            >
+                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la tension" style={{width:'100%'}}/>}
+                            </Form.Item>
+                        </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_transmission"
@@ -536,19 +576,19 @@ const GenerateurForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="id_climatisation"
-                                label="Climatisation"
+                                name="refroidissement"
+                                label="Refroidissement"
                                 rules={[
                                     {
                                         required: false,
-                                        message: 'Veuillez fournir une climatisation...',
+                                        message: 'Veuillez fournir un refroidissement...',
                                     },
                                 ]}
                             >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select placeholder="Choisir une climatisation">
-                                    <Option value="1">Climatisation 1</Option>
-                                    <Option value="2">Climatisation 2</Option>
+                                <Select placeholder="Choisir un refroidissement">
+                                    <Option value="1">refroidissement 1</Option>
+                                    <Option value="2">refroidissement 2</Option>
                                 </Select>
                                 }
                             </Form.Item>
