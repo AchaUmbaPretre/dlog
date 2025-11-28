@@ -29,6 +29,7 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
+import GenerateurForm from "./generateurForm/GenerateurForm";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -172,6 +173,17 @@ const ListGenerateur = () => {
           bordered
         />
       </Card>
+
+      <Modal
+        open={modalType === "Add"}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+        destroyOnClose
+      >
+        <GenerateurForm closeModal={closeAllModals} fetchData={fetchData} />
+      </Modal>
     </div>
   )
 }
