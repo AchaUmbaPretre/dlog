@@ -4,6 +4,8 @@ import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import {
   ThunderboltOutlined
 } from '@ant-design/icons';
+import ListGenerateur from './listGenerateur/ListGenerateur';
+import ListTypeGenerateur from './listTypeGenerateur/ListTypeGenerateur';
 
 const Generateur = () => {
     const [activeKey, setActiveKey] = useState('1');
@@ -27,8 +29,8 @@ const Generateur = () => {
                     </span>
                 }
             >
-{/*                 <RapportCarburant />
- */}            </Tabs.TabPane>
+                <ListGenerateur />  
+            </Tabs.TabPane>
                 <Tabs.TabPane
                     key="2"
                     tab={
@@ -38,7 +40,7 @@ const Generateur = () => {
                         </span>
                     }
                 >
-                    <RapportCarburant />           
+                    <ListTypeGenerateur />           
                 </Tabs.TabPane>
         </Tabs>
     </div>
