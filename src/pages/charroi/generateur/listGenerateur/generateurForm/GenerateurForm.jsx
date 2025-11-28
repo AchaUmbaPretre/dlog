@@ -211,47 +211,6 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col> }
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="annee_fabrication"
-                                label="Année de fabrication"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir un numero de chassis',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :  
-                                    <DatePicker 
-                                        picker="year" 
-                                        style={{width:'100%'}}
-                                        placeholder="Sélectionnez une année" 
-                                    />
-                                }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="annee_service"
-                                label="Mise en service"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir l année mise en service',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <DatePicker 
-                                    picker="year" 
-                                    placeholder="Sélectionnez une année" 
-                                    style={{width:'100%'}}
-                                />}
-                            </Form.Item>
-                        </Col>
-
                         <Divider className='title_row'>Dimensions et Poids</Divider>
 
                         <Col xs={24} md={8}>
@@ -376,16 +335,16 @@ const GenerateurForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="nbre_portes"
-                                label="Nombre portes"
+                                name="nbr_phase"
+                                label="Nombre de phase"
                                 rules={[
                                     {
                                         required: false,
-                                        message: 'Veuillez fournir le nombre porte...',
+                                        message: 'Veuillez fournir un nombre de moteur...',
                                     },
                                 ]}
                             >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la capacité cartel..." style={{width:'100%'}} />}
+                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le nombre de moteur..." style={{width:'100%'}} />}
                             </Form.Item>
                         </Col>
 
@@ -404,20 +363,6 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                         </Col>
 
                         <Divider className='title_row'>Moteur</Divider>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="nbre_moteur"
-                                label="Nombre moteur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un nombre de moteur...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le nombre de moteur..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
 
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -516,24 +461,6 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             </Form.Item>
                         </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="consommation_carburant"
-                                label="Consommation carburant"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une Consommation carburant...',
-                                    },
-                                ]}
-                            >
-                                <Radio.Group>
-                                    <Radio value={1}>OUI</Radio>
-                                    <Radio value={2}>NON</Radio>
-                                </Radio.Group>
-                            </Form.Item>
-                        </Col>
-
                         <Divider className='title_row'>Information complementaires</Divider>
                         <Col xs={24} md={8}>
                             <Form.Item
@@ -553,16 +480,22 @@ const GenerateurForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="km_initial"
-                                label="Km initial"
+                                name="annee_fabrication"
+                                label="Année de fabrication"
                                 rules={[
                                     {
-                                        required: false,
-                                        message: 'Veuillez fournir un km initial...',
+                                        required: true,
+                                        message: 'Veuillez fournir un numero de chassis',
                                     },
                                 ]}
                             >
-                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir le km initial" style={{width:'100%'}}/>}
+                                {loadingData ? <Skeleton.Input active={true} /> :  
+                                    <DatePicker 
+                                        picker="year" 
+                                        style={{width:'100%'}}
+                                        placeholder="Sélectionnez une année" 
+                                    />
+                                }
                             </Form.Item>
                         </Col>
 
