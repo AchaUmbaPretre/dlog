@@ -26,6 +26,9 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     const [modele, setModele] = useState([]);
     const [geneType, setGeneType] = useState([]);
     const [refroidissement, setRefroidissement] = useState([]);
+    const [confirmationMessage, setConfirmationMessage] = useState(""); // Message spécifique 409
+    const [pendingPayload, setPendingPayload] = useState(null);
+    const [confirmVisible, setConfirmVisible] = useState(false);
 
     const fetchDatas = async () => {
         try {
@@ -59,27 +62,37 @@ const GenerateurForm = ({closeModal, fetchData}) => {
         fetchDatas()
     }, [iDmarque])
 
+    const handleSubmit = (values) => {
+        const payload = {
+            ...values
+        };
+
+        setPendingPayload(payload);
+        setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations carburant ?");
+        setConfirmVisible(true);
+    }
     const onFinish = async (values) => {
+        if (!pendingPayload) return;
 
         setLoading(true)
         try {
             message.loading({ content: 'En cours...', key: 'submit' });
 
-            if(values.date_service) {
-                values.date_service =  values.date_service ? moment(values.date_service).format('YYYY-MM-DD') : null;
+            if(pendingPayload.date_service) {
+                pendingPayload.date_service =  pendingPayload.date_service ? moment(pendingPayload.date_service).format('YYYY-MM-DD') : null;
 
             }
             if (fileList.length > 0) {
-                values.img = fileList[0].originFileObj;
+                pendingPayload.img = fileList[0].originFileObj;
             }
-            if (values.annee_circulation) {
-                values.annee_circulation = values.annee_circulation.format("YYYY");
+            if (pendingPayload.annee_circulation) {
+                pendingPayload.annee_circulation = pendingPayload.annee_circulation.format("YYYY");
             }
-            if (values.annee_fabrication) {
-                values.annee_fabrication = values.annee_fabrication.format("YYYY");
+            if (pendingPayload.annee_fabrication) {
+                pendingPayload.annee_fabrication = pendingPayload.annee_fabrication.format("YYYY");
             }
 
-            await postGenerateur(values)
+            await postGenerateur(pendingPayload)
 
             message.success({ content: 'le générateur a été ajouté avec succès!', key: 'submit' });
 
@@ -87,9 +100,13 @@ const GenerateurForm = ({closeModal, fetchData}) => {
             closeModal();
             fetchData();
 
+            setConfirmVisible(false);
+            setPendingPayload(null);
         } catch (error) {
             message.error({ content: 'Une erreur est survenue.', key: 'submit' });
             console.error('Erreur lors de l\'ajout du chauffeur:', error);
+            setConfirmVisible(false);
+            setPendingPayload(null);
         } finally {
             setLoading(false);
         }

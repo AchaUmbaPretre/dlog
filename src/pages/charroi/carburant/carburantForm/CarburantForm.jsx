@@ -98,7 +98,6 @@ const CarburantForm = ({ closeModal, fetchData }) => {
     fetchDatas();
   }, [vehiculeData, carburantId, idType]);
 
-  // Chargement des véhicules, chauffeurs et fournisseurs
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
     try {
