@@ -400,7 +400,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                     <Upload
                                         accept="image/*"
                                         listType="picture-card"
-                                        maxCount={1}                // 👉 Une seule image
+                                        maxCount={1}
                                         fileList={fileList}
                                         onChange={handleUploadChange}
                                         beforeUpload={() => false}
