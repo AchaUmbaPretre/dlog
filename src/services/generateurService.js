@@ -5,8 +5,8 @@ import config from '../config';
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 export const getTypeGenerateur = async () => {
-    return axios.get(`${DOMAIN}/api/generateur/type_generateur`);
-  };
+  return axios.get(`${DOMAIN}/api/generateur/type_generateur`);
+};
 
 export const postTypeGenerateur = async (data) => {
   return axios.post(`${DOMAIN}/api/generateur/type_generateur`, data);
