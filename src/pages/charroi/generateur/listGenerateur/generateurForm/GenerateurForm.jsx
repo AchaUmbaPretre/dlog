@@ -17,7 +17,6 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     const [lubrifiant, setLubrifiant] = useState([]);
     const [marque, setMarque] = useState([]);
     const [iDmarque, setIdMarque] = useState('');
-    const [catVehicule, setCatVehicule] = useState([]);
     const [fileList, setFileList] = useState([]);
     const [previewImage, setPreviewImage] = useState('');
     const [cropping, setCropping] = useState(false);
@@ -161,7 +160,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                 rules={[
                                     {
                                         required: false,
-                                        message: 'Veuillez fournir un lubrifiant moteur...',
+                                        message: 'Veuillez fournir un générateur...',
                                     },
                                 ]}
                             >

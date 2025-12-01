@@ -89,7 +89,11 @@ const ListGenerateur = () => {
             align: "center",
             render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
         },
-        {   title:"Marque", dataIndex: "marque", key: "marque"}
+        {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
+        {   title:"Marque", dataIndex: "marque", key: "marque"},
+        {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle"},
+        {   title:"Type gen.", dataIndex: "type_gen", key: "type_gen"},
+        {   title:"Num serie.", dataIndex: "num_serie", key: "num_serie"},
     ];
     return allColumns.filter((col) => columnsVisibility[col.title] !== false);
   }, [pagination, columnsVisibility]);

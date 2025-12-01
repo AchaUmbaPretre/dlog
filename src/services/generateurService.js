@@ -4,6 +4,22 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+export const getTypeGenerateur = async (user) => {
+    return axios.get(`${DOMAIN}/api/generateur/type_generateur`);
+  };
+
+export const postTypeGenerateur = async (data) => {
+  return axios.post(`${DOMAIN}/api/generateur/type_generateur`, data);
+};
+
+export const getMarqueGenerateur  = async () => {
+  return axios.get(`${DOMAIN}/api/generateur/marque_generateur`);
+};
+
+export const postMarqueGenerateur = async (data) => {
+  return axios.post(`${DOMAIN}/api/generateur/postMarqueGenerateur`, data);
+};
+
 export const getGenerateur = async (user) => {
     return axios.get(`${DOMAIN}/api/generateur`);
   };
