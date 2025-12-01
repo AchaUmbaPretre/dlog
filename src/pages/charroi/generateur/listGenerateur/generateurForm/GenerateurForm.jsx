@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
-import { getMarqueGenerateur, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
+import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 const { Option } = Select;
 
@@ -45,10 +45,10 @@ const GenerateurForm = ({closeModal, fetchData}) => {
             setRefroidissement(refroiData.data)
             setLubrifiant(lubriData.data)
 
-/*             if(iDmarque) {
-                const { data : m} = await getModele(iDmarque)
+            if(iDmarque) {
+                const { data : m} = await getModeleGenerateurOne(iDmarque)
                 setModele(m)
-            } */
+            } 
             
         } catch (error) {
             console.log(error);
