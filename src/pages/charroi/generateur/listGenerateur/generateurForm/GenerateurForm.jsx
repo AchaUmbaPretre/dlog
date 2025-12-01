@@ -147,7 +147,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                 >
                     <Row gutter={24}>
                         <Divider className='title_row'>IDENTIFICATION</Divider>
-                        <Card type="inner" title="Identification" style={{width:'100%'}}>
+                        <Card type="inner" title="Identification" style={{width:'100%', marginBottom:'20px'}}>
                             <Row gutter={12}>
                                 <Col xs={24} md={8}>
                                         <Form.Item
@@ -402,105 +402,107 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             </Row>
                         </Card>
 
-                        <Divider className='title_row'>Moteur</Divider>
+                        <Card type="inner" title="MOTEUR" style={{width:'100%'}}>
+                            <Row gutter={12}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="cylindre"
+                                        label="Cylindre"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir le cylindre...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le cylindre..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="cylindre"
-                                label="Cylindre"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir le cylindre...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le cylindre..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="nbre_cylindre"
+                                        label="Nombre de cylindre"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir le Nombre de cylindre...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Entrer le Nombre de cylindre..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="nbre_cylindre"
-                                label="Nombre de cylindre"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir le Nombre de cylindre...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Entrer le Nombre de cylindre..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="disposition_cylindre"
+                                        label="Disposition"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir une disposition...',
+                                            },
+                                        ]}
+                                    >
+                                        { loadingData ? <Skeleton.Input active={true} /> : 
+                                            <Select
+                                                showSearch
+                                                allowClear
+                                                options={disposition.map((item) => ({
+                                                        value: item.id_disposition_cylindre                                          ,
+                                                        label: item.nom_disposition,
+                                                }))}
+                                                placeholder="Sélectionnez une disposition..."
+                                                optionFilterProp="label"
+                                            />
+                                        }
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="disposition_cylindre"
-                                label="Disposition"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une disposition...',
-                                    },
-                                ]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        showSearch
-                                        allowClear
-                                        options={disposition.map((item) => ({
-                                                value: item.id_disposition_cylindre                                          ,
-                                                label: item.nom_disposition,
-                                        }))}
-                                        placeholder="Sélectionnez une disposition..."
-                                        optionFilterProp="label"
-                                    />
-                                }
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="id_type_carburant"
+                                        label="Type carburant"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Veuillez fournir un type du carburant...',
+                                            },
+                                        ]}
+                                    >
+                                        { loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            showSearch
+                                            allowClear
+                                            options={typeCarburant.map((item) => ({
+                                                    value: item.id_type_carburant                                          ,
+                                                    label: item.nom_type_carburant,
+                                            }))}
+                                            placeholder="Sélectionnez un type de carburant..."
+                                            optionFilterProp="label"
+                                        />
+                                        }
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_type_carburant"
-                                label="Type carburant"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir un type du carburant...',
-                                    },
-                                ]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    allowClear
-                                    options={typeCarburant.map((item) => ({
-                                            value: item.id_type_carburant                                          ,
-                                            label: item.nom_type_carburant,
-                                    }))}
-                                    placeholder="Sélectionnez un type de carburant..."
-                                    optionFilterProp="label"
-                                />
-                                }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="regime_moteur"
-                                label="Regime moteur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un regime moteur...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input min={0} placeholder="Saisir le regime moteur" />}
-                            </Form.Item>
-                        </Col>
-
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="regime_moteur"
+                                        label="Regime moteur"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un regime moteur...',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : <Input min={0} placeholder="Saisir le regime moteur" />}
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Card>
+                        
                         <Divider className='title_row'>Information complementaires</Divider>
                         <Col xs={24} md={8}>
                             <Form.Item
