@@ -36,7 +36,7 @@ const Generateur = () => {
                     tab={
                         <span style={getTabStyle('2', activeKey)}>
                             <ThunderboltOutlined style={iconStyle('2', activeKey)} />
-                            Type des générateurs
+                            Les types
                         </span>
                     }
                 >
