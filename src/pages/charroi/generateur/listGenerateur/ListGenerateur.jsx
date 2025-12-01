@@ -42,7 +42,7 @@ const ListGenerateur = () => {
     "Type carburant": true,
     Puissance: false,
     "Nbre cylindre" : true,
-    "Vakeur acq." : false,
+    "Valeur acq." : false,
     Reservoir: true,
     Longueur: true,
     "Crée par": false
@@ -109,7 +109,7 @@ const ListGenerateur = () => {
         {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
         {   title:"Puissance", dataIndex: "puissance", key: "puissance"},
         {   title:"Nbre cylindre", dataIndex: "nbre_cylindre", key: "nbre_cylindre"},
-        {   title:"Vakeur acq.", dataIndex: "valeur_acquisition", key: "valeur_acquisition"},
+        {   title:"Valeur acq.", dataIndex: "valeur_acquisition", key: "valeur_acquisition"},
         {   title:"Reservoir", dataIndex: "reservoir", key: "reservoir"},
         {   title:"Largeur", dataIndex: "largeur", key: "largeur"},
         {   title:"Longueur", dataIndex: "longueur", key: "longueur"},
@@ -124,7 +124,10 @@ const ListGenerateur = () => {
     if(!search) return data;
     return data.filter(
         (item) =>
-            item.nom_marque?.toLowerCase().includes(search)
+            item.nom_marque?.toLowerCase().includes(search) || 
+            item.nom_modele?.toLowerCase().includes(search) || 
+            item.nom_type_gen?.toLowerCase().includes(search)
+
     );
   }, [data, searchValue])
 

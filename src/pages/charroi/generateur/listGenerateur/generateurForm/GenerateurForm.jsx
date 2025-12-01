@@ -8,7 +8,6 @@ import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTyp
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 import { useSelector } from 'react-redux';
-const { Option } = Select;
 
 const GenerateurForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
@@ -34,6 +33,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const fetchDatas = async () => {
+        setLoadingData(true)
         try {
             const [marqueData, dispoData, carburantData, typeGeneData, refroiData, lubriData] = await Promise.all([
                 getMarqueGenerateur(),
@@ -58,6 +58,8 @@ const GenerateurForm = ({closeModal, fetchData}) => {
             
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoadingData(false)
         }
     }
 
@@ -331,7 +333,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                             },
                                         ]}
                                     >
-                                        {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="100 L"  style={{width:'100%'}} />}
+                                        {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="100"  style={{width:'100%'}} />}
                                     </Form.Item>
                                 </Col>
 
