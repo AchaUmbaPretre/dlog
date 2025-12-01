@@ -560,26 +560,6 @@ const GenerateurForm = ({closeModal, fetchData}) => {
 
                         <Col xs={24} md={8}>
                             <Form.Item
-                                name="id_transmission"
-                                label="Transmission"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une transmission...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select placeholder="Choisir une Transmission">
-                                    <Option value="1">Transmission 1</Option>
-                                    <Option value="2">Transmission 2</Option>
-                                </Select>
-                                }
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
                                 name="refroidissement"
                                 label="Refroidissement"
                                 rules={[
