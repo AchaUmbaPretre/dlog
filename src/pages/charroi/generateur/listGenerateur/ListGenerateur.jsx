@@ -7,19 +7,13 @@ import {
   Space,
   Modal,
   Typography,
-  Tag,
   Card,
   notification,
   Empty,
   Checkbox,
-  Tooltip,
-  Skeleton
 } from "antd";
 import {
-  CarOutlined,
-  DashboardOutlined,
-  UserOutlined,
-  PrinterOutlined,
+
   FireOutlined,
   PlusCircleOutlined,
   CalendarOutlined,
@@ -29,6 +23,7 @@ import {
 } from "@ant-design/icons";
 import moment from "moment";
 import GenerateurForm from "./generateurForm/GenerateurForm";
+import { getGenerateur } from "../../../../services/generateurService";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -41,24 +36,42 @@ const ListGenerateur = () => {
   const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
-    Marque: true
+    Marque: true,
+    "Code groupe": false,
+    "Type gen.": false,
+    "Type carburant": true,
+    Puissance: false,
+    "Nbre cylindre" : true,
+    "Vakeur acq." : false,
+    Reservoir: true,
+    Longueur: true,
+    "Crée par": false
   });
+
+    const fetchData = async() => {
+        setLoading(true);
+
+        try {
+            const response = await getGenerateur();
+            setData(response?.data || []);
+
+        } catch (error) {
+            notification.error({
+                message: "Erreur de chargement",
+                description: "Impossible de récupérer les données du générateur.",
+                placement: "topRight",
+            });
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
-
-  const fetchData = async() => {
-    setLoading(true);
-    try {
-        
-    } catch (error) {
-        notification.error({
-            message: "Erreur de chargement",
-            description: "Impossible de récupérer les données générateur.",
-            placement: "topRight",
-        });
-    }
-  }
 
   const columnMenu = (
         <div style={{ padding: 10, background:'#fff' }}>
@@ -90,10 +103,18 @@ const ListGenerateur = () => {
             render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
         },
         {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
-        {   title:"Marque", dataIndex: "marque", key: "marque"},
+        {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque"},
         {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle"},
-        {   title:"Type gen.", dataIndex: "type_gen", key: "type_gen"},
-        {   title:"Num serie.", dataIndex: "num_serie", key: "num_serie"},
+        {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen"},
+        {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
+        {   title:"Puissance", dataIndex: "puissance", key: "puissance"},
+        {   title:"Nbre cylindre", dataIndex: "nbre_cylindre", key: "nbre_cylindre"},
+        {   title:"Vakeur acq.", dataIndex: "valeur_acquisition", key: "valeur_acquisition"},
+        {   title:"Reservoir", dataIndex: "reservoir", key: "reservoir"},
+        {   title:"Largeur", dataIndex: "largeur", key: "largeur"},
+        {   title:"Longueur", dataIndex: "longueur", key: "longueur"},
+        {   title:"Crée par", dataIndex: "user_cr", key: "user_cr"},
+
     ];
     return allColumns.filter((col) => columnsVisibility[col.title] !== false);
   }, [pagination, columnsVisibility]);

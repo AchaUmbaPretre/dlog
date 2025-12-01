@@ -10,28 +10,6 @@ import { getGenerateur } from '../../../services/generateurService';
 
 const Generateur = () => {
     const [activeKey, setActiveKey] = useState('1');
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-
-    const fetchData = async() => {
-        setLoading(true);
-
-        try {
-            const response = await getGenerateur();
-            setData(response?.data || []);
-
-        } catch (error) {
-            notification.error({
-                message: "Erreur de chargement",
-                description: "Impossible de récupérer les données du générateur.",
-                placement: "topRight",
-            });
-        }
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
   return (
     <div className="carburant_all">
