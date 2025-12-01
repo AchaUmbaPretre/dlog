@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
-import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
+import { Button, Form, Upload, Input, Card, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
 import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
@@ -147,103 +147,105 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                 >
                     <Row gutter={12}>
                         <Divider className='title_row'>Identification</Divider>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="code_groupe"
-                                label="Code groupe"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un code... ',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Entrer le code groupe" />}
-                            </Form.Item>
-                        </Col>
+                            <Card type="inner" title="Identification">
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="code_groupe"
+                                        label="Code groupe"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un code... ',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Entrer le code groupe" />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_type_gen"
-                                label="Type générateur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un générateur...',
-                                    },
-                                ]}
-                            >
-                                {
-                                    loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        showSearch
-                                        allowClear
-                                        options={geneType.map((item) => ({
-                                            value: item.id_type_generateur,
-                                            label: item.nom_type_gen,
-                                        }))}
-                                        placeholder="Sélectionnez un lubrifiant..."
-                                        optionFilterProp="label"
-                                    />
-                                }
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="id_type_gen"
+                                        label="Type générateur"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un générateur...',
+                                            },
+                                        ]}
+                                    >
+                                        {
+                                            loadingData ? <Skeleton.Input active={true} /> : 
+                                            <Select
+                                                showSearch
+                                                allowClear
+                                                options={geneType.map((item) => ({
+                                                    value: item.id_type_generateur,
+                                                    label: item.nom_type_gen,
+                                                }))}
+                                                placeholder="Sélectionnez un lubrifiant..."
+                                                optionFilterProp="label"
+                                            />
+                                        }
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_marque"
-                                label="Marque du générateur"
-                                rules={[
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="id_marque"
+                                        label="Marque du générateur"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Veuillez fournir une marque...',
+                                            },
+                                        ]}
+                                    >
                                     {
-                                        required: true,
-                                        message: 'Veuillez fournir une marque...',
-                                    },
-                                ]}
-                            >
-                            {
-                                loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    allowClear
-                                    options={marque.map((item) => ({
-                                        value: item.id_marque_generateur                                           ,
-                                        label: item?.nom_marque,
-                                    }))}
-                                    placeholder="Sélectionnez une marque..."
-                                    optionFilterProp="label"
-                                    onChange={(value)=> setIdMarque(value)}
-                                />
-                            }
-                            </Form.Item>
-                        </Col> 
-                        { iDmarque && 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="id_modele"
-                                label="Modèle"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un modèle...',
-                                    },
-                                ]}
-                            >
-                                {
-                                    loadingData ? <Skeleton.Input active={true} /> :
-                                    <Select
-                                        showSearch
-                                        allowClear
-                                        options={modele.map((item) => ({
-                                                value: item.id_modele_generateur,
-                                                label: item.nom_modele,
-                                        }))}
-                                        placeholder="Sélectionnez un modèle..."
-                                        optionFilterProp="label"
-                                    />
-                                }
+                                        loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            showSearch
+                                            allowClear
+                                            options={marque.map((item) => ({
+                                                value: item.id_marque_generateur                                           ,
+                                                label: item?.nom_marque,
+                                            }))}
+                                            placeholder="Sélectionnez une marque..."
+                                            optionFilterProp="label"
+                                            onChange={(value)=> setIdMarque(value)}
+                                        />
+                                    }
+                                    </Form.Item>
+                                </Col> 
+                                { iDmarque && 
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="id_modele"
+                                        label="Modèle"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un modèle...',
+                                            },
+                                        ]}
+                                    >
+                                        {
+                                            loadingData ? <Skeleton.Input active={true} /> :
+                                            <Select
+                                                showSearch
+                                                allowClear
+                                                options={modele.map((item) => ({
+                                                        value: item.id_modele_generateur,
+                                                        label: item.nom_modele,
+                                                }))}
+                                                placeholder="Sélectionnez un modèle..."
+                                                optionFilterProp="label"
+                                            />
+                                        }
 
-                            </Form.Item>
-                        </Col> }
+                                    </Form.Item>
+                                </Col> }
+                            </Card>
 
                         <Divider className='title_row'>Dimensions et Poids</Divider>
 
