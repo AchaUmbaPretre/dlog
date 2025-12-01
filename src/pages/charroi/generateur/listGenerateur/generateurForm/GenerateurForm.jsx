@@ -117,13 +117,18 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     }
 
     const handleUploadChange = ({ fileList }) => {
-        setFileList(fileList);
-            if (fileList.length > 0) {
-            setPreviewImage(URL.createObjectURL(fileList[0].originFileObj));
+        // Empêche qu'AntD ajoute plusieurs images
+        const limitedList = fileList.slice(-1);
+
+        setFileList(limitedList);
+
+        if (limitedList.length > 0) {
+            setPreviewImage(URL.createObjectURL(limitedList[0].originFileObj));
             setCropping(true);
-            }
-        };
-    
+        }
+    };
+
+   
     const onCropComplete = (croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels);
       };
@@ -391,18 +396,22 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                 </Col>
 
                                 <Col xs={24} md={8}>
-                                    <Form.Item name="img" label="Image du générateur">
-                                        <Upload  
-                                            accept="image/*"
-                                            listType="picture-card"
-                                            onChange={handleUploadChange}
-                                            beforeUpload={() => false} 
-                                        >
-                                            <Button icon={<UploadOutlined />}></Button>
-                                        </Upload>
-                                    </Form.Item>
+                                <Form.Item name="img" label="Image du générateur">
+                                    <Upload
+                                        accept="image/*"
+                                        listType="picture-card"
+                                        maxCount={1}                // 👉 Une seule image
+                                        fileList={fileList}
+                                        onChange={handleUploadChange}
+                                        beforeUpload={() => false}
+                                    >
+                                        {fileList.length < 1 && (
+                                            <Button icon={<UploadOutlined style={{margin: 0, width:'100%', height:'100%'}} />} />
+                                        )}
+                                    </Upload>
+                                </Form.Item>
+                            </Col>
 
-                                </Col>
                             </Row>
                         </Card>
 
@@ -693,7 +702,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
             setPendingPayload(null);
             }}
             loading={loading}
-      />
+        />
     </>
   )
 }
