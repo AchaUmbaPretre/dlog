@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import { getDisposition, getMarque, getTypeCarburant } from '../../../../../services/charroiService';
-import { postGenerateur } from '../../../../../services/generateurService';
+import { getMarqueGenerateur, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 const { Option } = Select;
 
@@ -24,18 +24,21 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [modele, setModele] = useState([]);
+    const [geneType, setGeneType] = useState([])
 
     const fetchDatas = async () => {
         try {
-            const [marqueData, dispoData, carburantData ] = await Promise.all([
-                getMarque(),
+            const [marqueData, dispoData, carburantData, typeGeneData ] = await Promise.all([
+                getMarqueGenerateur(),
                 getDisposition(),
-                getTypeCarburant()
+                getTypeCarburant(),
+                getTypeGenerateur()
             ])
 
             setMarque(marqueData.data)
             setDisposition(dispoData.data)
             setTypeCarburant(carburantData.data)
+            setGeneType(typeGeneData.data)
 
 /*             if(iDmarque) {
                 const { data : m} = await getModele(iDmarque)
@@ -153,6 +156,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                 {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Entrer le code groupe" />}
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_type_gen"
@@ -169,9 +173,9 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                     <Select
                                         showSearch
                                         allowClear
-                                        options={lubrifiant.map((item) => ({
-                                            value: item.id_lubrifiant                                          ,
-                                            label: item.nom_lubrifiant,
+                                        options={geneType.map((item) => ({
+                                            value: item.id_type_generateur,
+                                            label: item.nom_type_gen,
                                         }))}
                                         placeholder="Sélectionnez un lubrifiant..."
                                         optionFilterProp="label"
@@ -179,6 +183,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                 }
                             </Form.Item>
                         </Col>
+
                         <Col xs={24} md={8}>
                             <Form.Item
                                 name="id_marque"
@@ -196,8 +201,8 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                     showSearch
                                     allowClear
                                     options={marque.map((item) => ({
-                                        value: item.id                                           ,
-                                        label: item?.nom,
+                                        value: item.id_marque_generateur                                           ,
+                                        label: item?.nom_marque,
                                     }))}
                                     placeholder="Sélectionnez une marque..."
                                     optionFilterProp="label"
