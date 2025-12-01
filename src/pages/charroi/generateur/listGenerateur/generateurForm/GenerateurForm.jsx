@@ -249,7 +249,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             </Row>
                         </Card>
 
-                        <Card type="inner" title="DIMENSIONS ET POIDS" style={{width:'100%'}}>
+                        <Card type="inner" title="DIMENSIONS ET POIDS" style={{width:'100%', marginBottom:'20px'}}>
                             <Row gutter={12}>
                                 <Col xs={24} md={8}>
                                     <Form.Item
@@ -402,7 +402,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             </Row>
                         </Card>
 
-                        <Card type="inner" title="MOTEUR" style={{width:'100%'}}>
+                        <Card type="inner" title="MOTEUR" style={{width:'100%', marginBottom:'20px'}}>
                             <Row gutter={12}>
                                 <Col xs={24} md={8}>
                                     <Form.Item
@@ -502,142 +502,146 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                 </Col>
                             </Row>
                         </Card>
-                        
-                        <Divider className='title_row'>Information complementaires</Divider>
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="date_service"
-                                label="Mise en service"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir une date service...',
-                                    },
-                                ]}
-                                initialValue={moment()}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <DatePicker style={{width:'100%'}} format="YYYY-MM-DD" />}
-                            </Form.Item>
-                        </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="annee_fabrication"
-                                label="Année de fabrication"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Veuillez fournir un numero de chassis',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> :  
-                                    <DatePicker 
-                                        picker="year" 
-                                        style={{width:'100%'}}
-                                        placeholder="Sélectionnez une année" 
-                                    />
-                                }
-                            </Form.Item>
-                        </Col>
+                        <Card type="inner" title="INFORMATION COMPLEMENTAIRES" style={{width:'100%', marginBottom:'20px'}}>
+                            <Row gutter={12}>
+                              
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="date_service"
+                                        label="Mise en service"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Veuillez fournir une date service...',
+                                            },
+                                        ]}
+                                        initialValue={moment()}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <DatePicker style={{width:'100%'}} format="YYYY-MM-DD" />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="puissance"
-                                label="Puissance"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir la puissance...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la puissance" style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="annee_fabrication"
+                                        label="Année de fabrication"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Veuillez fournir un numero de chassis',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> :  
+                                            <DatePicker 
+                                                picker="year" 
+                                                style={{width:'100%'}}
+                                                placeholder="Sélectionnez une année" 
+                                            />
+                                        }
+                                    </Form.Item>
+                                </Col>
 
-                         <Col xs={24} md={8}>
-                            <Form.Item
-                                name="tension"
-                                label="Tension"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir la tension...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la tension" style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="puissance"
+                                        label="Puissance"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir la puissance...',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la puissance" style={{width:'100%'}}/>}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="refroidissement"
-                                label="Refroidissement"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un refroidissement...',
-                                    },
-                                ]}
-                            >
-                                { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select
-                                    showSearch
-                                    allowClear
-                                    options={refroidissement .map((item) => ({
-                                            value: item.id_refroidissement,
-                                            label: item.nom_refroidissement,
-                                    }))}
-                                    placeholder="Sélectionnez un type des refroidissement..."
-                                    optionFilterProp="label"
-                                />
-                                }
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="tension"
+                                        label="Tension"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir la tension...',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la tension" style={{width:'100%'}}/>}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="valeur_acquisition"
-                                label="Valeur d'acquisition"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir la valeur d acquisition...',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la valeur d acquisition" style={{width:'100%'}}/>}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="refroidissement"
+                                        label="Refroidissement"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un refroidissement...',
+                                            },
+                                        ]}
+                                    >
+                                        { loadingData ? <Skeleton.Input active={true} /> : 
+                                        <Select
+                                            showSearch
+                                            allowClear
+                                            options={refroidissement .map((item) => ({
+                                                    value: item.id_refroidissement,
+                                                    label: item.nom_refroidissement,
+                                            }))}
+                                            placeholder="Sélectionnez un type des refroidissement..."
+                                            optionFilterProp="label"
+                                        />
+                                        }
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="lubrifiant_moteur"
-                                label="Lubrifiant"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un lubrifiant moteur...',
-                                    },
-                                ]}
-                            >
-                                {
-                                    loadingData ? <Skeleton.Input active={true} /> : 
-                                    <Select
-                                        showSearch
-                                        allowClear
-                                        options={lubrifiant.map((item) => ({
-                                            value: item.id_lubrifiant                                          ,
-                                            label: item.nom_lubrifiant,
-                                        }))}
-                                        placeholder="Sélectionnez un lubrifiant..."
-                                        optionFilterProp="label"
-                                    />
-                                }
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="valeur_acquisition"
+                                        label="Valeur d'acquisition"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir la valeur d acquisition...',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : <InputNumber min={0} placeholder="Saisir la valeur d acquisition" style={{width:'100%'}}/>}
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="lubrifiant_moteur"
+                                        label="Lubrifiant"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un lubrifiant moteur...',
+                                            },
+                                        ]}
+                                    >
+                                        {
+                                            loadingData ? <Skeleton.Input active={true} /> : 
+                                            <Select
+                                                showSearch
+                                                allowClear
+                                                options={lubrifiant.map((item) => ({
+                                                    value: item.id_lubrifiant                                          ,
+                                                    label: item.nom_lubrifiant,
+                                                }))}
+                                                placeholder="Sélectionnez un lubrifiant..."
+                                                optionFilterProp="label"
+                                            />
+                                        }
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Card>
                         <Col xs={24}>
                             <Form.Item>
                                 <Space className="button-group">
