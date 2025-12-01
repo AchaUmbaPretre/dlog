@@ -54,7 +54,7 @@ const ListeModeleGen = () => {
         },
         {
             title: 'Nom',
-            dataIndex: 'nom_type_gen',
+            dataIndex: 'nom_modele',
         }
       ];
 
@@ -70,7 +70,7 @@ const ListeModeleGen = () => {
     };
 
     const filteredData = data.filter(item =>
-        item.nom_type_gen?.toLowerCase().includes(searchValue.toLowerCase())
+        item.nom_modele?.toLowerCase().includes(searchValue.toLowerCase())
       );
     
 
@@ -82,7 +82,7 @@ const ListeModeleGen = () => {
                             <div className="client-row-icon">
                                 <NodeIndexOutlined className='client-icon'/>
                             </div>
-                            <h2 className="client-h2">Liste des types des générateurs</h2>
+                            <h2 className="client-h2">Liste des types de modèles</h2>
                         </div>
 
                         <div className="client-actions">
