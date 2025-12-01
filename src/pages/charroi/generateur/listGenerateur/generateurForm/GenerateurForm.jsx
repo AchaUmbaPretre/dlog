@@ -146,8 +146,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                     initialValues={{ quantite: 0, seuil_alerte: 1 }}
                 >
                     <Row gutter={24}>
-                        <Divider className='title_row'>IDENTIFICATION</Divider>
-                        <Card type="inner" title="Identification" style={{width:'100%', marginBottom:'20px'}}>
+                        <Card type="inner" title="IDENTIFICATION" style={{width:'100%', marginBottom:'20px'}}>
                             <Row gutter={12}>
                                 <Col xs={24} md={8}>
                                         <Form.Item
