@@ -3,8 +3,8 @@ import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
-import { getDisposition, getMarque, getTypeCarburant } from '../../../../../services/charroiService';
-import { getMarqueGenerateur, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
+import { getDisposition, getTypeCarburant } from '../../../../../services/charroiService';
+import { getMarqueGenerateur, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 const { Option } = Select;
 
@@ -24,21 +24,24 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     const [zoom, setZoom] = useState(1);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
     const [modele, setModele] = useState([]);
-    const [geneType, setGeneType] = useState([])
+    const [geneType, setGeneType] = useState([]);
+    const [refroidissement, setRefroidissement] = useState([]);
 
     const fetchDatas = async () => {
         try {
-            const [marqueData, dispoData, carburantData, typeGeneData ] = await Promise.all([
+            const [marqueData, dispoData, carburantData, typeGeneData, refroiData] = await Promise.all([
                 getMarqueGenerateur(),
                 getDisposition(),
                 getTypeCarburant(),
-                getTypeGenerateur()
+                getTypeGenerateur(),
+                getRefroidissement()
             ])
 
             setMarque(marqueData.data)
             setDisposition(dispoData.data)
             setTypeCarburant(carburantData.data)
             setGeneType(typeGeneData.data)
+            setRefroidissement(refroiData.data)
 
 /*             if(iDmarque) {
                 const { data : m} = await getModele(iDmarque)
@@ -570,10 +573,16 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                 ]}
                             >
                                 { loadingData ? <Skeleton.Input active={true} /> : 
-                                <Select placeholder="Choisir un refroidissement">
-                                    <Option value="1">refroidissement 1</Option>
-                                    <Option value="2">refroidissement 2</Option>
-                                </Select>
+                                <Select
+                                    showSearch
+                                    allowClear
+                                    options={refroidissement .map((item) => ({
+                                            value: item.id_refroidissement,
+                                            label: item.nom_refroidissement,
+                                    }))}
+                                    placeholder="Sélectionnez un type des refroidissement..."
+                                    optionFilterProp="label"
+                                />
                                 }
                             </Form.Item>
                         </Col>
