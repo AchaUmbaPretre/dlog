@@ -26,7 +26,7 @@ export const getModeleGenerateur  = async () => {
 };
 
 export const getModeleGenerateurOne  = async (id) => {
-  return axios.get(`${DOMAIN}/api/generateur/modele_generateur`,{
+  return axios.get(`${DOMAIN}/api/generateur/modele_generateur/one`,{
     params: {
       id_marque_generateur: id
     }
