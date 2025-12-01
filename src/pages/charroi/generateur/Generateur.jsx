@@ -5,7 +5,7 @@ import {
   ThunderboltOutlined
 } from '@ant-design/icons';
 import ListGenerateur from './listGenerateur/ListGenerateur';
-import ListTypeGenerateur from './listTypeGenerateur/ListTypeGenerateur';
+import ListTypeGenerateur from './TypeGenerateur/ListTypeGenerateur';
 
 const Generateur = () => {
     const [activeKey, setActiveKey] = useState('1');
