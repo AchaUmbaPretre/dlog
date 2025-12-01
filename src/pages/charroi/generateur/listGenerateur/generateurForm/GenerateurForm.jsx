@@ -6,6 +6,7 @@ import { Button, Form, Upload, Input, Card, Row, Col, Select, DatePicker, Skelet
 import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
 import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
+import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 const { Option } = Select;
 
 const GenerateurForm = ({closeModal, fetchData}) => {
@@ -68,7 +69,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
         };
 
         setPendingPayload(payload);
-        setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations carburant ?");
+        setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations générateur ?");
         setConfirmVisible(true);
     }
     const onFinish = async (values) => {
@@ -159,8 +160,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                 <Form
                     form={form}
                     layout="vertical"
-                    onFinish={onFinish}
-                    initialValues={{ quantite: 0, seuil_alerte: 1 }}
+                    onFinish={handleSubmit }
                 >
                     <Row gutter={24}>
                         <Card type="inner" title="IDENTIFICATION" style={{width:'100%', marginBottom:'20px'}}>
@@ -695,6 +695,17 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                 </div>
             </Modal>
         </div>
+        <ConfirmModal
+            visible={confirmVisible}
+            title={"Confirmer l'enregistrement"}
+            content={confirmationMessage}
+            onConfirm={onFinish}
+            onCancel={() => {
+            setConfirmVisible(false);
+            setPendingPayload(null);
+            }}
+            loading={loading}
+      />
     </>
   )
 }

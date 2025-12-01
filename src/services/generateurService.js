@@ -50,5 +50,9 @@ export const getGenerateurOne= async (id) => {
   };
 
 export const postGenerateur = async (data) => {
-  return axios.post(`${DOMAIN}/api/generateur`, data);
+  return axios.post(`${DOMAIN}/api/generateur`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+    });
 };
