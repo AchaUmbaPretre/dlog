@@ -234,10 +234,10 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                         showSearch
                                         allowClear
                                         options={modele.map((item) => ({
-                                                value: item.id_modele                                           ,
-                                                label: item.modele,
+                                                value: item.id_modele_generateur,
+                                                label: item.nom_modele,
                                         }))}
-                                        placeholder="Sélectionnez une modèle..."
+                                        placeholder="Sélectionnez un modèle..."
                                         optionFilterProp="label"
                                     />
                                 }

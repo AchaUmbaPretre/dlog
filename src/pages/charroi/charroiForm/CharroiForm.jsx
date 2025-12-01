@@ -234,7 +234,7 @@ const CharroiForm = ({idVehicule, closeModal, fetchData}) => {
                                                 value: item.id_modele                                           ,
                                                 label: item.modele,
                                         }))}
-                                        placeholder="Sélectionnez une modèle..."
+                                        placeholder="Sélectionnez un modèle..."
                                         optionFilterProp="label"
                                     />
                                 }
