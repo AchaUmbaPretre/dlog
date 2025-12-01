@@ -10,7 +10,6 @@ import {
   notification,
   Skeleton,
   Divider,
-  Modal,
   InputNumber
 } from 'antd';
 import {

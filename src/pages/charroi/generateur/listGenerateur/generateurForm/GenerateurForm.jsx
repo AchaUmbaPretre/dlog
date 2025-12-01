@@ -7,6 +7,7 @@ import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../
 import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
+import { useSelector } from 'react-redux';
 const { Option } = Select;
 
 const GenerateurForm = ({closeModal, fetchData}) => {
@@ -30,6 +31,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     const [confirmationMessage, setConfirmationMessage] = useState(""); // Message spécifique 409
     const [pendingPayload, setPendingPayload] = useState(null);
     const [confirmVisible, setConfirmVisible] = useState(false);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     const fetchDatas = async () => {
         try {
@@ -65,7 +67,8 @@ const GenerateurForm = ({closeModal, fetchData}) => {
 
     const handleSubmit = (values) => {
         const payload = {
-            ...values
+            ...values,
+            user_cr: userId
         };
 
         setPendingPayload(payload);
@@ -294,21 +297,6 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                                         ]}
                                     >
                                     {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la largeur" style={{width:'100%'}} />}
-                                    </Form.Item>
-                                </Col>
-
-                                <Col xs={24} md={8}>
-                                    <Form.Item
-                                        name="hauteur"
-                                        label="Hauteur"
-                                        rules={[
-                                            {
-                                                required: false,
-                                                message: 'Veuillez fournir un hauteur...',
-                                            },
-                                        ]}
-                                    >
-                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer l'hauteur..." style={{width:'100%'}} />}
                                     </Form.Item>
                                 </Col>
 
