@@ -3,7 +3,7 @@ import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
-import { getDisposition, getTypeCarburant } from '../../../../../services/charroiService';
+import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
 import { getMarqueGenerateur, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 const { Option } = Select;
@@ -29,12 +29,13 @@ const GenerateurForm = ({closeModal, fetchData}) => {
 
     const fetchDatas = async () => {
         try {
-            const [marqueData, dispoData, carburantData, typeGeneData, refroiData] = await Promise.all([
+            const [marqueData, dispoData, carburantData, typeGeneData, refroiData, lubriData] = await Promise.all([
                 getMarqueGenerateur(),
                 getDisposition(),
                 getTypeCarburant(),
                 getTypeGenerateur(),
-                getRefroidissement()
+                getRefroidissement(),
+                getLubrifiant()
             ])
 
             setMarque(marqueData.data)
@@ -42,6 +43,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
             setTypeCarburant(carburantData.data)
             setGeneType(typeGeneData.data)
             setRefroidissement(refroiData.data)
+            setLubrifiant(lubriData.data)
 
 /*             if(iDmarque) {
                 const { data : m} = await getModele(iDmarque)
