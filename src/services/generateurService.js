@@ -20,6 +20,10 @@ export const postMarqueGenerateur = async (data) => {
   return axios.post(`${DOMAIN}/api/generateur/postMarqueGenerateur`, data);
 };
 
+export const getRefroidissement  = async () => {
+  return axios.get(`${DOMAIN}/api/generateur/refroidissement`);
+};
+
 export const getGenerateur = async (user) => {
     return axios.get(`${DOMAIN}/api/generateur`);
   };
