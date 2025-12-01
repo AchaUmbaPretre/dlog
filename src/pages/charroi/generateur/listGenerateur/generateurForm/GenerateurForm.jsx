@@ -145,258 +145,262 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                     onFinish={onFinish}
                     initialValues={{ quantite: 0, seuil_alerte: 1 }}
                 >
-                    <Row gutter={12}>
-                        <Divider className='title_row'>Identification</Divider>
-                            <Card type="inner" title="Identification">
+                    <Row gutter={24}>
+                        <Divider className='title_row'>IDENTIFICATION</Divider>
+                        <Card type="inner" title="Identification" style={{width:'100%'}}>
+                            <Row gutter={12}>
                                 <Col xs={24} md={8}>
-                                    <Form.Item
-                                        name="code_groupe"
-                                        label="Code groupe"
-                                        rules={[
-                                            {
-                                                required: false,
-                                                message: 'Veuillez fournir un code... ',
-                                            },
-                                        ]}
-                                    >
-                                        {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Entrer le code groupe" />}
-                                    </Form.Item>
+                                        <Form.Item
+                                            name="code_groupe"
+                                            label="Code groupe"
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir un code... ',
+                                                },
+                                            ]}
+                                        >
+                                            {loadingData ? <Skeleton.Input active={true} /> : <Input placeholder="Entrer le code groupe" />}
+                                        </Form.Item>
                                 </Col>
 
                                 <Col xs={24} md={8}>
-                                    <Form.Item
-                                        name="id_type_gen"
-                                        label="Type générateur"
-                                        rules={[
+                                        <Form.Item
+                                            name="id_type_gen"
+                                            label="Type générateur"
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir un générateur...',
+                                                },
+                                            ]}
+                                        >
                                             {
-                                                required: false,
-                                                message: 'Veuillez fournir un générateur...',
-                                            },
-                                        ]}
-                                    >
+                                                loadingData ? <Skeleton.Input active={true} /> : 
+                                                <Select
+                                                    showSearch
+                                                    allowClear
+                                                    options={geneType.map((item) => ({
+                                                        value: item.id_type_generateur,
+                                                        label: item.nom_type_gen,
+                                                    }))}
+                                                    placeholder="Sélectionnez un lubrifiant..."
+                                                    optionFilterProp="label"
+                                                />
+                                            }
+                                        </Form.Item>
+                                </Col>
+
+                                <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="id_marque"
+                                            label="Marque du générateur"
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Veuillez fournir une marque...',
+                                                },
+                                            ]}
+                                        >
                                         {
                                             loadingData ? <Skeleton.Input active={true} /> : 
                                             <Select
                                                 showSearch
                                                 allowClear
-                                                options={geneType.map((item) => ({
-                                                    value: item.id_type_generateur,
-                                                    label: item.nom_type_gen,
+                                                options={marque.map((item) => ({
+                                                    value: item.id_marque_generateur                                           ,
+                                                    label: item?.nom_marque,
                                                 }))}
-                                                placeholder="Sélectionnez un lubrifiant..."
+                                                placeholder="Sélectionnez une marque..."
                                                 optionFilterProp="label"
+                                                onChange={(value)=> setIdMarque(value)}
                                             />
                                         }
+                                        </Form.Item>
+                                </Col> 
+                                { iDmarque && 
+                                <Col xs={24} md={8}>
+                                        <Form.Item
+                                            name="id_modele"
+                                            label="Modèle"
+                                            rules={[
+                                                {
+                                                    required: false,
+                                                    message: 'Veuillez fournir un modèle...',
+                                                },
+                                            ]}
+                                        >
+                                            {
+                                                loadingData ? <Skeleton.Input active={true} /> :
+                                                <Select
+                                                    showSearch
+                                                    allowClear
+                                                    options={modele.map((item) => ({
+                                                            value: item.id_modele_generateur,
+                                                            label: item.nom_modele,
+                                                    }))}
+                                                    placeholder="Sélectionnez un modèle..."
+                                                    optionFilterProp="label"
+                                                />
+                                            }
+
+                                        </Form.Item>
+                                </Col> }
+                            </Row>
+                        </Card>
+
+                        <Card type="inner" title="DIMENSIONS ET POIDS" style={{width:'100%'}}>
+                            <Row gutter={12}>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="longueur"
+                                        label="Longueur"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir une longueur...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la longueur" style={{width:'100%'}} />}
                                     </Form.Item>
                                 </Col>
 
                                 <Col xs={24} md={8}>
                                     <Form.Item
-                                        name="id_marque"
-                                        label="Marque du générateur"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Veuillez fournir une marque...',
-                                            },
-                                        ]}
-                                    >
-                                    {
-                                        loadingData ? <Skeleton.Input active={true} /> : 
-                                        <Select
-                                            showSearch
-                                            allowClear
-                                            options={marque.map((item) => ({
-                                                value: item.id_marque_generateur                                           ,
-                                                label: item?.nom_marque,
-                                            }))}
-                                            placeholder="Sélectionnez une marque..."
-                                            optionFilterProp="label"
-                                            onChange={(value)=> setIdMarque(value)}
-                                        />
-                                    }
-                                    </Form.Item>
-                                </Col> 
-                                { iDmarque && 
-                                <Col xs={24} md={8}>
-                                    <Form.Item
-                                        name="id_modele"
-                                        label="Modèle"
+                                        name="largeur"
+                                        label="Largeur"
                                         rules={[
                                             {
                                                 required: false,
-                                                message: 'Veuillez fournir un modèle...',
+                                                message: 'Veuillez fournir une largeur...',
                                             },
                                         ]}
                                     >
-                                        {
-                                            loadingData ? <Skeleton.Input active={true} /> :
-                                            <Select
-                                                showSearch
-                                                allowClear
-                                                options={modele.map((item) => ({
-                                                        value: item.id_modele_generateur,
-                                                        label: item.nom_modele,
-                                                }))}
-                                                placeholder="Sélectionnez un modèle..."
-                                                optionFilterProp="label"
-                                            />
-                                        }
-
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la largeur" style={{width:'100%'}} />}
                                     </Form.Item>
-                                </Col> }
-                            </Card>
+                                </Col>
 
-                        <Divider className='title_row'>Dimensions et Poids</Divider>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="hauteur"
+                                        label="Hauteur"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un hauteur...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer l'hauteur..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="longueur"
-                                label="Longueur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une longueur...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la longueur" style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="poids"
+                                        label="Poids"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un poids...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le poids..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="largeur"
-                                label="Largeur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une largeur...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la largeur" style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="reservoir"
+                                        label="Reservoir"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: '1000',
+                                            },
+                                        ]}
+                                    >
+                                        {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="100 L"  style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="hauteur"
-                                label="Hauteur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un hauteur...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer l'hauteur..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="capacite_radiateur"
+                                        label="Capacité radiateur"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir la capacité du radiateur...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la capacité du radiateur..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="poids"
-                                label="Poids"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un poids...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le poids..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="capacite_carter"
+                                        label="Capacité carter"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir une capacité carter...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la capacité cartel..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="reservoir"
-                                label="Reservoir"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: '1000',
-                                    },
-                                ]}
-                            >
-                                {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="100 L"  style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="cos_phi"
+                                        label="Facteur de puissance(cos_phi)"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir le facteur de puissance...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le facteur de puissance..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="capacite_radiateur"
-                                label="Capacité radiateur"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir la capacité du radiateur...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la capacité du radiateur..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item
+                                        name="nbr_phase"
+                                        label="Nombre de phase"
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: 'Veuillez fournir un nombre de moteur...',
+                                            },
+                                        ]}
+                                    >
+                                    {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le nombre de moteur..." style={{width:'100%'}} />}
+                                    </Form.Item>
+                                </Col>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="capacite_carter"
-                                label="Capacité carter"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir une capacité carter...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer la capacité cartel..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
+                                <Col xs={24} md={8}>
+                                    <Form.Item name="img" label="Image du générateur">
+                                        <Upload  
+                                            accept="image/*"
+                                            listType="picture-card"
+                                            onChange={handleUploadChange}
+                                            beforeUpload={() => false} 
+                                        >
+                                            <Button icon={<UploadOutlined />}></Button>
+                                        </Upload>
+                                    </Form.Item>
 
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="cos_phi"
-                                label="Facteur de puissance(cos_phi)"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir le facteur de puissance...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le facteur de puissance..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item
-                                name="nbr_phase"
-                                label="Nombre de phase"
-                                rules={[
-                                    {
-                                        required: false,
-                                        message: 'Veuillez fournir un nombre de moteur...',
-                                    },
-                                ]}
-                            >
-                            {loadingData ? <Skeleton.Input active={true} /> : <InputNumber placeholder="Entrer le nombre de moteur..." style={{width:'100%'}} />}
-                            </Form.Item>
-                        </Col>
-
-                        <Col xs={24} md={8}>
-                            <Form.Item name="img" label="Image du générateur">
-                                <Upload  
-                                    accept="image/*"
-                                    listType="picture-card"
-                                    onChange={handleUploadChange}
-                                    beforeUpload={() => false} 
-                                >
-                                    <Button icon={<UploadOutlined />}></Button>
-                                </Upload>
-                            </Form.Item>
-
-                        </Col>
+                                </Col>
+                            </Row>
+                        </Card>
 
                         <Divider className='title_row'>Moteur</Divider>
 
