@@ -126,8 +126,8 @@ const ListGenerateur = () => {
         (item) =>
             item.nom_marque?.toLowerCase().includes(search) || 
             item.nom_modele?.toLowerCase().includes(search) || 
-            item.nom_type_gen?.toLowerCase().includes(search)
-
+            item.nom_type_gen?.toLowerCase().includes(search) || 
+            item.nom_type_carburant?.toLowerCase().includes(search)
     );
   }, [data, searchValue])
 
