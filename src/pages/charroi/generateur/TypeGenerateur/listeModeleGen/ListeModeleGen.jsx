@@ -99,7 +99,7 @@ const ListeModeleGen = () => {
                                     icon={<PlusCircleOutlined />}
                                     onClick={handleAddMarque}
                                 >
-                                    Ajouter un type
+                                    Ajouter un modèle
                                 </Button>
                             </div>
                         </div>

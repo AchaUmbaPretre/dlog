@@ -26,7 +26,7 @@ const ListTypeGenerateur = () => {
                 tab={
                     <span style={getTabStyle('1', activeKey)}>
                     <ThunderboltOutlined style={iconStyle('1', activeKey)} />
-                    Liste des types générateurs
+                    Liste des types de générateurs
                     </span>
                 }
             >
@@ -37,7 +37,7 @@ const ListTypeGenerateur = () => {
                     tab={
                         <span style={getTabStyle('2', activeKey)}>
                             <ThunderboltOutlined style={iconStyle('2', activeKey)} />
-                            Liste des marques générateurs
+                            Liste des marques de générateurs
                         </span>
                     }
                 >
@@ -48,7 +48,7 @@ const ListTypeGenerateur = () => {
                         tab={
                             <span style={getTabStyle('3', activeKey)}>
                                 <ThunderboltOutlined style={iconStyle('3', activeKey)} />
-                                Liste des modèles générateurs
+                                Liste des modèles de générateurs
                             </span>
                         }
                     >
