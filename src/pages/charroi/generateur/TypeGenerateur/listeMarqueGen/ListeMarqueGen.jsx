@@ -53,7 +53,7 @@ const ListeMarqueGen = () => {
             width: "4%",      
         },
         {
-            title: 'Marque',
+            title: 'Nom',
             dataIndex: 'nom_marque',
         }
       ];

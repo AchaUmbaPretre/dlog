@@ -53,7 +53,7 @@ const ListeTypeGen = () => {
             width: "4%",      
         },
         {
-            title: 'Type des générateurs',
+            title: 'Nom',
             dataIndex: 'nom_type_gen',
         }
       ];
@@ -70,7 +70,7 @@ const ListeTypeGen = () => {
     };
 
     const filteredData = data.filter(item =>
-        item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
+        item.nom_type_gen?.toLowerCase().includes(searchValue.toLowerCase())
       );
     
 
@@ -99,7 +99,7 @@ const ListeTypeGen = () => {
                                     icon={<PlusCircleOutlined />}
                                     onClick={handleAddMarque}
                                 >
-                                    Ajouter une marque
+                                    Ajouter un type
                                 </Button>
                             </div>
                         </div>
