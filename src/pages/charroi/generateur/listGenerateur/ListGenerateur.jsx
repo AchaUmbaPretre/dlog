@@ -38,7 +38,7 @@ const ListGenerateur = () => {
     "#": true,
     Marque: true,
     "Code groupe": false,
-    "Type gen.": false,
+    "Type gen.": true,
     "Type carburant": true,
     Puissance: false,
     "Nbre cylindre" : true,
