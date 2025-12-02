@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, notification, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Button, Modal, Input, notification, Tabs } from 'antd';
 import { NodeIndexOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getMarqueGenerateur, getTypeGenerateur } from '../../../../../services/generateurService';
+import { getTypeGenerateur } from '../../../../../services/generateurService';
+import FormTypeGen from './formTypeGen/FormTypeGen';
 
 const { Search } = Input;
 
@@ -77,15 +78,15 @@ const ListeTypeGen = () => {
   return (
     <>
     <div className="client">
-                    <div className="client-wrapper">
-                        <div className="client-row">
-                            <div className="client-row-icon">
-                                <NodeIndexOutlined className='client-icon'/>
-                            </div>
-                            <h2 className="client-h2">Liste des types des générateurs</h2>
-                        </div>
+        <div className="client-wrapper">
+            <div className="client-row">
+                <div className="client-row-icon">
+                    <NodeIndexOutlined className='client-icon'/>
+                </div>
+                <h2 className="client-h2">Liste des types des générateurs</h2>
+            </div>
 
-                        <div className="client-actions">
+            <div className="client-actions">
                             <div className="client-row-left">
                                 <Search 
                                     placeholder="Recherche..." 
@@ -117,7 +118,7 @@ const ListeTypeGen = () => {
                     </div>
                 </div>
 
-{/*         <Modal
+         <Modal
             title=""
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
@@ -125,8 +126,8 @@ const ListeTypeGen = () => {
             width={700}
             centered
         >
-            <MarqueForm closeModal={() => setModalType(null)} fetchData={fetchData} />
-        </Modal> */}
+            <FormTypeGen closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
