@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, notification, Tabs } from 'antd';
+import { Table, Button, Input, notification, Modal } from 'antd';
 import { NodeIndexOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getModeleGenerateur } from '../../../../../services/generateurService';
 import FormModeleGen from './formModeleGen/FormModeleGen';
