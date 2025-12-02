@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import moment from 'moment';
 import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
-import { Button, Form, Upload, Input, Card, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
+import { Button, Form, Upload, Input, Card, Row, Col, Select, DatePicker, Skeleton, InputNumber, Space, message, Modal } from 'antd';
 import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
 import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';

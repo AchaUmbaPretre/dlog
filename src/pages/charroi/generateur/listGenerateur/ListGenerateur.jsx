@@ -16,12 +16,10 @@ import {
 
   FireOutlined,
   PlusCircleOutlined,
-  CalendarOutlined,
   ReloadOutlined,
   DownOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
 import GenerateurForm from "./generateurForm/GenerateurForm";
 import { getGenerateur } from "../../../../services/generateurService";
 
