@@ -123,7 +123,7 @@ const montantTotalUsd = useMemo(() => {
   const handleDelete = async(id) => {
     try {
       await deleteCarburant(id)
-      setData(data.filter((item) => item.id_tache !== id));
+      setData(data.filter((item) => item.id_carburant !== id));
       message.success('Carburant a été supprimé avec succès');
     } catch (error) {
       notification.error({
