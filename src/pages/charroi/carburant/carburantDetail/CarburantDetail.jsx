@@ -91,7 +91,7 @@ const CarburantDetail = ({ id_vehicule, idCarburant }) => {
             <div><span>Type :</span> {data.nom_type_carburant}</div>
             <div><span>Quantité :</span> {formatNumber(data.quantite_litres)} L</div>
             <div><span>Prix USD/L :</span> {formatNumber(data.prix_usd)} $</div>
-            <div><span>Prix CDF/L :</span> {formatNumber(data.prix_cdf)}</div>
+            <div><span>Prix CDF/L :</span> {formatNumber(data.prix_cdf)} FC</div>
           </div>
         </div>
 
@@ -99,7 +99,7 @@ const CarburantDetail = ({ id_vehicule, idCarburant }) => {
           <h3><DollarOutlined /> Montants</h3>
           <div className="grid">
             <div><span>Total USD :</span> {formatNumber(data.montant_total_usd)} $</div>
-            <div><span>Total CDF :</span> {formatNumber(data.montant_total_cdf)}</div>
+            <div><span>Total CDF :</span> {formatNumber(data.montant_total_cdf)} FC</div>
           </div>
         </div>
 
