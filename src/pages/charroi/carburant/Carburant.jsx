@@ -301,7 +301,7 @@ const columns = useMemo(() => {
           <Button
             icon={<EditOutlined />}
             style={{ color: 'green' }}
-            onClick={() => handleEdit(record.id_tache)}
+            onClick={() => modifyCarburant(record.id_carburant)}
             aria-label="Edit generateur"
           />
         </Tooltip>   
@@ -332,10 +332,6 @@ const columns = useMemo(() => {
       ))}
     </div>
   );
- 
-  const handleEdit = () => {
-
-  }
 
   return (
     <div className="carburant-page">
