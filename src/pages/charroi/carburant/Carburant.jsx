@@ -39,6 +39,7 @@ import { deleteCarburant, getCarburant } from "../../../services/carburantServic
 import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
 import CarburantKpi from "./carburantkpi/Carburantkpi";
+import CarburantDetail from "./carburantDetail/CarburantDetail";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -119,6 +120,7 @@ const montantTotalUsd = useMemo(() => {
 
   const addCarburant = (id) => openModal('Add', id);
   const modifyCarburant = (id) => openModal('Add', id)
+  const detailCarburant = (id) => openModal('Detail', id)
 
   const handleDelete = async(id) => {
     try {
@@ -328,6 +330,7 @@ const columns = useMemo(() => {
             icon={<EyeOutlined />}
             aria-label="Voir les détails"
             style={{ color: 'blue' }}
+            onClick={() => detailCarburant()}
           />
         </Tooltip> 
 
@@ -492,6 +495,17 @@ const columns = useMemo(() => {
         destroyOnClose
       >
         <CarburantForm closeModal={closeAllModals} fetchData={fetchData} idCarburant={idCarburant} />
+      </Modal>
+
+      <Modal
+        open={modalType === "Detail"}
+        onCancel={closeAllModals}
+        footer={null}
+        width={ 950 }
+        centered
+        destroyOnClose
+      >
+        <CarburantDetail idCarburant={idCarburant} />
       </Modal>
     </div>
   );
