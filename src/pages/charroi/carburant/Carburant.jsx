@@ -13,7 +13,8 @@ import {
   Empty,
   Checkbox,
   Tooltip,
-  Skeleton
+  Skeleton,
+  Popconfirm
 } from "antd";
 import {
   CarOutlined,
@@ -28,6 +29,8 @@ import {
   ReloadOutlined,
   DownOutlined,
   MenuOutlined,
+  EyeOutlined,
+  DeleteOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import "./carburant.scss";
@@ -115,6 +118,10 @@ const montantTotalUsd = useMemo(() => {
 
   const addCarburant = (id) => openModal('Add', id);
   const modifyCarburant = (id) => openModal('Modify', id)
+
+  const handleDelete = (id) => {
+    
+  }
 
   const filteredData = useMemo(() => {
     const search = searchValue.toLowerCase().trim();
@@ -305,6 +312,30 @@ const columns = useMemo(() => {
             aria-label="Edit generateur"
           />
         </Tooltip>   
+
+        <Tooltip title="Voir les détails">
+          <Button
+            icon={<EyeOutlined />}
+            aria-label="Voir les détails"
+            style={{ color: 'blue' }}
+          />
+        </Tooltip> 
+
+        <Tooltip title="Supprimer">
+          <Popconfirm
+            title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
+            onConfirm={() => handleDelete(record.id_tache)}
+            okText="Oui"
+            cancelText="Non"
+          >
+            <Button
+              icon={<DeleteOutlined />}
+              style={{ color: 'red' }}
+              aria-label="Delete"
+            />
+              </Popconfirm>
+          </Tooltip>
+          
       </Space>
       )
     }
