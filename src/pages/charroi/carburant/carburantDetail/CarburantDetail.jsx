@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { notification, Skeleton, Alert, Button } from 'antd';
+import { notification, Skeleton, Alert, Button, Divider } from 'antd';
 import {
   CarOutlined,
   UserOutlined,
@@ -8,6 +8,7 @@ import {
   FilePdfOutlined,
   CalendarOutlined,
   FireOutlined,
+  MessageOutlined,
 } from '@ant-design/icons';
 import './carburantDetail.scss';
 import html2pdf from "html2pdf.js";
@@ -15,6 +16,7 @@ import { getCarburantOne } from '../../../../services/carburantService';
 import { formatNumber } from '../../../../utils/formatNumber';
 
 const CarburantDetail = ({ id_vehicule, idCarburant }) => {
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const pdfRef = useRef(null);
@@ -59,69 +61,75 @@ const CarburantDetail = ({ id_vehicule, idCarburant }) => {
     return (
       <Alert
         message="Aucune donnée"
-        description="Aucun détail trouvé pour ce carburant."
+        description="Aucun détail trouvé."
         type="warning"
         showIcon
       />
     );
 
   return (
-    <div className="carburant-detail">
-      <div className="header-action">
-        <h2 className="title"><FireOutlined /> Détails Carburant</h2>
+    <div className="carburantPro">
+
+      <div className="top-header">
+        <div className="title-block">
+          <FireOutlined className="icon" />
+          <h2>Détails Carburant</h2>
+        </div>
 
         <Button type="primary" icon={<FilePdfOutlined />} onClick={exportPDF}>
           Exporter en PDF
         </Button>
       </div>
 
-      <div ref={pdfRef} id="pdf-content">
-        <div className="detail-card">
-          <h3><CarOutlined /> Véhicule</h3>
-          <div className="grid">
-            <div><span>Marque :</span> {data.nom_marque}</div>
-            <div><span>Modèle :</span> {data.nom_modele}</div>
-            <div><span>Chauffeur :</span> <UserOutlined /> {data.nom_chauffeur || '—'}</div>
-          </div>
+      <div ref={pdfRef} id="pdf-content" className="content-wrapper">
+
+        <div className="col">
+
+          <section className="box">
+            <h3><CarOutlined /> Informations Véhicule</h3>
+            <Divider />
+            <p><strong>Marque :</strong> {data.nom_marque}</p>
+            <p><strong>Modèle :</strong> {data.nom_modele}</p>
+            <p><strong>Chauffeur :</strong> <UserOutlined /> {data.nom_chauffeur || '—'}</p>
+          </section>
+
+          <section className="box">
+            <h3><FireOutlined /> Carburant</h3>
+            <Divider />
+            <p><strong>Type :</strong> {data.nom_type_carburant}</p>
+            <p><strong>Quantité :</strong> {formatNumber(data.quantite_litres)} L</p>
+            <p><strong>Prix USD/L :</strong> {formatNumber(data.prix_usd)} $</p>
+            <p><strong>Prix CDF/L :</strong> {formatNumber(data.prix_cdf)}</p>
+          </section>
+
         </div>
 
-        <div className="detail-card">
-          <h3><FireOutlined /> Carburant</h3>
-          <div className="grid">
-            <div><span>Type :</span> {data.nom_type_carburant}</div>
-            <div><span>Quantité :</span> {formatNumber(data.quantite_litres)} L</div>
-            <div><span>Prix USD/L :</span> {formatNumber(data.prix_usd)} $</div>
-            <div><span>Prix CDF/L :</span> {formatNumber(data.prix_cdf)} FC</div>
-          </div>
-        </div>
+        <div className="col">
 
-        <div className="detail-card">
-          <h3><DollarOutlined /> Montants</h3>
-          <div className="grid">
-            <div><span>Total USD :</span> {formatNumber(data.montant_total_usd)} $</div>
-            <div><span>Total CDF :</span> {formatNumber(data.montant_total_cdf)} FC</div>
-          </div>
-        </div>
+          <section className="box">
+            <h3><DollarOutlined /> Montants</h3>
+            <Divider />
+            <p><strong>Total USD :</strong> {formatNumber(data.montant_total_usd)} $</p>
+            <p><strong>Total CDF :</strong> {formatNumber(data.montant_total_cdf)}</p>
+          </section>
 
-        <div className="detail-card">
-          <h3><DashboardOutlined /> Opération</h3>
-          <div className="grid">
-            <div>
-              <span>Date opération :</span>
-              <CalendarOutlined /> {new Date(data.date_operation).toLocaleString()}
-            </div>
-            <div><span>Compteur KM :</span> {formatNumber(data.compteur_km)}</div>
-            <div><span>Distance :</span> {formatNumber(data.distance)} km</div>
-            <div><span>Consommation :</span> {formatNumber(data.consommation)} L/100km</div>
-          </div>
+          <section className="box">
+            <h3><DashboardOutlined /> Opération</h3>
+            <Divider />
+            <p><strong>Date :</strong> <CalendarOutlined /> {new Date(data.date_operation).toLocaleString()}</p>
+            <p><strong>Compteur KM :</strong> {formatNumber(data.compteur_km)}</p>
+            <p><strong>Distance :</strong> {formatNumber(data.distance)} km</p>
+            <p><strong>Consommation :</strong> {formatNumber(data.consommation)} L/100km</p>
+          </section>
         </div>
-
-        <div className="detail-card">
-          <h3><FilePdfOutlined /> Commentaire</h3>
-          <p className="commentaire">{data.commentaire || "Aucun commentaire"}</p>
-        </div>
-
       </div>
+
+      <section className="commentaire-box">
+        <h3><MessageOutlined /> Commentaire</h3>
+        <Divider />
+        <p>{data.commentaire || "Aucun commentaire"}</p>
+      </section>
+
     </div>
   );
 };
