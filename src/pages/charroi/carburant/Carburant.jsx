@@ -17,6 +17,7 @@ import {
 } from "antd";
 import {
   CarOutlined,
+  EditOutlined,
   DashboardOutlined,
   DollarOutlined,
   UserOutlined,
@@ -63,6 +64,7 @@ const Carburant = () => {
     "M. (CDF)": true,
     "Créé par" : false
   });
+  const [idCarburant, setIdCarburant] = useState([]);
 
   // --- KPI Calculations ---
 const totalKmActuel = useMemo(() => {
@@ -105,7 +107,14 @@ const montantTotalUsd = useMemo(() => {
   }, []);
 
   const closeAllModals = () => setModalType(null);
-  const openModal = (type) => setModalType(type);
+
+  const openModal = (type, id='') => {
+    setModalType(type);
+    setIdCarburant(id)
+  }
+
+  const addCarburant = (id) => openModal('Add', id);
+  const modifyCarburant = (id) => openModal('Modify', id)
 
   const filteredData = useMemo(() => {
     const search = searchValue.toLowerCase().trim();
@@ -297,8 +306,8 @@ const columns = useMemo(() => {
           />
         </Tooltip>   
       </Space>
-                )
-            }
+      )
+    }
   ];
 
   return allColumns.filter((col) => columnsVisibility[col.title] !== false);
@@ -324,6 +333,10 @@ const columns = useMemo(() => {
     </div>
   );
  
+  const handleEdit = () => {
+
+  }
+
   return (
     <div className="carburant-page">
       <Card
@@ -355,7 +368,7 @@ const columns = useMemo(() => {
             <Button
               type="primary"
               icon={<PlusCircleOutlined />}
-              onClick={() => openModal("Add")}
+              onClick={() => addCarburant()}
             >
               Nouveau
             </Button>
