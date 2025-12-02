@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, notification, Tabs } from 'antd';
 import { NodeIndexOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getModeleGenerateur } from '../../../../../services/generateurService';
+import FormModeleGen from './formModeleGen/FormModeleGen';
 
 const { Search } = Input;
 
@@ -117,7 +118,7 @@ const ListeModeleGen = () => {
                     </div>
                 </div>
 
-{/*         <Modal
+        <Modal
             title=""
             visible={modalType === 'Add'}
             onCancel={closeAllModals}
@@ -125,8 +126,8 @@ const ListeModeleGen = () => {
             width={700}
             centered
         >
-            <MarqueForm closeModal={() => setModalType(null)} fetchData={fetchData} />
-        </Modal> */}
+            <FormModeleGen closeModal={() => setModalType(null)} fetchData={fetchData} />
+        </Modal>
     </>
   )
 }
