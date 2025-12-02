@@ -27,7 +27,8 @@ import {
   getCarburantOne, 
   getCarburantPriceLimit, 
   getCarburantVehicule, 
-  postCarburant 
+  postCarburant, 
+  putCarburant
 } from '../../../../services/carburantService';
 import './carburantForm.scss';
 import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
@@ -159,30 +160,44 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
       prix_usd: prixUSD,
       montant_total_cdf: montantTotalCDF,
       montant_total_usd: montantTotalUSD,
-      user_cr: userId
+      user_cr: userId,
+      id_carburant: idCarburant,
     };
 
     setPendingPayload(payload);
     setForceConfirmation(false);
-    setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations carburant ?");
+
+    // Texte dynamique selon création / édition
+    setConfirmationMessage(
+      idCarburant
+        ? "Voulez-vous vraiment modifier ces informations carburant ?"
+        : "Voulez-vous vraiment enregistrer ces informations carburant ?"
+    );
+
     setConfirmVisible(true);
   };
 
   const handleConfirm = async () => {
     if (!pendingPayload) return;
-
     setLoadingConfirm(true);
 
     try {
-      // Si c'est une confirmation forcée (409)
-      const payloadToSend = forceConfirmation ? { ...pendingPayload, force: 1 } : pendingPayload;
+      const payloadToSend = forceConfirmation
+        ? { ...pendingPayload, force: 1 }
+        : pendingPayload;
 
-      await postCarburant(payloadToSend);
+      if (idCarburant) {
+        await putCarburant(payloadToSend);
+      } else {
+        await postCarburant(payloadToSend);
+      }
 
       notification.success({
-        message: 'Succès',
-        description: forceConfirmation 
-          ? "Le plein a été enregistré malgré l'alerte kilométrage incohérent."
+        message: "Succès",
+        description: forceConfirmation
+          ? "Le plein a été enregistré malgré l'alerte de kilométrage incohérent."
+          : idCarburant
+          ? "Les informations carburant ont été modifiées avec succès."
           : "Les informations carburant ont été enregistrées avec succès.",
       });
 
@@ -190,29 +205,37 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
       closeModal?.();
       fetchData?.();
       fetchDatas();
-
-      setConfirmVisible(false);
-      setPendingPayload(null);
-      setForceConfirmation(false);
+      resetConfirmationState();
 
     } catch (error) {
-      if (!forceConfirmation && error?.response?.status === 409 && error.response.data?.askConfirmation) {
-        // Cas du kilométrage incohérent
+
+      if (
+        !forceConfirmation &&
+        error?.response?.status === 409 &&
+        error?.response?.data?.askConfirmation
+      ) {
         setForceConfirmation(true);
-        setConfirmationMessage(error.response.data.message); // Message spécifique du backend
-      } else {
-        notification.error({
-          message: 'Erreur',
-          description: "Une erreur est survenue lors de l'enregistrement.",
-        });
-        console.error(error);
-        setConfirmVisible(false);
-        setPendingPayload(null);
-        setForceConfirmation(false);
+        setConfirmationMessage(error.response.data.message);
+        return;
       }
+
+      notification.error({
+        message: "Erreur",
+        description: "Une erreur est survenue lors de l'enregistrement.",
+      });
+
+      console.error(error);
+      resetConfirmationState();
+
     } finally {
       setLoadingConfirm(false);
     }
+  };
+
+  const resetConfirmationState = () => {
+    setConfirmVisible(false);
+    setPendingPayload(null);
+    setForceConfirmation(false);
   };
 
   const renderField = (component) =>

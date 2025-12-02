@@ -47,6 +47,15 @@ export const postCarburant = async (data) => {
   return axios.post(`${DOMAIN}/api/carburant`, data);
 };
 
+export const putCarburant = async (data) => {
+  return axios.put(`${DOMAIN}/api/carburant`, data);
+};
+
+export const deleteCarburant = async (id) => {
+  return axios.put(`${DOMAIN}/api/carburant/delete?id_carburant=${id}`);
+};
+
+//Prix carburant
 export const getCarburantPrice = async () => {
   return axios.get(`${DOMAIN}/api/carburant/carburant_prix`);
 };
