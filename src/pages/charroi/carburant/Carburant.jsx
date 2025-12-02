@@ -477,7 +477,7 @@ const columns = useMemo(() => {
         open={modalType === "Add"}
         onCancel={closeAllModals}
         footer={null}
-        width={1400}
+        width={ idCarburant? 800 :1400}
         centered
         destroyOnClose
       >

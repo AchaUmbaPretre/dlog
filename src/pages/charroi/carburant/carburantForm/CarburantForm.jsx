@@ -88,6 +88,16 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
         }
       } 
 
+      if(idCarburant) {
+        const { data: vehicules } = await getCarburantOne(vehiculeId,carburantId);
+        if(vehicules && vehicules[0]) {
+          form.setFieldsValue({
+            ...vehicules[0],
+            date_operation: moment(vehicules[0].date_operation, 'YYYY-MM-DD')
+          })
+        }
+      }
+
     } catch (error) {
       console.error("Erreur chargement prix carburant :", error);
     }
@@ -95,7 +105,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [vehiculeData, carburantId, idType]);
+  }, [vehiculeData, carburantId, idType, idCarburant]);
 
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
