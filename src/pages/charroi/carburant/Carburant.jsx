@@ -117,10 +117,10 @@ const montantTotalUsd = useMemo(() => {
   }
 
   const addCarburant = (id) => openModal('Add', id);
-  const modifyCarburant = (id) => openModal('Modify', id)
+  const modifyCarburant = (id) => openModal('Add', id)
 
   const handleDelete = (id) => {
-    
+
   }
 
   const filteredData = useMemo(() => {
@@ -481,7 +481,7 @@ const columns = useMemo(() => {
         centered
         destroyOnClose
       >
-        <CarburantForm closeModal={closeAllModals} fetchData={fetchData} />
+        <CarburantForm closeModal={closeAllModals} fetchData={fetchData} idCarburant={idCarburant} />
       </Modal>
     </div>
   );

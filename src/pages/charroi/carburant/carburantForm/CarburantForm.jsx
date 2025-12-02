@@ -35,7 +35,7 @@ import moment from 'moment';
 import ConfirmModal from '../../../../components/confirmModal/ConfirmModal';
 import { useSelector } from 'react-redux';
 
-const CarburantForm = ({ closeModal, fetchData }) => {
+const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState({ data: false, submit: false });
   const [fournisseurs, setFournisseurs] = useState([]);
@@ -404,10 +404,11 @@ const CarburantForm = ({ closeModal, fetchData }) => {
             </Form>
           </div>
         </div>
-
+        { !idCarburant &&
         <div className="controle_right">
           <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} />
         </div>
+        }
       </div>
       <ConfirmModal
         visible={confirmVisible}
