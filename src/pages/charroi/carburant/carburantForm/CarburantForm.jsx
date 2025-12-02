@@ -89,7 +89,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
       } 
 
       if(idCarburant) {
-        const { data: vehicules } = await getCarburantOne(vehiculeId,carburantId);
+        const { data: vehicules } = await getCarburantOne(vehiculeId,idCarburant);
         if(vehicules && vehicules[0]) {
           form.setFieldsValue({
             ...vehicules[0],
