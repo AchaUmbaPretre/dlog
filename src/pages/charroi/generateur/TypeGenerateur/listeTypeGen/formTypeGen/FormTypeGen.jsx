@@ -72,7 +72,7 @@ const FormTypeGen = ({closeModal, fetchData}) => {
                         <Col xs={24} md={24}>
                             <Form.Item
                                 name="nom_type_gen"
-                                label="Marque"
+                                label="Nom"
                                 rules={[
                                     {
                                         required: true,
