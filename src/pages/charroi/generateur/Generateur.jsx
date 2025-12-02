@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Tabs, notification } from 'antd';
+import { useState } from 'react'
+import { Tabs } from 'antd';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import {
   ThunderboltOutlined
 } from '@ant-design/icons';
 import ListGenerateur from './listGenerateur/ListGenerateur';
 import ListTypeGenerateur from './TypeGenerateur/ListTypeGenerateur';
-import { getGenerateur } from '../../../services/generateurService';
 
 const Generateur = () => {
     const [activeKey, setActiveKey] = useState('1');
