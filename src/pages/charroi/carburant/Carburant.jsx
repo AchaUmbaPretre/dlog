@@ -14,7 +14,8 @@ import {
   Checkbox,
   Tooltip,
   Skeleton,
-  Popconfirm
+  Popconfirm,
+  message
 } from "antd";
 import {
   CarOutlined,
@@ -34,7 +35,7 @@ import {
 } from "@ant-design/icons";
 import moment from "moment";
 import "./carburant.scss";
-import { getCarburant } from "../../../services/carburantService";
+import { deleteCarburant, getCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
 import CarburantKpi from "./carburantkpi/Carburantkpi";
@@ -119,8 +120,17 @@ const montantTotalUsd = useMemo(() => {
   const addCarburant = (id) => openModal('Add', id);
   const modifyCarburant = (id) => openModal('Add', id)
 
-  const handleDelete = (id) => {
-
+  const handleDelete = async(id) => {
+    try {
+      await deleteCarburant(id)
+      setData(data.filter((item) => item.id_tache !== id));
+      message.success('Carburant a été supprimé avec succès');
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de suppression',
+        description: 'Une erreur est survenue lors de la suppression du carburant.',
+      });
+    }
   }
 
   const filteredData = useMemo(() => {
@@ -324,7 +334,7 @@ const columns = useMemo(() => {
         <Tooltip title="Supprimer">
           <Popconfirm
             title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
-            onConfirm={() => handleDelete(record.id_tache)}
+            onConfirm={() => handleDelete(record.id_carburant)}
             okText="Oui"
             cancelText="Non"
           >
