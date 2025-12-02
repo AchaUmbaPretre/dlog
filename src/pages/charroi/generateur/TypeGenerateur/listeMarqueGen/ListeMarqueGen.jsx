@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, notification, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Button, Input, Modal, notification } from 'antd';
 import { NodeIndexOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { getMarqueGenerateur } from '../../../../../services/generateurService';
 import FormMarqueGen from './formMarqueGen/FormMarqueGen';
