@@ -255,7 +255,9 @@ const RelierFalcon = ({ fetchData }) => {
       bordered
     >
       {loading ? (
+        <div style={{height:'100%', width:'100%', margin:0}}>
         <Spin tip="Chargement..." size="large" />
+        </div>
       ) : (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           <Input.Search
