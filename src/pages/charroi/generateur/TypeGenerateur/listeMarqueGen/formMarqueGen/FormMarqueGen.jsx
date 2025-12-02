@@ -57,7 +57,7 @@ const FormMarqueGen = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER UNE MARQUE</h2>
+                <h2 className="controle_h2">ENREGISTRER UNE MARQUE DES GENERATEURS</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
