@@ -280,7 +280,25 @@ const columns = useMemo(() => {
       key: "createur", 
       render: (text) => (
       <Text>{text ?? 'N/A'}</Text>
-    )},
+    )
+  },
+  {
+    title: "Actions",
+    key: 'action',
+    width: '10%',
+    render: (text, record) => (
+      <Space size="middle">
+        <Tooltip title="Modifier">
+          <Button
+            icon={<EditOutlined />}
+            style={{ color: 'green' }}
+            onClick={() => handleEdit(record.id_tache)}
+            aria-label="Edit generateur"
+          />
+        </Tooltip>   
+      </Space>
+                )
+            }
   ];
 
   return allColumns.filter((col) => columnsVisibility[col.title] !== false);
