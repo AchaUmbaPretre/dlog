@@ -336,7 +336,7 @@ const columns = useMemo(() => {
 
         <Tooltip title="Supprimer">
           <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer cette tâche ?"
+            title="Êtes-vous sûr de vouloir supprimer cette ligne ?"
             onConfirm={() => handleDelete(record.id_carburant)}
             okText="Oui"
             cancelText="Non"

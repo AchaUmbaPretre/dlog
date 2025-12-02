@@ -1,77 +1,85 @@
-.carburant-detail {
+.carburantPro {
   padding: 25px;
   display: flex;
   flex-direction: column;
   gap: 25px;
 
-  .header-action {
+  .top-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .title {
-      font-size: 26px;
-      font-weight: 700;
+    .title-block {
       display: flex;
-      gap: 10px;
       align-items: center;
-
-      svg {
-        color: #fa541c;
-      }
-    }
-  }
-
-  #pdf-content {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .detail-card {
-    background: #ffffff;
-    padding: 20px 25px;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    border-left: 5px solid #1890ff;
-
-    h3 {
-      font-size: 20px;
-      font-weight: 600;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-
-      svg {
-        color: #1890ff;
-      }
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
 
-      div {
-        background: #fafafa;
-        padding: 12px;
-        border-radius: 10px;
+      h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .icon {
+        font-size: 28px;
+        color: #ff4d4f;
+      }
+    }
+  }
+
+  .content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 20px 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #e6e6e6;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 700;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        svg {
+          color: #1677ff;
+        }
+      }
+
+      p {
+        margin: 6px 0;
         font-size: 15px;
 
-        span {
-          font-weight: 600;
+        strong {
           color: #333;
         }
       }
     }
+  }
 
-    .commentaire {
-      background: #fafafa;
-      padding: 15px;
-      border-radius: 8px;
+  .commentaire-box {
+    background: #fafafa;
+    padding: 20px 25px;
+    border-radius: 12px;
+    border-left: 4px solid #1677ff;
+
+    h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
     }
   }
 }
