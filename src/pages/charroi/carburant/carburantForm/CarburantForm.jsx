@@ -228,7 +228,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
       <div className="carburant_wrapper">
         <div className="controle_form">
           <div className="controle_title_rows">
-            <h2 className="controle_h2">Enregistrer un nouveau carburant</h2>
+            <h2 className="controle_h2"> {idCarburant ? 'MODIFIER UN CARBURANT' : 'Enregistrer un nouveau carburant'}</h2>
           </div>
           <div className="controle_wrapper">
             <Form
