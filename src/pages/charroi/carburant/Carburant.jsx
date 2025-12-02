@@ -330,7 +330,7 @@ const columns = useMemo(() => {
             icon={<EyeOutlined />}
             aria-label="Voir les détails"
             style={{ color: 'blue' }}
-            onClick={() => detailCarburant()}
+            onClick={() => detailCarburant(record.id_carburant)}
           />
         </Tooltip> 
 
