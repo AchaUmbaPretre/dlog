@@ -11,9 +11,10 @@ import {
   notification,
   Empty,
   Checkbox,
+  Tooltip
 } from "antd";
 import {
-
+  EditOutlined,
   FireOutlined,
   PlusCircleOutlined,
   ReloadOutlined,
@@ -112,6 +113,23 @@ const ListGenerateur = () => {
         {   title:"Largeur", dataIndex: "largeur", key: "largeur"},
         {   title:"Longueur", dataIndex: "longueur", key: "longueur"},
         {   title:"Crée par", dataIndex: "user_cr", key: "user_cr"},
+        {
+            title: "Actions",
+            key: 'action',
+            width: '10%',
+            render: (text, record) => (
+                <Space size="middle">
+                    <Tooltip title="Modifier">
+                        <Button
+                            icon={<EditOutlined />}
+                            style={{ color: 'green' }}
+                            onClick={() => handleEdit(record.id_tache)}
+                            aria-label="Edit generateur"
+                        />
+                    </Tooltip>   
+                </Space>
+            )
+        }
 
     ];
     return allColumns.filter((col) => columnsVisibility[col.title] !== false);
@@ -127,7 +145,11 @@ const ListGenerateur = () => {
             item.nom_type_gen?.toLowerCase().includes(search) || 
             item.nom_type_carburant?.toLowerCase().includes(search)
     );
-  }, [data, searchValue])
+  }, [data, searchValue]);
+
+  const handleEdit = () => {
+
+  }
 
   return (
     <div className="carburant-page">
