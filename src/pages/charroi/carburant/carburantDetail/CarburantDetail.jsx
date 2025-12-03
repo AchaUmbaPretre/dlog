@@ -109,7 +109,7 @@ const CarburantDetail = ({ id_vehicule, idCarburant, allIds = [] }) => {
 
         <div className="col">
           <section className="box elevated">
-            <h3><CarOutlined /> Informations Véhicule</h3>
+            <h3><CarOutlined style={{ color: "#1677ff" }}/> Informations Véhicule</h3>
             <Divider />
             <p><strong>Marque :</strong> {data.nom_marque}</p>
             <p><strong>Modèle :</strong> {data.nom_modele}</p>
@@ -117,7 +117,7 @@ const CarburantDetail = ({ id_vehicule, idCarburant, allIds = [] }) => {
           </section>
 
           <section className="box elevated">
-            <h3><FireOutlined /> Carburant</h3>
+            <h3><FireOutlined style={{ color: "#ff4d4f" }}/> Carburant</h3>
             <Divider />
             <p><strong>Type :</strong> {data.nom_type_carburant}</p>
             <p><strong>Quantité :</strong> {formatNumber(data.quantite_litres)} L</p>
@@ -128,14 +128,14 @@ const CarburantDetail = ({ id_vehicule, idCarburant, allIds = [] }) => {
 
         <div className="col">
           <section className="box elevated">
-            <h3><DollarOutlined /> Montants</h3>
+            <h3><DollarOutlined style={{ color: "#faad14" }} /> Montants</h3>
             <Divider />
             <p><strong>Total USD :</strong> {formatNumber(data.montant_total_usd)} $</p>
             <p><strong>Total CDF :</strong> {formatNumber(data.montant_total_cdf)} Fc</p>
           </section>
 
           <section className="box elevated">
-            <h3><DashboardOutlined /> Opération</h3>
+            <h3><DashboardOutlined style={{ color: "#0958d9" }}/> Opération</h3>
             <Divider />
             <p><strong>Date :</strong> <CalendarOutlined /> {dateOperation}</p>
             <p><strong>Compteur KM :</strong> {formatNumber(data.compteur_km)} Km</p>
