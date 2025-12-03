@@ -32,7 +32,7 @@ const CarburantFilter = ({ onFilter }) => {
   const vehiculeOptions = useMemo(
     () =>
       vehicule.map((item) => ({
-        value: item.id_vehicule_carburant,
+        value: item.id_enregistrement,
         label: `${item.nom_marque} / ${item.immatriculation}`,
       })),
     [vehicule]
@@ -57,6 +57,7 @@ const CarburantFilter = ({ onFilter }) => {
           <Select
             mode="multiple"
             showSearch
+            optionFilterProp="label"
             style={{ width: "100%" }}
             options={vehiculeOptions}
             placeholder="Sélectionnez..."

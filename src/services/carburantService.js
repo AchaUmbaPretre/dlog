@@ -28,8 +28,8 @@ export const putRelierCarburantVehicule = async (id, data) => {
 };
   
 export const getCarburant = async (data) => {
-    return axios.post(`${DOMAIN}/api/carburant`, data);
-  };
+  return axios.post(`${DOMAIN}/api/carburant`, data);
+};
 
 export const getCarburantLimitTen = async (id_vehicule) => {
     return axios.get(`${DOMAIN}/api/carburant/limit_ten?id_vehicule=${id_vehicule}`);
