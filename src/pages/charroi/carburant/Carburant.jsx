@@ -40,6 +40,7 @@ import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
 import CarburantKpi from "./carburantkpi/Carburantkpi";
 import CarburantDetail from "./carburantDetail/CarburantDetail";
+import CarburantFilter from "./carburantFilter/CarburantFilter";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -71,8 +72,9 @@ const Carburant = () => {
   });
   const [idCarburant, setIdCarburant] = useState([]);
   const [allIds, setAllIds] = useState([]);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [filteredDatas, setFilteredDatas] = useState(null);
 
-  // --- KPI Calculations ---
 const totalKmActuel = useMemo(() => {
   return data.reduce((sum, item) => sum + (item.compteur_km || 0), 0);
 }, [data]);
@@ -92,10 +94,10 @@ const montantTotalUsd = useMemo(() => {
 }, [data]);
 
 
-  const fetchData = async () => {
+  const fetchData = async (filteredDatas) => {
     setLoading(true);
     try {
-      const response = await getCarburant();
+      const response = await getCarburant(filteredDatas);
       setData(response?.data || []);
       setAllIds([...new Set(response?.data?.map(d =>d.id_carburant) || [])]);
     } catch (error) {
@@ -109,10 +111,9 @@ const montantTotalUsd = useMemo(() => {
     }
   };
 
-  console.log(allIds)
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(filteredDatas);
+  }, [filteredDatas]);
 
   const closeAllModals = () => setModalType(null);
 
@@ -380,6 +381,15 @@ const columns = useMemo(() => {
     </div>
   );
 
+  const handFilter = () => {
+    fetchData()
+    setFilterVisible(!filterVisible)
+  }
+
+  const handleFilterChange = (newFilters) => {
+    setFilteredDatas(newFilters); 
+  };
+
   return (
     <div className="carburant-page">
       <Card
@@ -415,6 +425,12 @@ const columns = useMemo(() => {
             >
               Nouveau
             </Button>
+            <Button
+              type="default"
+              onClick={handFilter}
+            >
+              {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
+            </Button>
             <Dropdown overlay={columnMenu} trigger={["click"]}>
               <Button icon={<MenuOutlined />}>
                 Colonnes <DownOutlined />
@@ -424,6 +440,9 @@ const columns = useMemo(() => {
           </Space>
         }
       >
+        <div>
+          {filterVisible && <CarburantFilter onFilter={handleFilterChange}/>}
+        </div>
         <div className="kpi-wrapper">
           <CarburantKpi
             icon={<DashboardOutlined />}
