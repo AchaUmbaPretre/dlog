@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useCallback, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Select, DatePicker, Skeleton, notification } from "antd";
 import { getCarburantVehicule } from "../../../../services/carburantService";
 
@@ -10,7 +10,6 @@ const CarburantFilter = ({ onFilter }) => {
   const [dateRange, setDateRange] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  /** Chargement des véhicules */
   useEffect(() => {
     const fetchVehicules = async () => {
       setLoading(true);
@@ -30,7 +29,6 @@ const CarburantFilter = ({ onFilter }) => {
     fetchVehicules();
   }, []);
 
-  /** Options mémoisées */
   const vehiculeOptions = useMemo(
     () =>
       vehicule.map((item) => ({
@@ -40,7 +38,6 @@ const CarburantFilter = ({ onFilter }) => {
     [vehicule]
   );
 
-  /** Déclenchement du filtre */
   useEffect(() => {
     onFilter({
       vehicules: selectedVehicule,
@@ -51,7 +48,6 @@ const CarburantFilter = ({ onFilter }) => {
   return (
     <div className="filterTache">
 
-      {/* Véhicules */}
       <div className="filter_row">
         <label>Véhicule :</label>
 
@@ -69,7 +65,6 @@ const CarburantFilter = ({ onFilter }) => {
         )}
       </div>
 
-      {/* Dates */}
       <div className="filter_row">
         <label>Date :</label>
 
