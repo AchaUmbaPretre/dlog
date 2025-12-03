@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Select, DatePicker, Skeleton, notification } from "antd";
-import { getCarburantVehicule } from "../../../../services/carburantService";
+import { getCarburantVehicule } from "../../../../../services/carburantService";
 
 const { RangePicker } = DatePicker;
 

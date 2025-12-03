@@ -33,13 +33,13 @@ import {
 import "./carburant.scss";
 import { deleteCarburant } from "../../../services/carburantService";
 import { formatNumber } from "../../../utils/formatNumber";
-import CarburantDetail from "./carburantDetail/CarburantDetail";
-import CarburantFilter from "./carburantFilter/CarburantFilter";
 import { useCarburantData } from "./hooks/useCarburantData";
 import { useCarburantColumns } from "./hooks/useCarburantColumns";
 import { useCarburantKpis } from "./hooks/useCarburantKpis";
 import CarburantKpi from "./composant/carburantkpi/Carburantkpi";
 import CarburantForm from "./composant/carburantForm/CarburantForm";
+import CarburantFilter from "./composant/carburantFilter/CarburantFilter";
+import CarburantDetail from "./composant/carburantDetail/CarburantDetail";
 
 const { Search } = Input;
 const { Title } = Typography;

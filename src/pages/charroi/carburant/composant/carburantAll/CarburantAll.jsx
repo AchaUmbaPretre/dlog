@@ -5,10 +5,10 @@ import {
   ThunderboltOutlined,
   FileTextOutlined
 } from '@ant-design/icons';
-import { getTabStyle, iconStyle } from '../../../../utils/tabStyles';
-import Carburant from '../Carburant';
-import VehiculeCarburant from '../vehiculeCarburant/VehiculeCarburant';
-import RapportCarburant from '../rapportCarburant/RapportCarburant';
+import { getTabStyle, iconStyle } from '../../../../../utils/tabStyles';
+import Carburant from '../../Carburant';
+import RapportCarburant from '../../rapportCarburant/RapportCarburant';
+import VehiculeCarburant from '../../vehiculeCarburant/VehiculeCarburant';
 
 const CarburantAll = () => {
   const [activeKey, setActiveKey] = useState('1');

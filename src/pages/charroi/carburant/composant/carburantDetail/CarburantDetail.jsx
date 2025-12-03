@@ -13,8 +13,8 @@ import {
 } from '@ant-design/icons';
 
 import './carburantDetail.scss';
-import { getCarburantOne } from '../../../../services/carburantService';
-import { formatNumber } from '../../../../utils/formatNumber';
+import { getCarburantOne } from '../../../../../services/carburantService';
+import { formatNumber } from '../../../../../utils/formatNumber';
 
 const CarburantDetail = ({ id_vehicule, idCarburant, allIds = [] }) => {
   const [data, setData] = useState(null);
