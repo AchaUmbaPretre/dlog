@@ -46,7 +46,7 @@ const CarburantFilter = ({ onFilter }) => {
   }, [selectedVehicule, dateRange]);
 
   return (
-    <div className="filterTache">
+    <div className="filterTache" style={{marginBottom:'20px'}}>
 
       <div className="filter_row">
         <label>Véhicule :</label>
