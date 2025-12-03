@@ -32,14 +32,14 @@ import {
 } from "@ant-design/icons";
 import "./carburant.scss";
 import { deleteCarburant } from "../../../services/carburantService";
-import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
-import CarburantKpi from "./carburantkpi/Carburantkpi";
 import CarburantDetail from "./carburantDetail/CarburantDetail";
 import CarburantFilter from "./carburantFilter/CarburantFilter";
 import { useCarburantData } from "./hooks/useCarburantData";
 import { useCarburantColumns } from "./hooks/useCarburantColumns";
 import { useCarburantKpis } from "./hooks/useCarburantKpis";
+import CarburantKpi from "./composant/carburantkpi/Carburantkpi";
+import CarburantForm from "./composant/carburantForm/CarburantForm";
 
 const { Search } = Input;
 const { Title } = Typography;

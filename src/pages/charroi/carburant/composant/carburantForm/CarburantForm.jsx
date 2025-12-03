@@ -18,23 +18,14 @@ import {
 import { 
   getChauffeur,
   getTypeCarburant
-} from '../../../../services/charroiService';
-import { 
-  getFournisseur_activiteOne 
-} from '../../../../services/fournisseurService';
-import { 
-  getCarburantLimitTen, 
-  getCarburantOne, 
-  getCarburantPriceLimit, 
-  getCarburantVehicule, 
-  postCarburant, 
-  putCarburant
-} from '../../../../services/carburantService';
+} from '../../../../../services/charroiService';
 import './carburantForm.scss';
 import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
 import moment from 'moment';
-import ConfirmModal from '../../../../components/confirmModal/ConfirmModal';
+import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 import { useSelector } from 'react-redux';
+import { getCarburantLimitTen, getCarburantOne, getCarburantPriceLimit, getCarburantVehicule, postCarburant, putCarburant } from '../../../../../services/carburantService';
+import { getFournisseur_activiteOne } from '../../../../../services/fournisseurService';
 
 const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [form] = Form.useForm();
