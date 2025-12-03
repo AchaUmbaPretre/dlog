@@ -501,7 +501,7 @@ const columns = useMemo(() => {
         open={modalType === "Detail"}
         onCancel={closeAllModals}
         footer={null}
-        width={ 950 }
+        width={ 1050 }
         centered
         destroyOnClose
       >

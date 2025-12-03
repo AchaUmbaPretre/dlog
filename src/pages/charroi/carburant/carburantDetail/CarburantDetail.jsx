@@ -11,15 +11,12 @@ import {
   MessageOutlined,
 } from '@ant-design/icons';
 import './carburantDetail.scss';
-import html2pdf from "html2pdf.js";
 import { getCarburantOne } from '../../../../services/carburantService';
 import { formatNumber } from '../../../../utils/formatNumber';
 
 const CarburantDetail = ({ id_vehicule, idCarburant }) => {
-
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const pdfRef = useRef(null);
 
   const fetchData = async () => {
     try {
@@ -33,19 +30,6 @@ const CarburantDetail = ({ id_vehicule, idCarburant }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const exportPDF = () => {
-    const element = pdfRef.current;
-    const options = {
-      margin: 0.5,
-      filename: `carburant_${data?.id_carburant}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-    };
-
-    html2pdf().from(element).set(options).save();
   };
 
   useEffect(() => {
@@ -75,13 +59,9 @@ const CarburantDetail = ({ id_vehicule, idCarburant }) => {
           <FireOutlined className="icon" />
           <h2>Détails Carburant</h2>
         </div>
-
-        <Button type="primary" icon={<FilePdfOutlined />} onClick={exportPDF}>
-          Exporter en PDF
-        </Button>
       </div>
 
-      <div ref={pdfRef} id="pdf-content" className="content-wrapper">
+      <div id="pdf-content" className="content-wrapper">
 
         <div className="col">
 
