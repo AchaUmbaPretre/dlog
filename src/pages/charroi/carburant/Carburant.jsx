@@ -47,8 +47,6 @@ const { Title } = Typography;
 const Carburant = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [modal, setModal] = useState({ type: null, id: null });
-
-  // columns visibility map (can be persisted to localStorage later)
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
     "Num PC": false,
@@ -79,7 +77,6 @@ const Carburant = () => {
 
   const allIds = useMemo(() => [...new Set(data.map((d) => d.id_carburant))], [data]);
 
-  // filteredData (search)
   const filteredData = useMemo(() => {
     const search = (searchValue || "").toLowerCase().trim();
     if (!search) return data;
