@@ -7,14 +7,11 @@ import {
   Space,
   Modal,
   Typography,
-  Tag,
   Card,
   notification,
   Empty,
   Checkbox,
-  Tooltip,
   Skeleton,
-  Popconfirm,
   message,
 } from "antd";
 import {
@@ -42,38 +39,13 @@ import CarburantDetail from "./carburantDetail/CarburantDetail";
 import CarburantFilter from "./carburantFilter/CarburantFilter";
 import { useCarburantData } from "./hooks/useCarburantData";
 import { useCarburantColumns } from "./hooks/useCarburantColumns";
+import { useCarburantKpis } from "./hooks/useCarburantKpis";
 
 const { Search } = Input;
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
-function useCarburantKpis(data) {
-  const totalKmActuel = useMemo(
-    () => data.reduce((sum, item) => sum + (item.compteur_km || 0), 0),
-    [data]
-  );
-  const totalConsommation = useMemo(
-    () => data.reduce((sum, item) => sum + (item.consommation || 0), 0),
-    [data]
-  );
-  const distanceMoyenne = useMemo(() => {
-    if (!data || data.length === 0) return 0;
-    const totalDistance = data.reduce((sum, item) => sum + (item.distance || 0), 0);
-    return totalDistance / data.length;
-  }, [data]);
-  const montantTotalUsd = useMemo(
-    () => data.reduce((sum, item) => sum + (item.montant_total_usd || 0), 0),
-    [data]
-  );
-
-  return { totalKmActuel, totalConsommation, distanceMoyenne, montantTotalUsd };
-}
-
-/* ------------------ Component ------------------ */
 const Carburant = () => {
-  // pagination UI state
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-
-  // compact modal state object
   const [modal, setModal] = useState({ type: null, id: null });
 
   // columns visibility map (can be persisted to localStorage later)
@@ -100,14 +72,11 @@ const Carburant = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
 
-  // data hook
   const { data, setData, loading, reload, setFilters } = useCarburantData(null);
 
-  // computed KPIs
   const { totalKmActuel, totalConsommation, distanceMoyenne, montantTotalUsd } =
     useCarburantKpis(data);
 
-  // ids
   const allIds = useMemo(() => [...new Set(data.map((d) => d.id_carburant))], [data]);
 
   // filteredData (search)
