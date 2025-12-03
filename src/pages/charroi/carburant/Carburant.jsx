@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Table,
   Button,
@@ -15,7 +15,7 @@ import {
   Tooltip,
   Skeleton,
   Popconfirm,
-  message
+  message,
 } from "antd";
 import {
   CarOutlined,
@@ -31,26 +31,52 @@ import {
   DownOutlined,
   MenuOutlined,
   EyeOutlined,
-  DeleteOutlined
+  DeleteOutlined,
 } from "@ant-design/icons";
-import moment from "moment";
 import "./carburant.scss";
-import { deleteCarburant, getCarburant } from "../../../services/carburantService";
+import { deleteCarburant } from "../../../services/carburantService";
 import CarburantForm from "./carburantForm/CarburantForm";
 import { formatNumber } from "../../../utils/formatNumber";
 import CarburantKpi from "./carburantkpi/Carburantkpi";
 import CarburantDetail from "./carburantDetail/CarburantDetail";
 import CarburantFilter from "./carburantFilter/CarburantFilter";
+import { useCarburantData } from "./hooks/useCarburantData";
+import { useCarburantColumns } from "./hooks/useCarburantColumns";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
 
+function useCarburantKpis(data) {
+  const totalKmActuel = useMemo(
+    () => data.reduce((sum, item) => sum + (item.compteur_km || 0), 0),
+    [data]
+  );
+  const totalConsommation = useMemo(
+    () => data.reduce((sum, item) => sum + (item.consommation || 0), 0),
+    [data]
+  );
+  const distanceMoyenne = useMemo(() => {
+    if (!data || data.length === 0) return 0;
+    const totalDistance = data.reduce((sum, item) => sum + (item.distance || 0), 0);
+    return totalDistance / data.length;
+  }, [data]);
+  const montantTotalUsd = useMemo(
+    () => data.reduce((sum, item) => sum + (item.montant_total_usd || 0), 0),
+    [data]
+  );
+
+  return { totalKmActuel, totalConsommation, distanceMoyenne, montantTotalUsd };
+}
+
+/* ------------------ Component ------------------ */
 const Carburant = () => {
+  // pagination UI state
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-  const [loading, setLoading] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [modalType, setModalType] = useState(null);
-  const [data, setData] = useState([]);
+
+  // compact modal state object
+  const [modal, setModal] = useState({ type: null, id: null });
+
+  // columns visibility map (can be persisted to localStorage later)
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
     "Num PC": false,
@@ -68,79 +94,25 @@ const Carburant = () => {
     "Date opération": true,
     "M. ($)": true,
     "M. (CDF)": true,
-    "Créé par" : false
+    "Créé par": false,
   });
-  const [idCarburant, setIdCarburant] = useState([]);
-  const [allIds, setAllIds] = useState([]);
+
+  const [searchValue, setSearchValue] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
-  const [filteredDatas, setFilteredDatas] = useState(null);
 
-const totalKmActuel = useMemo(() => {
-  return data.reduce((sum, item) => sum + (item.compteur_km || 0), 0);
-}, [data, filteredDatas]);
+  // data hook
+  const { data, setData, loading, reload, setFilters } = useCarburantData(null);
 
-const totalConsommation = useMemo(() => {
-  return data.reduce((sum, item) => sum + (item.consommation || 0), 0);
-}, [data, filteredDatas]);
+  // computed KPIs
+  const { totalKmActuel, totalConsommation, distanceMoyenne, montantTotalUsd } =
+    useCarburantKpis(data);
 
-const distanceMoyenne = useMemo(() => {
-  if (data.length === 0) return 0;
-  const totalDistance = data.reduce((sum, item) => sum + (item.distance || 0), 0);
-  return totalDistance / data.length;
-}, [data, filteredDatas]);
+  // ids
+  const allIds = useMemo(() => [...new Set(data.map((d) => d.id_carburant))], [data]);
 
-const montantTotalUsd = useMemo(() => {
-  return data.reduce((sum, item) => sum + (item.montant_total_usd || 0), 0);
-}, [data, filteredDatas]);
-
-
-  const fetchData = async (filteredDatas) => {
-    setLoading(true);
-    try {
-      const response = await getCarburant(filteredDatas);
-      setData(response?.data || []);
-      setAllIds([...new Set(response?.data?.map(d =>d.id_carburant) || [])]);
-    } catch (error) {
-      notification.error({
-        message: "Erreur de chargement",
-        description: "Impossible de récupérer les données carburant.",
-        placement: "topRight",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData(filteredDatas);
-  }, [filteredDatas]);
-
-  const closeAllModals = () => setModalType(null);
-
-  const openModal = (type, id='') => {
-    setModalType(type);
-    setIdCarburant(id)
-  }
-
-  const addCarburant = (id) => openModal('Add', id);
-  const modifyCarburant = (id) => openModal('Add', id)
-  const detailCarburant = (id) => openModal('Detail', id)
-
-  const handleDelete = async(id) => {
-    try {
-      await deleteCarburant(id)
-      setData(data.filter((item) => item.id_carburant !== id));
-      message.success('Carburant a été supprimé avec succès');
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de suppression',
-        description: 'Une erreur est survenue lors de la suppression du carburant.',
-      });
-    }
-  }
-
+  // filteredData (search)
   const filteredData = useMemo(() => {
-    const search = searchValue.toLowerCase().trim();
+    const search = (searchValue || "").toLowerCase().trim();
     if (!search) return data;
     return data.filter(
       (item) =>
@@ -152,226 +124,45 @@ const montantTotalUsd = useMemo(() => {
     );
   }, [data, searchValue]);
 
-const columns = useMemo(() => {
-  const allColumns = [
-    {
-      title: "#",
-      key: "index",
-      width: 60,
-      align: "center",
-      render: (_, __, index) =>
-        (pagination.current - 1) * pagination.pageSize + index + 1,
-    },
-    { title: "Num PC", dataIndex: "num_pc", key: "num_pc" },
-    { title: "Facture", dataIndex: "num_facture", key: "num_facture" },
-    {
-      title: "Date op.",
-      dataIndex: "date_operation",
-      key: "date_operation",
-      sorter: (a, b) =>
-        moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-      render: (text) => (
-        <Tag icon={<CalendarOutlined />} color="red">
-          {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
-        </Tag>
-      ),
-    },
-    {
-      title: "Chauffeur",
-      dataIndex: "nom_chauffeur",
-      render: (value, record) => (
-        <Space>
-          <UserOutlined style={{ color: "#a87857ff" }} />
-          <Text strong>
-            {value && record.prenom ? `${value} ${record.prenom}` : record.commentaire}
-          </Text>
-        </Space>
-      ),
-    },
-    {
-      title: "Marque / Immat.",
-      key: "vehicule_marque",
-      render: (_, record) => (
-        <div>
-          <Text strong>{record.nom_marque ?? "N/A"}</Text>
-          <br />
-          <Tag color="blue">{record.immatriculation ?? "N/A"}</Tag>
-        </div>
-      ),
-      sorter: (a, b) => (a.nom_marque ?? "").localeCompare(b.nom_marque ?? ""),
-      width: 180,
-    },
-    {
-      title: "Type vehi.",
-      dataIndex: "abreviation",
-      key: "abreviation",
-      render: (text) => (
-        <Space>
-          <CarOutlined style={{ color: "#1890ff" }} />
-          <Text>{text ?? "N/A"}</Text>
-        </Space>
-      ),
-    },
-    {
-      title: "Fournisseur",
-      dataIndex: "nom_fournisseur",
-      key: "nom_fournisseur",
-    },
-    {
-      title: "Qté (L)",
-      dataIndex: "quantite_litres",
-      key: "quantite_litres",
-      align: "right",
-      sorter: (a, b) => a.quantite_litres - b.quantite_litres,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => <Text>{formatNumber(text)} L</Text>,
-    },
-    {
-      title: "Km actuel",
-      dataIndex: "compteur_km",
-      key: "compteur_km",
-      align: "right",
-      sorter: (a, b) => a.compteur_km - b.compteur_km,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => <Text>{formatNumber(text)} km</Text>,
-    },
-    {
-      title: "Dist. (km)",
-      dataIndex: "distance",
-      key: "distance",
-      align: "right",
-      sorter: (a, b) => a.distance - b.distance,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => <Text>{formatNumber(text)} km</Text>,
-    },
-    {
-      title: "Cons./100km",
-      dataIndex: "consommation",
-      key: "consommation",
-      align: "right",
-      sorter: (a, b) => a.consommation - b.consommation,
-      sortDirections: ['descend', 'ascend'],
-      render: (value) => {
-        let color = "🟢";
-        let statusText = "Normal";
+  // handlers to open/close modals
+  const openModal = (type, id = null) => setModal({ type, id });
+  const closeAllModals = () => setModal({ type: null, id: null });
 
-        if (value > 15 && value <= 30) {
-          color = "🟡";
-          statusText = "À surveiller";
-        } else if (value > 30) {
-          color = "🔴";
-          statusText = "Anormal";
-        }
-
-        return (
-          <Tooltip title={statusText}>
-            <span>
-              {formatNumber(value, " L")} / 100km {color}
-            </span>
-          </Tooltip>
-        );
-      },
+  // delete handler uses local state to update instantly, then show messages
+  const handleDelete = useCallback(
+    async (id) => {
+      try {
+        await deleteCarburant(id);
+        setData((prev) => prev.filter((item) => item.id_carburant !== id));
+        message.success("Carburant a été supprimé avec succès");
+      } catch (err) {
+        notification.error({
+          message: "Erreur de suppression",
+          description: "Une erreur est survenue lors de la suppression du carburant.",
+        });
+      }
     },
-    {
-      title: "P.U ($)",
-      dataIndex: "prix_usd",
-      key: "prix_usd",
-      align: "right",
-      sorter: (a, b) => a.prix_usd - b.prix_usd,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => <Text>{formatNumber(text, " $")}</Text>,
-    },
-    {
-      title: "M. ($)",
-      dataIndex: "montant_total_usd",
-      key: "montant_total_usd",
-      align: "right",
-      sorter: (a, b) => a.montant_total_usd - b.montant_total_usd,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => (
-        <Text strong style={{ color: "#1677ff" }}>
-          {text ? formatNumber(text, " $") : "N/A"}
-        </Text>
-      ),
-    },
-    {
-      title: "M. (CDF)",
-      dataIndex: "montant_total_cdf",
-      key: "montant_total_cdf",
-      align: "right",
-      sorter: (a, b) => a.montant_total_cdf - b.montant_total_cdf,
-      sortDirections: ['descend', 'ascend'],
-      render: (text) => (
-        <Text strong style={{ color: "#1677ff" }}>
-          {text ? formatNumber(text, " CDF") : "N/A"}
-        </Text>
-      ),
-    },
-    { title: "Créé par", 
-      dataIndex: "createur", 
-      key: "createur", 
-      render: (text) => (
-      <Text>{text ?? 'N/A'}</Text>
-    )
-  },
-  {
-    title: "Actions",
-    key: 'action',
-    width: '10%',
-    render: (text, record) => (
-      <Space size="middle">
-        <Tooltip title="Modifier">
-          <Button
-            icon={<EditOutlined />}
-            style={{ color: 'green' }}
-            onClick={() => modifyCarburant(record.id_carburant)}
-            aria-label="Edit generateur"
-          />
-        </Tooltip>   
+    [setData]
+  );
 
-        <Tooltip title="Voir les détails">
-          <Button
-            icon={<EyeOutlined />}
-            aria-label="Voir les détails"
-            style={{ color: 'blue' }}
-            onClick={() => detailCarburant(record.id_carburant)}
-          />
-        </Tooltip> 
+  // columns hook
+  const columns = useCarburantColumns({
+    pagination,
+    columnsVisibility,
+    onEdit: (id) => openModal("Add", id),
+    onDetail: (id) => openModal("Detail", id),
+    onDelete: handleDelete,
+  });
 
-        <Tooltip title="Supprimer">
-          <Popconfirm
-            title="Êtes-vous sûr de vouloir supprimer cette ligne ?"
-            onConfirm={() => handleDelete(record.id_carburant)}
-            okText="Oui"
-            cancelText="Non"
-          >
-            <Button
-              icon={<DeleteOutlined />}
-              style={{ color: 'red' }}
-              aria-label="Delete"
-            />
-              </Popconfirm>
-          </Tooltip>
-          
-      </Space>
-      )
-    }
-  ];
-
-  return allColumns.filter((col) => columnsVisibility[col.title] !== false);
-}, [pagination, columnsVisibility]);
-
+  // column menu UI
   const columnMenu = (
-    <div style={{ padding: 10, background:'#fff' }}>
+    <div style={{ padding: 10, background: "#fff" }}>
       {Object.keys(columnsVisibility).map((colName) => (
         <div key={colName}>
           <Checkbox
             checked={columnsVisibility[colName]}
             onChange={() =>
-              setColumnsVisibility((prev) => ({
-                ...prev,
-                [colName]: !prev[colName],
-              }))
+              setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
             }
           >
             {colName}
@@ -381,13 +172,16 @@ const columns = useMemo(() => {
     </div>
   );
 
+  // toggle filter panel (keeps fetch separate)
   const handFilter = () => {
-    fetchData()
-    setFilterVisible(!filterVisible)
-  }
+    setFilterVisible((v) => !v);
+  };
 
   const handleFilterChange = (newFilters) => {
-    setFilteredDatas(newFilters); 
+    // pass new filters to data hook and trigger reload
+    setFilters(newFilters);
+    // force reload with new filters
+    reload(newFilters);
   };
 
   return (
@@ -411,25 +205,14 @@ const columns = useMemo(() => {
               onChange={(e) => setSearchValue(e.target.value)}
               style={{ width: 260 }}
             />
-            <Button
-              icon={<ReloadOutlined />}
-              onClick={fetchData}
-              loading={loading}
-            >
+            <Button icon={<ReloadOutlined />} onClick={() => reload()} loading={loading}>
               Actualiser
             </Button>
-            <Button
-              type="primary"
-              icon={<PlusCircleOutlined />}
-              onClick={() => addCarburant()}
-            >
+            <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => openModal("Add")}>
               Nouveau
             </Button>
-            <Button
-              type="default"
-              onClick={handFilter}
-            >
-              {filterVisible ? '🚫 Cacher les filtres' : '👁️ Afficher les filtres'}
+            <Button type="default" onClick={handFilter}>
+              {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
             </Button>
             <Dropdown overlay={columnMenu} trigger={["click"]}>
               <Button icon={<MenuOutlined />}>
@@ -440,9 +223,8 @@ const columns = useMemo(() => {
           </Space>
         }
       >
-        <div>
-          {filterVisible && <CarburantFilter onFilter={handleFilterChange}/>}
-        </div>
+        {filterVisible && <CarburantFilter onFilter={handleFilterChange} />}
+
         <div className="kpi-wrapper">
           <CarburantKpi
             icon={<DashboardOutlined />}
@@ -474,9 +256,7 @@ const columns = useMemo(() => {
           <CarburantKpi
             icon={<DollarOutlined />}
             title="Montant total ($)"
-            value={
-              loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : formatNumber(montantTotalUsd, " $")
-            }
+            value={loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : formatNumber(montantTotalUsd, " $")}
             color="linear-gradient(135deg, #722ed12c, #b37feb)"
           />
         </div>
@@ -484,7 +264,7 @@ const columns = useMemo(() => {
         <Table
           columns={columns}
           dataSource={filteredData}
-          rowKey={(record) => record.id || record.key}
+          rowKey={(record) => record.id_carburant}
           size="middle"
           loading={loading}
           pagination={{
@@ -493,41 +273,22 @@ const columns = useMemo(() => {
             showQuickJumper: true,
             showTotal: (total) => `${total} enregistrements`,
           }}
-          onChange={(pagination) => setPagination(pagination)}
+          onChange={(p) => setPagination(p)}
           scroll={{ x: 1100 }}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+          rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
           locale={{
-            emptyText: (
-              <Empty
-                description="Aucune donnée disponible"
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-              />
-            ),
+            emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
           }}
           bordered
         />
       </Card>
 
-      <Modal
-        open={modalType === "Add"}
-        onCancel={closeAllModals}
-        footer={null}
-        width={ idCarburant? 800 :1400}
-        centered
-        destroyOnClose
-      >
-        <CarburantForm closeModal={closeAllModals} fetchData={fetchData} idCarburant={idCarburant} />
+      <Modal open={modal.type === "Add"} onCancel={closeAllModals} footer={null} width={modal.id ? 800 : 1400} centered destroyOnClose>
+        <CarburantForm closeModal={closeAllModals} fetchData={reload} idCarburant={modal.id} />
       </Modal>
 
-      <Modal
-        open={modalType === "Detail"}
-        onCancel={closeAllModals}
-        footer={null}
-        width={ 1050 }
-        centered
-        destroyOnClose
-      >
-        <CarburantDetail idCarburant={idCarburant} allIds={allIds} />
+      <Modal open={modal.type === "Detail"} onCancel={closeAllModals} footer={null} width={1050} centered destroyOnClose>
+        <CarburantDetail idCarburant={modal.id} allIds={allIds} />
       </Modal>
     </div>
   );
