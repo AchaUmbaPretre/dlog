@@ -1,71 +1,114 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { notification, Skeleton, Alert, Button, Divider } from 'antd';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { notification, Tooltip, Skeleton, Alert, Button, Divider, Tag } from 'antd';
 import {
   CarOutlined,
   UserOutlined,
   DashboardOutlined,
   DollarOutlined,
-  FilePdfOutlined,
+  RightCircleFilled,
+  LeftCircleFilled,
   CalendarOutlined,
   FireOutlined,
   MessageOutlined,
 } from '@ant-design/icons';
+
 import './carburantDetail.scss';
 import { getCarburantOne } from '../../../../services/carburantService';
 import { formatNumber } from '../../../../utils/formatNumber';
 
-const CarburantDetail = ({ id_vehicule, idCarburant }) => {
+const CarburantDetail = ({ id_vehicule, idCarburant, allIds = [] }) => {
   const [data, setData] = useState(null);
+  const [currentId, setCurrentId] = useState(idCarburant);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
+  const currentIndex = allIds.indexOf(currentId);
+  const isFirst = currentIndex <= 0;
+  const isLast = currentIndex === allIds.length - 1;
+
+  const loadData = useCallback(async () => {
+    if (!currentId) return;
+
+    setLoading(true);
+
     try {
-      const { data } = await getCarburantOne(id_vehicule, idCarburant);
+      const { data } = await getCarburantOne(id_vehicule, currentId);
+
+      if (!data || !data[0]) {
+        setData(null);
+        return;
+      }
+
       setData(data[0]);
-    } catch (error) {
+    } catch (err) {
       notification.error({
         message: 'Erreur de chargement',
-        description: 'Impossible de charger les détails du carburant.',
+        description:
+          err.response?.data?.message ||
+          "Impossible de charger les détails du carburant.",
       });
+      setData(null);
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentId, id_vehicule]);
 
   useEffect(() => {
-    if (idCarburant) {
-      setLoading(true);
-      fetchData();
-    }
-  }, [idCarburant]);
+    loadData();
+  }, [loadData]);
+
+  const goNext = () => !isLast && setCurrentId(allIds[currentIndex + 1]);
+  const goPrevious = () => !isFirst && setCurrentId(allIds[currentIndex - 1]);
+
+  const dateOperation = useMemo(() => {
+    if (!data?.date_operation) return '';
+    return new Date(data.date_operation).toLocaleString();
+  }, [data]);
 
   if (loading) return <Skeleton active paragraph={{ rows: 6 }} />;
-
   if (!data)
     return (
       <Alert
         message="Aucune donnée"
-        description="Aucun détail trouvé."
+        description="Aucun détail carburant trouvé pour cet identifiant."
         type="warning"
         showIcon
       />
     );
 
   return (
-    <div className="carburantPro">
+    <div className="carburantPro fadeIn">
 
-      <div className="top-header">
+      <div className="top-navigation floating-nav">
+
+        <Tooltip title="Précédent">
+          <Button
+            className="nav-arrow-btn"
+            onClick={goPrevious}
+            disabled={isFirst}
+            icon={<LeftCircleFilled />}
+          />
+        </Tooltip>
+
         <div className="title-block">
-          <FireOutlined className="icon" />
+          <FireOutlined className="main-icon pulse" />
           <h2>Détails Carburant</h2>
         </div>
+
+        <Tooltip title="Suivant">
+          <Button
+            className="nav-arrow-btn"
+            onClick={goNext}
+            disabled={isLast}
+            icon={<RightCircleFilled />}
+          />
+        </Tooltip>
+
       </div>
 
       <div id="pdf-content" className="content-wrapper">
 
         <div className="col">
-
-          <section className="box">
+          <section className="box elevated">
             <h3><CarOutlined /> Informations Véhicule</h3>
             <Divider />
             <p><strong>Marque :</strong> {data.nom_marque}</p>
@@ -73,38 +116,37 @@ const CarburantDetail = ({ id_vehicule, idCarburant }) => {
             <p><strong>Chauffeur :</strong> <UserOutlined /> {data.nom_chauffeur || '—'}</p>
           </section>
 
-          <section className="box">
+          <section className="box elevated">
             <h3><FireOutlined /> Carburant</h3>
             <Divider />
             <p><strong>Type :</strong> {data.nom_type_carburant}</p>
             <p><strong>Quantité :</strong> {formatNumber(data.quantite_litres)} L</p>
             <p><strong>Prix USD/L :</strong> {formatNumber(data.prix_usd)} $</p>
-            <p><strong>Prix CDF/L :</strong> {formatNumber(data.prix_cdf)}</p>
+            <p><strong>Prix CDF/L :</strong> {formatNumber(data.prix_cdf)} Fc</p>
           </section>
-
         </div>
 
         <div className="col">
-
-          <section className="box">
+          <section className="box elevated">
             <h3><DollarOutlined /> Montants</h3>
             <Divider />
             <p><strong>Total USD :</strong> {formatNumber(data.montant_total_usd)} $</p>
-            <p><strong>Total CDF :</strong> {formatNumber(data.montant_total_cdf)}</p>
+            <p><strong>Total CDF :</strong> {formatNumber(data.montant_total_cdf)} Fc</p>
           </section>
 
-          <section className="box">
+          <section className="box elevated">
             <h3><DashboardOutlined /> Opération</h3>
             <Divider />
-            <p><strong>Date :</strong> <CalendarOutlined /> {new Date(data.date_operation).toLocaleString()}</p>
-            <p><strong>Compteur KM :</strong> {formatNumber(data.compteur_km)}</p>
+            <p><strong>Date :</strong> <CalendarOutlined /> {dateOperation}</p>
+            <p><strong>Compteur KM :</strong> {formatNumber(data.compteur_km)} Km</p>
             <p><strong>Distance :</strong> {formatNumber(data.distance)} km</p>
             <p><strong>Consommation :</strong> {formatNumber(data.consommation)} L/100km</p>
           </section>
         </div>
+
       </div>
 
-      <section className="commentaire-box">
+      <section className="commentaire-box elevated">
         <h3><MessageOutlined /> Commentaire</h3>
         <Divider />
         <p>{data.commentaire || "Aucun commentaire"}</p>

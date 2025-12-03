@@ -70,6 +70,7 @@ const Carburant = () => {
     "Créé par" : false
   });
   const [idCarburant, setIdCarburant] = useState([]);
+  const [allIds, setAllIds] = useState([]);
 
   // --- KPI Calculations ---
 const totalKmActuel = useMemo(() => {
@@ -96,6 +97,7 @@ const montantTotalUsd = useMemo(() => {
     try {
       const response = await getCarburant();
       setData(response?.data || []);
+      setAllIds([...new Set(response?.data?.map(d =>d.id_carburant) || [])]);
     } catch (error) {
       notification.error({
         message: "Erreur de chargement",
@@ -107,6 +109,7 @@ const montantTotalUsd = useMemo(() => {
     }
   };
 
+  console.log(allIds)
   useEffect(() => {
     fetchData();
   }, []);
@@ -505,7 +508,7 @@ const columns = useMemo(() => {
         centered
         destroyOnClose
       >
-        <CarburantDetail idCarburant={idCarburant} />
+        <CarburantDetail idCarburant={idCarburant} allIds={allIds} />
       </Modal>
     </div>
   );
