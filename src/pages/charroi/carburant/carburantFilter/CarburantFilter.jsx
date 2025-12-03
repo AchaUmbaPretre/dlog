@@ -1,78 +1,83 @@
-import { useEffect, useState } from 'react';
-import { Select, DatePicker, Skeleton } from 'antd';
-import 'antd/dist/reset.css';
-import { getCarburantVehicule } from '../../../../services/carburantService';
+import { useEffect, useMemo, useCallback, useState } from "react";
+import { Select, DatePicker, Skeleton, notification } from "antd";
+import { getCarburantVehicule } from "../../../../services/carburantService";
+
 const { RangePicker } = DatePicker;
 
 const CarburantFilter = ({ onFilter }) => {
   const [vehicule, setVehicule] = useState([]);
   const [selectedVehicule, setSelectedVehicule] = useState([]);
-  const [dateRange, setDateRange] = useState([]);
+  const [dateRange, setDateRange] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /** Chargement des véhicules */
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchVehicules = async () => {
       setLoading(true);
       try {
-        const [vehiculeData] = await Promise.all([getCarburantVehicule()]);
-        setVehicule(vehiculeData?.data);
-      } catch (error) {
-        console.error(error);
+        const res = await getCarburantVehicule();
+        setVehicule(res?.data || []);
+      } catch (err) {
+        notification.error({
+          message: "Erreur lors du chargement",
+          description: err?.response?.data?.message || "Impossible de charger les véhicules.",
+        });
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
+
+    fetchVehicules();
   }, []);
 
+  /** Options mémoisées */
+  const vehiculeOptions = useMemo(
+    () =>
+      vehicule.map((item) => ({
+        value: item.id_vehicule_carburant,
+        label: `${item.nom_marque} / ${item.immatriculation}`,
+      })),
+    [vehicule]
+  );
+
+  /** Déclenchement du filtre */
   useEffect(() => {
     onFilter({
       vehicules: selectedVehicule,
       dateRange,
     });
-  }, [selectedVehicule, vehicule]);
+  }, [selectedVehicule, dateRange]);
 
   return (
     <div className="filterTache">
 
-      {/* --- Champ Véhicule --- */}
+      {/* Véhicules */}
       <div className="filter_row">
         <label>Véhicule :</label>
 
         {loading ? (
-          <Skeleton.Input
-            active
-            style={{ width: "100%", height: 40, borderRadius: 6 }}
-          />
+          <Skeleton.Input active style={{ width: "100%", height: 40 }} />
         ) : (
           <Select
             mode="multiple"
             showSearch
-            style={{ width: '100%' }}
-            options={vehicule?.map((item) => ({
-              value: item.id_vehicule_carburant,
-              label: `${item.nom_marque} / ${item.immatriculation}`,
-            }))}
-            placeholder="Sélectionnez ..."
-            optionFilterProp="label"
+            style={{ width: "100%" }}
+            options={vehiculeOptions}
+            placeholder="Sélectionnez..."
             onChange={setSelectedVehicule}
           />
         )}
       </div>
 
-      {/* --- Champ Date --- */}
+      {/* Dates */}
       <div className="filter_row">
         <label>Date :</label>
 
         {loading ? (
-          <Skeleton.Input
-            active
-            style={{ width: "100%", height: 40, borderRadius: 6 }}
-          />
+          <Skeleton.Input active style={{ width: "100%", height: 40 }} />
         ) : (
           <RangePicker
-            style={{ width: '100%' }}
-            value={dateRange}
+            style={{ width: "100%" }}
             onChange={setDateRange}
           />
         )}
