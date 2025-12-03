@@ -389,7 +389,6 @@ const columns = useMemo(() => {
   const handleFilterChange = (newFilters) => {
     setFilteredDatas(newFilters); 
   };
-  console.log(filteredDatas)
 
   return (
     <div className="carburant-page">
