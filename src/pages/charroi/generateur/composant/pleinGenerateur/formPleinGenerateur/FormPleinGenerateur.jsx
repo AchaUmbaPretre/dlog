@@ -242,7 +242,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
 
                                 <Col xs={24} sm={12}>
                                     <Form.Item label="Commentaire" name="commentaire">
-                                        {renderField(<Input.TextArea placeholder="Entrer..." />)}
+                                        {renderField(<Input.TextArea placeholder="Entrer..." style={{resize:'none'}}/>)}
                                     </Form.Item>
                                 </Col>
                             </Row>
