@@ -119,6 +119,18 @@ const FormPleinGenerateur = ({id_plein}) => {
                                     </Form.Item>
                                 </Col>
                             </Row>
+                            <Row justify="end" style={{ marginTop: 20 }}>
+                                <Col>
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        loading={loading.submit}
+                                        disabled={loading.data}
+                                    >
+                                        Enregistrer
+                                    </Button>
+                                </Col>
+                            </Row>
                         </Form>
                     </div>
                 </div>
