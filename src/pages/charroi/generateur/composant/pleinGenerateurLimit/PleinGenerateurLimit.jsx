@@ -40,6 +40,17 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
             )
           },
           {
+            title: "Modèle",
+            dataIndex: "nom_modele",
+            key: "nom_modele",
+            ellipsis:'true',
+            render: (text, record) => (
+              <Tooltip title='Récupérer les données de cet enregistrement'>
+                <Text strong >{text}</Text>
+              </Tooltip>
+            )
+          },
+          {
             title: "Date",
             dataIndex: "date_operation",
             key: "date_operation",
@@ -58,7 +69,7 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
             key: "quantite_litres",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Text>{text}</Text>,
+            render: (text) => <Text>{text} L</Text>,
           },
           {
             title: "Crée par",

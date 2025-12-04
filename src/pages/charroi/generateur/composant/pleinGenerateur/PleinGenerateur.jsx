@@ -11,7 +11,8 @@ import {
   Checkbox,
   Tooltip,
   Modal,
-  notification
+  notification,
+  Tag
 } from "antd";
 import {
   EditOutlined,
@@ -20,9 +21,11 @@ import {
   ReloadOutlined,
   DownOutlined,
   MenuOutlined,
+  CalendarOutlined
 } from "@ant-design/icons";
 import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
 import { getPleinGenerateur } from "../../../../../services/generateurService";
+import moment from "moment";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -98,14 +101,25 @@ const PleinGenerateur = () => {
             align: "center",
             render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
         },
+        {
+            title: "Date opération",
+            dataIndex: "date_operation",
+            key: "date_operation",
+            sorter: (a, b) =>
+            moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+            render: (text) => (
+                <Tag icon={<CalendarOutlined />} color="red">
+                    {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+                </Tag>
+            ),
+        },
         {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
         {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque"},
         {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle"},
         {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen"},
         {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
-        {   title:"Date operation", dataIndex: "date_operation", key: "date_operation"},
         {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres"},
-        {   title:"Crée par", dataIndex: "user_cr", key: "user_cr"},
+        {   title:"Crée par", dataIndex: "createur", key: "createur"},
         {
             title: "Actions",
             key: 'action',
