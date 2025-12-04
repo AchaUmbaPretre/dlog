@@ -51,7 +51,7 @@ const FormPleinGenerateur = ({id_plein}) => {
                             disabled={loading.data}
                         >
                             <Row gutter={[16, 16]}>
-                                <Col xs={24} sm={8}>
+                                <Col xs={24} sm={12}>
                                     <Form.Item
                                         label="Générateur"
                                         name="id_generateur"
@@ -72,7 +72,7 @@ const FormPleinGenerateur = ({id_plein}) => {
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24} sm={8}>
+                                <Col xs={24} sm={12}>
                                     <Form.Item
                                         label="Type carburant"
                                         name="id_type_carburant"
@@ -93,7 +93,7 @@ const FormPleinGenerateur = ({id_plein}) => {
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24} sm={8}>
+                                <Col xs={24} sm={12}>
                                 <Form.Item
                                     label="Date d'opération"
                                     name="date_operation"
@@ -107,10 +107,16 @@ const FormPleinGenerateur = ({id_plein}) => {
                                 </Form.Item>
                                 </Col>
 
-                                <Col xs={24} sm={8}>
-                                <Form.Item label="Qté" name="quantite_litres">
-                                    {renderField(<Input placeholder="10" />)}
-                                </Form.Item>
+                                <Col xs={24} sm={12}>
+                                    <Form.Item label="Qté" name="quantite_litres">
+                                        {renderField(<Input placeholder="10" />)}
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} sm={24}>
+                                    <Form.Item label="Commentaire" name="commentaire">
+                                        {renderField(<Input.TextArea placeholder="Entrer..." />)}
+                                    </Form.Item>
                                 </Col>
                             </Row>
                         </Form>
