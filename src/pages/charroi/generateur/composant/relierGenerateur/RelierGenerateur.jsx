@@ -59,7 +59,7 @@ const RelierGenerateur = () => {
     fetchDataAll();
   }, []);
 
-  const handleChangeVehicule = (id_generateur ) => setSelectedVehicule(id_generateur );
+  const handleChangeVehicule = (id_generateur) => setSelectedVehicule(id_generateur);
 
   const handleSave = async (record) => {
     if (!selectedVehicule) {
@@ -172,7 +172,7 @@ const RelierGenerateur = () => {
         );
         }
 
-        // 🟥 Si aucun véhicule n’est encore relié
+        //Si aucun véhicule n’est encore relié
         return (
         <Tag color="red" icon={<CloseOutlined />}>
             Non relié
