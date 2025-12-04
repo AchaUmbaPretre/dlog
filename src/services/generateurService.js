@@ -62,6 +62,10 @@ export const getPleinGenerateur  = async () => {
   return axios.get(`${DOMAIN}/api/generateur/plein_generateur`);
 };
 
+export const getPleinGenerateurLimit  = async () => {
+  return axios.get(`${DOMAIN}/api/generateur/plein_generateur_ten`);
+};
+
 export const getPleinGenerateurOne  = async (id) => {
   return axios.get(`${DOMAIN}/api/generateur/plein_generateur/one`,{
     params: {

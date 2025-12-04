@@ -15,11 +15,12 @@ import {
 import {
   FireOutlined
 } from "@ant-design/icons";
-import { getGenerateur, getPleinGenerateurOne, postPleinGenerateur, putPleinGenerateur } from '../../../../../../services/generateurService';
+import { getGenerateur, getPleinGenerateurLimit, getPleinGenerateurOne, postPleinGenerateur, putPleinGenerateur } from '../../../../../../services/generateurService';
 import { getTypeCarburant } from '../../../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
+import PleinGenerateurLimit from '../../pleinGenerateurLimit/PleinGenerateurLimit';
 
 const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
     const [form] = Form.useForm();
@@ -31,17 +32,20 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
     const [confirmationMessage, setConfirmationMessage] = useState("");
     const [confirmVisible, setConfirmVisible] = useState(false); 
     const [pendingPayload, setPendingPayload] = useState(null);
+    const [data, setData] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     useEffect(()=> {
         const fetchData = async() => {
             try {
-                const [geneData, typeData] = await Promise.all([
+                const [geneData, typeData, allData] = await Promise.all([
                     getGenerateur(),
-                    getTypeCarburant()
+                    getTypeCarburant(),
+                    getPleinGenerateurLimit()
                 ])
                 setGenerateur(geneData?.data);
                 setType(typeData?.data);
+                setData(allData.data);
 
 
                 if(id_plein) {
@@ -179,7 +183,6 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                             value: v.id_type_carburant,
                                             label: `${v.nom_type_carburant}`,
                                             }))}
-                                            onChange={setGenerateurData}
                                         />
                                         )}
                                     </Form.Item>
@@ -231,6 +234,11 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                         </Form>
                     </div>
                 </div>
+                { !id_plein &&
+                    <div className="controle_right">
+                        <PleinGenerateurLimit data={data} setGenerateurData={setGenerateurData} loading={loading.data} />
+                    </div>
+                }
             </div>
             <ConfirmModal
                 visible={confirmVisible}
