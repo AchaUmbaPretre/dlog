@@ -40,6 +40,7 @@ const PleinGenerateur = () => {
     "Type carburant": true,
     "Date operation": false,
     "Qté" : true,
+    "Fournisseur": false,
     "M. (CDF)" : true,
     "Crée par" : false,
     "M. ($)": false
