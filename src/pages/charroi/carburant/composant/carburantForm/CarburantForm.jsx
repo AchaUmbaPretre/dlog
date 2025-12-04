@@ -158,7 +158,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     setPendingPayload(payload);
     setForceConfirmation(false);
 
-    // Texte dynamique selon création / édition
     setConfirmationMessage(
       idCarburant
         ? "Voulez-vous vraiment modifier ces informations carburant ?"

@@ -15,15 +15,23 @@ import {
 import {
   FireOutlined
 } from "@ant-design/icons";
-import { getGenerateur } from '../../../../../../services/generateurService';
+import { getGenerateur, getPleinGenerateurOne, postPleinGenerateur, putPleinGenerateur } from '../../../../../../services/generateurService';
 import { getTypeCarburant } from '../../../../../../services/charroiService';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
 
-const FormPleinGenerateur = ({id_plein}) => {
+const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState({ data: false, submit: false });
     const [generateur, setGenerateur] = useState([]);
     const [generateurData, setGenerateurData] = useState([]);
     const [type, setType] = useState([]);
+    const [loadingConfirm, setLoadingConfirm] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState("");
+    const [confirmVisible, setConfirmVisible] = useState(false); 
+    const [pendingPayload, setPendingPayload] = useState(null);
+    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     useEffect(()=> {
         const fetchData = async() => {
@@ -35,6 +43,16 @@ const FormPleinGenerateur = ({id_plein}) => {
                 setGenerateur(geneData?.data);
                 setType(typeData?.data);
 
+
+                if(id_plein) {
+                    const { data: plein} = await getPleinGenerateurOne(id_plein);
+                    if(plein && plein[0]) {
+                        form.setFieldsValue({
+                            ...plein[0],
+                            date_operation: moment(plein[0].date_operation, 'YYYY-MM-DD')
+                        })
+                    }
+                }
             } catch (error) {
                 notification.error({
                     message: 'Erreur de chargement',
@@ -49,7 +67,56 @@ const FormPleinGenerateur = ({id_plein}) => {
     }, []);
 
     const handleSubmit = (values) => {
-        
+        const payload = {
+            ...values,
+            user_cr: userId
+        }
+        setPendingPayload(payload);
+        setConfirmationMessage(
+            id_plein
+            ? "Voulez-vous vraiment modifier ces informations carburant ?"
+            : "Voulez-vous vraiment enregistrer ces informations carburant ?"
+        );
+        setConfirmVisible(true);
+    };
+
+    const handleConfirm = async() => {
+        if(!pendingPayload) return;
+        setLoadingConfirm(true)
+
+        try {
+            if (id_plein) {
+                await putPleinGenerateur(pendingPayload);
+            } else {
+                await postPleinGenerateur(pendingPayload);
+            }
+
+            notification.success({
+                message: "Succès",
+                description: id_plein
+                    ? "Les informations carburant ont été modifiées avec succès."
+                    : "Les informations carburant ont été enregistrées avec succès.",
+            });
+                  
+            form.resetFields();
+            closeModal?.();
+            fetchData?.();
+            resetConfirmationState();
+        } catch (error) {
+            notification.error({
+                message: "Erreur",
+                description: "Une erreur est survenue lors de l'enregistrement.",
+            });
+            console.error(error);
+            resetConfirmationState();
+        } finally {
+            setLoadingConfirm(false);
+        }
+    }
+
+    const resetConfirmationState = () => {
+        setConfirmVisible(false);
+        setPendingPayload(null);
     };
 
     const renderField = (component) =>
@@ -165,6 +232,17 @@ const FormPleinGenerateur = ({id_plein}) => {
                     </div>
                 </div>
             </div>
+            <ConfirmModal
+                visible={confirmVisible}
+                    title={id_plein ? "Confirmer la modification" : "Confirmer l'enregistrement"}
+                    content={confirmationMessage}
+                    onConfirm={handleConfirm}
+                    onCancel={() => {
+                      setConfirmVisible(false);
+                      setPendingPayload(null);
+                    }}
+                    loading={loadingConfirm}
+                />
         </div>
     </>
   )
