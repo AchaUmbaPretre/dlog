@@ -20,11 +20,9 @@ import {
   ReloadOutlined,
   DownOutlined,
   MenuOutlined,
-  RetweetOutlined
 } from "@ant-design/icons";
 import GenerateurForm from "./generateurForm/GenerateurForm";
 import { getGenerateur } from "../../../../services/generateurService";
-import RelierGenerateur from "../composant/relierGenerateur/RelierGenerateur";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -48,7 +46,6 @@ const ListGenerateur = () => {
     Longueur: true,
     "Crée par": false
   });
-  const [modal, setModal] = useState({ type: null, id: null });
 
     const fetchData = async() => {
         setLoading(true);
@@ -72,9 +69,8 @@ const ListGenerateur = () => {
         fetchData();
     }, []);
 
-  const openModal = (type, id = null) => setModal({ type, id });
-  const closeAllModals = () => setModal({ type: null, id: null });
-
+  const closeAllModals = () => setModalType(null);
+  const openModal = (type) => setModalType(type);
 
   const columnMenu = (
         <div style={{ padding: 10, background:'#fff' }}>
@@ -154,9 +150,6 @@ const ListGenerateur = () => {
   const handleEdit = () => {
 
   }
-  const handleRelier = () => {
-
-  }
 
   return (
     <div className="carburant-page">
@@ -192,13 +185,6 @@ const ListGenerateur = () => {
               onClick={() => openModal("Add")}
             >
               Nouveau
-            </Button>
-            <Button
-                type="default"
-                icon={<RetweetOutlined />}
-                onClick={() => openModal("Detail")}
-            >
-                 Rélier les générateurs
             </Button>
             <Dropdown overlay={columnMenu} trigger={["click"]}>
               <Button icon={<MenuOutlined />}>
@@ -236,7 +222,7 @@ const ListGenerateur = () => {
       </Card>
 
       <Modal
-        open={modal.type === "Add"}
+        open={modalType === "Add"}
         onCancel={closeAllModals}
         footer={null}
         width={1000}
@@ -244,17 +230,6 @@ const ListGenerateur = () => {
         destroyOnClose
       >
         <GenerateurForm closeModal={closeAllModals} fetchData={fetchData} />
-      </Modal>
-
-      <Modal
-        open={modal.type === "Detail"}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1000}
-        centered
-        destroyOnClose
-      >
-        <RelierGenerateur closeModal={closeAllModals} fetchData={fetchData} />
       </Modal>
     </div>
   )
