@@ -108,7 +108,7 @@ const FormPleinGenerateur = ({id_plein}) => {
                                             showSearch
                                             placeholder="Sélectionnez un type"
                                             optionFilterProp="label"
-                                            options={generateur.map(v => ({
+                                            options={type.map(v => ({
                                             value: v.id_type_carburant,
                                             label: `${v.nom_type_carburant}`,
                                             }))}
@@ -134,7 +134,12 @@ const FormPleinGenerateur = ({id_plein}) => {
 
                                 <Col xs={24} sm={12}>
                                     <Form.Item label="Qté" name="quantite_litres">
-                                        {renderField(<Input placeholder="10" />)}
+                                        {renderField( 
+                                            <InputNumber
+                                                placeholder="ex: 50"
+                                                style={{ width: '100%' }}
+                                            />
+                                        )}
                                     </Form.Item>
                                 </Col>
 
