@@ -15,6 +15,8 @@ import {
 import {
   FireOutlined
 } from "@ant-design/icons";
+import { getGenerateur } from '../../../../../../services/generateurService';
+import { getTypeCarburant } from '../../../../../../services/charroiService';
 
 const FormPleinGenerateur = ({id_plein}) => {
     const [form] = Form.useForm();
@@ -22,6 +24,29 @@ const FormPleinGenerateur = ({id_plein}) => {
     const [generateur, setGenerateur] = useState([]);
     const [generateurData, setGenerateurData] = useState([]);
     const [type, setType] = useState([]);
+
+    useEffect(()=> {
+        const fetchData = async() => {
+            try {
+                const [geneData, typeData] = await Promise.all([
+                    getGenerateur(),
+                    getTypeCarburant()
+                ])
+                setGenerateur(geneData?.data);
+                setType(typeData?.data);
+
+            } catch (error) {
+                notification.error({
+                    message: 'Erreur de chargement',
+                    description: 'Impossible de charger les données nécessaires.',
+                });
+                console.error(error);
+            } finally {
+                setLoading(prev => ({ ...prev, data: false }));
+            }
+        }
+        fetchData()
+    }, []);
 
     const handleSubmit = (values) => {
         
@@ -84,8 +109,8 @@ const FormPleinGenerateur = ({id_plein}) => {
                                             placeholder="Sélectionnez un type"
                                             optionFilterProp="label"
                                             options={generateur.map(v => ({
-                                            value: v.id_generateur,
-                                            label: `${v.nom_marque} / ${v.nom_modele} / ${v.code_groupe}`,
+                                            value: v.id_type_carburant,
+                                            label: `${v.nom_type_carburant}`,
                                             }))}
                                             onChange={setGenerateurData}
                                         />
