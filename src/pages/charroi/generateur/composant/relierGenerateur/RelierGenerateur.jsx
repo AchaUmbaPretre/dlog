@@ -22,11 +22,13 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { getCarburantVehicule } from "../../../../../services/carburantService";
-import { getGenerateur, putRelierGenerateurFichier } from "../../../../../services/generateurService";
+import {
+  getGenerateur,
+  putRelierGenerateurFichier,
+} from "../../../../../services/generateurService";
 
 const { Text } = Typography;
 const { confirm } = Modal;
-const { Option } = Select;
 
 const RelierGenerateur = () => {
   const [loading, setLoading] = useState(true);
@@ -36,7 +38,7 @@ const RelierGenerateur = () => {
   const [searchValue, setSearchValue] = useState("");
   const [saving, setSaving] = useState(false);
   const [editingRow, setEditingRow] = useState(null);
-  const [selectedVehicule, setSelectedVehicule] = useState(null);
+  const [selectedGenerateur, setSelectedGenerateur] = useState(null);
 
   const fetchDataAll = async () => {
     try {
@@ -45,11 +47,12 @@ const RelierGenerateur = () => {
         getCarburantVehicule(),
         getGenerateur(),
       ]);
-      setVehiculecar(vehiculeCarRes.data);
+
+      setVehiculecar(vehiculeCarRes.data || []);
       setGenerateurAll(generateurRes.data || []);
     } catch (error) {
       console.error(error);
-      message.error("Erreur lors du chargement des données Falcon/Véhicules");
+      message.error("Erreur lors du chargement des données véhicules/générateurs");
     } finally {
       setLoading(false);
     }
@@ -59,27 +62,27 @@ const RelierGenerateur = () => {
     fetchDataAll();
   }, []);
 
-  const handleChangeVehicule = (id_generateur) => setSelectedVehicule(id_generateur);
+  const handleChangeGenerateur = (id_generateur) => {
+    setSelectedGenerateur(id_generateur);
+  };
 
   const handleSave = async (record) => {
-    if (!selectedVehicule) {
-      message.warning("Veuillez sélectionner un véhicule.");
+    if (!selectedGenerateur) {
+      message.warning("Veuillez sélectionner un générateur.");
       return;
     }
+
+    const selectedGen = generateurAll.find(
+      (g) => g.id_generateur === selectedGenerateur
+    );
 
     confirm({
       title: "Confirmer la liaison",
       icon: <ExclamationCircleOutlined />,
       content: (
         <Text>
-          Voulez-vous relier le fichier excel <b>{record.name}</b> au générateur{" "}
-          <b>
-            {
-              generateurAll.find((v) => v.id_generateur  === selectedVehicule)
-                ?.immatriculation
-            }
-          </b>
-          ?
+          Voulez-vous relier <b>{record.name}</b> au générateur{" "}
+          <b>{selectedGen?.nom_marque} - {selectedGen?.nom_modele}</b> ?
         </Text>
       ),
       okText: "Oui",
@@ -87,17 +90,19 @@ const RelierGenerateur = () => {
       async onOk() {
         try {
           setSaving(true);
-          await putRelierGenerateurFichier(selectedVehicule, {
-            id_enregistrement: record.id_enregistrement
+
+          await putRelierGenerateurFichier(selectedGenerateur, {
+            id_enregistrement: record.id_enregistrement,
           });
-          message.success("Véhicule relié/modifié avec succès !");
+
+          message.success("Générateur relié/modifié avec succès !");
           await fetchDataAll();
         } catch (error) {
           console.error(error);
           message.error("Erreur lors du reliement.");
         } finally {
           setEditingRow(null);
-          setSelectedVehicule(null);
+          setSelectedGenerateur(null);
           setSaving(false);
         }
       },
@@ -107,11 +112,10 @@ const RelierGenerateur = () => {
   const columns = [
     {
       title: "#",
-      dataIndex: "id",
-      key: "id",
+      key: "index",
+      width: 60,
       render: (_, __, index) =>
         (pagination.current - 1) * pagination.pageSize + index + 1,
-      width: 60,
     },
     {
       title: "Marque",
@@ -120,75 +124,76 @@ const RelierGenerateur = () => {
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
-          <Text strong>{text ?? 'N/A'}</Text>
+          <Text strong>{text ?? "N/A"}</Text>
         </Space>
       ),
     },
     {
-      title: "Immatricul.",
+      title: "Immatriculation",
       dataIndex: "immatriculation",
       key: "immatriculation",
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
-          <Text strong>{text ?? 'N/A'}</Text>
+          <Text strong>{text ?? "N/A"}</Text>
         </Space>
       ),
     },
-   {
-        title: "Générateur",
-        key: "generateur",
-        render: (_, record) => {
-        const linkedVehicule = generateurAll.find(
-            (v) => v.id_carburant_vehicule === record.id_enregistrement
+    {
+      title: "Générateur",
+      key: "generateur",
+      render: (_, record) => {
+        const linked = generateurAll.find(
+          (g) => g.id_carburant_vehicule === record.id_enregistrement
         );
+
+        console.log(linked)
 
         if (editingRow === record.id_enregistrement) {
-        return (
+          return (
             <Select
-                showSearch
-                placeholder="Sélectionner un générateur"
-                style={{ width: 250 }}
-                optionFilterProp="label"
-                onChange={handleChangeVehicule}
-                defaultValue={linkedVehicule?.id_generateur || undefined}
-                filterOption={(input, option) =>
-                    option?.label?.toLowerCase().includes(input.toLowerCase())
-                }
-                options={generateurAll?.map(v => ({
-                    value: v.id_generateur,
-                    label: `${v.nom_marque} - ${v.nom_modele}`,
-                }))}
+              showSearch
+              placeholder="Sélectionner un générateur"
+              style={{ width: 260 }}
+              optionFilterProp="label"
+              defaultValue={linked?.id_generateur}
+              onChange={handleChangeGenerateur}
+              filterOption={(input, option) =>
+                option?.label.toLowerCase().includes(input.toLowerCase())
+              }
+              options={generateurAll.map((g) => ({
+                value: g.id_generateur,
+                label: `${g.nom_marque} - ${g.nom_modele}`,
+              }))}
             />
-        );
+          );
         }
 
-        // 🟩 Si le véhicule carburant est déjà relié à un véhicule Dlog
-        if (linkedVehicule) {
-        return (
+        if (linked) {
+          return (
             <Tag color="green" icon={<CheckOutlined />}>
-            {linkedVehicule.nom_marque} - {linkedVehicule.immatriculation}
+              {linked.nom_marque} - {linked.nom_modele}
             </Tag>
-        );
+          );
         }
 
-        //Si aucun véhicule n’est encore relié
         return (
-        <Tag color="red" icon={<CloseOutlined />}>
+          <Tag color="red" icon={<CloseOutlined />}>
             Non relié
-        </Tag>
+          </Tag>
         );
-        },
+      },
     },
     {
       title: "Action",
       key: "action",
       align: "center",
       render: (_, record) => {
-        const isEditing = editingRow === record.id_enregistrement;
-         const linkedVehicule = generateurAll.find(
-        (v) => v.id_carburant_vehicule === record.id_enregistrement
+        const linked = generateurAll.find(
+          (g) => g.id_carburant_vehicule === record.id_enregistrement
         );
+
+        const isEditing = editingRow === record.id_enregistrement;
 
         return (
           <Space>
@@ -204,16 +209,16 @@ const RelierGenerateur = () => {
                     Enregistrer
                   </Button>
                 </Tooltip>
-                <Tooltip title="Annuler la modification">
+
+                <Tooltip title="Annuler">
                   <Button size="small" onClick={() => setEditingRow(null)}>
                     Annuler
                   </Button>
                 </Tooltip>
               </>
-            ) : linkedVehicule ? (
-              <Tooltip title="Modifier le véhicule relié">
+            ) : linked ? (
+              <Tooltip title="Modifier le générateur lié">
                 <Button
-                  type="default"
                   icon={<EditOutlined />}
                   size="small"
                   onClick={() => setEditingRow(record.id_enregistrement)}
@@ -222,7 +227,7 @@ const RelierGenerateur = () => {
                 </Button>
               </Tooltip>
             ) : (
-              <Tooltip title="Ajouter un véhicule à ce vehicule carburant">
+              <Tooltip title="Lier un générateur">
                 <Button
                   type="primary"
                   icon={<PlusOutlined />}
@@ -240,34 +245,31 @@ const RelierGenerateur = () => {
   ];
 
   return (
-    <Card
-      title="Relier à un générateur"
-      className="relierFalconCard pro-card"
-      bordered
-    >
+    <Card title="Relier à un générateur" bordered className="relierFalconCard pro-card">
       {loading ? (
-        <Spin tip="Chargement..." size="large" style={{width:'100%', height:'100%', margin:0}} />
+        <Spin tip="Chargement..." size="large" style={{ width: "100%" }} />
       ) : (
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
           <Input.Search
             placeholder="Rechercher..."
             allowClear
-            onChange={(e) => setSearchValue(e.target.value)}
-            style={{ width: 350 }}
             enterButton
+            style={{ width: 350 }}
+            onChange={(e) => setSearchValue(e.target.value.toLowerCase())}
           />
 
           <Table
-            columns={columns}
-            dataSource={vehiculecar.filter((item) =>
-              item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) ||
-              item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
-            )}
             rowKey="id_enregistrement"
             bordered
-            size="middle"
+            columns={columns}
+            dataSource={vehiculecar.filter(
+              (item) =>
+                item.nom_marque?.toLowerCase().includes(searchValue) ||
+                item.immatriculation?.toLowerCase().includes(searchValue)
+            )}
             pagination={pagination}
             onChange={setPagination}
+            size="middle"
             rowClassName={(record) =>
               editingRow === record.id_enregistrement ? "selected-row pro-row" : ""
             }
