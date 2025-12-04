@@ -191,7 +191,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24} sm={8}>
+                                <Col xs={24} sm={12}>
                                     <Form.Item
                                         label="Fournisseur"
                                         name="id_fournisseur"
@@ -240,7 +240,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24} sm={24}>
+                                <Col xs={24} sm={12}>
                                     <Form.Item label="Commentaire" name="commentaire">
                                         {renderField(<Input.TextArea placeholder="Entrer..." />)}
                                     </Form.Item>
