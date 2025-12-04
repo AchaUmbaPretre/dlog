@@ -51,7 +51,7 @@ pagination,
             {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen"},
             {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
             {   title:"Fournisseur", dataIndex: "nom_fournisseur", key: "nom_fournisseur"},
-            {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres", render: (text) => <Text>{formatNumber(text)} L</Text>},
+            {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres", render: (text) => <Text mark>{formatNumber(text)} L</Text>},
             {   title:"Crée par", dataIndex: "createur", key: "createur"},
             {
                 title: "M. ($)",

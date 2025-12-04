@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Typography, Tag, Tooltip} from 'antd';
+import { Table, Typography, Tag, Tooltip, Space} from 'antd';
 import {
   CalendarOutlined
 } from "@ant-design/icons";
@@ -45,9 +45,9 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
             key: "nom_modele",
             ellipsis:'true',
             render: (text, record) => (
-              <Tooltip title='Récupérer les données de cet enregistrement'>
-                <Text strong >{text}</Text>
-              </Tooltip>
+              <Space>
+                <Text type="secondary">{text}</Text>
+              </Space>
             )
           },
           {
@@ -69,7 +69,7 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
             key: "quantite_litres",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Text>{text} L</Text>,
+            render: (text) => <Text mark>{text} L</Text>,
           },
           {
             title: "Crée par",
