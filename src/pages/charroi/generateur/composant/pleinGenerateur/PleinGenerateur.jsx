@@ -22,6 +22,7 @@ import {
   MenuOutlined,
 } from "@ant-design/icons";
 import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
+import { getPleinGenerateur } from "../../../../../services/generateurService";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -47,7 +48,7 @@ const PleinGenerateur = () => {
         setLoading(true);
 
         try {
-            const response = await getGenerateur();
+            const response = await getPleinGenerateur();
             setData(response?.data || []);
 
         } catch (error) {
