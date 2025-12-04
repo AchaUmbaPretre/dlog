@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
 import PleinGenerateurLimit from '../../pleinGenerateurLimit/PleinGenerateurLimit';
+import { getFournisseur_activiteOne } from '../../../../../../services/fournisseurService';
 
 const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
     const [form] = Form.useForm();
@@ -33,20 +34,22 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
     const [confirmVisible, setConfirmVisible] = useState(false); 
     const [pendingPayload, setPendingPayload] = useState(null);
     const [data, setData] = useState([]);
+    const [fournisseurs, setFournisseurs] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
     useEffect(()=> {
         const fetchData = async() => {
             try {
-                const [geneData, typeData, allData] = await Promise.all([
+                const [geneData, typeData, allData, fournisseurRes ] = await Promise.all([
                     getGenerateur(),
                     getTypeCarburant(),
-                    getPleinGenerateurLimit()
+                    getPleinGenerateurLimit(),
+                    getFournisseur_activiteOne(5),
                 ])
                 setGenerateur(geneData?.data);
                 setType(typeData?.data);
                 setData(allData.data);
-
+                setFournisseurs(fournisseurRes?.data || []);
 
                 if(id_plein) {
                     const { data: plein} = await getPleinGenerateurOne(id_plein);
@@ -182,6 +185,26 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                             options={type.map(v => ({
                                             value: v.id_type_carburant,
                                             label: `${v.nom_type_carburant}`,
+                                            }))}
+                                        />
+                                        )}
+                                    </Form.Item>
+                                </Col>
+
+                                <Col xs={24} sm={8}>
+                                    <Form.Item
+                                        label="Fournisseur"
+                                        name="id_fournisseur"
+                                        rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}
+                                    >
+                                        {renderField(
+                                        <Select
+                                            showSearch
+                                            placeholder="Sélectionnez un fournisseur"
+                                            optionFilterProp="label"
+                                            options={fournisseurs.map(f => ({
+                                            value: f.id_fournisseur,
+                                            label: f.nom_fournisseur,
                                             }))}
                                         />
                                         )}
