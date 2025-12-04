@@ -77,3 +77,7 @@ export const postPleinGenerateur = async (data) => {
 export const putPleinGenerateur =  async(data) => {
   return axios.put(`${DOMAIN}/api/generateur/plein_generateur`, data)
 }
+
+export const deletePleinGenerateur =  async(id) => {
+  return axios.put(`${DOMAIN}/api/generateur/plein_generateur/sup?id_plein_generateur=${id}`)
+}
