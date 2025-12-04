@@ -56,3 +56,24 @@ export const postGenerateur = async (data) => {
         },
     });
 };
+
+//Plein generateur
+export const getPleinGenerateur  = async () => {
+  return axios.get(`${DOMAIN}/api/generateur/plein_generateur`);
+};
+
+export const getPleinGenerateurOne  = async (id) => {
+  return axios.get(`${DOMAIN}/api/generateur/plein_generateur/one`,{
+    params: {
+      id_plein_generateur: id
+    }
+  });
+};
+
+export const postPleinGenerateur = async (data) => {
+  return axios.post(`${DOMAIN}/api/generateur/plein_generateur`, data);
+};
+
+export const putPleinGenerateur =  async(data) => {
+  return axios.put(`${DOMAIN}/api/generateur/plein_generateur`, data)
+}

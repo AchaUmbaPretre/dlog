@@ -9,7 +9,9 @@ import {
   Card,
   Empty,
   Checkbox,
-  Tooltip
+  Tooltip,
+  Modal,
+  notification
 } from "antd";
 import {
   EditOutlined,
@@ -19,6 +21,7 @@ import {
   DownOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
+import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -38,9 +41,9 @@ const PleinGenerateur = () => {
     "Date operation": false,
     "Qté" : true,
     "Crée par" : false
-  });
+  }); 
 
-/*     const fetchData = async() => {
+    const fetchData = async() => {
         setLoading(true);
 
         try {
@@ -60,7 +63,7 @@ const PleinGenerateur = () => {
 
     useEffect(() => {
         fetchData();
-    }, []); */
+    }, []);
 
   const closeAllModals = () => setModalType(null);
   const openModal = (type) => setModalType(type);
@@ -209,7 +212,7 @@ const PleinGenerateur = () => {
         />
       </Card>
 
-{/*       <Modal
+    <Modal
         open={modalType === "Add"}
         onCancel={closeAllModals}
         footer={null}
@@ -217,8 +220,8 @@ const PleinGenerateur = () => {
         centered
         destroyOnClose
       >
-        <GenerateurForm closeModal={closeAllModals} fetchData={fetchData} />
-      </Modal> */}
+        <FormPleinGenerateur closeModal={closeAllModals} fetchData={fetchData} />
+      </Modal>
     </div>
   )
 }
