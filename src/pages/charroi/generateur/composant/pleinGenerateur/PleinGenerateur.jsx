@@ -26,6 +26,7 @@ import {
 import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
 import { getPleinGenerateur } from "../../../../../services/generateurService";
 import moment from "moment";
+import { formatNumber } from "../../../../../utils/formatNumber";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -121,6 +122,32 @@ const PleinGenerateur = () => {
         {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres"},
         {   title:"Crée par", dataIndex: "createur", key: "createur"},
         {
+            title: "M. ($)",
+            dataIndex: "montant_total_usd",
+            key: "montant_total_usd",
+            align: "right",
+            sorter: (a, b) => a.montant_total_usd - b.montant_total_usd,
+            sortDirections: ["descend", "ascend"],
+            render: (text) => (
+                <Text strong style={{ color: "#1677ff" }}>
+                    {text ? formatNumber(text, " $") : "N/A"}
+                </Text>
+            ),
+        },
+        {
+            title: "M. (CDF)",
+            dataIndex: "montant_total_cdf",
+            key: "montant_total_cdf",
+            align: "right",
+            sorter: (a, b) => a.montant_total_cdf - b.montant_total_cdf,
+            sortDirections: ["descend", "ascend"],
+            render: (text) => (
+                <Text strong style={{ color: "#1677ff" }}>
+                    {text ? formatNumber(text, " CDF") : "N/A"}
+                </Text>
+            ),
+        },
+        {
             title: "Actions",
             key: 'action',
             width: '10%',
@@ -137,7 +164,6 @@ const PleinGenerateur = () => {
                 </Space>
             )
         }
-
     ];
     return allColumns.filter((col) => columnsVisibility[col.title] !== false);
   }, [pagination, columnsVisibility]);
