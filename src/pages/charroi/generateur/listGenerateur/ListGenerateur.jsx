@@ -75,7 +75,6 @@ const ListGenerateur = () => {
   const openModal = (type, id = null) => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
 
-
   const columnMenu = (
         <div style={{ padding: 10, background:'#fff' }}>
         {Object.keys(columnsVisibility).map((colName) => (

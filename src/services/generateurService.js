@@ -57,6 +57,11 @@ export const postGenerateur = async (data) => {
     });
 };
 
+//Relier un générateur à un fichier excel
+export const putRelierGenerateurFichier = async (id, data) => {
+    return axios.put(`${DOMAIN}/api/generateur/relier_generateur?id_generateur=${id}`, data);
+};
+
 //Plein generateur
 export const getPleinGenerateur  = async () => {
   return axios.get(`${DOMAIN}/api/generateur/plein_generateur`);
