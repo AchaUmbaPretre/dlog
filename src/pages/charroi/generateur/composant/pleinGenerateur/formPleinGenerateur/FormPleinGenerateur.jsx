@@ -203,7 +203,11 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                 </Col>
 
                                 <Col xs={24} sm={12}>
-                                    <Form.Item label="Qté" name="quantite_litres">
+                                    <Form.Item 
+                                        label="Quantité (Litres)" 
+                                        name="quantite_litres"
+                                        rules={[{ required: true, message: 'Veuillez inserer la quantité.' }]}
+                                    >
                                         {renderField( 
                                             <InputNumber
                                                 placeholder="ex: 50"
