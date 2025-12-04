@@ -59,7 +59,7 @@ const RelierGenerateur = () => {
     fetchDataAll();
   }, []);
 
-  const handleChangeVehicule = (id_vehicule) => setSelectedVehicule(id_vehicule);
+  const handleChangeVehicule = (id_generateur ) => setSelectedVehicule(id_generateur );
 
   const handleSave = async (record) => {
     if (!selectedVehicule) {
@@ -75,7 +75,7 @@ const RelierGenerateur = () => {
           Voulez-vous relier le fichier excel <b>{record.name}</b> au générateur{" "}
           <b>
             {
-              generateurAll.find((v) => v.id_vehicule === selectedVehicule)
+              generateurAll.find((v) => v.id_generateur  === selectedVehicule)
                 ?.immatriculation
             }
           </b>
