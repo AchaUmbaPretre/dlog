@@ -94,7 +94,6 @@ const Carburant = () => {
   const openModal = (type, id = null) => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
 
-  // delete handler uses local state to update instantly, then show messages
   const handleDelete = useCallback(
     async (id) => {
       try {

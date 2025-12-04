@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import {
   Table,
   Button,
@@ -9,24 +9,20 @@ import {
   Card,
   Empty,
   Checkbox,
-  Tooltip,
   Modal,
   notification,
-  Tag
+  message
 } from "antd";
 import {
-  EditOutlined,
   FireOutlined,
   PlusCircleOutlined,
   ReloadOutlined,
   DownOutlined,
-  MenuOutlined,
-  CalendarOutlined
+  MenuOutlined
 } from "@ant-design/icons";
 import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
-import { getPleinGenerateur } from "../../../../../services/generateurService";
-import moment from "moment";
-import { formatNumber } from "../../../../../utils/formatNumber";
+import { deletePleinGenerateur, getPleinGenerateur } from "../../../../../services/generateurService";
+import { useGenerateurColumns } from "./hooks/useGenerateurColumns";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -35,7 +31,6 @@ const PleinGenerateur = () => {
  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [modalType, setModalType] = useState(null);
   const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
@@ -45,8 +40,11 @@ const PleinGenerateur = () => {
     "Type carburant": true,
     "Date operation": false,
     "Qté" : true,
-    "Crée par" : false
+    "M. (CDF)" : true,
+    "Crée par" : false,
+    "M. ($)": false
   }); 
+  const [modal, setModal] = useState({ type: null, id: null });
 
     const fetchData = async() => {
         setLoading(true);
@@ -70,8 +68,8 @@ const PleinGenerateur = () => {
         fetchData();
     }, []);
 
-  const closeAllModals = () => setModalType(null);
-  const openModal = (type) => setModalType(type);
+  const openModal = (type, id = null) => setModal({ type, id });
+  const closeAllModals = () => setModal({ type: null, id: null });
 
   const columnMenu = (
         <div style={{ padding: 10, background:'#fff' }}>
@@ -93,80 +91,30 @@ const PleinGenerateur = () => {
         </div>
     );
   
-  const columns = useMemo(() => {
-    const allColumns = [
-        {
-            title: "#",
-            key: "index",
-            width: 40,
-            align: "center",
-            render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
+    const handleDelete = useCallback(
+        async (id) => {
+          try {
+            await deletePleinGenerateur(id);
+            setData((prev) => prev.filter((item) => item.id_carburant !== id));
+            message.success("Le plein a été supprimé avec succès");
+          } catch (err) {
+            notification.error({
+              message: "Erreur de suppression",
+              description: "Une erreur est survenue lors de la suppression du carburant.",
+            });
+          }
         },
-        {
-            title: "Date opération",
-            dataIndex: "date_operation",
-            key: "date_operation",
-            sorter: (a, b) =>
-            moment(a.date_operation).unix() - moment(b.date_operation).unix(),
-            render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="red">
-                    {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
-                </Tag>
-            ),
-        },
-        {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
-        {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque"},
-        {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle"},
-        {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen"},
-        {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
-        {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres"},
-        {   title:"Crée par", dataIndex: "createur", key: "createur"},
-        {
-            title: "M. ($)",
-            dataIndex: "montant_total_usd",
-            key: "montant_total_usd",
-            align: "right",
-            sorter: (a, b) => a.montant_total_usd - b.montant_total_usd,
-            sortDirections: ["descend", "ascend"],
-            render: (text) => (
-                <Text strong style={{ color: "#1677ff" }}>
-                    {text ? formatNumber(text, " $") : "N/A"}
-                </Text>
-            ),
-        },
-        {
-            title: "M. (CDF)",
-            dataIndex: "montant_total_cdf",
-            key: "montant_total_cdf",
-            align: "right",
-            sorter: (a, b) => a.montant_total_cdf - b.montant_total_cdf,
-            sortDirections: ["descend", "ascend"],
-            render: (text) => (
-                <Text strong style={{ color: "#1677ff" }}>
-                    {text ? formatNumber(text, " CDF") : "N/A"}
-                </Text>
-            ),
-        },
-        {
-            title: "Actions",
-            key: 'action',
-            width: '10%',
-            render: (text, record) => (
-                <Space size="middle">
-                    <Tooltip title="Modifier">
-                        <Button
-                            icon={<EditOutlined />}
-                            style={{ color: 'green' }}
-                            onClick={() => handleEdit(record.id_tache)}
-                            aria-label="Edit generateur"
-                        />
-                    </Tooltip>   
-                </Space>
-            )
-        }
-    ];
-    return allColumns.filter((col) => columnsVisibility[col.title] !== false);
-  }, [pagination, columnsVisibility]);
+        [setData]
+    );
+
+    // columns hook
+    const columns = useGenerateurColumns({
+        pagination,
+        columnsVisibility,
+        onEdit: (id) => openModal("Add", id),
+        onDetail: (id) => openModal("Detail", id),
+        onDelete: handleDelete,
+    });
 
   const filteredData = useMemo(() => {
     const search = searchValue.toLowerCase().trim();
@@ -179,10 +127,6 @@ const PleinGenerateur = () => {
             item.nom_type_carburant?.toLowerCase().includes(search)
     );
   }, [data, searchValue]);
-
-  const handleEdit = () => {
-
-  }
 
   return (
     <div className="carburant-page">
@@ -254,7 +198,7 @@ const PleinGenerateur = () => {
       </Card>
 
     <Modal
-        open={modalType === "Add"}
+        open={modal.type === "Add"}
         onCancel={closeAllModals}
         footer={null}
         width={1200}
