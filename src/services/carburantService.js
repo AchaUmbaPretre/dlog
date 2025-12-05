@@ -31,6 +31,10 @@ export const getCarburant = async (data) => {
   return axios.post(`${DOMAIN}/api/carburant`, data);
 };
 
+export const getCarburantLimitThree = async (id_vehicule) => {
+    return axios.get(`${DOMAIN}/api/carburant/limit_three?id_vehicule=${id_vehicule}`);
+  };
+
 export const getCarburantLimitTen = async (id_vehicule) => {
     return axios.get(`${DOMAIN}/api/carburant/limit_ten?id_vehicule=${id_vehicule}`);
   };

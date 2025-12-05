@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Table, Typography, Tag, Tooltip } from 'antd';
 import { CalendarOutlined } from "@ant-design/icons";
-import './carburantTableDetail.scss';
 import moment from 'moment';
 
 const { Text } = Typography;
 
-const CarburantTableDetail = ({ data, setCarburantId, loading }) => {
+const CarburantTableDetailThree = ({ data, setCarburantId, loading, vehiculeDataId }) => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
   });
-
   const scroll = { x: 'max-content' };
+
+  
 
   const handleRowClick = (id) => {
     if (setCarburantId) setCarburantId(id);
@@ -123,7 +123,7 @@ const CarburantTableDetail = ({ data, setCarburantId, loading }) => {
   return (
     <div className="carburantTableDetail">
       <div className="carburant_title_rows">
-        <h1 className="carburant_h1">5 derniers enregistrements</h1>
+        <h1 className="carburant_h1">3 derniers enregistrements</h1>
       </div>
 
       <div className="carburant_table">
@@ -146,4 +146,4 @@ const CarburantTableDetail = ({ data, setCarburantId, loading }) => {
   );
 };
 
-export default CarburantTableDetail;
+export default CarburantTableDetailThree;

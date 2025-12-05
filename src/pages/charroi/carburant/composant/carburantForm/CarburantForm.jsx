@@ -26,6 +26,7 @@ import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 import { useSelector } from 'react-redux';
 import { getCarburantLimitTen, getCarburantOne, getCarburantPriceLimit, getCarburantVehicule, postCarburant, putCarburant } from '../../../../../services/carburantService';
 import { getFournisseur_activiteOne } from '../../../../../services/fournisseurService';
+import CarburantTableDetailThree from '../carburantTableDetailThree/CarburantTableDetailThree';
 
 const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [form] = Form.useForm();
@@ -427,9 +428,12 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
             </Form>
           </div>
         </div>
-        { !idCarburant &&
+        { !idCarburant && 
         <div className="controle_right">
-          <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} vehiculeDataId={vehiculeDataId} />
+          <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} />
+          { vehiculeDataId && 
+          <CarburantTableDetailThree setCarburantId={setCarburantId} loading={loading.data} vehiculeDataId={vehiculeDataId} />
+          }
         </div>
         }
       </div>
