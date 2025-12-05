@@ -98,7 +98,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [vehiculeData, carburantId, idType, idCarburant]);
+  }, [ carburantId, idType, idCarburant]);
 
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
