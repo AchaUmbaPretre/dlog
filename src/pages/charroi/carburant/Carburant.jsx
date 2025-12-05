@@ -66,10 +66,8 @@ const Carburant = () => {
     "M. (CDF)": true,
     "Créé par": false,
   });
-
   const [searchValue, setSearchValue] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
-
   const { data, setData, loading, reload, setFilters } = useCarburantData(null);
 
   const { totalKmActuel, totalConsommation, distanceMoyenne, montantTotalUsd } =
@@ -119,7 +117,6 @@ const Carburant = () => {
     onDelete: handleDelete,
   });
 
-  // column menu UI
   const columnMenu = (
     <div style={{ padding: 10, background: "#fff" }}>
       {Object.keys(columnsVisibility).map((colName) => (
