@@ -29,13 +29,19 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
               (pagination.current - 1) * pagination.pageSize + index + 1,
           },
           {
-            title: "Marque",
+            title: "Marques",
             dataIndex: "nom_marque",
             key: "nom_marque",
             ellipsis:'true',
             render: (text, record) => (
               <Tooltip title='Récupérer les données de cet enregistrement'>
-                <Text strong onClick={() => handleRowClick(record.id_carburant)}>{text}</Text>
+                <Tag 
+                  color="success"
+                  onClick={() => handleRowClick(record.id_carburant)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {text}
+                </Tag>
               </Tooltip>
             )
           },
@@ -46,7 +52,7 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
             ellipsis:'true',
             render: (text, record) => (
               <Space>
-                <Text type="secondary">{text}</Text>
+                <Tag type="secondary">{text}</Tag>
               </Space>
             )
           },
@@ -85,7 +91,7 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
     <>
         <div className="carburantTableDetail">
             <div className="carburant_title_rows">
-                <h1 className="carburant_h1">Statistiques des 10 derniers enregistrements</h1>
+                <h1 className="carburant_h1"> 5 derniers enregistrements</h1>
             </div>
             <div className="carburant_table">
                 <Table
