@@ -51,7 +51,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [confirmationMessage, setConfirmationMessage] = useState(""); // Message spécifique 409
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-  console.log(idType)
   const fetchDatas = async () => {
     try {
       const [carburantData, typeData] = await Promise.all([
