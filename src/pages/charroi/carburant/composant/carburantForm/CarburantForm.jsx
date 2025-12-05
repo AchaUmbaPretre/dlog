@@ -45,11 +45,7 @@ import "./carburantForm.scss";
 const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [form] = Form.useForm();
 
-  /** ───────────────────────────────────────
-   * STATES
-   * ─────────────────────────────────────── */
   const [loading, setLoading] = useState({ data: false, submit: false });
-
   const [fournisseurs, setFournisseurs] = useState([]);
   const [vehicules, setVehicules] = useState([]);
   const [chauffeurs, setChauffeurs] = useState([]);
@@ -68,31 +64,26 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [montantTotalCDF, setMontantTotalCDF] = useState(0);
   const [montantTotalUSD, setMontantTotalUSD] = useState(0);
 
-  /** Confirmation */
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [pendingPayload, setPendingPayload] = useState(null);
   const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [forceConfirmation, setForceConfirmation] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState("");
-
+  
   const userId = useSelector(
     (state) => state.user?.currentUser?.id_utilisateur
   );
 
-  /** ───────────────────────────────────────
-   * CHARGEMENT DES DONNÉES DÉPENDANTES
-   * ─────────────────────────────────────── */
   const fetchDatas = async () => {
     try {
       const [carburantData, typeData] = await Promise.all([
-        getCarburantLimitTen(vehiculeDataId),
+        getCarburantLimitTen(''),
         getTypeCarburant(),
       ]);
 
       setData(carburantData.data);
       setType(typeData.data);
 
-      /** Prix carburant */
       if (idType) {
         const { data } = await getCarburantPriceLimit(idType);
         if (data) {
@@ -101,7 +92,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
         }
       }
 
-      /** Edition carburant */
       const carburantToLoad = carburantId || idCarburant;
       if (carburantToLoad) {
         const { data: vehiculeRes } = await getCarburantOne(
@@ -125,9 +115,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     fetchDatas();
   }, [carburantId, idType, idCarburant, vehiculeDataId]);
 
-  /** ───────────────────────────────────────
-   * CHARGEMENT INITIAL
-   * ─────────────────────────────────────── */
   const fetchInitialData = useCallback(async () => {
     setLoading((prev) => ({ ...prev, data: true }));
     try {
@@ -156,9 +143,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     form.resetFields();
   }, [fetchInitialData, form, carburantId]);
 
-  /** ───────────────────────────────────────
-   * CALCUL MONTANT TOTAL
-   * ─────────────────────────────────────── */
   const handleQuantiteChange = (value) => {
     const quantite = parseFloat(value || 0);
     const totalCDF = quantite * prixCDF;
@@ -173,9 +157,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     });
   };
 
-  /** ───────────────────────────────────────
-   * SUBMIT FORMULAIRE
-   * ─────────────────────────────────────── */
   const handleSubmit = (values) => {
     const payload = {
       ...values,
@@ -200,9 +181,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     setConfirmVisible(true);
   };
 
-  /** ───────────────────────────────────────
-   * CONFIRMATION
-   * ─────────────────────────────────────── */
   const handleConfirm = async () => {
     if (!pendingPayload) return;
 
@@ -264,15 +242,9 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     setVehiculeDataId("");
   };
 
-  /** ───────────────────────────────────────
-   * RENDER UTILITAIRE
-   * ─────────────────────────────────────── */
   const renderField = (component) =>
     loading.data ? <Skeleton.Input active style={{ width: "100%" }} /> : component;
 
-  /** ───────────────────────────────────────
-   * RENDER PRINCIPAL
-   * ─────────────────────────────────────── */
   return (
     <div className="carburant_container">
       <h2 className="carburant_h2">
@@ -556,7 +528,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
         )}
       </div>
 
-      {/* Modal Confirmation */}
       <ConfirmModal
         visible={confirmVisible}
         title={
