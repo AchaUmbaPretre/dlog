@@ -146,9 +146,7 @@ const RelierGenerateur = () => {
         const linked = generateurAll.find(
           (g) => g.id_carburant_vehicule === record.id_enregistrement
         );
-
-        console.log(linked)
-
+    
         if (editingRow === record.id_enregistrement) {
           return (
             <Select
