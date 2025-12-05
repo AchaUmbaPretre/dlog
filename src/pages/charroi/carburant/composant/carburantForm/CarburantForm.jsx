@@ -195,7 +195,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
       });
 
       form.resetFields();
-      closeModal?.();
       fetchData?.();
       fetchDatas();
       resetConfirmationState();
