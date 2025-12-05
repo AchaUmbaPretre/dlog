@@ -98,7 +98,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [ carburantId, idType, idCarburant]);
+  }, [ carburantId, idType, idCarburant, vehiculeData]);
 
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
@@ -126,7 +126,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   useEffect(() => {
     fetchInitialData();
     form.resetFields();
-  }, [fetchInitialData, form, carburantId, vehiculeData]);
+  }, [fetchInitialData, form, carburantId]);
 
   // Calcul automatique du montant total en CDF et USD
   const handleQuantiteChange = (value) => {
