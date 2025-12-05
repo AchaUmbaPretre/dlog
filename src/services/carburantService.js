@@ -44,7 +44,7 @@ export const getCarburantOne = async (id_vehicule, id_carburant) => {
   };
 
 export const postCarburant = async (data) => {
-  return axios.post(`${DOMAIN}/api/carburant`, data);
+  return axios.post(`${DOMAIN}/api/carburant/post_carburant`, data);
 };
 
 export const putCarburant = async (data) => {

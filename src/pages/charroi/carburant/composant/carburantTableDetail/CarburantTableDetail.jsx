@@ -69,6 +69,14 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             render: (text) => <Tag>{text} Km</Tag>,
           },
           {
+            title: "Compteur KM",
+            dataIndex: "compteur_km",
+            key: "compteur_km",
+            align: "right",
+            ellipsis:'true',
+            render: (text) => <Tag>{text} Km</Tag>,
+          },
+          {
             title: "Qté",
             dataIndex: "quantite_litres",
             key: "quantite_litres",
