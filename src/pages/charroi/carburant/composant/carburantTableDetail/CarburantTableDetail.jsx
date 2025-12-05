@@ -41,11 +41,11 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             )
           },
           {
-            title: "Véhicule",
+            title: "Immatri.",
             dataIndex: "immatriculation",
             key: "immatriculation",
             ellipsis:'true',
-            render: (text, record) => <Tag color="blue" onClick={() => handleRowClick(record.id_carburant)}>{text}</Tag>,
+            render: (text, record) => <Tag color="blue" onClick={() => handleRowClick(record.id_carburant)}>{text ?? 'N/A'}</Tag>,
           },
           {
             title: "Date",
@@ -66,22 +66,22 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             key: "distance",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Text>{text}</Text>,
+            render: (text) => <Tag>{text}</Tag>,
           },
           {
-            title: "Km actuel",
-            dataIndex: "compteur_km",
-            key: "compteur_km",
+            title: "Qté",
+            dataIndex: "quantite_litres",
+            key: "quantite_litres",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Text>{text} Km</Text>,
+            render: (text) => <Text mark>{text} Km</Text>,
           },
           {
             title: "Cons.",
             dataIndex: "consommation",
             key: "consommation",
             align: "right",
-            render: (text) => <Text>{text} L</Text>,
+            render: (text) => <Tag>{text} L</Tag>,
           }
         ];
 
