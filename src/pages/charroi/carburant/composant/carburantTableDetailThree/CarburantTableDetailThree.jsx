@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Table, Typography, Tag, Tooltip } from 'antd';
 import { CalendarOutlined } from "@ant-design/icons";
 import moment from 'moment';
@@ -7,41 +7,45 @@ import { getCarburantLimitThree } from '../../../../../services/carburantService
 const { Text } = Typography;
 
 const CarburantTableDetailThree = ({ setCarburantId, loading, vehiculeDataId }) => {
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 20,
-  });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
   const [data, setData] = useState([]);
-  const [marque, setMarque] = useState('');
-  const [modele, setModele] = useState('')
+  const [vehiculeInfo, setVehiculeInfo] = useState({ marque: '', modele: '', immatriculation: '' });
 
   const scroll = { x: 'max-content' };
 
-  useEffect(()=> {
-    const fetchData = async() => {
-        try {
-            const { data } = await getCarburantLimitThree(vehiculeDataId);
-            setData(data?.data)
-        } catch (error) {
-            console.log(error);
-        }
+  // Fetch data
+  const fetchCarburantData = useCallback(async () => {
+    if (!vehiculeDataId) return;
+
+    try {
+      const response = await getCarburantLimitThree(vehiculeDataId);
+      const carburantData = response?.data?.data || [];
+      setData(carburantData);
+      if (carburantData.length > 0) {
+        setVehiculeInfo({
+          marque: carburantData[0].nom_marque || '',
+          modele: carburantData[0].nom_modele || '',
+          immatriculation: carburantData[0].immatriculation || '',
+        });
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement des carburants :', error);
     }
-    fetchData()
-  }, [vehiculeDataId])
+  }, [vehiculeDataId]);
 
+  useEffect(() => {
+    fetchCarburantData();
+  }, [fetchCarburantData]);
 
-  const handleRowClick = (id) => {
-    if (setCarburantId) setCarburantId(id);
-  };
+  const handleRowClick = (id) => setCarburantId?.(id);
 
-  const columns = [
+  const getColumns = () => [
     {
       title: "#",
       key: "index",
       width: 40,
       align: "center",
-      render: (_, __, index) =>
-        (pagination.current - 1) * pagination.pageSize + index + 1,
+      render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
     },
     {
       title: "Marque",
@@ -52,7 +56,7 @@ const CarburantTableDetailThree = ({ setCarburantId, loading, vehiculeDataId }) 
         <Tooltip title="Récupérer les données de cet enregistrement">
           <Tag 
             color="success"
-            onClick={() => setCarburantId && handleRowClick(record.id_carburant)}
+            onClick={() => handleRowClick(record.id_carburant)}
             style={{ cursor: "pointer" }}
           >
             {text}
@@ -69,9 +73,9 @@ const CarburantTableDetailThree = ({ setCarburantId, loading, vehiculeDataId }) 
         <Tag 
           color="blue"
           style={{ cursor: "pointer" }}
-          onClick={() => setCarburantId && handleRowClick(record.id_carburant)}
+          onClick={() => handleRowClick(record.id_carburant)}
         >
-          {text ?? 'N/A'}
+          {text || 'N/A'}
         </Tag>
       ),
     },
@@ -80,8 +84,7 @@ const CarburantTableDetailThree = ({ setCarburantId, loading, vehiculeDataId }) 
       dataIndex: "date_operation",
       key: "date_operation",
       ellipsis: true,
-      sorter: (a, b) =>
-        moment(a.date_operation).unix() - moment(b.date_operation).unix(),
+      sorter: (a, b) => moment(a.date_operation).unix() - moment(b.date_operation).unix(),
       sortDirections: ['descend', 'ascend'],
       defaultSortOrder: 'descend',
       render: (text) => (
@@ -132,30 +135,30 @@ const CarburantTableDetailThree = ({ setCarburantId, loading, vehiculeDataId }) 
       dataIndex: "createur",
       key: "createur",
       align: "right",
-      render: (text) => <Tag>{text ?? 'N/A'}</Tag>,
+      render: (text) => <Tag>{text || 'N/A'}</Tag>,
     },
   ];
 
   return (
     <div className="carburantTableDetail">
       <div className="carburant_title_rows">
-        <h1 className="carburant_h1">3 derniers enregistrements</h1>
+        <h1 className="carburant_h1">
+          3 derniers enregistrements de {vehiculeInfo.marque} {vehiculeInfo.modele} {vehiculeInfo.immatriculation}
+        </h1>
       </div>
 
       <div className="carburant_table">
         <Table
-          columns={columns}
+          columns={getColumns()}
           dataSource={data}
           loading={loading}
           pagination={pagination}
-          onChange={(p) => setPagination(p)}
+          onChange={setPagination}
           rowKey="id_carburant"
           bordered
           size="small"
           scroll={scroll}
-          rowClassName={(_, index) =>
-            index % 2 === 0 ? 'odd-row' : 'even-row'
-          }
+          rowClassName={(_, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
         />
       </div>
     </div>
