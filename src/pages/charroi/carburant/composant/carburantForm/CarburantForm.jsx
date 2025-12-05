@@ -395,7 +395,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                 </Col>
 
                 {/* Compteur */}
-                <Col xs={24} sm={8}>
+                <Col xs={24} sm={16}>
                   <Form.Item
                     label="Compteur KM (actuel)"
                     name="compteur_km"
@@ -406,7 +406,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                 </Col>
 
                 {/* Commentaire */}
-                <Col xs={24} sm={8}>
+                <Col xs={24} sm={24}>
                   <Form.Item label="Commentaire" name="commentaire">
                     {renderField(<Input.TextArea placeholder="Écrire..." style={{ height: '50px', resize: 'none' }} />)}
                   </Form.Item>
