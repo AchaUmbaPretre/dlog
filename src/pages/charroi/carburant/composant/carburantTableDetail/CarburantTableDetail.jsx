@@ -36,7 +36,7 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             ellipsis:'true',
             render: (text, record) => (
               <Tooltip title='Récupérer les données de cet enregistrement'>
-                <Text strong onClick={() => handleRowClick(record.id_carburant)}>{text}</Text>
+                <Tag color='success' onClick={() => handleRowClick(record.id_carburant)}>{text}</Tag>
               </Tooltip>
             )
           },
