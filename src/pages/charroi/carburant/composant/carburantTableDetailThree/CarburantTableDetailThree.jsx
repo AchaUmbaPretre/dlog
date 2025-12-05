@@ -1,18 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Table, Typography, Tag, Tooltip } from 'antd';
 import { CalendarOutlined } from "@ant-design/icons";
 import moment from 'moment';
+import { getCarburantLimitThree } from '../../../../../services/carburantService';
 
 const { Text } = Typography;
 
-const CarburantTableDetailThree = ({ data, setCarburantId, loading, vehiculeDataId }) => {
+const CarburantTableDetailThree = ({ setCarburantId, loading, vehiculeDataId }) => {
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 20,
   });
+  const [data, setData] = useState([]);
+  const [marque, setMarque] = useState('');
+  const [modele, setModele] = useState('')
+
   const scroll = { x: 'max-content' };
 
-  
+  useEffect(()=> {
+    const fetchData = async() => {
+        try {
+            const { data } = await getCarburantLimitThree(vehiculeDataId);
+            setData(data?.data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    fetchData()
+  }, [vehiculeDataId])
+
 
   const handleRowClick = (id) => {
     if (setCarburantId) setCarburantId(id);

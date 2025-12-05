@@ -37,7 +37,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [data, setData] = useState([]);
   const [type, setType] = useState([]);
   const [idType, setIdType] = useState(null);
-  const [vehiculeDataId, setVehiculeDataId] = useState([]);
+  const [vehiculeDataId, setVehiculeDataId] = useState('');
   const [vehiculeId, setVehiculeId] = useState(null);
   const [carburantId, setCarburantId] = useState(null);
 
