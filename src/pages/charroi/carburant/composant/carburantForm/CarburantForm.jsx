@@ -206,9 +206,19 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
       });
 
       form.resetFields();
+
+      setIdType(null);
+      setVehiculeDataId("");
+      setPrixCDF(0);
+      setPrixUSD(0);
+      setMontantTotalCDF(0);
+      setMontantTotalUSD(0);
+
+      resetConfirmationState();
+
       fetchData?.();
       fetchDatas();
-      resetConfirmationState();
+
     } catch (error) {
       if (
         !forceConfirmation &&
@@ -239,7 +249,12 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   const resetFields = () => {
     form.resetFields();
+    setIdType(null);
     setVehiculeDataId("");
+    setPrixCDF(0);
+    setPrixUSD(0);
+    setMontantTotalCDF(0);
+    setMontantTotalUSD(0);
   };
 
   const renderField = (component) =>
