@@ -96,7 +96,7 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
     <>
         <div className="carburantTableDetail">
             <div className="carburant_title_rows">
-                <h1 className="carburant_h1">5 derniers enregistrements</h1>
+                <h1 className="carburant_h1">5 derniers enregistrements { setCarburantId ?'' : 'mm'}</h1>
             </div>
             <div className="carburant_table">
                 <Table
