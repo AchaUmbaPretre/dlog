@@ -429,7 +429,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
         </div>
         { !idCarburant &&
         <div className="controle_right">
-          <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} />
+          <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} vehiculeDataId={vehiculeDataId} />
         </div>
         }
       </div>
