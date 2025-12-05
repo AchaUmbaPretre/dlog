@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from "react";
 import {
   Button,
   Form,
@@ -10,89 +10,112 @@ import {
   notification,
   Skeleton,
   Divider,
-  InputNumber
-} from 'antd';
+  InputNumber,
+} from "antd";
 import {
   FireOutlined,
   ClearOutlined,
-  SaveOutlined
+  SaveOutlined,
 } from "@ant-design/icons";
-import { 
+import moment from "moment";
+import { useSelector } from "react-redux";
+
+import {
   getChauffeur,
-  getTypeCarburant
-} from '../../../../../services/charroiService';
-import './carburantForm.scss';
-import CarburantTableDetail from '../carburantTableDetail/CarburantTableDetail';
-import moment from 'moment';
-import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
-import { useSelector } from 'react-redux';
-import { getCarburantLimitTen, getCarburantOne, getCarburantPriceLimit, getCarburantVehicule, postCarburant, putCarburant } from '../../../../../services/carburantService';
-import { getFournisseur_activiteOne } from '../../../../../services/fournisseurService';
-import CarburantTableDetailThree from '../carburantTableDetailThree/CarburantTableDetailThree';
+  getTypeCarburant,
+} from "../../../../../services/charroiService";
+
+import {
+  getCarburantLimitTen,
+  getCarburantOne,
+  getCarburantPriceLimit,
+  getCarburantVehicule,
+  postCarburant,
+  putCarburant,
+} from "../../../../../services/carburantService";
+
+import { getFournisseur_activiteOne } from "../../../../../services/fournisseurService";
+
+import CarburantTableDetail from "../carburantTableDetail/CarburantTableDetail";
+import CarburantTableDetailThree from "../carburantTableDetailThree/CarburantTableDetailThree";
+import ConfirmModal from "../../../../../components/confirmModal/ConfirmModal";
+
+import "./carburantForm.scss";
 
 const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [form] = Form.useForm();
+
+  /** ───────────────────────────────────────
+   * STATES
+   * ─────────────────────────────────────── */
   const [loading, setLoading] = useState({ data: false, submit: false });
+
   const [fournisseurs, setFournisseurs] = useState([]);
   const [vehicules, setVehicules] = useState([]);
   const [chauffeurs, setChauffeurs] = useState([]);
+
   const [data, setData] = useState([]);
   const [type, setType] = useState([]);
+
   const [idType, setIdType] = useState(null);
-  const [vehiculeDataId, setVehiculeDataId] = useState('');
+  const [vehiculeDataId, setVehiculeDataId] = useState("");
   const [vehiculeId, setVehiculeId] = useState(null);
   const [carburantId, setCarburantId] = useState(null);
 
   const [prixCDF, setPrixCDF] = useState(0);
   const [prixUSD, setPrixUSD] = useState(0);
+
   const [montantTotalCDF, setMontantTotalCDF] = useState(0);
   const [montantTotalUSD, setMontantTotalUSD] = useState(0);
+
+  /** Confirmation */
   const [confirmVisible, setConfirmVisible] = useState(false);
   const [pendingPayload, setPendingPayload] = useState(null);
   const [loadingConfirm, setLoadingConfirm] = useState(false);
-  const [forceConfirmation, setForceConfirmation] = useState(false); // Pour le 409
-  const [confirmationMessage, setConfirmationMessage] = useState(""); // Message spécifique 409
-  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const [forceConfirmation, setForceConfirmation] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
 
+  const userId = useSelector(
+    (state) => state.user?.currentUser?.id_utilisateur
+  );
+
+  /** ───────────────────────────────────────
+   * CHARGEMENT DES DONNÉES DÉPENDANTES
+   * ─────────────────────────────────────── */
   const fetchDatas = async () => {
     try {
       const [carburantData, typeData] = await Promise.all([
         getCarburantLimitTen(vehiculeDataId),
-        getTypeCarburant()
+        getTypeCarburant(),
       ]);
 
       setData(carburantData.data);
       setType(typeData.data);
 
-      if(idType) {
+      /** Prix carburant */
+      if (idType) {
         const { data } = await getCarburantPriceLimit(idType);
         if (data) {
-          const lastPrix = data;
-          setPrixCDF(lastPrix.prix_cdf);
-          setPrixUSD(lastPrix.taux_usd);
+          setPrixCDF(data.prix_cdf);
+          setPrixUSD(data.taux_usd);
         }
       }
 
-      if(carburantId) {
-        const { data: vehicules } = await getCarburantOne(vehiculeId,carburantId);
-        if(vehicules && vehicules[0]) {
-          form.setFieldsValue({
-            ...vehicules[0],
-            date_operation: moment(vehicules[0].date_operation, 'YYYY-MM-DD')
-          })
-        }
-      } 
+      /** Edition carburant */
+      const carburantToLoad = carburantId || idCarburant;
+      if (carburantToLoad) {
+        const { data: vehiculeRes } = await getCarburantOne(
+          vehiculeId,
+          carburantToLoad
+        );
 
-      if(idCarburant) {
-        const { data: vehicules } = await getCarburantOne(vehiculeId,idCarburant);
-        if(vehicules && vehicules[0]) {
+        if (vehiculeRes?.[0]) {
           form.setFieldsValue({
-            ...vehicules[0],
-            date_operation: moment(vehicules[0].date_operation, 'YYYY-MM-DD')
-          })
+            ...vehiculeRes[0],
+            date_operation: moment(vehiculeRes[0].date_operation),
+          });
         }
       }
-
     } catch (error) {
       console.error("Erreur chargement prix carburant :", error);
     }
@@ -100,28 +123,31 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [ carburantId, idType, idCarburant, vehiculeDataId]);
+  }, [carburantId, idType, idCarburant, vehiculeDataId]);
 
+  /** ───────────────────────────────────────
+   * CHARGEMENT INITIAL
+   * ─────────────────────────────────────── */
   const fetchInitialData = useCallback(async () => {
-    setLoading(prev => ({ ...prev, data: true }));
+    setLoading((prev) => ({ ...prev, data: true }));
     try {
       const [vehiculeRes, fournisseurRes, chauffeurRes] = await Promise.all([
         getCarburantVehicule(),
         getFournisseur_activiteOne(5),
-        getChauffeur()
+        getChauffeur(),
       ]);
 
-      setVehicules(vehiculeRes?.data|| []);
+      setVehicules(vehiculeRes?.data || []);
       setFournisseurs(fournisseurRes?.data || []);
       setChauffeurs(chauffeurRes?.data?.data || []);
     } catch (error) {
       notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger les données nécessaires.',
+        message: "Erreur de chargement",
+        description: "Impossible de charger les données initiales.",
       });
       console.error(error);
     } finally {
-      setLoading(prev => ({ ...prev, data: false }));
+      setLoading((prev) => ({ ...prev, data: false }));
     }
   }, []);
 
@@ -130,12 +156,13 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     form.resetFields();
   }, [fetchInitialData, form, carburantId]);
 
-  // Calcul automatique du montant total en CDF et USD
+  /** ───────────────────────────────────────
+   * CALCUL MONTANT TOTAL
+   * ─────────────────────────────────────── */
   const handleQuantiteChange = (value) => {
     const quantite = parseFloat(value || 0);
     const totalCDF = quantite * prixCDF;
-    const totalUSD = prixUSD > 0 ? totalCDF / prixUSD : 0;
-;
+    const totalUSD = prixUSD ? totalCDF / prixUSD : 0;
 
     setMontantTotalCDF(totalCDF);
     setMontantTotalUSD(totalUSD);
@@ -146,10 +173,13 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     });
   };
 
+  /** ───────────────────────────────────────
+   * SUBMIT FORMULAIRE
+   * ─────────────────────────────────────── */
   const handleSubmit = (values) => {
     const payload = {
       ...values,
-      date_operation: values.date_operation?.format('YYYY-MM-DD HH:mm:ss'),
+      date_operation: values.date_operation?.format("YYYY-MM-DD HH:mm:ss"),
       prix_cdf: prixCDF,
       prix_usd: prixUSD,
       montant_total_cdf: montantTotalCDF,
@@ -163,44 +193,45 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
     setConfirmationMessage(
       idCarburant
-        ? "Voulez-vous vraiment modifier ces informations carburant ?"
-        : "Voulez-vous vraiment enregistrer ces informations carburant ?"
+        ? "Voulez-vous vraiment modifier ces informations ?"
+        : "Voulez-vous vraiment enregistrer ce plein ?"
     );
 
     setConfirmVisible(true);
   };
 
+  /** ───────────────────────────────────────
+   * CONFIRMATION
+   * ─────────────────────────────────────── */
   const handleConfirm = async () => {
     if (!pendingPayload) return;
-    setLoadingConfirm(true);
 
+    setLoadingConfirm(true);
     try {
-      const payloadToSend = forceConfirmation
+      const finalPayload = forceConfirmation
         ? { ...pendingPayload, force: 1 }
         : pendingPayload;
 
       if (idCarburant) {
-        await putCarburant(payloadToSend);
+        await putCarburant(finalPayload);
       } else {
-        await postCarburant(payloadToSend);
+        await postCarburant(finalPayload);
       }
 
       notification.success({
         message: "Succès",
         description: forceConfirmation
-          ? "Le plein a été enregistré malgré l'alerte de kilométrage incohérent."
+          ? "Le plein a été enregistré malgré la cohérence kilométrique."
           : idCarburant
-          ? "Les informations carburant ont été modifiées avec succès."
-          : "Les informations carburant ont été enregistrées avec succès.",
+          ? "Carburant modifié avec succès."
+          : "Carburant enregistré avec succès.",
       });
 
       form.resetFields();
       fetchData?.();
       fetchDatas();
       resetConfirmationState();
-
     } catch (error) {
-
       if (
         !forceConfirmation &&
         error?.response?.status === 409 &&
@@ -213,12 +244,10 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
       notification.error({
         message: "Erreur",
-        description: "Une erreur est survenue lors de l'enregistrement.",
+        description: "Échec de l'enregistrement.",
       });
-
       console.error(error);
       resetConfirmationState();
-
     } finally {
       setLoadingConfirm(false);
     }
@@ -232,24 +261,38 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   const resetFields = () => {
     form.resetFields();
-    setVehiculeDataId('')
+    setVehiculeDataId("");
   };
 
+  /** ───────────────────────────────────────
+   * RENDER UTILITAIRE
+   * ─────────────────────────────────────── */
   const renderField = (component) =>
-    loading.data ? <Skeleton.Input active style={{ width: '100%' }} /> : component;
+    loading.data ? <Skeleton.Input active style={{ width: "100%" }} /> : component;
 
+  /** ───────────────────────────────────────
+   * RENDER PRINCIPAL
+   * ─────────────────────────────────────── */
   return (
     <div className="carburant_container">
       <h2 className="carburant_h2">
         <FireOutlined style={{ color: "#fa541c", marginRight: 8 }} />
         Gestion des carburants
       </h2>
+
       <Divider />
+
       <div className="carburant_wrapper">
+        {/* FORMULAIRE */}
         <div className="controle_form">
           <div className="controle_title_rows">
-            <h2 className="controle_h2"> {idCarburant ? 'MODIFICATION DU PLEIN' : 'ENREGISTRER UN NOUVEAU PLEIN'}</h2>
+            <h2 className="controle_h2">
+              {idCarburant
+                ? "MODIFICATION DU PLEIN"
+                : "ENREGISTRER UN NOUVEAU PLEIN"}
+            </h2>
           </div>
+
           <div className="controle_wrapper">
             <Form
               form={form}
@@ -258,20 +301,24 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
               disabled={loading.data}
             >
               <Row gutter={[16, 16]}>
-
                 {/* Véhicule */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Véhicule"
                     name="id_vehicule"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un véhicule.' }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Veuillez sélectionner un véhicule.",
+                      },
+                    ]}
                   >
                     {renderField(
                       <Select
                         showSearch
                         placeholder="Sélectionnez un véhicule"
                         optionFilterProp="label"
-                        options={vehicules.map(v => ({
+                        options={vehicules.map((v) => ({
                           value: v.id_enregistrement,
                           label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
@@ -286,11 +333,13 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   <Form.Item
                     label="Date d'opération"
                     name="date_operation"
-                    rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
+                    rules={[
+                      { required: true, message: "Veuillez sélectionner une date." },
+                    ]}
                   >
                     <DatePicker
                       format="YYYY-MM-DD"
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                       placeholder="Sélectionnez une date"
                     />
                   </Form.Item>
@@ -303,24 +352,28 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   </Form.Item>
                 </Col>
 
+                {/* Facture */}
                 <Col xs={24} sm={8}>
                   <Form.Item label="Numéro de facture" name="num_facture">
                     {renderField(<Input placeholder="ex: FCT-2025-01" />)}
                   </Form.Item>
                 </Col>
 
+                {/* Chauffeur */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Chauffeur"
                     name="id_chauffeur"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un chauffeur.' }]}
+                    rules={[
+                      { required: true, message: "Veuillez sélectionner un chauffeur." },
+                    ]}
                   >
                     {renderField(
                       <Select
                         showSearch
                         placeholder="Sélectionnez un chauffeur"
                         optionFilterProp="label"
-                        options={chauffeurs.map(c => ({
+                        options={chauffeurs.map((c) => ({
                           value: c.id_chauffeur,
                           label: `${c.nom} ${c.prenom}`,
                         }))}
@@ -329,18 +382,24 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   </Form.Item>
                 </Col>
 
+                {/* Fournisseur */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Fournisseur"
                     name="id_fournisseur"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Veuillez sélectionner un fournisseur.",
+                      },
+                    ]}
                   >
                     {renderField(
                       <Select
                         showSearch
                         placeholder="Sélectionnez un fournisseur"
                         optionFilterProp="label"
-                        options={fournisseurs.map(f => ({
+                        options={fournisseurs.map((f) => ({
                           value: f.id_fournisseur,
                           label: f.nom_fournisseur,
                         }))}
@@ -349,18 +408,23 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   </Form.Item>
                 </Col>
 
+                {/* Type Carburant */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Type de carburant"
                     name="id_type_carburant"
-                    rules={[{ required: true, message: 'Veuillez sélectionner un type.' }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Veuillez sélectionner un type de carburant.",
+                      },
+                    ]}
                   >
                     {renderField(
                       <Select
                         showSearch
-                        placeholder="Sélectionnez un type de carburant"
-                        optionFilterProp="label"
-                        options={type.map(t => ({
+                        placeholder="Sélectionnez un type"
+                        options={type.map((t) => ({
                           value: t.id_type_carburant,
                           label: t.nom_type_carburant,
                         }))}
@@ -370,33 +434,44 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   </Form.Item>
                 </Col>
 
+                {/* Quantité */}
                 <Col xs={24} sm={8}>
                   <Form.Item
                     label="Quantité (Litres)"
                     name="quantite_litres"
-                    rules={[{ required: true, message: 'Veuillez entrer la quantité.' }]}
+                    rules={[
+                      { required: true, message: "Veuillez entrer la quantité." },
+                    ]}
                   >
                     {renderField(
                       <InputNumber
                         placeholder="ex: 50"
-                        style={{ width: '100%' }}
+                        style={{ width: "100%" }}
                         onChange={handleQuantiteChange}
                       />
                     )}
                   </Form.Item>
                 </Col>
 
-                {/* Prix CDF */}
+                {/* Prix */}
                 <Col xs={24} sm={8}>
-                  <Form.Item label={`Prix du litre (CDF)`}>
-                    <InputNumber value={prixCDF} readOnly style={{ width: '100%' }} />
+                  <Form.Item label="Prix du litre (CDF)">
+                    <InputNumber
+                      value={prixCDF}
+                      readOnly
+                      style={{ width: "100%" }}
+                    />
                   </Form.Item>
                 </Col>
 
-                {/* Montant total */}
+                {/* Montant */}
                 <Col xs={24} sm={8}>
                   <Form.Item label="Montant total (CDF)">
-                    <InputNumber value={montantTotalCDF} readOnly style={{ width: '100%' }} />
+                    <InputNumber
+                      value={montantTotalCDF}
+                      readOnly
+                      style={{ width: "100%" }}
+                    />
                   </Form.Item>
                 </Col>
 
@@ -405,20 +480,33 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   <Form.Item
                     label="Compteur KM (actuel)"
                     name="compteur_km"
-                    rules={[{ required: true, message: 'Veuillez entrer le compteur actuel.' }]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Veuillez entrer le compteur actuel.",
+                      },
+                    ]}
                   >
-                    {renderField(<Input type="number" placeholder="ex: 45000" />)}
+                    {renderField(
+                      <Input type="number" placeholder="ex: 45000" />
+                    )}
                   </Form.Item>
                 </Col>
 
                 {/* Commentaire */}
-                <Col xs={24} sm={24}>
+                <Col xs={24}>
                   <Form.Item label="Commentaire" name="commentaire">
-                    {renderField(<Input.TextArea placeholder="Écrire..." style={{ height: '50px', resize: 'none' }} />)}
+                    {renderField(
+                      <Input.TextArea
+                        placeholder="Écrire..."
+                        style={{ height: 50, resize: "none" }}
+                      />
+                    )}
                   </Form.Item>
                 </Col>
               </Row>
 
+              {/* Boutons */}
               <Row justify="end" style={{ marginTop: 20 }}>
                 <Col>
                   <Button
@@ -431,43 +519,56 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     Enregistrer
                   </Button>
                 </Col>
+
                 <Col>
-                    <Button
-                      onClick={() => resetFields()}
-                      icon={<ClearOutlined />}
-                      disabled={loading.data}
-                      className="vehicule-btn"
-                      style={{marginLeft:'10px'}}
-                    >
-                      Annuler
-                    </Button>
+                  <Button
+                    onClick={resetFields}
+                    icon={<ClearOutlined />}
+                    disabled={loading.data}
+                    className="vehicule-btn"
+                    style={{ marginLeft: 10 }}
+                  >
+                    Annuler
+                  </Button>
                 </Col>
               </Row>
             </Form>
           </div>
         </div>
-        { !idCarburant && 
-        <div className="controle_right">
-          <CarburantTableDetail data={data} setCarburantId={setCarburantId} loading={loading.data} />
-          { vehiculeDataId && 
-          <CarburantTableDetailThree setCarburantId={setCarburantId} loading={loading.data} vehiculeDataId={vehiculeDataId} />
-          }
-        </div>
-        }
+
+        {/* TABLEAUX DROITE */}
+        {!idCarburant && (
+          <div className="controle_right">
+            <CarburantTableDetail
+              data={data}
+              setCarburantId={setCarburantId}
+              loading={loading.data}
+            />
+
+            {vehiculeDataId && (
+              <CarburantTableDetailThree
+                setCarburantId={setCarburantId}
+                loading={loading.data}
+                vehiculeDataId={vehiculeDataId}
+              />
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Modal Confirmation */}
       <ConfirmModal
         visible={confirmVisible}
-        title={forceConfirmation ? "Kilométrage incohérent" : "Confirmer l'enregistrement"}
+        title={
+          forceConfirmation
+            ? "Kilométrage incohérent"
+            : "Confirmer l'enregistrement"
+        }
         content={confirmationMessage}
         onConfirm={handleConfirm}
-        onCancel={() => {
-          setConfirmVisible(false);
-          setPendingPayload(null);
-          setForceConfirmation(false);
-        }}
+        onCancel={resetConfirmationState}
         loading={loadingConfirm}
       />
-
     </div>
   );
 };
