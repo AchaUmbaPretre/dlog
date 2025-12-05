@@ -13,7 +13,9 @@ import {
   InputNumber
 } from 'antd';
 import {
-  FireOutlined
+  FireOutlined,
+  ClearOutlined,
+  SaveOutlined
 } from "@ant-design/icons";
 import { 
   getChauffeur,
@@ -229,6 +231,11 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     setForceConfirmation(false);
   };
 
+  const resetFields = () => {
+    form.resetFields();
+    setVehiculeDataId('')
+  };
+
   const renderField = (component) =>
     loading.data ? <Skeleton.Input active style={{ width: '100%' }} /> : component;
 
@@ -418,11 +425,23 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                   <Button
                     type="primary"
                     htmlType="submit"
+                    icon={<SaveOutlined />}
                     loading={loading.submit}
                     disabled={loading.data}
                   >
                     Enregistrer
                   </Button>
+                </Col>
+                <Col>
+                    <Button
+                      onClick={() => resetFields()}
+                      icon={<ClearOutlined />}
+                      disabled={loading.data}
+                      className="vehicule-btn"
+                      style={{marginLeft:'10px'}}
+                    >
+                      Annuler
+                    </Button>
                 </Col>
               </Row>
             </Form>
