@@ -4,12 +4,12 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Card, Row, Col, Select, DatePicker, Skeleton, InputNumber, Space, message, Modal } from 'antd';
 import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
-import { getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
+import { getGenerateurOne, getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 import { useSelector } from 'react-redux';
 
-const GenerateurForm = ({closeModal, fetchData}) => {
+const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [loadingData, setLoadingData] = useState(false);
@@ -55,6 +55,16 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                 const { data : m} = await getModeleGenerateurOne(iDmarque)
                 setModele(m)
             } 
+
+            if(id_generateur) {
+                const { data : gen } = await getGenerateurOne(id_generateur)
+                form.setFieldsValue({
+                    ...gen[0],
+                    annee_fabrication : moment(gen[0]?.annee_fabrication),
+                    annee_service : moment(gen[0]?.annee_service),
+                    
+                })
+            }
             
         } catch (error) {
             console.log(error);
@@ -164,7 +174,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">Form générateur</h2>
+                <h2 className="controle_h2">{ id_generateur ? 'MODIFIER UN GENERATEUR' : 'FORM GENERATEUR'}</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -661,7 +671,7 @@ const GenerateurForm = ({closeModal, fetchData}) => {
                             <Form.Item>
                                 <Space className="button-group">
                                     <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                                        {'Ajouter'}
+                                        {id_generateur? 'Ajouter' : 'Modifier'}
                                     </Button>
                                     <Button htmlType="reset">
                                         Réinitialiser

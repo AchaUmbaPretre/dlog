@@ -11,7 +11,8 @@ import {
   notification,
   Empty,
   Checkbox,
-  Tooltip
+  Tooltip,
+  Popconfirm
 } from "antd";
 import {
   EditOutlined,
@@ -20,11 +21,14 @@ import {
   ReloadOutlined,
   DownOutlined,
   MenuOutlined,
-  RetweetOutlined
+  RetweetOutlined,
+  DeleteOutlined,
+  EyeOutlined
 } from "@ant-design/icons";
 import GenerateurForm from "./generateurForm/GenerateurForm";
 import { getGenerateur } from "../../../../services/generateurService";
 import RelierGenerateur from "../composant/relierGenerateur/RelierGenerateur";
+import DetailGenerateur from "../detailGenerateur/DetailGenerateur";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
@@ -33,7 +37,6 @@ const ListGenerateur = () => {
  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [modalType, setModalType] = useState(null);
   const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
@@ -49,6 +52,7 @@ const ListGenerateur = () => {
     "Crée par": false
   });
   const [modal, setModal] = useState({ type: null, id: null });
+  const [allIds, setAllIds] = useState([]);
 
     const fetchData = async() => {
         setLoading(true);
@@ -56,6 +60,7 @@ const ListGenerateur = () => {
         try {
             const response = await getGenerateur();
             setData(response?.data || []);
+            setAllIds([ ...new Set(data.map((d) => d.id_generateur) || [])]);
 
         } catch (error) {
             notification.error({
@@ -94,7 +99,11 @@ const ListGenerateur = () => {
         ))}
         </div>
     );
-  
+
+  const handleDelete = () => {
+
+  }
+
   const columns = useMemo(() => {
     const allColumns = [
         {
@@ -123,13 +132,31 @@ const ListGenerateur = () => {
             render: (text, record) => (
                 <Space size="middle">
                     <Tooltip title="Modifier">
-                        <Button
-                            icon={<EditOutlined />}
-                            style={{ color: 'green' }}
-                            onClick={() => handleEdit(record.id_tache)}
-                            aria-label="Edit generateur"
-                        />
+                      <Button
+                        icon={<EditOutlined />}
+                        style={{ color: 'green' }}
+                        onClick={() =>  openModal("Add", record.id_generateur)}
+                        aria-label="Edit generateur"
+                      />
                     </Tooltip>   
+                    <Tooltip title="Voir les détails">
+                      <Button
+                        icon={<EyeOutlined />}
+                        aria-label="Voir les détails"
+                        style={{ color: "blue" }}
+                        onClick={() => openModal("Detail", record.id_generateur)}
+                      />
+                    </Tooltip>
+                    <Tooltip title="Supprimer">
+                      <Popconfirm
+                        title="Êtes-vous sûr de vouloir supprimer cette ligne ?"
+                        onConfirm={() => handleDelete(record.id_generateur)}
+                        okText="Oui"
+                        cancelText="Non"
+                      >
+                        <Button icon={<DeleteOutlined />} style={{ color: "red" }} aria-label="Delete" />
+                      </Popconfirm>
+                    </Tooltip>
                 </Space>
             )
         }
@@ -149,13 +176,6 @@ const ListGenerateur = () => {
             item.nom_type_carburant?.toLowerCase().includes(search)
     );
   }, [data, searchValue]);
-
-  const handleEdit = () => {
-
-  }
-  const handleRelier = () => {
-
-  }
 
   return (
     <div className="carburant-page">
@@ -193,11 +213,11 @@ const ListGenerateur = () => {
               Nouveau
             </Button>
             <Button
-                type="default"
-                icon={<RetweetOutlined />}
-                onClick={() => openModal("Detail")}
+              type="default"
+              icon={<RetweetOutlined />}
+              onClick={() => openModal("Relier")}
             >
-                 Rélier les générateurs
+              Rélier les générateurs
             </Button>
             <Dropdown overlay={columnMenu} trigger={["click"]}>
               <Button icon={<MenuOutlined />}>
@@ -242,11 +262,22 @@ const ListGenerateur = () => {
         centered
         destroyOnClose
       >
-        <GenerateurForm closeModal={closeAllModals} fetchData={fetchData} />
+        <GenerateurForm id_generateur={modal.id} closeModal={closeAllModals} fetchData={fetchData} />
       </Modal>
 
       <Modal
         open={modal.type === "Detail"}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+        centered
+        destroyOnClose
+      >
+        <DetailGenerateur id_generateur={modal.id} closeModal={closeAllModals} fetchData={fetchData} allIds={allIds} />
+      </Modal>
+
+      <Modal
+        open={modal.type === "Relier"}
         onCancel={closeAllModals}
         footer={null}
         width={1000}

@@ -46,7 +46,7 @@ export const getGenerateur = async (user) => {
   };
 
 export const getGenerateurOne= async (id) => {
-    return axios.get(`${DOMAIN}/api/generateur/one?id_frequence=${id}`);
+    return axios.get(`${DOMAIN}/api/generateur/one?id_generateur=${id}`);
   };
 
 export const postGenerateur = async (data) => {
