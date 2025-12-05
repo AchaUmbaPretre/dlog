@@ -36,7 +36,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [data, setData] = useState([]);
   const [type, setType] = useState([]);
   const [idType, setIdType] = useState(null);
-  const [vehiculeData, setVehiculeData] = useState([]);
+  const [vehiculeDataId, setVehiculeDataId] = useState([]);
   const [vehiculeId, setVehiculeId] = useState(null);
   const [carburantId, setCarburantId] = useState(null);
 
@@ -54,7 +54,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const fetchDatas = async () => {
     try {
       const [carburantData, typeData] = await Promise.all([
-        getCarburantLimitTen(vehiculeData),
+        getCarburantLimitTen(vehiculeDataId),
         getTypeCarburant()
       ]);
 
@@ -97,7 +97,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
   useEffect(() => {
     fetchDatas();
-  }, [ carburantId, idType, idCarburant, vehiculeData]);
+  }, [ carburantId, idType, idCarburant, vehiculeDataId]);
 
   const fetchInitialData = useCallback(async () => {
     setLoading(prev => ({ ...prev, data: true }));
@@ -268,7 +268,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                           value: v.id_enregistrement,
                           label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
-                        onChange={setVehiculeData}
+                        onChange={setVehiculeDataId}
                       />
                     )}
                   </Form.Item>
