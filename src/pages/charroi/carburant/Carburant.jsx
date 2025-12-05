@@ -58,11 +58,11 @@ const Carburant = () => {
     Fournisseur: false,
     "Qté (L)": true,
     "Distance (km)": false,
-    "Km actuel": true,
+    "Km actuel": false,
     "Cons./100km": true,
     "P.U ($)": false,
     "Date opération": true,
-    "M. ($)": true,
+    "M. ($)": false,
     "M. (CDF)": true,
     "Créé par": false,
   });

@@ -66,7 +66,7 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             key: "distance",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Tag>{text}</Tag>,
+            render: (text) => <Tag>{text} Km</Tag>,
           },
           {
             title: "Qté",
@@ -74,14 +74,21 @@ const CarburantTableDetail = ({data, setCarburantId, loading}) => {
             key: "quantite_litres",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Text mark>{text} Km</Text>,
+            render: (text) => <Text mark>{text} L</Text>,
           },
           {
             title: "Cons.",
             dataIndex: "consommation",
             key: "consommation",
             align: "right",
-            render: (text) => <Tag>{text} L</Tag>,
+            render: (text) => <Text mark>{text} L</Text>,
+          },
+          {
+            title: "Crée par",
+            dataIndex: "createur",
+            key: "createur",
+            align: "right",
+            render: (text) => <Tag>{text ?? 'N/A'}</Tag>,
           }
         ];
 
