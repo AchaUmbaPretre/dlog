@@ -7,21 +7,6 @@ import { getCatVehicule, getSite, getTypeCarburant } from '../../../../../../ser
 
 const { Panel } = Collapse;
 
-// Sous-composant pour le rendu des mois
-const MoisParAnnee = ({ selectedAnnees, moisData, selectedMois, onChange }) =>
-    selectedAnnees.map(annee => (
-        <Panel header={annee} key={annee}>
-            <Checkbox.Group
-                options={(moisData[annee] || []).map(item => ({
-                    label: moment().month(item.mois - 1).format('MMMM'),
-                    value: `${item.mois}-${annee}`,
-                }))}
-                value={selectedMois[annee] || []}
-                onChange={vals => onChange(annee, vals)}
-            />
-        </Panel>
-    ));
-
 const RapportPeriodeFiltrage = ({ onFilter }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [filters, setFilters] = useState({
@@ -76,7 +61,7 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
         if (moisData[annee]) return;
         try {
             const res = await getMoisCarburant(annee);
-            setMoisData(prev => ({ ...prev, [annee]: res.data }));
+            setMoisData(prev => ({ ...prev, [annee]: res.data || [] }));
         } catch (err) {
             console.error("Erreur chargement mois :", err);
         }
@@ -95,7 +80,7 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
         });
     }, [filters, onFilter]);
 
-    // Générique pour tous les Select multiples avec selectAll
+    // Select multiples avec "selectAll"
     const handleSelectChange = (key, values, dataList) => {
         if (values.includes('selectAll')) {
             const newSelect = !selectAll[key];
@@ -118,8 +103,29 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
         setFilters(prev => ({ ...prev, mois: { ...prev.mois, [annee]: vals } }));
     };
 
+    // Fonction pour afficher les mois
+    const renderMoisParAnnee = () => {
+        return filters.annees.map(year => (
+            <Panel header={year} key={year}>
+                {moisData[year] ? (
+                    <Checkbox.Group
+                        options={moisData[year].map(item => ({
+                            label: moment().month(item.mois - 1).format('MMMM'),
+                            value: `${item.mois}-${year}`,
+                        }))}
+                        value={filters.mois[year] || []}
+                        onChange={vals => handleMoisChange(year, vals)}
+                    />
+                ) : (
+                    <Skeleton active />
+                )}
+            </Panel>
+        ));
+    };
+
     return (
         <div className="filterTache" style={{ margin: '10px 0' }}>
+            {/* Véhicule */}
             <div className="filter_row">
                 <label>Véhicule :</label>
                 <Select
@@ -135,6 +141,7 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
                 />
             </div>
 
+            {/* Site */}
             <div className="filter_row">
                 <label>Site :</label>
                 <Select
@@ -150,6 +157,7 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
                 />
             </div>
 
+            {/* Type carburant */}
             <div className="filter_row">
                 <label>Type carburant :</label>
                 {isLoading ? <Skeleton.Input active /> :
@@ -160,13 +168,14 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
                         style={{ width: '100%' }}
                         options={[
                             { value: 'selectAll', label: selectAll.typeCarb ? 'Tout désélectionner' : 'Tout sélectionner' },
-                            ...typeCarb.map(t => ({ value: t.nom_type_carburant, label: t.id_type_carburant }))
+                            ...typeCarb.map(t => ({ value: t.id_type_carburant, label: t.nom_type_carburant }))
                         ]}
                         onChange={v => handleSelectChange('typeCarb', v, typeCarb)}
                     />
                 }
             </div>
 
+            {/* Type véhicule */}
             <div className="filter_row">
                 <label>Type véhicule :</label>
                 {isLoading ? <Skeleton.Input active /> :
@@ -184,6 +193,7 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
                 }
             </div>
 
+            {/* Années */}
             <div className="filter_row">
                 <label>Année :</label>
                 <Checkbox.Group
@@ -193,16 +203,12 @@ const RapportPeriodeFiltrage = ({ onFilter }) => {
                 />
             </div>
 
+            {/* Mois */}
             {filters.annees.length > 0 && (
                 <div className="filter_row">
                     <label>Mois :</label>
-                    <Collapse defaultActiveKey={filters.annees}>
-                        <MoisParAnnee
-                            selectedAnnees={filters.annees}
-                            moisData={moisData}
-                            selectedMois={filters.mois}
-                            onChange={handleMoisChange}
-                        />
+                    <Collapse defaultActiveKey={filters.annees.map(String)}>
+                        {renderMoisParAnnee()}
                     </Collapse>
                 </div>
             )}

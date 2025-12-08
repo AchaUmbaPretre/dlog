@@ -52,9 +52,10 @@ const RapportCarbMois = () => {
       setDataSource(groupedData);
       setLoading(false);
     } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Une erreur est survenue';
       notification.error({
         message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.',
+        description: `${errorMessage}`,
       });
       setLoading(false);
     }
