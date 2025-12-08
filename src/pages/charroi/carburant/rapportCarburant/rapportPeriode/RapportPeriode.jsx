@@ -6,6 +6,7 @@ import {
 import { getTabStyle, iconStyle } from '../../../../../utils/tabStyles';
 import RapportCatPeriode from './rapportCatPeriode/RapportCatPeriode';
 import RapportVehiculePeriode from './rapportVehiculePeriode/RapportVehiculePeriode';
+import RapportCarbMois from './rapportCarbMois/RapportCarbMois';
 
 const RapportPeriode = () => {
     const [activeKey, setActiveKey] = useState('1');
@@ -43,6 +44,18 @@ const RapportPeriode = () => {
                     }
                 >
                     <RapportVehiculePeriode/>
+                </Tabs.TabPane>
+                
+                <Tabs.TabPane
+                    key="3"
+                    tab={
+                        <span style={getTabStyle('2', activeKey)}>
+                            <FileTextOutlined style={iconStyle('2', activeKey)} />
+                            Rapport par mois
+                        </span>
+                    }
+                >
+                    <RapportCarbMois/>
                 </Tabs.TabPane>
             </Tabs>
         </div>
