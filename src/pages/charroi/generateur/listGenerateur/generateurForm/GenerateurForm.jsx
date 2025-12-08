@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Card, Row, Col, Select, DatePicker, Skeleton, InputNumber, Space, message, Modal } from 'antd';
 import { getDisposition, getLubrifiant, getTypeCarburant } from '../../../../../services/charroiService';
-import { getGenerateurOne, getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur } from '../../../../../services/generateurService';
+import { getGenerateurOne, getMarqueGenerateur, getModeleGenerateurOne, getRefroidissement, getTypeGenerateur, postGenerateur, putGenerateur } from '../../../../../services/generateurService';
 import getCroppedImg from '../../../../../utils/getCroppedImg';
 import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 import { useSelector } from 'react-redux';
@@ -80,7 +80,8 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
     const handleSubmit = (values) => {
         const payload = {
             ...values,
-            user_cr: userId
+            user_cr: userId,
+            id_generateur
         };
 
         setPendingPayload(payload);
@@ -108,9 +109,12 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
                 pendingPayload.annee_fabrication = pendingPayload.annee_fabrication.format("YYYY");
             }
 
+            if(id_generateur) {
+                await putGenerateur(pendingPayload)
+            }
             await postGenerateur(pendingPayload)
 
-            message.success({ content: 'le générateur a été ajouté avec succès!', key: 'submit' });
+            message.success({ content: id_generateur? 'Le générateur a été modifié avec succès' :  'le générateur a été ajouté avec succès!', key: 'submit' });
 
             form.resetFields();
             closeModal();
