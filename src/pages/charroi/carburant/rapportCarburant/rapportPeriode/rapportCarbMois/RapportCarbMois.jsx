@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Skeleton, Tag, notification } from 'antd';
+import { Table, Skeleton, Tag, Typography, notification } from 'antd';
 import { getRapportCarbMonth } from '../../../../../../services/carburantService';
 import moment from 'moment';
+import { formatNumber } from '../../../../../../utils/formatNumber';
+
+const { Text } = Typography;
 
 const RapportCarbMois = () => {
   const [loading, setLoading] = useState(true);
@@ -38,6 +41,7 @@ const RapportCarbMois = () => {
           dataIndex: 'total_consom',
           key: 'total_consom',
           align: 'right',
+          render: (text) => <Text strong>{formatNumber(text)}</Text>
         },
       ];
 
