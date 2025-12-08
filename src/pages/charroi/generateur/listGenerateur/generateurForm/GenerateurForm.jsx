@@ -671,7 +671,7 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
                             <Form.Item>
                                 <Space className="button-group">
                                     <Button type="primary" htmlType="submit" loading={loading} disabled={loading}>
-                                        {id_generateur? 'Ajouter' : 'Modifier'}
+                                        {id_generateur? 'Modifier' : 'Ajouter'}
                                     </Button>
                                     <Button htmlType="reset">
                                         Réinitialiser

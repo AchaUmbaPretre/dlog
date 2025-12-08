@@ -254,7 +254,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                         loading={loading.submit}
                                         disabled={loading.data}
                                     >
-                                        Enregistrer
+                                         { id_plein ? 'Modifier' : 'Enregistrer'}
                                     </Button>
                                 </Col>
                             </Row>
