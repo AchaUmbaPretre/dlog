@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Skeleton, Tag, Button, Typography, notification } from 'antd';
+import { Table, Skeleton, Tag, Button, Typography, notification, Modal } from 'antd';
 import { getRapportCarbMonth } from '../../../../../../services/carburantService';
 import moment from 'moment';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 import RapportPeriodeFiltrage from '../rapportPeriodeFiltrage/RapportPeriodeFiltrage';
 import { CalendarOutlined, FireOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import RapportCarbMoisDetail from './rapportCarbMoisDetail/RapportCarbMoisDetail';
 
 const { Text } = Typography;
 
@@ -14,6 +15,23 @@ const RapportCarbMois = () => {
   const [dataSource, setDataSource] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [filteredDatas, setFilteredDatas] = useState(null);
+  const [modalType, setModalType] = useState(null);
+  const [ detailData, setDetailData] = useState([]);
+
+  const handleDetail = (record) => {
+    openModal('detail', record);
+  };
+
+  const closeAllModals = () => {
+    setModalType(null);
+  };
+
+    const openModal = (type, record) => {
+        closeAllModals();
+        setModalType(type);
+        setDetailData(record)
+    };
+  
 
   const fetchData = async () => {
     try {
@@ -56,7 +74,22 @@ const RapportCarbMois = () => {
           key: 'total_consom',
           align: 'right',
           render: (text) => <Text strong>{formatNumber(text)} L</Text>,
-        }
+        },
+        {
+          title: (
+            <span>
+              <InfoCircleOutlined style={{ marginRight: 5 }} />
+              Détails
+            </span>
+          ),
+          key: 'action',
+          align: 'center',
+          render: (_, record) => (
+            <Button type="link" icon={<InfoCircleOutlined />} onClick={() => handleDetail(record)}>
+              Voir
+            </Button>
+          ),
+        },
       ];
 
       setColumns(dynamicColumns);
@@ -102,6 +135,17 @@ const RapportCarbMois = () => {
           </div>
         </div>
       )}
+
+        <Modal
+            visible={modalType === 'detail'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1280}
+            centered
+            title={''}
+        >
+            <RapportCarbMoisDetail record={detailData} closeModal={() => setModalType(null)} fetchData={fetchData}/>
+        </Modal>
     </>
   );
 };
