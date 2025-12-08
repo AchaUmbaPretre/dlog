@@ -4,6 +4,7 @@ import { getRapportCarbMonth } from '../../../../../../services/carburantService
 import moment from 'moment';
 import { formatNumber } from '../../../../../../utils/formatNumber';
 import RapportPeriodeFiltrage from '../rapportPeriodeFiltrage/RapportPeriodeFiltrage';
+import { CalendarOutlined, FireOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
@@ -33,19 +34,29 @@ const RapportCarbMois = () => {
           align: 'center',
         },
         {
-          title: 'Mois',
+          title: (
+            <span>
+              <CalendarOutlined style={{ marginRight: 5 }} />
+              Mois
+            </span>
+          ),
           dataIndex: 'Mois',
           key: 'Mois',
           fixed: 'left',
           render: (text) => <Tag color={'#2db7f5'}>{text}</Tag>,
         },
         {
-          title: 'Consommation Totale',
+          title: (
+            <span>
+              <FireOutlined style={{ marginRight: 5 }} />
+              Consommation Totale
+            </span>
+          ),
           dataIndex: 'total_consom',
           key: 'total_consom',
           align: 'right',
-          render: (text) => <Text strong>{formatNumber(text)} L</Text>
-        },
+          render: (text) => <Text strong>{formatNumber(text)} L</Text>,
+        }
       ];
 
       setColumns(dynamicColumns);
@@ -71,24 +82,24 @@ const RapportCarbMois = () => {
         <Skeleton active paragraph={{ rows: 1 }} />
       ) : (
         <div className="rapport-facture">
-            <Button
-                type={filterVisible ? 'primary' : 'default'}
-                onClick={() => setFilterVisible(!filterVisible)}
-                style={{ margin: '10px 10px 10px 0' }}
-            >
-                {filterVisible ? 'Cacher les filtres' : 'Afficher les filtres'}
-            </Button>
-            {filterVisible  && <RapportPeriodeFiltrage onFilter={setFilteredDatas}/>}
-            <div>
-                <Table
-                    dataSource={dataSource}
-                    columns={columns}
-                    loading={loading}
-                    bordered
-                    size="small"
-                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-                />
-            </div>
+          <Button
+            type={filterVisible ? 'primary' : 'default'}
+            onClick={() => setFilterVisible(!filterVisible)}
+            style={{ margin: '10px 10px 10px 0' }}
+          >
+            {filterVisible ? 'Cacher les filtres' : '👁️Afficher les filtres'}
+          </Button>
+          {filterVisible && <RapportPeriodeFiltrage onFilter={setFilteredDatas} />}
+          <div>
+            <Table
+              dataSource={dataSource}
+              columns={columns}
+              loading={loading}
+              bordered
+              size="small"
+              rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+            />
+          </div>
         </div>
       )}
     </>
