@@ -49,8 +49,8 @@ const RapportPeriode = () => {
                 <Tabs.TabPane
                     key="3"
                     tab={
-                        <span style={getTabStyle('2', activeKey)}>
-                            <FileTextOutlined style={iconStyle('2', activeKey)} />
+                        <span style={getTabStyle('3', activeKey)}>
+                            <FileTextOutlined style={iconStyle('3', activeKey)} />
                             Rapport par mois
                         </span>
                     }
