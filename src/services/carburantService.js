@@ -125,3 +125,7 @@ export const getMoisCarburant = async (annee) => {
 export const getAnneeCarburant = async () => {
   return axios.get(`${DOMAIN}/api/carburant/annee`);
 };
+
+export const getRapportCarbMonth = async (filter) => {
+  return axios.post(`${DOMAIN}/api/carburant/rapport_Carburant_Month`, filter);
+};
