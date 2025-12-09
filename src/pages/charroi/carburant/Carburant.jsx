@@ -191,35 +191,46 @@ const Carburant = () => {
           <CarburantKpi
             icon={<DashboardOutlined />}
             title="Total KM actuel"
-            value={
-              loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : `${formatNumber(totalKmActuel)} km`
-            }
-            color="linear-gradient(135deg, #1677ff7e, #69b1ff)"
+            value={loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : `${formatNumber(totalKmActuel)} km`}
+            color="linear-gradient(135deg, #1677ff, #69b1ff)"
+            bg="rgba(22, 119, 255, 0.15)"
           />
+
 
           <CarburantKpi
             icon={<FireOutlined />}
             title="Totale Consom/100km"
             value={
-              loading ? <Skeleton.Input style={{ width: 60 }} active size="small" /> : `${formatNumber(totalConsommation)} L`
+              loading ? (
+                <Skeleton.Input style={{ width: 60 }} active size="small" />
+              ) : `${formatNumber(totalConsommation)} L`
             }
-            color="linear-gradient(135deg, #ff4d5042, #ff7875)"
+            color="linear-gradient(135deg, #ff4d4f, #ff7875)"
+            bg="rgba(255, 77, 79, 0.15)"
           />
 
           <CarburantKpi
             icon={<CarOutlined />}
             title="Distance moyenne"
             value={
-              loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : `${formatNumber(distanceMoyenne)} km`
+              loading ? (
+                <Skeleton.Input style={{ width: 80 }} active size="small" />
+              ) : `${formatNumber(distanceMoyenne)} km`
             }
-            color="linear-gradient(135deg, #53c41a4f, #95de64)"
+            color="linear-gradient(135deg, #52c41a, #95de64)"
+            bg="rgba(82, 196, 26, 0.15)"
           />
 
           <CarburantKpi
             icon={<DollarOutlined />}
             title="Montant total ($)"
-            value={loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : formatNumber(montantTotalUsd, " $")}
-            color="linear-gradient(135deg, #722ed12c, #b37feb)"
+            value={
+              loading ? (
+                <Skeleton.Input style={{ width: 80 }} active size="small" />
+              ) : formatNumber(montantTotalUsd, " $")
+            }
+            color="linear-gradient(135deg, #722ed1, #b37feb)"
+            bg="rgba(114, 46, 209, 0.15)"
           />
         </div>
 

@@ -1,11 +1,16 @@
 import React from "react";
 import "./carburantKpi.scss";
 
-const CarburantKpi = ({ icon, title, value, color }) => {
+const CarburantKpi = ({ icon, title, value, color, bg }) => {
   return (
     <div className="kpi-cards">
-      <div className="kpi-icons" style={{ background: color }}>
-        {icon}
+      <div
+        className="kpi-icons"
+        style={{ background: bg }}
+      >
+        <div className="kpi-icons-inner" style={{ background: color }}>
+          {icon}
+        </div>
       </div>
 
       <div className="kpi-contents">
