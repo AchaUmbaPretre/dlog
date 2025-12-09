@@ -266,7 +266,11 @@ useEffect(() => {
             </Col>
 
             <Col xs={24} md={12}>
-              <Form.Item label="Compteur" name="compteur">
+              <Form.Item 
+                label="Compteur" 
+                name="compteur"
+                rules={[{ required: true, message: "Veuillez entrer la valeur du compteur" }]}
+              >
                 <Input
                   prefix={<DashboardOutlined className="input-icon" />}
                   placeholder="Ex: 1000"

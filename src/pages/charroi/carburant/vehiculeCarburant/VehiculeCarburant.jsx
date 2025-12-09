@@ -112,6 +112,12 @@ const VehiculeCarburant = () => {
       render: (text) => <Text strong>{text}</Text>,
     },
     {
+      title: "Compteur",
+      dataIndex: "compteur",
+      key: "compteur",
+      render: (text) => <Text strong>{text || "N/A"}</Text>,
+    },
+    {
       title: "Num série",
       dataIndex: "num_serie",
       key: "num_serie",
