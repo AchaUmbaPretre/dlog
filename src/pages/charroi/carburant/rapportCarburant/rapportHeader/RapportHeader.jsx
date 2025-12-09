@@ -7,7 +7,7 @@ import "./rapportHeader.scss";
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
 
-const RapportHeader = ({ onPeriodChange, alertCount = 0 }) => {
+const RapportHeader = ({ title, onPeriodChange, alertCount = 0 }) => {
   const today = moment();
   const [dates, setDates] = useState([today.clone().startOf("month"), today]);
 
@@ -31,7 +31,7 @@ const RapportHeader = ({ onPeriodChange, alertCount = 0 }) => {
                     <FileSearchOutlined className="rapport-header__icon" />
                     <div>
                     <Title level={3} className="rapport-header__title">
-                        RAPPORT GENERAL DU CARBURANT
+                        {title}
                     </Title>
                     <Text type="secondary" className="rapport-header__subtitle">
                       Suivi, analyse et performance générale

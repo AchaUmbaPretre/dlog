@@ -97,7 +97,7 @@ export const deletePleinGenerateur =  async(id) => {
 
 //Rapport plein generateur
 export const getRapportPleinGenerateur = async (date_debut, date_fin) => {
-  return axios.get(`${DOMAIN}/api/carburant/rapport_generateur_plein`, {
+  return axios.get(`${DOMAIN}/api/generateur/rapport_generateur_plein`, {
     params: {
       date_debut,
       date_fin

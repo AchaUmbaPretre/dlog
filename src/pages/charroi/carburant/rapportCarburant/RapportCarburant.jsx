@@ -70,6 +70,7 @@ const RapportCarburant = () => {
             >
                 <section className="rapport">
                     <RapportHeader
+                        title = 'RAPPORT GENERAL DU CARBURANT'
                         onPeriodChange={(dates) => setPeriod([moment(dates[0]), moment(dates[1])])}
                         alertCount={alerts.length}
                     />
