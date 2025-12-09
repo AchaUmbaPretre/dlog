@@ -26,6 +26,7 @@ import {
   ClearOutlined,
   SaveOutlined,
   CheckCircleOutlined,
+  DashboardOutlined
 } from "@ant-design/icons";
 import { getCarburantVehiculeOne, postCarburantVehicule, putCarburantVehicule } from "../../../../../services/carburantService";
 import "./carburantVehiculeForm.scss";
@@ -264,7 +265,17 @@ useEffect(() => {
               </Form.Item>
             </Col>
 
-            <Col xs={24} md={24}>
+            <Col xs={24} md={12}>
+              <Form.Item label="Compteur" name="compteur">
+                <Input
+                  prefix={<DashboardOutlined className="input-icon" />}
+                  placeholder="Ex: 1000"
+                  size="large"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col xs={24} md={12}>
               <Form.Item
                 name="id_type_carburant"
                 label="Type carburant"
