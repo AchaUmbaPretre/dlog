@@ -14,46 +14,9 @@ import {
   ArcElement,
 } from "chart.js";
 import "./rapportChart.scss";
-
-//DOUGHNUT 3D PLUGIN
-const doughnut3DPlugin = {
-  id: "doughnut3DPlugin",
-  beforeDraw(chart) {
-    const { ctx, chartArea, data } = chart;
-    const meta = chart.getDatasetMeta(0);
-
-    if (!meta || !meta.data) return;
-
-    const slices = meta.data;
-    const x = (chartArea.left + chartArea.right) / 2;
-    const y = (chartArea.top + chartArea.bottom) / 2 + 12;
-    const extraDepth = 18;
-
-    slices.forEach((slice, i) => {
-      const angle = slice.startAngle;
-      const angle2 = slice.endAngle;
-
-      ctx.save();
-      ctx.beginPath();
-
-      // Sécurisation ici ↓↓↓
-      const color = data.datasets[0].backgroundColor[i] || "rgba(0,0,0,0.5)";
-      const depthColor = color.replace(/0\.\d+/, "0.50");
-
-      ctx.fillStyle = depthColor;
-
-      for (let depth = 0; depth < extraDepth; depth++) {
-        ctx.moveTo(x, y + depth);
-        ctx.arc(x, y + depth, slice.outerRadius, angle, angle2);
-      }
-
-      ctx.fill();
-      ctx.restore();
-    });
-  },
-};
-
-
+import { formatWeekLabel } from "../../../../../utils/formatWeekLabel";
+import { doughnut3DPlugin } from "../../../../../utils/doughnut3DPlugin";
+import { Divider } from "antd";
 
 ChartJS.register(
   CategoryScale,
@@ -74,6 +37,7 @@ const RapportCharts = ({ charts }) => {
   const coutHebdo = charts?.coutHebdo || [];
   const repartition = charts?.repartition || [];
   const [showUSD, setShowUSD] = useState(false);
+  const [showUSDCout, setShowUSDCout] = useState(false);
 
 // --- Préparer les datasets (NUMERIQUES et yAxisID) ---
 const vehiculeLabels = parVehicule.map(
@@ -128,69 +92,101 @@ const vehiculeDataUSD = {
 const vehiculeOptions = {
   responsive: true,
   interaction: { mode: "index", intersect: false },
-  stacked: false,
   plugins: {
-    legend: { position: "top" },
+    legend: {
+      position: "top",
+      labels: {
+        usePointStyle: true,
+        pointStyle: "circle",
+        padding: 16,
+        font: { size: 13, family: "Poppins" }
+      }
+    },
     tooltip: {
       callbacks: {
         label: (ctx) => {
-          const label = ctx.dataset.label || "";
-          const value = ctx.raw;
-          if (/Litres/i.test(label)) return `${label}: ${value} L`;
-          return `${label}: ${value}`;
+          let val = ctx.raw;
+          if (val >= 1000) val = val.toLocaleString();
+          return `${ctx.dataset.label}: ${val}`;
         },
       },
     },
   },
+
   scales: {
-    yLitres: {
+    y: {
       type: "linear",
       position: "left",
-      title: { display: true, text: "Litres" },
+      beginAtZero: true,
+      title: { display: true, text: "Coût", font: { size: 13 } },
       ticks: {
-        beginAtZero: true,
+        callback: (v) => (v >= 1000 ? v.toLocaleString() : v),
       },
-      grid: { drawOnChartArea: true },
     },
-    yMoney: {
+
+    yConsom: {
       type: "linear",
       position: "right",
-      title: { display: true, text: "Coût" },
-      ticks: {
-        beginAtZero: true,
-        callback: function (value) {
-          return value >= 1000 ? value.toLocaleString() : value;
-        },
-      },
+      beginAtZero: true,
       grid: { drawOnChartArea: false },
+      title: { display: true, text: "Consommation (L)", font: { size: 13 } },
     },
   },
 };
 
 
-
   //Évolution du coût par semaine
-  const coutLabels = coutHebdo.map((c) => `Semaine ${c.semaine}`);
-  const coutData = {
+ const coutLabels = coutHebdo.map((c) => formatWeekLabel(c.semaine));
+  const coutDataCDF = {
+  labels: coutLabels,
+  datasets: [
+    {
+      label: "Coût (CDF)",
+      data: coutHebdo.map((c) => c.total_cdf),
+      borderColor: "#1774ff",
+      backgroundColor: "rgba(23, 116, 255, 0.25)",
+      borderWidth: 3,
+      tension: 0.35,
+      fill: true,
+      pointRadius: 4,
+    },
+    {
+      label: "Consommation (L)",
+      data: coutHebdo.map((c) => c.total_consom),
+      borderColor: "#00c897",
+      backgroundColor: "rgba(0, 200, 151, 0.20)",
+      borderWidth: 3,
+      tension: 0.35,
+      fill: true,
+      pointRadius: 4,
+      yAxisID: "yConsom",
+    },
+  ],
+  };
+
+  const coutDataUSD = {
     labels: coutLabels,
     datasets: [
       {
-        label: "Coût total (CDF)",
-        data: coutHebdo.map((c) => c.total_cdf),
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.3)",
-        tension: 0.3,
+        label: "Coût (USD)",
+        data: coutHebdo.map((c) => c.total_usd),
+        borderColor: "#f5a623",
+        backgroundColor: "rgba(245, 166, 35, 0.25)",
+        borderWidth: 3,
+        tension: 0.35,
         fill: true,
-        pointRadius: 5,
+        pointRadius: 4,
       },
       {
-        label: "Coût total (USD)",
-        data: coutHebdo.map((c) => c.total_usd),
-        borderColor: "rgba(255, 205, 86, 1)",
-        backgroundColor: "rgba(255, 205, 86, 0.3)",
-        tension: 0.3,
+        label: "Consommation (L)",
+        data: coutHebdo.map((c) => c.total_consom),
+        borderColor: "#00c897",
+        backgroundColor: "rgba(0, 200, 151, 0.20)",
+        borderWidth: 3,
+        tension: 0.35,
         fill: true,
-        pointRadius: 5,
+        pointRadius: 4,
+        yAxisID: "yConsom",
       },
     ],
   };
@@ -255,7 +251,6 @@ const vehiculeOptions = {
       </h2>
 
       <div className="charts__flex">
-
         <div className="chart chart--primary chart--small">
           <div className="chart__title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span><InfoCircleOutlined /> Consommation par véhicule</span>
@@ -274,6 +269,7 @@ const vehiculeOptions = {
               {showUSD ? "Afficher CDF" : "Afficher USD"}
             </button>
           </div>
+          <Divider />
           {parVehicule.length > 0 ? (
               <Bar
                 key={showUSD ? "usd" : "cdf"}
@@ -288,8 +284,33 @@ const vehiculeOptions = {
 
         <div className="charts__right">
             <div className="chart chart--secondary">
-            <h3 className="chart__title"><LineChartOutlined /> Évolution du coût par semaine</h3>
-            {coutHebdo.length > 0 ? <Line data={coutData} /> : <p className="chart__empty">Aucune donnée disponible</p>}
+              <div className="chart__title" style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+                <span className="chart__title"><LineChartOutlined /> Évolution du coût par semaine</span>
+                
+                <button
+                  onClick={() => setShowUSDCout(!showUSDCout)}
+                  style={{
+                    border: "none",
+                    background: "#1677ff",
+                    color: "white",
+                    padding: "4px 10px",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                  }}
+                >
+                  {showUSDCout ? "Afficher CDF" : "Afficher USD"}
+                </button>
+              </div>   
+              <Divider />           
+              {coutHebdo.length > 0 ? (
+                  <Line 
+                    key={showUSDCout ? "cout-usd" : "cout-cdf"} 
+                    data={showUSDCout ? coutDataUSD : coutDataCDF} 
+                  />
+                ) : (
+                  <p className="chart__empty">Aucune donnée disponible</p>
+                )}
             </div>
 
             <div className="chart chart--tertiary">
