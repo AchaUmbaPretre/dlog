@@ -18,7 +18,6 @@ const RapportGenerateur = () => {
           const fetchData = async () => {
               setLoading(true);
             try {
-              // Convertir les dates en format YYYY-MM-DD pour l'API
               const from = period[0].format("YYYY-MM-DD");
               const to = period[1].format("YYYY-MM-DD");
       
