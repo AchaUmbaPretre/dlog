@@ -73,7 +73,7 @@ const RapportCarbMois = () => {
           dataIndex: 'total_consom',
           key: 'total_consom',
           align: 'right',
-          render: (text) => <Text strong>{formatNumber(text)} L</Text>,
+          render: (text) => <Text strong>{formatNumber(text)} L/100km</Text>,
         },
         {
           title: (

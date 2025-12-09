@@ -81,7 +81,7 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
         const payload = {
             ...values,
             user_cr: userId,
-            id_generateur
+            id_generateur : id_generateur
         };
 
         setPendingPayload(payload);
@@ -114,7 +114,7 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
             }
             await postGenerateur(pendingPayload)
 
-            message.success({ content: id_generateur? 'Le générateur a été modifié avec succès' :  'le générateur a été ajouté avec succès!', key: 'submit' });
+            message.success({ content: id_generateur ? 'Le générateur a été modifié avec succès' :  'le générateur a été ajouté avec succès!', key: 'submit' });
 
             form.resetFields();
             closeModal();

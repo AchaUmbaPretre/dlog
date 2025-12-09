@@ -58,11 +58,7 @@ export const postGenerateur = async (data) => {
 };
 
 export const putGenerateur = async (data) => {
-  return axios.put(`${DOMAIN}/api/generateur`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-    });
+  return axios.put(`${DOMAIN}/api/generateur`, data);
 };
 
 //Relier un générateur à un fichier excel
