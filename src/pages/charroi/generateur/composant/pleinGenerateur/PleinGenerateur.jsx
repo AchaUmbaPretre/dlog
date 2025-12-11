@@ -210,7 +210,7 @@ const PleinGenerateur = () => {
         centered
         destroyOnClose
       >
-        <FormPleinGenerateur id_plein={modal.id} fetchData={fetchData} closeModal={closeAllModals} />
+        <FormPleinGenerateur id_plein={modal.id} onSaved={fetchData} closeModal={closeAllModals} />
       </Modal>
     </div>
   )
