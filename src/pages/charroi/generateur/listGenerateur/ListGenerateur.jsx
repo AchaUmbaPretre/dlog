@@ -31,7 +31,7 @@ import RelierGenerateur from "../composant/relierGenerateur/RelierGenerateur";
 import DetailGenerateur from "../detailGenerateur/DetailGenerateur";
 
 const { Search } = Input;
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 const ListGenerateur = () => {
  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
