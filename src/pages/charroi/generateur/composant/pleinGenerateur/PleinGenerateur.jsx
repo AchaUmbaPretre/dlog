@@ -175,6 +175,9 @@ const PleinGenerateur = () => {
           </Space>
         }
       >
+        <div className="kpi-wrapper">
+          
+        </div>
         <Table
           columns={columns}
           dataSource={filteredData}
