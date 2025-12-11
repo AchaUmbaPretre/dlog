@@ -177,7 +177,7 @@ const vehiculeOptions = {
         pointRadius: 4,
       },
       {
-        label: "Consommation (L)",
+        label: "Quantité (L)",
         data: coutHebdo.map((c) => c.total_consom),
         borderColor: "#00c897",
         backgroundColor: "rgba(0, 200, 151, 0.20)",
@@ -252,7 +252,7 @@ const vehiculeOptions = {
       <div className="charts__flex">
         <div className="chart chart--primary chart--small">
           <div className="chart__title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span><InfoCircleOutlined /> Consommation par générateur</span>
+            <span><InfoCircleOutlined /> Quantité(Litre) par générateur</span>
             <button 
               onClick={() => setShowUSD(!showUSD)}
               style={{
