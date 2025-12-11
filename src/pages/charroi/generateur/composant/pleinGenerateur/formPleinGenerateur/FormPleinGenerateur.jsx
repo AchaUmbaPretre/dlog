@@ -1,302 +1,154 @@
-import { useEffect, useState, useCallback } from 'react';
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Row,
-  Col,
-  DatePicker,
-  notification,
-  Skeleton,
-  Divider,
-  InputNumber
-} from 'antd';
-import {
-  FireOutlined
-} from "@ant-design/icons";
-import { getGenerateur, getPleinGenerateurLimit, getPleinGenerateurOne, postPleinGenerateur, putPleinGenerateur } from '../../../../../../services/generateurService';
-import { getTypeCarburant } from '../../../../../../services/charroiService';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
-import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
-import PleinGenerateurLimit from '../../pleinGenerateurLimit/PleinGenerateurLimit';
-import { getFournisseur_activiteOne } from '../../../../../../services/fournisseurService';
+import React, { useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { Form, Row, Col, Input, Select, DatePicker, Button, InputNumber, Divider } from 'antd';
+import { FireOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+import { useConfirmAction } from './hooks/useConfirmAction';
+import { usePleinGenerateurForm } from './hooks/usePleinGenerateurForm';
 import { renderField } from '../../../../../../utils/renderFieldSkeleton';
+import PleinGenerateurLimit from '../../pleinGenerateurLimit/PleinGenerateurLimit';
+import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
 
-const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
+
+
+const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState({ data: false, submit: false });
-    const [generateur, setGenerateur] = useState([]);
-    const [generateurData, setGenerateurData] = useState([]);
-    const [type, setType] = useState([]);
-    const [loadingConfirm, setLoadingConfirm] = useState(false);
-    const [confirmationMessage, setConfirmationMessage] = useState("");
-    const [confirmVisible, setConfirmVisible] = useState(false); 
-    const [pendingPayload, setPendingPayload] = useState(null);
-    const [data, setData] = useState([]);
-    const [fournisseurs, setFournisseurs] = useState([]);
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const { loading, lists, initialValues, submitting, handleFinish, doSubmit } = usePleinGenerateurForm(id_plein, { onSaved });
+    const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
 
-    useEffect(()=> {
-        const fetchData = async() => {
-            try {
-                const [geneData, typeData, allData, fournisseurRes ] = await Promise.all([
-                    getGenerateur(),
-                    getTypeCarburant(),
-                    getPleinGenerateurLimit(),
-                    getFournisseur_activiteOne(5),
-                ])
-                setGenerateur(geneData?.data);
-                setType(typeData?.data);
-                setData(allData.data);
-                setFournisseurs(fournisseurRes?.data || []);
-
-                if(id_plein) {
-                    const { data: plein} = await getPleinGenerateurOne(id_plein);
-                    if(plein && plein[0]) {
-                        form.setFieldsValue({
-                            ...plein[0],
-                            date_operation: moment(plein[0].date_operation, 'YYYY-MM-DD')
-                        })
-                    }
-                }
-            } catch (error) {
-                notification.error({
-                    message: 'Erreur de chargement',
-                    description: 'Impossible de charger les données nécessaires.',
-                });
-                console.error(error);
-            } finally {
-                setLoading(prev => ({ ...prev, data: false }));
-            }
-        }
-        fetchData()
-    }, []);
-
-    const handleSubmit = (values) => {
-        const payload = {
-            ...values,
-            user_cr: userId
-        }
-        setPendingPayload(payload);
-        setConfirmationMessage(
-            id_plein
-            ? "Voulez-vous vraiment modifier ces informations carburant ?"
-            : "Voulez-vous vraiment enregistrer ces informations carburant ?"
-        );
-        setConfirmVisible(true);
-    };
-
-    const handleConfirm = async() => {
-        if(!pendingPayload) return;
-        setLoadingConfirm(true)
-
-        try {
-            if (id_plein) {
-                await putPleinGenerateur(pendingPayload);
-            } else {
-                await postPleinGenerateur(pendingPayload);
-            }
-
-            notification.success({
-                message: "Succès",
-                description: id_plein
-                    ? "Les informations carburant ont été modifiées avec succès."
-                    : "Les informations carburant ont été enregistrées avec succès.",
-            });
-                  
+    useEffect(() => {
+        if (initialValues) {
+            form.setFieldsValue(initialValues);
+        } else {
             form.resetFields();
-            closeModal?.();
-            fetchData?.();
-            resetConfirmationState();
-        } catch (error) {
-            notification.error({
-                message: "Erreur",
-                description: "Une erreur est survenue lors de l'enregistrement.",
-            });
-            console.error(error);
-            resetConfirmationState();
-        } finally {
-            setLoadingConfirm(false);
         }
-    }
+    }, [initialValues, form]);
 
-    const resetConfirmationState = () => {
-        setConfirmVisible(false);
-        setPendingPayload(null);
+    const onFinish = async (values) => {
+        const result = await handleFinish(values);
+        requestConfirm(result, id_plein ? 'Voulez-vous modifier cet enregistrement ?' : 'Voulez-vous enregistrer cet enregistrement ?');
     };
 
-  return (
-    <>
+    const onConfirm = async () => {
+        const toSubmit = pending ?? null;
+        if (!toSubmit) return cancel();
+
+        const { payload, id_plein: payloadId } = toSubmit;
+        await doSubmit({ payload, id: payloadId });
+        cancel();
+        closeModal?.();
+        onSaved?.();
+
+    };
+
+    const generateurOptions = useMemo(() => lists.generateurs.map(v => ({ value: v.id_generateur, label: `${v.nom_marque} / ${v.nom_modele} / ${v.code_groupe}` })), [lists.generateurs]);
+    const typeOptions = useMemo(() => lists.types.map(t => ({ value: t.id_type_carburant, label: t.nom_type_carburant })), [lists.types]);
+    const fournisseurOptions = useMemo(() => lists.fournisseurs.map(f => ({ value: f.id_fournisseur, label: f.nom_fournisseur })), [lists.fournisseurs]);
+
+    const isListsLoading = loading.lists;
+
+    return (
         <div className="carburant_container">
             <h2 className="carburant_h2">
-                <FireOutlined style={{ color: "#fa541c", marginRight: 8 }} />
+                <FireOutlined style={{ color: '#fa541c', marginRight: 8 }} />
                 Gestion des carburants
             </h2>
             <Divider />
             <div className="carburant_wrapper">
                 <div className="controle_form">
                     <div className="controle_title_rows">
-                        <h2 className="controle_h2"> { id_plein ? 'MODIFICATION DU PLEIN' : 'ENREGISTRER UN NOUVEAU PLEIN GENERATEUR'}</h2>
+                        <h2 className="controle_h2">{id_plein ? 'MODIFICATION DU PLEIN' : 'ENREGISTRER UN NOUVEAU PLEIN GENERATEUR'}</h2>
                     </div>
+
                     <div className="controle_wrapper">
-                        <Form
-                            form={form}
-                            layout="vertical"
-                            onFinish={handleSubmit}
-                            disabled={loading.data}
-                        >
+                        <Form form={form} layout="vertical" onFinish={onFinish} initialValues={initialValues || {}}>
                             <Row gutter={[16, 16]}>
                                 <Col xs={24} sm={12}>
-                                    <Form.Item
-                                        label="Générateur"
-                                        name="id_generateur"
-                                        rules={[{ required: true, message: 'Veuillez sélectionner un générateur.' }]}
-                                    >
-                                        {renderField(loading.data,
-                                        <Select
-                                            showSearch
-                                            placeholder="Sélectionnez un générateur"
-                                            optionFilterProp="label"
-                                            options={generateur.map(v => ({
-                                            value: v.id_generateur,
-                                            label: `${v.nom_marque} / ${v.nom_modele} / ${v.code_groupe}`,
-                                            }))}
-                                            onChange={setGenerateurData}
-                                        />
-                                        )}
+                                    <Form.Item label="Générateur" name="id_generateur" rules={[{ required: true, message: 'Veuillez sélectionner un générateur.' }]}>
+                                        {renderField(isListsLoading, (
+                                        <Select showSearch placeholder="Sélectionnez un générateur" options={generateurOptions} />
+                                        ))}
+                                    </Form.Item>    
+                                </Col>
+
+                                <Col xs={24} sm={12}>
+                                    <Form.Item label="Num PC" name="num_pc">
+                                        {renderField(isListsLoading, <Input placeholder="ex: PC-2025-01" />)}
                                     </Form.Item>
                                 </Col>
 
-                                {/* Num PC */}
-                                <Col xs={24} sm={8}>
-                                <Form.Item label="Num PC" name="num_pc">
-                                    {renderField(loading.data, <Input placeholder="ex: PC-2025-01" />)}
-                                </Form.Item>
-                                </Col>
-
-                                {/* Facture */}
-                                <Col xs={24} sm={8}>
+                                <Col xs={24} sm={12}>
                                     <Form.Item label="Numéro de facture" name="num_facture">
-                                        {renderField(loading.data, <Input placeholder="ex: FCT-2025-01" />)}
+                                    {renderField(isListsLoading, <Input placeholder="ex: FCT-2025-01" />)}
+                                    </Form.Item>
+                                </Col>
+
+
+                                <Col xs={24} sm={12}>
+                                    <Form.Item label="Type carburant" name="id_type_carburant" rules={[{ required: true, message: 'Veuillez sélectionner un type.' }]}>
+                                    {renderField(isListsLoading, <Select showSearch placeholder="Sélectionnez un type" options={typeOptions} />)}
                                     </Form.Item>
                                 </Col>
 
                                 <Col xs={24} sm={12}>
-                                    <Form.Item
-                                        label="Type carburant"
-                                        name="id_type_carburant"
-                                        rules={[{ required: true, message: 'Veuillez sélectionner un type.' }]}
-                                    >
-                                        {renderField(loading.data,
-                                        <Select
-                                            showSearch
-                                            placeholder="Sélectionnez un type"
-                                            optionFilterProp="label"
-                                            options={type.map(v => ({
-                                            value: v.id_type_carburant,
-                                            label: `${v.nom_type_carburant}`,
-                                            }))}
-                                        />
-                                        )}
+                                    <Form.Item label="Fournisseur" name="id_fournisseur" rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}>
+                                    {renderField(isListsLoading, <Select showSearch placeholder="Sélectionnez un fournisseur" options={fournisseurOptions} />)}
+                                    </Form.Item>
+                                </Col>
+
+
+                                <Col xs={24} sm={12}>
+                                    <Form.Item label="Date d'opération" name="date_operation" rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}>
+                                    {renderField(isListsLoading, <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} placeholder="Sélectionnez une date" />)}
                                     </Form.Item>
                                 </Col>
 
                                 <Col xs={24} sm={12}>
-                                    <Form.Item
-                                        label="Fournisseur"
-                                        name="id_fournisseur"
-                                        rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}
-                                    >
-                                        {renderField(
-                                        loading.data,
-                                        <Select
-                                            showSearch
-                                            placeholder="Sélectionnez un fournisseur"
-                                            optionFilterProp="label"
-                                            options={fournisseurs.map(f => ({
-                                            value: f.id_fournisseur,
-                                            label: f.nom_fournisseur,
-                                            }))}
-                                        />
-                                        )}
+                                    <Form.Item label="Quantité (Litres)" name="quantite_litres" rules={[{ required: true, message: 'Veuillez inserer la quantité.' }]}>
+                                    {renderField(isListsLoading, <InputNumber placeholder="ex: 50" style={{ width: '100%' }} />)}
                                     </Form.Item>
                                 </Col>
 
-                                <Col xs={24} sm={12}>
-                                <Form.Item
-                                    label="Date d'opération"
-                                    name="date_operation"
-                                    rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
-                                >
-                                    {renderField(
-                                    loading.data,
-                                    <DatePicker
-                                        format="YYYY-MM-DD"
-                                        style={{ width: '100%' }}
-                                        placeholder="Sélectionnez une date"
-                                    />
-                                    )}
-                                </Form.Item>
-                                </Col>
-
-                                <Col xs={24} sm={12}>
-                                    <Form.Item 
-                                        label="Quantité (Litres)" 
-                                        name="quantite_litres"
-                                        rules={[{ required: true, message: 'Veuillez inserer la quantité.' }]}
-                                    >
-                                        {renderField(loading.data, 
-                                            <InputNumber
-                                                placeholder="ex: 50"
-                                                style={{ width: '100%' }}
-                                            />
-                                        )}
-                                    </Form.Item>
-                                </Col>
 
                                 <Col xs={24} sm={12}>
                                     <Form.Item label="Commentaire" name="commentaire">
-                                        {renderField(loading.data, <Input.TextArea placeholder="Entrer..." style={{resize:'none'}}/>)}
+                                    {renderField(isListsLoading, <Input.TextArea placeholder="Entrer..." style={{ resize: 'none' }} />)}
                                     </Form.Item>
                                 </Col>
                             </Row>
+
                             <Row justify="end" style={{ marginTop: 20 }}>
                                 <Col>
-                                    <Button
-                                        type="primary"
-                                        htmlType="submit"
-                                        loading={loading.submit}
-                                        disabled={loading.data}
-                                    >
-                                         { id_plein ? 'Modifier' : 'Enregistrer'}
+                                    <Button type="primary" htmlType="submit" loading={submitting} disabled={isListsLoading}>
+                                    {id_plein ? 'Modifier' : 'Enregistrer'}
                                     </Button>
                                 </Col>
                             </Row>
                         </Form>
                     </div>
                 </div>
-                { !id_plein &&
-                    <div className="controle_right">
-                        <PleinGenerateurLimit data={data} setGenerateurData={setGenerateurData} loading={loading.data} />
-                    </div>
-                }
+                {!id_plein && (
+                <div className="controle_right">
+                    <PleinGenerateurLimit data={lists.limits} loading={loading.lists} />
+                </div>
+                )}
             </div>
             <ConfirmModal
-                visible={confirmVisible}
-                    title={id_plein ? "Confirmer la modification" : "Confirmer l'enregistrement"}
-                    content={confirmationMessage}
-                    onConfirm={handleConfirm}
-                    onCancel={() => {
-                      setConfirmVisible(false);
-                      setPendingPayload(null);
-                    }}
-                    loading={loadingConfirm}
-                />
+                visible={visible}
+                title={id_plein ? 'Confirmer la modification' : "Confirmer l'enregistrement"}
+                content={message}
+                onConfirm={onConfirm}
+                onCancel={cancel}
+                loading={submitting}
+            />
         </div>
-    </>
-  )
+    )
 }
 
-export default FormPleinGenerateur
+FormPleinGenerateur.propTypes = {
+    id_plein: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onSaved: PropTypes.func,
+    closeModal: PropTypes.func,
+};
+
+export default FormPleinGenerateur;
