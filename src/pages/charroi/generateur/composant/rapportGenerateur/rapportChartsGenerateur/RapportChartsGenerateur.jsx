@@ -53,7 +53,7 @@ const vehiculeDataCDF = {
       label: "Quantité(L)",
       data: litersData,
       backgroundColor: "rgba(54, 162, 235, 0.8)",
-      yAxisID: "yLitres",        // <-- litres -> axe gauche
+      yAxisID: "yLitres",
       order: 1,
     },
     {

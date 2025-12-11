@@ -22,6 +22,7 @@ import moment from 'moment';
 import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
 import PleinGenerateurLimit from '../../pleinGenerateurLimit/PleinGenerateurLimit';
 import { getFournisseur_activiteOne } from '../../../../../../services/fournisseurService';
+import { renderField } from '../../../../../../utils/renderFieldSkeleton';
 
 const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
     const [form] = Form.useForm();
@@ -126,9 +127,6 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
         setPendingPayload(null);
     };
 
-    const renderField = (component) =>
-    loading.data ? <Skeleton.Input active style={{ width: '100%' }} /> : component;
-
   return (
     <>
         <div className="carburant_container">
@@ -156,7 +154,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                         name="id_generateur"
                                         rules={[{ required: true, message: 'Veuillez sélectionner un générateur.' }]}
                                     >
-                                        {renderField(
+                                        {renderField(loading.data,
                                         <Select
                                             showSearch
                                             placeholder="Sélectionnez un générateur"
@@ -171,13 +169,27 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                     </Form.Item>
                                 </Col>
 
+                                {/* Num PC */}
+                                <Col xs={24} sm={8}>
+                                <Form.Item label="Num PC" name="num_pc">
+                                    {renderField(loading.data, <Input placeholder="ex: PC-2025-01" />)}
+                                </Form.Item>
+                                </Col>
+
+                                {/* Facture */}
+                                <Col xs={24} sm={8}>
+                                    <Form.Item label="Numéro de facture" name="num_facture">
+                                        {renderField(loading.data, <Input placeholder="ex: FCT-2025-01" />)}
+                                    </Form.Item>
+                                </Col>
+
                                 <Col xs={24} sm={12}>
                                     <Form.Item
                                         label="Type carburant"
                                         name="id_type_carburant"
                                         rules={[{ required: true, message: 'Veuillez sélectionner un type.' }]}
                                     >
-                                        {renderField(
+                                        {renderField(loading.data,
                                         <Select
                                             showSearch
                                             placeholder="Sélectionnez un type"
@@ -198,6 +210,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                         rules={[{ required: true, message: 'Veuillez sélectionner un fournisseur.' }]}
                                     >
                                         {renderField(
+                                        loading.data,
                                         <Select
                                             showSearch
                                             placeholder="Sélectionnez un fournisseur"
@@ -217,11 +230,14 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                     name="date_operation"
                                     rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
                                 >
+                                    {renderField(
+                                    loading.data,
                                     <DatePicker
-                                    format="YYYY-MM-DD"
-                                    style={{ width: '100%' }}
-                                    placeholder="Sélectionnez une date"
+                                        format="YYYY-MM-DD"
+                                        style={{ width: '100%' }}
+                                        placeholder="Sélectionnez une date"
                                     />
+                                    )}
                                 </Form.Item>
                                 </Col>
 
@@ -231,7 +247,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
                                         name="quantite_litres"
                                         rules={[{ required: true, message: 'Veuillez inserer la quantité.' }]}
                                     >
-                                        {renderField( 
+                                        {renderField(loading.data, 
                                             <InputNumber
                                                 placeholder="ex: 50"
                                                 style={{ width: '100%' }}
@@ -242,7 +258,7 @@ const FormPleinGenerateur = ({id_plein, fetchData, closeModal}) => {
 
                                 <Col xs={24} sm={12}>
                                     <Form.Item label="Commentaire" name="commentaire">
-                                        {renderField(<Input.TextArea placeholder="Entrer..." style={{resize:'none'}}/>)}
+                                        {renderField(loading.data, <Input.TextArea placeholder="Entrer..." style={{resize:'none'}}/>)}
                                     </Form.Item>
                                 </Col>
                             </Row>
