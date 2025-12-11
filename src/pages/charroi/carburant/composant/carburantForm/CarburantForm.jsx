@@ -333,14 +333,14 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
 
                 {/* Num PC */}
                 <Col xs={24} sm={8}>
-                  <Form.Item label="Num PC" name="num_pc">
+                  <Form.Item label="N° PC" name="num_pc">
                     {renderField(loading.data, <Input placeholder="ex: PC-2025-01" />)}
                   </Form.Item>
                 </Col>
 
                 {/* Facture */}
                 <Col xs={24} sm={8}>
-                  <Form.Item label="Numéro de facture" name="num_facture">
+                  <Form.Item label="N° facture" name="num_facture">
                     {renderField(loading.data, <Input placeholder="ex: FCT-2025-01" />)}
                   </Form.Item>
                 </Col>

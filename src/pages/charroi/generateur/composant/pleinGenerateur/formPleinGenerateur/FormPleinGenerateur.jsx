@@ -72,13 +72,13 @@ const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
                                 </Col>
 
                                 <Col xs={24} sm={12}>
-                                    <Form.Item label="Num PC" name="num_pc">
+                                    <Form.Item label="N° PC" name="num_pc">
                                         {renderField(isListsLoading, <Input placeholder="ex: PC-2025-01" />)}
                                     </Form.Item>
                                 </Col>
 
                                 <Col xs={24} sm={12}>
-                                    <Form.Item label="Numéro de facture" name="num_facture">
+                                    <Form.Item label="N° facture" name="num_facture">
                                     {renderField(isListsLoading, <Input placeholder="ex: FCT-2025-01" />)}
                                     </Form.Item>
                                 </Col>
