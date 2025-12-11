@@ -36,7 +36,6 @@ const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
         cancel();
         closeModal?.();
         onSaved?.();
-
     };
 
     const generateurOptions = useMemo(() => lists.generateurs.map(v => ({ value: v.id_generateur, label: `${v.nom_marque} / ${v.nom_modele} / ${v.code_groupe}` })), [lists.generateurs]);

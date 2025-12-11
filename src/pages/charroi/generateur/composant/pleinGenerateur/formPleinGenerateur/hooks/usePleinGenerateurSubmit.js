@@ -11,7 +11,11 @@ const submit = async ({ payload, id_plein }) => {
     setSubmitting(true);
     try {
         if (id_plein) {
-        await putPleinGenerateur(payload);
+            const data = {
+                ...payload,
+                id_plein_generateur : id_plein
+            }
+        await putPleinGenerateur(data);
         notification.success({ message: 'Succès', description: 'Modification réussie.' });
     } else {
         await postPleinGenerateur(payload);
