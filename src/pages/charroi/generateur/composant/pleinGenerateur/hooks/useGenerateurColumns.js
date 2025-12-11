@@ -54,7 +54,32 @@ pagination,
             {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
             {   title:"Fournisseur", dataIndex: "nom_fournisseur", key: "nom_fournisseur"},
             {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres", render: (text) => <Text mark>{formatNumber(text)} L</Text>},
-            {   title:"Crée par", dataIndex: "createur", key: "createur"},
+            {
+                title: "P.U Usd",
+                dataIndex: "prix_usd",
+                key: "prix_usd",
+                align: "right",
+                sorter: (a, b) => a.prix_usd - b.prix_usd,
+                sortDirections: ["descend", "ascend"],
+                render: (text) => (
+                  <Text strong style={{ color: "#1677ff" }}>
+                    {text ? formatNumber(text, " $") : "N/A"}
+                  </Text>
+                ),
+            },
+            {
+                title: "P.U Cdf",
+                dataIndex: "prix_cdf",
+                key: "prix_cdf",
+                align: "right",
+                sorter: (a, b) => a.prix_cdf - b.prix_cdf,
+                sortDirections: ["descend", "ascend"],
+                render: (text) => (
+                    <Text strong style={{ color: "#1677ff" }}>
+                        {text ? formatNumber(text, " CDF") : "N/A"}
+                    </Text>
+                ),
+            },
             {
                 title: "M. ($)",
                 dataIndex: "montant_total_usd",
@@ -81,6 +106,7 @@ pagination,
                     </Text>
                 ),
             },
+            {   title:"Crée par", dataIndex: "createur", key: "createur"},
             {
                 title: "Actions",
                 key: "action",

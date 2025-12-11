@@ -36,16 +36,18 @@ const PleinGenerateur = () => {
     "#": true,
     'N° Facture' : false,
     'N° Pc' : false,
-    Marque: true,
+    'Marque': true,
     "Code groupe": false,
     "Type gen.": true,
     "Type carburant": true,
     "Date operation": false,
     "Qté" : true,
     "Fournisseur": false,
+    "P.U Usd": false,
+    "P.U Cdf": false,
     "M. (CDF)" : true,
-    "Crée par" : false,
-    "M. ($)": true
+    "M. ($)": true,
+    "Crée par" : false
   }); 
   const [modal, setModal] = useState({ type: null, id: null });
 
