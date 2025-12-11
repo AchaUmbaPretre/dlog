@@ -3,6 +3,7 @@ import RapportHeader from '../../../carburant/rapportCarburant/rapportHeader/Rap
 import moment from 'moment';
 import { getRapportPleinGenerateur } from '../../../../../services/generateurService';
 import RapportKPIsGenerateur from './rapportKPIsGenerateur/RapportKPIsGenerateur';
+import RapportChartsGenerateur from './rapportChartsGenerateur/RapportChartsGenerateur';
 
 const RapportGenerateur = () => {
       const today = moment();
@@ -46,6 +47,7 @@ const RapportGenerateur = () => {
             />
             <div className="rapport__grid">
                 <RapportKPIsGenerateur kpis={kpis} loading={loading}/>
+                <RapportChartsGenerateur charts={charts} />
             </div>
         </div>
     </>

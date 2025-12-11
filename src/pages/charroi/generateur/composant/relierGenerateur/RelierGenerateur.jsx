@@ -15,6 +15,7 @@ import {
 } from "antd";
 import {
   CarOutlined,
+  BarcodeOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
   EditOutlined,
@@ -129,12 +130,34 @@ const RelierGenerateur = () => {
       ),
     },
     {
+      title: "Modèle",
+      dataIndex: "nom_modele",
+      key: "nom_modele   ",
+      render: (text) => (
+        <Space>
+          <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+          <Text strong>{text ?? "N/A"}</Text>
+        </Space>
+      ),
+    },
+    {
       title: "Immatriculation",
       dataIndex: "immatriculation",
       key: "immatriculation",
       render: (text) => (
         <Space>
           <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+          <Text strong>{text ?? "N/A"}</Text>
+        </Space>
+      ),
+    },
+    {
+      title: "N° série",
+      dataIndex: "immatriculation",
+      key: "immatriculation",
+      render: (text) => (
+        <Space>
+          <BarcodeOutlined style={{ color: "#1890ff", fontSize: 18 }} />
           <Text strong>{text ?? "N/A"}</Text>
         </Space>
       ),
