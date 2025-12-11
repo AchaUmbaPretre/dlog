@@ -41,6 +41,7 @@ import CarburantTableDetailThree from "../carburantTableDetailThree/CarburantTab
 import ConfirmModal from "../../../../../components/confirmModal/ConfirmModal";
 
 import "./carburantForm.scss";
+import { renderField } from "../../../../../utils/renderFieldSkeleton";
 
 const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
   const [form] = Form.useForm();
@@ -257,9 +258,6 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     setMontantTotalUSD(0);
   };
 
-  const renderField = (component) =>
-    loading.data ? <Skeleton.Input active style={{ width: "100%" }} /> : component;
-
   return (
     <div className="carburant_container">
       <h2 className="carburant_h2">
@@ -301,6 +299,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     ]}
                   >
                     {renderField(
+                      loading.data,
                       <Select
                         showSearch
                         placeholder="Sélectionnez un véhicule"
@@ -335,14 +334,14 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                 {/* Num PC */}
                 <Col xs={24} sm={8}>
                   <Form.Item label="Num PC" name="num_pc">
-                    {renderField(<Input placeholder="ex: PC-2025-01" />)}
+                    {renderField(loading.data, <Input placeholder="ex: PC-2025-01" />)}
                   </Form.Item>
                 </Col>
 
                 {/* Facture */}
                 <Col xs={24} sm={8}>
                   <Form.Item label="Numéro de facture" name="num_facture">
-                    {renderField(<Input placeholder="ex: FCT-2025-01" />)}
+                    {renderField(loading.data, <Input placeholder="ex: FCT-2025-01" />)}
                   </Form.Item>
                 </Col>
 
@@ -356,6 +355,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     ]}
                   >
                     {renderField(
+                      loading.data,
                       <Select
                         showSearch
                         placeholder="Sélectionnez un chauffeur"
@@ -382,6 +382,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     ]}
                   >
                     {renderField(
+                      loading.data,
                       <Select
                         showSearch
                         placeholder="Sélectionnez un fournisseur"
@@ -408,6 +409,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     ]}
                   >
                     {renderField(
+                      loading.data,
                       <Select
                         showSearch
                         placeholder="Sélectionnez un type"
@@ -431,6 +433,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     ]}
                   >
                     {renderField(
+                      loading.data,
                       <InputNumber
                         placeholder="ex: 50"
                         style={{ width: "100%" }}
@@ -475,6 +478,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     ]}
                   >
                     {renderField(
+                      loading.data,
                       <Input type="number" placeholder="ex: 45000" />
                     )}
                   </Form.Item>
@@ -484,6 +488,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                 <Col xs={24}>
                   <Form.Item label="Commentaire" name="commentaire">
                     {renderField(
+                      loading.data,
                       <Input.TextArea
                         placeholder="Écrire..."
                         style={{ height: 50, resize: "none" }}
