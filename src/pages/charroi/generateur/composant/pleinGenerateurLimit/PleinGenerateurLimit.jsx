@@ -83,7 +83,7 @@ const PleinGenerateurLimit = ({data, setGenerateurData, loading}) => {
             key: "createur",
             align: "right",
             ellipsis:'true',
-            render: (text) => <Text>{text}</Text>,
+            render: (text) => <Tag>{text}</Tag>,
           }
         ];
 

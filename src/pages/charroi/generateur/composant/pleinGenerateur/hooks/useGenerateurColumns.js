@@ -117,7 +117,7 @@ pagination,
                           <Button
                             icon={<EditOutlined />}
                             style={{ color: "green" }}
-                            onClick={() => onEdit(record.id_carburant)}
+                            onClick={() => onEdit(record.id_plein_generateur)}
                             aria-label="Edit generateur"
                           />
                         </Tooltip>
@@ -134,7 +134,7 @@ pagination,
                         <Tooltip title="Supprimer">
                           <Popconfirm
                             title="Êtes-vous sûr de vouloir supprimer cette ligne ?"
-                            onConfirm={() => onDelete(record.id_carburant)}
+                            onConfirm={() => onDelete(record.id_plein_generateur)}
                             okText="Oui"
                             cancelText="Non"
                           >

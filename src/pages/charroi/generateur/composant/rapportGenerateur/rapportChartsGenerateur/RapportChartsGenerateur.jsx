@@ -201,10 +201,10 @@ const vehiculeOptions = {
   };
 
   const repartitionData = {
-    labels: repartition.map((r) => r.abreviation ?? "N/A"),
+    labels: repartition.map((r) => r.nom_type_gen ?? "N/A"),
     datasets: [
       {
-        label: "Total litres",
+        label: "Quantité(L)",
         data: repartition.map((r) => Number(r.total_litres) || 0),
         backgroundColor: generateProColors(repartition.length),
         borderColor: "#fff",

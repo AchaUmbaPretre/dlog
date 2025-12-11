@@ -206,11 +206,11 @@ const PleinGenerateur = () => {
         open={modal.type === "Add"}
         onCancel={closeAllModals}
         footer={null}
-        width={1200}
+        width={1250}
         centered
         destroyOnClose
       >
-        <FormPleinGenerateur id_plein={""} fetchData={fetchData} closeModal={closeAllModals} />
+        <FormPleinGenerateur id_plein={modal.id} fetchData={fetchData} closeModal={closeAllModals} />
       </Modal>
     </div>
   )
