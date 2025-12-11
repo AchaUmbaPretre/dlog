@@ -146,7 +146,7 @@ const RelierGenerateur = () => {
       key: "immatriculation",
       render: (text) => (
         <Space>
-          <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+          <BarcodeOutlined style={{ color: "#1890ff", fontSize: 18 }} />
           <Text strong>{text ?? "N/A"}</Text>
         </Space>
       ),
