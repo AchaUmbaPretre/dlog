@@ -16,19 +16,14 @@ import {
 } from "antd";
 import {
   CarOutlined,
-  EditOutlined,
   DashboardOutlined,
   DollarOutlined,
-  UserOutlined,
   PrinterOutlined,
   FireOutlined,
   PlusCircleOutlined,
-  CalendarOutlined,
   ReloadOutlined,
   DownOutlined,
-  MenuOutlined,
-  EyeOutlined,
-  DeleteOutlined,
+  MenuOutlined
 } from "@ant-design/icons";
 import "./carburant.scss";
 import { deleteCarburant } from "../../../services/carburantService";

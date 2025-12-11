@@ -12,13 +12,15 @@ import {
   CalendarOutlined,
   EyeOutlined,
   DeleteOutlined,
+  FireOutlined,
+  ThunderboltOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import { formatNumber } from "../../../../../../utils/formatNumber";
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 export const useGenerateurColumns = ({
-pagination,
+  pagination,
   columnsVisibility,
   onEdit,
   onDetail,
@@ -49,10 +51,27 @@ pagination,
             },
             {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
             {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque"},
-            {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle"},
-            {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen"},
-            {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
-            {   title:"Fournisseur", dataIndex: "nom_fournisseur", key: "nom_fournisseur"},
+            {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle",render: (text) => <Tag color='geekblue'>{text}</Tag>},
+            {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen", render: (text) => <Tag>{text}</Tag>},
+            {
+                title: "Type carburant",
+                dataIndex: "nom_type_carburant",
+                key: "nom_type_carburant",
+                render: (text) => {
+                const isEssence = text?.toLowerCase() === "essence";
+
+                return (
+                  <Tag
+                    color={isEssence ? "orange" : "purple"}
+                    style={{ display: "flex", alignItems: "center", justifyContent:'center', gap: 6 }}
+                  >
+                    {isEssence ? <FireOutlined /> : <ThunderboltOutlined />}
+                    {text}
+                  </Tag>
+                );
+              },
+            },
+            {   title:"Fournisseur", dataIndex: "nom_fournisseur", key: "nom_fournisseur", align:'center'},
             {   title:"Qté", dataIndex: "quantite_litres", key: "quantite_litres", render: (text) => <Text mark>{formatNumber(text)} L</Text>},
             {
                 title: "P.U Usd",
@@ -106,7 +125,7 @@ pagination,
                     </Text>
                 ),
             },
-            {   title:"Crée par", dataIndex: "createur", key: "createur"},
+            {   title:"Crée par", dataIndex: "createur", key: "createur", render: (text) => <Tag>{text}</Tag>},
             {
                 title: "Actions",
                 key: "action",

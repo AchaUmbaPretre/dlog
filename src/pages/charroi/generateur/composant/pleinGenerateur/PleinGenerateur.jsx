@@ -11,18 +11,26 @@ import {
   Checkbox,
   Modal,
   notification,
-  message
+  message,
+  Skeleton
 } from "antd";
 import {
   FireOutlined,
   PlusCircleOutlined,
   ReloadOutlined,
   DownOutlined,
-  MenuOutlined
+  MenuOutlined,
+  DashboardOutlined,
+  DollarCircleOutlined,
+  MoneyCollectOutlined,
+  CarryOutOutlined
 } from "@ant-design/icons";
 import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
 import { deletePleinGenerateur, getPleinGenerateur } from "../../../../../services/generateurService";
 import { useGenerateurColumns } from "./hooks/useGenerateurColumns";
+import { useGenerateurKpis } from "./hooks/userGenerateurKpis";
+import CarburantKpi from "../../../carburant/composant/carburantkpi/Carburantkpi";
+import { formatNumber } from "../../../../../utils/formatNumber";
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -50,6 +58,7 @@ const PleinGenerateur = () => {
     "Crée par" : false
   }); 
   const [modal, setModal] = useState({ type: null, id: null });
+  const { montantTotalUsd, montantTotalCdf,  qte } = useGenerateurKpis(data);
 
   const fetchData = async() => {
     setLoading(true);
@@ -176,7 +185,50 @@ const PleinGenerateur = () => {
         }
       >
         <div className="kpi-wrapper">
-          
+          <CarburantKpi
+            icon={<CarryOutOutlined />}
+            title="Nbre de plein"
+            value={
+              loading ? (
+                <Skeleton.Input style={{ width: 80 }} active size="small" />
+              ) : formatNumber(data?.length)
+            }
+            color="linear-gradient(135deg, #fa8c16, #ffd591)"
+            bg="rgba(250, 140, 22, 0.15)"
+          />
+
+          <CarburantKpi
+            icon={<DashboardOutlined />}
+            title="Quantité(L)"
+            value={loading ? <Skeleton.Input style={{ width: 80 }} active size="small" /> : `${formatNumber(qte)} L`}
+            color="linear-gradient(135deg, #1677ff, #69b1ff)"
+            bg="rgba(22, 119, 255, 0.15)"
+          />
+
+          <CarburantKpi
+            icon={<DollarCircleOutlined />}
+            title="Montant total ($)"
+            value={
+              loading ? (
+                <Skeleton.Input style={{ width: 80 }} active size="small" />
+              ) : formatNumber(montantTotalUsd, " $")
+            }
+            color="linear-gradient(135deg, #722ed1, #b37feb)"
+            bg="rgba(114, 46, 209, 0.15)"
+          />
+
+          <CarburantKpi
+            icon={<MoneyCollectOutlined />}
+            title="Montant total (CDF)"
+            value={
+              loading ? (
+                <Skeleton.Input style={{ width: 80 }} active size="small" />
+              ) : formatNumber(montantTotalCdf, " CDF")
+            }
+            color="linear-gradient(135deg, #52c41a, #95de64)"
+            bg="rgba(82, 196, 26, 0.15)"
+          />
+
         </div>
         <Table
           columns={columns}
