@@ -280,7 +280,7 @@ const ListGenerateur = () => {
         open={modal.type === "Relier"}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1100}
         centered
         destroyOnClose
       >

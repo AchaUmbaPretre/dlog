@@ -15,6 +15,7 @@ import {
 } from "antd";
 import {
   CarOutlined,
+  ThunderboltOutlined,
   BarcodeOutlined,
   ExclamationCircleOutlined,
   PlusOutlined,
@@ -110,6 +111,17 @@ const RelierGenerateur = () => {
     });
   };
 
+  const getIconByMarque = (marque) => {
+    const isGroup = String(marque).toUpperCase() === "GROUPE ELECTROGENE";
+
+    return isGroup ? (
+      <ThunderboltOutlined style={{ color: "#faad14", fontSize: 18 }} />
+    ) : (
+      <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+    );
+  };
+
+
   const columns = [
     {
       title: "#",
@@ -124,7 +136,7 @@ const RelierGenerateur = () => {
       key: "nom_marque",
       render: (text) => (
         <Space>
-          <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+          {getIconByMarque(text)}
           <Text strong>{text ?? "N/A"}</Text>
         </Space>
       ),
@@ -132,10 +144,10 @@ const RelierGenerateur = () => {
     {
       title: "Modèle",
       dataIndex: "nom_modele",
-      key: "nom_modele   ",
-      render: (text) => (
+      key: "nom_modele",
+      render: (text, record) => (
         <Space>
-          <CarOutlined style={{ color: "#1890ff", fontSize: 18 }} />
+          {getIconByMarque(record.nom_marque)}
           <Text strong>{text ?? "N/A"}</Text>
         </Space>
       ),
