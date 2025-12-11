@@ -34,6 +34,8 @@ const PleinGenerateur = () => {
   const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
+    'N° Facture' : false,
+    'N° Pc' : false,
     Marque: true,
     "Code groupe": false,
     "Type gen.": true,
@@ -43,7 +45,7 @@ const PleinGenerateur = () => {
     "Fournisseur": false,
     "M. (CDF)" : true,
     "Crée par" : false,
-    "M. ($)": false
+    "M. ($)": true
   }); 
   const [modal, setModal] = useState({ type: null, id: null });
 

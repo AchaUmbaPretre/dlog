@@ -33,6 +33,8 @@ pagination,
                 align: "center",
                 render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
             },
+            {   title:"N° Facture", dataIndex: "num_facture", key: "num_facture"},
+            {   title:"N° Pc", dataIndex: "num_pc", key: "num_pc"},
             {
                 title: "Date opération",
                 dataIndex: "date_operation",
