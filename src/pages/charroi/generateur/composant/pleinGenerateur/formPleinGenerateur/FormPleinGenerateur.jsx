@@ -1,15 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Input, Select, DatePicker, Button, InputNumber, Divider } from 'antd';
-import { FireOutlined, ClearOutlined  } from '@ant-design/icons';
+import { FireOutlined, ClearOutlined, SaveOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useConfirmAction } from './hooks/useConfirmAction';
 import { usePleinGenerateurForm } from './hooks/usePleinGenerateurForm';
 import { renderField } from '../../../../../../utils/renderFieldSkeleton';
 import PleinGenerateurLimit from '../../pleinGenerateurLimit/PleinGenerateurLimit';
 import ConfirmModal from '../../../../../../components/confirmModal/ConfirmModal';
-
-
 
 const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
     const [form] = Form.useForm();
@@ -119,7 +117,7 @@ const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
 
                             <Row justify="end" style={{ marginTop: 20 }}>
                                 <Col>
-                                    <Button type="primary" htmlType="submit" loading={submitting} disabled={isListsLoading}>
+                                    <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={submitting} disabled={isListsLoading}>
                                     {id_plein ? 'Modifier' : 'Enregistrer'}
                                     </Button>
                                 </Col>
