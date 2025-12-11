@@ -25,10 +25,10 @@ import { deletePleinGenerateur, getPleinGenerateur } from "../../../../../servic
 import { useGenerateurColumns } from "./hooks/useGenerateurColumns";
 
 const { Search } = Input;
-const { Text, Title } = Typography;
+const { Title } = Typography;
 
 const PleinGenerateur = () => {
- const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState([]);
@@ -51,27 +51,27 @@ const PleinGenerateur = () => {
   }); 
   const [modal, setModal] = useState({ type: null, id: null });
 
-    const fetchData = async() => {
-        setLoading(true);
+  const fetchData = async() => {
+    setLoading(true);
 
-        try {
-            const response = await getPleinGenerateur();
-            setData(response?.data || []);
+    try {
+      const response = await getPleinGenerateur();
+      setData(response?.data || []);
 
-        } catch (error) {
-            notification.error({
-                message: "Erreur de chargement",
-                description: "Impossible de récupérer les données du générateur.",
-                placement: "topRight",
-            });
-        } finally {
-            setLoading(false)
-        }
+    } catch (error) {
+        notification.error({
+        message: "Erreur de chargement",
+          description: "Impossible de récupérer les données du générateur.",
+          placement: "topRight",
+        });
+    } finally {
+      setLoading(false)
     }
+  }
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const openModal = (type, id = null) => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
