@@ -127,7 +127,7 @@ const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
                                     <Button
                                         onClick={()=> form.resetFields()}
                                         icon={<ClearOutlined />}
-                                        disabled={loading.data}
+                                        disabled={isListsLoading}
                                         className="vehicule-btn"
                                         style={{ marginLeft: 10 }}
                                     >
