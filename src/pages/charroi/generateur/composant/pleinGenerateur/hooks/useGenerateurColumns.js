@@ -13,7 +13,8 @@ import {
   EyeOutlined,
   DeleteOutlined,
   FireOutlined,
-  ThunderboltOutlined
+  ThunderboltOutlined,
+  TagsOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import { formatNumber } from "../../../../../../utils/formatNumber";
@@ -50,9 +51,40 @@ export const useGenerateurColumns = ({
                 ),
             },
             {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
-            {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque"},
-            {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle",render: (text) => <Tag color='geekblue'>{text}</Tag>},
-            {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen", render: (text) => <Tag>{text}</Tag>},
+            {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque", render: (text) =><Text type="success">{text}</Text>},
+            {
+                title: "Modèle",
+                dataIndex: "nom_modele",
+                key: "nom_modele",
+                render: (text) => (
+                  <Tag
+                    icon={<TagsOutlined />}
+                    style={{
+                      fontSize: 12,
+                      padding: "2px 7px",
+                      border: "1px solid #1677ff",
+                      background: "transparent",
+                      color: "#1677ff",
+                    }}
+                  >
+                    {text}
+                  </Tag>
+                ),
+            },
+            {
+              title: "Type gen.",
+              dataIndex: "nom_type_gen",
+              key: "nom_type_gen",
+              render: (text) => (
+                <Tag
+                  icon={<ThunderboltOutlined />}
+                  color="blue"
+                  style={{ fontSize: 13, padding: "3px 8px" }}
+                >
+                  {text}
+                </Tag>
+              ),
+            },
             {
                 title: "Type carburant",
                 dataIndex: "nom_type_carburant",
