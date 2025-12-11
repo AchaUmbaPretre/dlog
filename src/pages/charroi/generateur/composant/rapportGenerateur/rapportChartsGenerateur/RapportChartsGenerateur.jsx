@@ -38,7 +38,6 @@ const RapportChartsGenerateur = ({ charts }) => {
   const [showUSD, setShowUSD] = useState(false);
   const [showUSDCout, setShowUSDCout] = useState(false);
 
-// --- Préparer les datasets (NUMERIQUES et yAxisID) ---
 const vehiculeLabels = parGenerateurs.map(
   (v) => `${v.nom_marque} - ${v.nom_modele || "N/A"}`
 );
@@ -51,7 +50,7 @@ const vehiculeDataCDF = {
   labels: vehiculeLabels,
   datasets: [
     {
-      label: "Litres consommés",
+      label: "Quantité(L)",
       data: litersData,
       backgroundColor: "rgba(54, 162, 235, 0.8)",
       yAxisID: "yLitres",        // <-- litres -> axe gauche
@@ -71,7 +70,7 @@ const vehiculeDataUSD = {
   labels: vehiculeLabels,
   datasets: [
     {
-      label: "Litres consommés",
+      label: "Quantité(L)",
       data: litersData,
       backgroundColor: "rgba(54, 162, 235, 0.8)",
       yAxisID: "yLitres",
@@ -128,7 +127,7 @@ const vehiculeOptions = {
       position: "right",
       beginAtZero: true,
       grid: { drawOnChartArea: false },
-      title: { display: true, text: "Consommation (L)", font: { size: 13 } },
+      title: { display: true, text: "Quantité (L)", font: { size: 13 } },
     },
   },
 };
@@ -150,7 +149,7 @@ const vehiculeOptions = {
       pointRadius: 4,
     },
     {
-      label: "Consommation (L)",
+      label: "Quantité (L)",
       data: coutHebdo.map((c) => c.total_consom),
       borderColor: "#00c897",
       backgroundColor: "rgba(0, 200, 151, 0.20)",
