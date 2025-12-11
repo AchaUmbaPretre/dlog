@@ -508,10 +508,10 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                     loading={loading.submit}
                     disabled={loading.data}
                   >
-                    Enregistrer
+                    { idCarburant ? "Enregistrer" :"Modifier"}
                   </Button>
                 </Col>
-
+   
                 <Col>
                   <Button
                     onClick={resetFields}

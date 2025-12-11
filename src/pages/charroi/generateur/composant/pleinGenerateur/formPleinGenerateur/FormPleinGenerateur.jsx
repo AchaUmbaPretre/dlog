@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Input, Select, DatePicker, Button, InputNumber, Divider } from 'antd';
-import { FireOutlined } from '@ant-design/icons';
+import { FireOutlined, ClearOutlined  } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useConfirmAction } from './hooks/useConfirmAction';
 import { usePleinGenerateurForm } from './hooks/usePleinGenerateurForm';
@@ -121,6 +121,17 @@ const FormPleinGenerateur = ({ id_plein, onSaved, closeModal }) => {
                                 <Col>
                                     <Button type="primary" htmlType="submit" loading={submitting} disabled={isListsLoading}>
                                     {id_plein ? 'Modifier' : 'Enregistrer'}
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button
+                                        onClick={()=> form.resetFields()}
+                                        icon={<ClearOutlined />}
+                                        disabled={loading.data}
+                                        className="vehicule-btn"
+                                        style={{ marginLeft: 10 }}
+                                    >
+                                        Annuler
                                     </Button>
                                 </Col>
                             </Row>
