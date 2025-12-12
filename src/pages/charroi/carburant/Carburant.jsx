@@ -128,15 +128,12 @@ const Carburant = () => {
     </div>
   );
 
-  // toggle filter panel (keeps fetch separate)
   const handFilter = () => {
     setFilterVisible((v) => !v);
   };
 
   const handleFilterChange = (newFilters) => {
-    // pass new filters to data hook and trigger reload
     setFilters(newFilters);
-    // force reload with new filters
     reload(newFilters);
   };
 

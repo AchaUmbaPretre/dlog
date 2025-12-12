@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import {
   Table,
   Button,
@@ -26,20 +26,20 @@ import {
   CarryOutOutlined
 } from "@ant-design/icons";
 import FormPleinGenerateur from "./formPleinGenerateur/FormPleinGenerateur";
-import { deletePleinGenerateur, getPleinGenerateur } from "../../../../../services/generateurService";
+import { deletePleinGenerateur } from "../../../../../services/generateurService";
 import { useGenerateurColumns } from "./hooks/useGenerateurColumns";
 import { useGenerateurKpis } from "./hooks/userGenerateurKpis";
 import CarburantKpi from "../../../carburant/composant/carburantkpi/Carburantkpi";
 import { formatNumber } from "../../../../../utils/formatNumber";
+import FilterPleinGenerateur from "./filterPleinGenerateur/FilterPleinGenerateur";
+import { useGenerateurData } from "./hooks/useGenerateurData";
 
 const { Search } = Input;
 const { Title } = Typography;
 
 const PleinGenerateur = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-  const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
     'N° Facture' : false,
@@ -57,30 +57,10 @@ const PleinGenerateur = () => {
     "M. ($)": true,
     "Crée par" : false
   }); 
+  const { data, setData, loading, reload, setFilters } = useGenerateurData(null);
   const [modal, setModal] = useState({ type: null, id: null });
+  const [filterVisible, setFilterVisible] = useState(false);
   const { montantTotalUsd, montantTotalCdf,  qte } = useGenerateurKpis(data);
-
-  const fetchData = async() => {
-    setLoading(true);
-
-    try {
-      const response = await getPleinGenerateur();
-      setData(response?.data || []);
-
-    } catch (error) {
-        notification.error({
-        message: "Erreur de chargement",
-          description: "Impossible de récupérer les données du générateur.",
-          placement: "topRight",
-        });
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const openModal = (type, id = null) => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
@@ -142,6 +122,14 @@ const PleinGenerateur = () => {
     );
   }, [data, searchValue]);
 
+  const handFilter = () => {
+    setFilterVisible((v) => !v);
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
   return (
     <div className="carburant-page">
         <Card
@@ -176,6 +164,9 @@ const PleinGenerateur = () => {
             >
               Nouveau
             </Button>
+            <Button type="default" onClick={handFilter}>
+              {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
+            </Button>
             <Dropdown overlay={columnMenu} trigger={["click"]}>
               <Button icon={<MenuOutlined />}>
                 Colonnes <DownOutlined />
@@ -184,6 +175,7 @@ const PleinGenerateur = () => {
           </Space>
         }
       >
+        {filterVisible && <FilterPleinGenerateur onFilter={handleFilterChange} />}
         <div className="kpi-wrapper">
           <CarburantKpi
             icon={<CarryOutOutlined />}
@@ -257,7 +249,7 @@ const PleinGenerateur = () => {
         />
       </Card>
 
-    <Modal
+      <Modal
         open={modal.type === "Add"}
         onCancel={closeAllModals}
         footer={null}
@@ -265,7 +257,7 @@ const PleinGenerateur = () => {
         centered
         destroyOnClose
       >
-        <FormPleinGenerateur id_plein={modal.id} onSaved={fetchData} closeModal={closeAllModals} />
+        <FormPleinGenerateur id_plein={modal.id} onSaved={reload} closeModal={closeAllModals} />
       </Modal>
     </div>
   )
