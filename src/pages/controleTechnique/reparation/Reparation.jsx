@@ -86,7 +86,7 @@ const Reparation = () => {
         fetchData();
         const intervalId = setInterval(() => {
           fetchData();
-        }, 5000); // 5000 ms = 5 secondes
+        }, 5000);
     
         return () => clearInterval(intervalId);
     }, [])
@@ -661,10 +661,10 @@ const Reparation = () => {
         <div className="client">
             <div className="client-wrapper">
                 <div className="client-row">
-                    <div className="client-row-icon">
-                        <ToolOutlined className='client-icon'/>
-                    </div>
-                    <h2 className="client-h2">Liste des réparations</h2>
+                  <div className="client-row-icon">
+                    <ToolOutlined className='client-icon'/>
+                  </div>
+                  <h2 className="client-h2">Liste des réparations</h2>
                 </div>
 
                 <div className="client-actions">

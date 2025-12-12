@@ -13,7 +13,7 @@ export const useGenerateurData = (initialFilters = null) => {
             setLoading(true);
 
             try {
-                const res = await getPleinGenerateurV(effective);
+                const res = await getPleinGenerateur(effective);
                 setData(res?.data || []);
             } catch (error) {
                 notification.error({
