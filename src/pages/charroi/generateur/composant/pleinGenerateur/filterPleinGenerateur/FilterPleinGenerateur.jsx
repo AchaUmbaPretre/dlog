@@ -56,7 +56,7 @@ const FilterPleinGenerateur = ({ onFilter }) => {
       type: selectedTypes,
       dateRange,
     });
-  }, [selectedMarque, selectedModele, selectedTypes, dateRange, onFilter]);
+  }, [selectedMarque, selectedModele, selectedTypes, dateRange]);
 
   const marqueOptions = useMemo(
     () =>

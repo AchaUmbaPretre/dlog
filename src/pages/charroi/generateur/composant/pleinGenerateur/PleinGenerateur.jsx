@@ -128,6 +128,7 @@ const PleinGenerateur = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
+    reload(newFilters);
   };
 
   return (

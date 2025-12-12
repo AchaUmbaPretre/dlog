@@ -12,7 +12,8 @@ import {
   Empty,
   Checkbox,
   Tooltip,
-  Popconfirm
+  Popconfirm,
+  Tag
 } from "antd";
 import {
   EditOutlined,
@@ -23,7 +24,10 @@ import {
   MenuOutlined,
   RetweetOutlined,
   DeleteOutlined,
-  EyeOutlined
+  EyeOutlined,
+  TrademarkOutlined,
+  TagsOutlined,
+  ThunderboltOutlined
 } from "@ant-design/icons";
 import GenerateurForm from "./generateurForm/GenerateurForm";
 import { getGenerateur } from "../../../../services/generateurService";
@@ -31,7 +35,7 @@ import RelierGenerateur from "../composant/relierGenerateur/RelierGenerateur";
 import DetailGenerateur from "../detailGenerateur/DetailGenerateur";
 
 const { Search } = Input;
-const { Title } = Typography;
+const { Text, Title } = Typography;
 
 const ListGenerateur = () => {
  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
@@ -114,10 +118,68 @@ const ListGenerateur = () => {
             render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
         },
         {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
-        {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque"},
-        {   title:"Modèle", dataIndex: "nom_modele", key: "nom_modèle"},
-        {   title:"Type gen.", dataIndex: "nom_type_gen", key: "nom_type_gen"},
-        {   title:"Type carburant", dataIndex: "nom_type_carburant", key: "nom_type_carburant"},
+        {
+            title: "Marque",
+            dataIndex: "nom_marque",
+            key: "nom_marque",
+            render: (text) => (
+              <Text type="success">
+                <TrademarkOutlined style={{ marginRight: 4 }} />
+                {text}
+              </Text>
+            ),
+        },
+        {
+            title: "Modèle",
+            dataIndex: "nom_modele",
+            key: "nom_modele",
+              render: (text) => (
+                <Tag
+                  icon={<TagsOutlined />}
+                  style={{
+                    fontSize: 12,
+                    padding: "2px 7px",
+                    border: "1px solid #1677ff",
+                    background: "transparent",
+                    color: "#1677ff",
+                  }}
+                >
+                  {text}
+                </Tag>
+              ),
+        },
+        {
+            title: "Type gen.",
+            dataIndex: "nom_type_gen",
+            key: "nom_type_gen",
+            render: (text) => (
+              <Tag
+                icon={<ThunderboltOutlined />}
+                color="blue"
+                style={{ fontSize: 12, padding: "3px 8px" }}
+              >
+                {text}
+              </Tag>
+            ),
+        },
+        {
+            title: "Type carburant",
+            dataIndex: "nom_type_carburant",
+            key: "nom_type_carburant",
+            render: (text) => {
+              const isEssence = text?.toLowerCase() === "essence";
+
+                return (
+                  <Tag
+                    color={isEssence ? "orange" : "purple"}
+                    style={{ display: "flex", alignItems: "center", justifyContent:'center', gap: 6 }}
+                  >
+                    {isEssence ? <FireOutlined /> : <ThunderboltOutlined />}
+                    {text}
+                  </Tag>
+                );
+              },
+        },
         {   title:"Puissance", dataIndex: "puissance", key: "puissance"},
         {   title:"Nbre cylindre", dataIndex: "nbre_cylindre", key: "nbre_cylindre"},
         {   title:"Valeur acq.", dataIndex: "valeur_acquisition", key: "valeur_acquisition"},
