@@ -14,7 +14,8 @@ import {
   DeleteOutlined,
   FireOutlined,
   ThunderboltOutlined,
-  TagsOutlined
+  TagsOutlined,
+  TrademarkOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import { formatNumber } from "../../../../../../utils/formatNumber";
@@ -51,7 +52,17 @@ export const useGenerateurColumns = ({
                 ),
             },
             {   title:"Code groupe", dataIndex: "code_groupe", key: "code_groupe"},
-            {   title:"Marque", dataIndex: "nom_marque", key: "nom_marque", render: (text) =><Text type="success">{text}</Text>},
+            {
+              title: "Marque",
+              dataIndex: "nom_marque",
+              key: "nom_marque",
+              render: (text) => (
+                <Text type="success">
+                  <TrademarkOutlined style={{ marginRight: 4 }} />
+                  {text}
+                </Text>
+              ),
+            },
             {
                 title: "Modèle",
                 dataIndex: "nom_modele",
