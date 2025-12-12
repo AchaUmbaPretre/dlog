@@ -3,13 +3,15 @@ import { Tabs } from 'antd';
 import {
   ThunderboltOutlined,
   DatabaseOutlined,
-  AppstoreOutlined
+  AppstoreOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import ListGenerateur from './listGenerateur/ListGenerateur';
 import ListTypeGenerateur from './TypeGenerateur/ListTypeGenerateur';
 import PleinGenerateur from './composant/pleinGenerateur/PleinGenerateur';
 import RapportGenerateur from './composant/rapportGenerateur/RapportGenerateur';
+import ReparationGenerat from './reparationGenerat/ReparationGenerat';
 
 const tabConfig = [
   {
@@ -35,6 +37,12 @@ const tabConfig = [
     label: 'Les types',
     icon: <AppstoreOutlined />,
     component: <ListTypeGenerateur />
+  },
+  {
+    key: '5',
+    label: 'Réparation',
+    icon: <SettingOutlined />,
+    component: <ReparationGenerat />
   }
 ];
 
