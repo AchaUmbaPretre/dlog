@@ -4,7 +4,7 @@ import {
   ThunderboltOutlined,
   DatabaseOutlined,
   AppstoreOutlined,
-  SettingOutlined
+  ToolOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import ListGenerateur from './listGenerateur/ListGenerateur';
@@ -41,7 +41,7 @@ const tabConfig = [
   {
     key: '5',
     label: 'Réparation',
-    icon: <SettingOutlined />,
+    icon: <ToolOutlined />,
     component: <ReparationGenerat />
   }
 ];
