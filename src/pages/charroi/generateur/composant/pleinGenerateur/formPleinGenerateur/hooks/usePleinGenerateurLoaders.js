@@ -30,10 +30,10 @@ fournisseurs: fournisseurRes?.data || [],
 limits: limitData?.data || []
 });
 } catch (err) {
-console.error('usePleinGenerateurLoaders.loadLists', err);
-setError(err);
+    console.error('usePleinGenerateurLoaders.loadLists', err);
+    setError(err);
 } finally {
-setLoading(l => ({ ...l, lists: false }));
+    setLoading(l => ({ ...l, lists: false }));
 }
 }, []);
 

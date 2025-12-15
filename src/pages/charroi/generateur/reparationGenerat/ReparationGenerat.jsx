@@ -116,7 +116,7 @@ const ReparationGenerat = () => {
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
-                            onClick={handleAddReparation}
+                            onClick={() => openModal('Add')}
                         >
                             Ajouter
                         </Button>

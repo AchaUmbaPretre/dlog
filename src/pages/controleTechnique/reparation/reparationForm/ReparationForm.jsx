@@ -164,31 +164,31 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                         <Row gutter={12}>
 
                             <Col xs={24} md={8}>
-                                    <Form.Item
-                                        name="id_vehicule"
-                                        label="Matricule"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Veuillez sélectionner un groupe...',
-                                            },
-                                        ]}
-                                    >
-                                        {loadingData ? (
-                                        <Skeleton.Input active={true} />
-                                        ) : (
-                                            <Select
-                                                allowClear
-                                                showSearch
-                                                options={vehicule.map((item) => ({
+                                <Form.Item
+                                    name="id_vehicule"
+                                    label="Matricule"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Veuillez sélectionner un groupe...',
+                                        }
+                                    ]}
+                                >
+                                    {loadingData ? (
+                                    <Skeleton.Input active={true} />
+                                    ) : (
+                                        <Select
+                                            allowClear
+                                            showSearch
+                                            options={vehicule.map((item) => ({
                                                     value: item.id_vehicule                                           ,
                                                     label: `${item.immatriculation} / ${item.nom_marque} / ${item.modele}`,
-                                                }))}
+                                            }))}
                                                 placeholder="Sélectionnez un vehicule..."
                                                 optionFilterProp="label"
-                                            />
+                                         />
                                         )}
-                                    </Form.Item>
+                                </Form.Item>
                             </Col>
 
                             <Col xs={24} md={8}>
