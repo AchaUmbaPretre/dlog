@@ -176,7 +176,7 @@ const ReparationGeneratForm = ({closeModal, fetchData}) => {
                         }
                     </Form.List>
                     <div style={{ marginTop: '20px' }}>
-                        <Button type="primary" htmlType="submit" loading={loading} icon={<SendOutlined />}>
+                        <Button type="primary" htmlType="submit" loading={isListsLoading} icon={<SendOutlined />}>
                             Soumettre
                         </Button>
                     </div>
