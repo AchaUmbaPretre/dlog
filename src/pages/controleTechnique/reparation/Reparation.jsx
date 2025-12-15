@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
+import { useEffect, useRef, useState } from 'react'
+import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
@@ -53,34 +53,34 @@ const Reparation = () => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [vehicule, setVehicule] = useState(null)
     
-  const columnStyles = {
-      title: {
-        maxWidth: '220px',
-        whiteSpace: 'nowrap',
-        overflowX: 'scroll', 
-        scrollbarWidth: 'none',
-        '-ms-overflow-style': 'none', 
-      },
-      hideScroll: {
-        '&::-webkit-scrollbar': {
-          display: 'none',
+    const columnStyles = {
+        title: {
+          maxWidth: '220px',
+          whiteSpace: 'nowrap',
+          overflowX: 'scroll', 
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none', 
         },
-      },
-  };
+        hideScroll: {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+    };
 
-  const fetchData = async() => {
-    try {
-      const { data } = await getReparation();
-      setData(data.data);
-      setLoading(false);
-    } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
+    const fetchData = async() => {
+      try {
+        const { data } = await getReparation();
+        setData(data.data);
         setLoading(false);
-        }
-    }
+      } catch (error) {
+          notification.error({
+            message: 'Erreur de chargement',
+            description: 'Une erreur est survenue lors du chargement des données.',
+          });
+          setLoading(false);
+          }
+      }
 
     useEffect(()=> {
         fetchData();

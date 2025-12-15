@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
+import ReparationGeneratForm from './reparationGeneratForm/ReparationGeneratForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -15,7 +16,10 @@ const ReparationGenerat = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const scroll = { x: 'max-content' };
+    const [modal, setModal] = useState({ type: null, id: null });
+    const openModal = (type, id = null) => setModal({ type, id });
 
+    const closeAllModals = () => setModal({ type: null, id: null });
     const handleAddReparation = () => {
 
     }
@@ -131,6 +135,16 @@ const ReparationGenerat = () => {
 
             </div>
         </div>
+        <Modal
+            open={modal.type === "Add"}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1250}
+            centered
+            destroyOnClose
+        >
+            <ReparationGeneratForm id_plein={modal.id} closeModal={closeAllModals} />
+        </Modal>
     </>
   )
 }
