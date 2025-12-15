@@ -390,6 +390,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                         <InputNumber min={0} placeholder="Saisir le montant..." style={{width:'100%'}}/>
                                                     </Form.Item>
                                                 </Col>
+                                                
                                                 <Col xs={24} md={8}>
                                                     <Form.Item
                                                     {...restField}
@@ -405,6 +406,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                                         />
                                                     </Form.Item>
                                                 </Col>
+
                                                 <Col xs={24} md={2}>
                                                     <Button
                                                     type="text"
