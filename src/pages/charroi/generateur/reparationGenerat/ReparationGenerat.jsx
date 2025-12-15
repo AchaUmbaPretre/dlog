@@ -139,7 +139,7 @@ const ReparationGenerat = () => {
             open={modal.type === "Add"}
             onCancel={closeAllModals}
             footer={null}
-            width={1250}
+            width={1000}
             centered
             destroyOnClose
         >

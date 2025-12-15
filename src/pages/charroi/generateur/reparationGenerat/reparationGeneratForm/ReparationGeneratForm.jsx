@@ -15,14 +15,16 @@ const ReparationGeneratForm = ({closeModal, fetchData}) => {
 
     const generateurOptions = useMemo(()=> lists.generateurs.map(v => ({ value: v.id_generateur, label: `${v.nom_marque} / ${v.nom_modele} / ${v.code_groupe}` })), [lists.generateurs]);
     const fournisseurOptions = useMemo(() => lists.fournisseurs.map(f => ({ value: f.id_fournisseur, label: f.nom_fournisseur })), [lists.fournisseurs]);
-    const statusOptions = useMemo(() => lists?.statutVehicules.map(s => ({ value : s.id_statut_vehicule, label: s.nom_statut_vehicule})), [lists.statutVehicules])
+    const statusOptions = useMemo(() => lists?.statutVehicules.map(s => ({ value : s.id_statut_vehicule, label: s.nom_statut_vehicule})), [lists.statutVehicules]);
+    const typeOptions = useMemo(() => lists?.typeReparation.map(r => ({ value : r.id_type_reparation, label : r.type_rep })), [lists.typeReparation])
+
     const isListsLoading = loading.lists;
 
   return (
     <>
         <div className="controle_form">
             <div className="controle_title_rows">
-                <h2 className="controle_h2">ENREGISTRER UNE REPARATION</h2>
+                <h2 className="controle_h2">ENREGISTRER UNE REPARATION GENERATEUR</h2>
             </div>
             <div className="controle_wrapper">
                 <Form
@@ -111,7 +113,10 @@ const ReparationGeneratForm = ({closeModal, fetchData}) => {
                                                         { required: true, message: 'Veuillez fournir une réparation...' },
                                                     ]}
                                                 >
-
+                                                {renderField(isListsLoading, (
+                                                    <Select showSearch placeholder="Sélectionnez un type" options={typeOptions} />
+                                                ))
+                                                }
                                                 </Form.Item>
                                             </Col>
                                             <Col xs={24} md={7}>
