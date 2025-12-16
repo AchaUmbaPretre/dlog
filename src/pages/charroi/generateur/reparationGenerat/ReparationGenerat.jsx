@@ -6,6 +6,7 @@ import ReparationGeneratForm from './reparationGeneratForm/ReparationGeneratForm
 import { getRepGenerateur } from '../../../../services/generateurService';
 import { useReparationData } from './hook/useReparationGenData';
 import { useReparateurGenColumns } from './hook/useReparateurGenColumns';
+import ReparationGeneratDetail from './reparationGeneratDetail/ReparationGeneratDetail';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -126,6 +127,17 @@ const ReparationGenerat = () => {
             destroyOnClose
         >
             <ReparationGeneratForm id_plein={modal.id} closeModal={closeAllModals} />
+        </Modal>
+
+        <Modal
+            open={modal.type === "Add"}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1000}
+            centered
+            destroyOnClose
+        >
+            <ReparationGeneratDetail id_plein={modal.id} closeModal={closeAllModals} />
         </Modal>
     </>
   )

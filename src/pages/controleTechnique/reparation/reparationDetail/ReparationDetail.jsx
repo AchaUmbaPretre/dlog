@@ -519,10 +519,10 @@ const ReparationDetail = ({ idReparation, inspectionId }) => {
                         Faire un suivi
                     </Button>
                     <Button onClick={() => handleEdit(selectedRecord.id_sud_reparation)}>
-                    Modifier le travail déjà effectué
+                        Modifier le travail déjà effectué
                     </Button>
                     <Button type="text" onClick={closeAllModals} style={{ marginTop: 12, color: '#999' }}>
-                    Annuler
+                        Annuler
                     </Button>
                 </div>
             </Modal>
