@@ -26,7 +26,7 @@ const ReparationGenerat = () => {
         "Date Entrée": true,
         "Date Sortie": false,
         "Date rep": false,
-        "Coût" : true,
+        "Coût" : false,
         "Montant" : true,
         "Fournisseur": true,
         "Créé par" : false
