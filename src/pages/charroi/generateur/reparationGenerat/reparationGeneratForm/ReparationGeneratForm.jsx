@@ -108,7 +108,7 @@ const ReparationGeneratForm = ({ idRepGen, closeModal, onSaved}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} sm={8}>
+                            <Col xs={24} sm={16}>
                                 <Form.Item label="Commentaire" name="commentaire">
                                     {renderField(isListsLoading, <Input.TextArea style={{height:60}} placeholder="Ecrire..." />)}
                                 </Form.Item>

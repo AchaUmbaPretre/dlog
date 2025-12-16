@@ -17,19 +17,20 @@ const ReparationGenerat = () => {
         pageSize: 15,
     }); 
     const scroll = { x: 'max-content' };
-      const [columnsVisibility, setColumnsVisibility] = useState({
-    "#": true,
-    'Génération' : false,
-    'Modele' : false,
-    'Marque': true,
-    "Type rep.": false,
-    "Date Entrée": true,
-    "Date Sortie": true,
-    "Date rep": false,
-    "Budget" : true,
-    "Fournisseur": false,
-    "Crée par" : false
-  }); 
+    const [columnsVisibility, setColumnsVisibility] = useState({
+        "#": true,
+        'N° série' : false,
+        'Modèle' : true,
+        'Marque': true,
+        "Type rep.": true,
+        "Date Entrée": true,
+        "Date Sortie": false,
+        "Date rep": false,
+        "Cout" : true,
+        "Montant" : true,
+        "Fournisseur": true,
+        "Crée par" : true
+    }); 
     const { data, setData, loading, reload, filters, setFilters} = useReparationData(null)
     const [modal, setModal] = useState({ type: null, id: null });
     const openModal = (type, id = null) => setModal({ type, id });
