@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { getRepGenerateurOne } from '../../../../../services/generateurService';
-import { Card, notification, Tag, Skeleton, Table } from 'antd';
+import { Card, Button, Tooltip, Space, notification, Tag, Skeleton, Table } from 'antd';
 import moment from 'moment';
+import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
+import { EyeOutlined, ToolOutlined, FileTextOutlined, UserOutlined, MoreOutlined } from '@ant-design/icons';
 
 
 const ReparationGeneratDetail = ({idRepgen}) => {
@@ -11,8 +13,12 @@ const ReparationGeneratDetail = ({idRepgen}) => {
         current: 1,
         pageSize: 20,
   });
+  const [modele, setModele] = useState('')
   const scroll = { x: 'max-content' };
 
+  const handleDetails = () => {
+
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -20,6 +26,7 @@ const ReparationGeneratDetail = ({idRepgen}) => {
       try {
         const res = await getRepGenerateurOne(idRepgen)
         setData(res?.data);
+        setModele(res?.data[0].nom_modele)
 
       } catch (error) {
         notification.error({
@@ -34,7 +41,7 @@ const ReparationGeneratDetail = ({idRepgen}) => {
     fetchData()
   }, [idRepgen]);
 
-  const columns = [
+    const columns = [
             {
                 title: '#',
                 dataIndex: 'id',
@@ -69,11 +76,131 @@ const ReparationGeneratDetail = ({idRepgen}) => {
             }
     ]
 
+    const columnsTwo = [
+            {
+                title: '#',
+                dataIndex: 'id',
+                key: 'id',
+                render: (text, record, index) => {
+                const pageSize = pagination.pageSize || 10;
+                const pageIndex = pagination.current || 1;
+                return (pageIndex - 1) * pageSize + index + 1;
+                },
+                width: "4%"
+            },  
+            {   title: 'Déscription', 
+                dataIndex: 'description', 
+                key: 'description', 
+                render: (text) => <div>{text}</div> 
+            },
+            {   title: 'Categorie',
+                dataIndex: 'type_rep',
+                render: (text) => (
+                    <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                        {text}
+                    </Tag>
+                ),
+            },
+            {
+                title: 'Statut',
+                dataIndex: 'nom_evaluation',
+                key: 'nom_evaluation',
+                render: (text) => {
+                  const isEmpty = !text || text.trim() === '';
+                  
+                  if (isEmpty) {
+                    return (
+                        <Tooltip title="Aucun statut n’a été attribué pour cette évaluation.">
+                            <Tag color="default">
+                                Aucun statut
+                            </Tag>
+                        </Tooltip>
+                    );
+                  }
+                  const { color = 'default', icon = null } = evaluationStatusMap[text] || {};
+                  return (
+                    <Tag icon={icon} color={color}>
+                      {text}
+                    </Tag>
+                  );
+                },
+            },              
+            { 
+                title: 'Statut final', 
+                dataIndex: 'nom_type_statut', 
+                key: 'nom_type_statut',
+                render: text => {
+                    const { icon, color } = statutIcons(text);
+                    return (
+                        <Space>
+                            <Tag icon={icon} color={color}>{text}</Tag>
+                        </Space>
+                    );
+                },            
+            },
+            {
+                title: 'Suivi',
+                dataIndex: 'tracking', 
+                key:'tracking',
+                width: '9px',
+                render: (_, record) => (
+                    <>
+                        <Tooltip title="Faire un suivi">
+                            <Button
+                                icon={<EyeOutlined />}
+                                aria-label="Voir les détails"
+                                style={{ color: 'blue' }}
+                            />
+                        </Tooltip>
+                    </>
+                )
+            }
+    ]
+
+    const columnsThree = [
+            {
+                title: '#',
+                dataIndex: 'id',
+                key: 'id',
+                render: (text, record, index) => {
+                const pageSize = pagination.pageSize || 10;
+                const pageIndex = pagination.current || 1;
+                return (pageIndex - 1) * pageSize + index + 1;
+                },
+                width: "4%"
+            },    
+            {   title: 'Taches accomplie', 
+                dataIndex: 'nom_cat_inspection', 
+                key: 'nom_cat_inspection', 
+                render: (text) => 
+                <div> {text}</div>
+            },
+            {   title: 'Piéce', 
+                dataIndex: 'type_rep', 
+                key: 'type_rep', 
+                render: (text) => (
+                    <Tag icon={<ToolOutlined spin />} color='volcano' bordered={false}>
+                        {text}
+                    </Tag>
+                ),
+            },
+            {   title: 'Budget', 
+                dataIndex: 'budget', 
+                key: 'budget', 
+                render: (text) => <div>{text} $</div> 
+            },
+            {   title: 'Effectué par', 
+                dataIndex: 'nom', 
+                key: 'nom', 
+                render: (text) => <Tag icon={<UserOutlined />}  color="blue">{text}</Tag> 
+            }
+    ]
+
   return (
     <>
       <div className="reparation_detail">
         <div className="reparation_detail_title">
-          <h1 className="reparation_detail_h1">SUIVI D'INTERVENTION : </h1>
+          <h1 className="reparation_detail_h1">SUIVI D'INTERVENTION : {modele}</h1>
         </div>
         <Card>
           <div className="reparation_detail_wrapper">
@@ -97,9 +224,38 @@ const ReparationGeneratDetail = ({idRepgen}) => {
             <Card type="inner" title="DETAIL DES REPARATIONS"  className='reparation_detail_card'>
               <div className="reparation_detail_top">
                 <Skeleton loading={loading} active paragraph={false}>
+                  <Table
+                    columns={columnsTwo}
+                    dataSource={data}
+                    onChange={(pagination) => setPagination(pagination)}
+                    pagination={pagination}
+                    rowKey="id"
+                    bordered
+                    size="small"
+                    scroll={scroll}
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                  />
                 </Skeleton>
               </div>
 
+            </Card>
+
+            <Card type="inner" title="DESCRIPTION DU TRAVAIL EFFECTUE"  className='reparation_detail_card'>
+              <div className="reparation_detail_top">
+                <Skeleton loading={loading} active paragraph={false}>
+                  <Table
+                    columns={columnsThree}
+                    dataSource={data}
+                    onChange={(pagination) => setPagination(pagination)}
+                    pagination={pagination}
+                    rowKey="id"
+                    bordered
+                    scroll={scroll}
+                    size="small"
+                    rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+                  />
+                </Skeleton>
+              </div>
             </Card>
 
           </div>
