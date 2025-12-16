@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const ReparationGeneratDetail = () => {
+const ReparationGeneratDetail = ({idRepgen}) => {
+  
+  useEffect(() => {
+    const fetchData = async() => {
+      try {
+        
+      } catch (error) {
+        
+      }
+    }
+  }, []);
+
   return (
-    <div>ReparationGeneratDetail</div>
+    <div>ReparationGeneratDetail {idRepgen}</div>
   )
 }
 
