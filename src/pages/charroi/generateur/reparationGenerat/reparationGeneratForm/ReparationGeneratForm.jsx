@@ -1,16 +1,36 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Col, DatePicker, Form, Modal, Card, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { useReparateurGenForm } from '../hook/useReparateurGenForm';
 import { renderField } from '../../../../../utils/renderFieldSkeleton';
 import { MinusCircleOutlined, PlusCircleOutlined, SendOutlined } from '@ant-design/icons';
+import { useConfirmAction } from '../../composant/pleinGenerateur/formPleinGenerateur/hooks/useConfirmAction';
+import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
+import PropTypes from 'prop-types';
 
 
-const ReparationGeneratForm = ({closeModal, fetchData}) => {
+const ReparationGeneratForm = ({ idRepGen, closeModal, onSaved}) => {
     const [form] = Form.useForm();
-    const { loading, lists } = useReparateurGenForm()
+    const { loading, lists, submitting, handleFinish, doSubmit } = useReparateurGenForm();
+    const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
+
+    useEffect(()=> {
+        form.resetFields();
+    }, [form])
 
     const onFinish = async (values) => {
+        const result = await handleFinish(values);
+        requestConfirm(result, idRepGen ? 'Voulez-vous modifier cet enregistrement ?' : 'Voulez-vous enregistrer cet enregistrement ?' )
+    }
 
+    const onConfirm = async () => {
+        const toSubmit = pending ?? null;
+        if(!toSubmit) return cancel();
+
+        const { payload } = toSubmit;
+        await doSubmit({ payload });
+        cancel();
+        closeModal?.();
+        onSaved?.();
     }
 
     const generateurOptions = useMemo(()=> lists.generateurs.map(v => ({ value: v.id_generateur, label: `${v.nom_marque} / ${v.nom_modele} / ${v.code_groupe}` })), [lists.generateurs]);
@@ -183,8 +203,22 @@ const ReparationGeneratForm = ({closeModal, fetchData}) => {
                 </Form>
             </div>
         </div>
+        <ConfirmModal
+            visible={visible}
+            title={idRepGen ? 'Confirmer la modification' : "Confirmer l'enregistrement"}
+            content={message}
+            onConfirm={onConfirm}
+            onCancel={cancel}
+            loading={submitting}
+        />
     </>
   )
 }
+
+ReparationGeneratForm.propTypes = {
+    idRepGen : PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onSaved: PropTypes.func,
+    closeModal: PropTypes.func,
+};
 
 export default ReparationGeneratForm
