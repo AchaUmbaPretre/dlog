@@ -108,3 +108,12 @@ export const getRapportPleinGenerateur = async (date_debut, date_fin) => {
     }
   });
 };
+
+//Reparation générateur
+export const getRepGenerateur  = async () => {
+  return axios.get(`${DOMAIN}/api/generateur/rep_generateur`);
+};
+
+export const postRepGenerateur = async (data) => {
+  return axios.post(`${DOMAIN}/api/generateur/rep_generateur`, data);
+};
