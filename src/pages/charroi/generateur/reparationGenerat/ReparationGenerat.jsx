@@ -130,7 +130,7 @@ const ReparationGenerat = () => {
         </Modal>
 
         <Modal
-            open={modal.type === "Add"}
+            open={modal.type === "Detail"}
             onCancel={closeAllModals}
             footer={null}
             width={1000}
