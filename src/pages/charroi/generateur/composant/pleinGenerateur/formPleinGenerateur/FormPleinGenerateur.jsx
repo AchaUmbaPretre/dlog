@@ -2,7 +2,6 @@ import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Input, Select, DatePicker, Button, InputNumber, Divider } from 'antd';
 import { FireOutlined, ClearOutlined, SaveOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
 import { useConfirmAction } from './hooks/useConfirmAction';
 import { usePleinGenerateurForm } from './hooks/usePleinGenerateurForm';
 import { renderField } from '../../../../../../utils/renderFieldSkeleton';
