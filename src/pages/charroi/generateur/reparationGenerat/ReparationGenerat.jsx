@@ -26,10 +26,10 @@ const ReparationGenerat = () => {
         "Date Entrée": true,
         "Date Sortie": false,
         "Date rep": false,
-        "Cout" : true,
+        "Coût" : true,
         "Montant" : true,
         "Fournisseur": true,
-        "Crée par" : true
+        "Créé par" : false
     }); 
     const { data, setData, loading, reload, filters, setFilters} = useReparationData(null)
     const [modal, setModal] = useState({ type: null, id: null });

@@ -85,7 +85,11 @@ const ReparationGeneratForm = ({ idRepGen, closeModal, onSaved}) => {
                             </Col>
 
                             <Col xs={24} sm={8}>
-                                <Form.Item label="Date entrée" name="date_entree" rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}>
+                                <Form.Item 
+                                    label="Date entrée" name="date_entree"                                         
+                                    initialValue={moment()}
+                                    rules={[{ required: true, message: 'Veuillez sélectionner une date.' }]}
+                                >
                                     {renderField(isListsLoading, <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} placeholder="Sélectionnez une date" />)}
                                 </Form.Item>
                             </Col>
