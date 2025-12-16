@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutlined, DeleteOutlined, CarOutlined, ExportOutlined, FileExcelOutlined, FileTextOutlined, FilePdfOutlined, ShopOutlined, MenuOutlined, DownOutlined, EyeOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, ClockCircleOutlined, MoreOutlined, PlusCircleOutlined, CalendarOutlined } from '@ant-design/icons';
-import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
+import { Input, Button, Typography, Checkbox, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationGeneratForm from './reparationGeneratForm/ReparationGeneratForm';
 import { getRepGenerateur } from '../../../../services/generateurService';
 import { useReparationData } from './hook/useReparationGenData';
+import { useReparateurGenColumns } from './hook/useReparateurGenColumns';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -16,83 +17,56 @@ const ReparationGenerat = () => {
         pageSize: 15,
     }); 
     const scroll = { x: 'max-content' };
+      const [columnsVisibility, setColumnsVisibility] = useState({
+    "#": true,
+    'Génération' : false,
+    'Modele' : false,
+    'Marque': true,
+    "Type rep.": false,
+    "Date Entrée": true,
+    "Date Sortie": true,
+    "Date rep": false,
+    "Budget" : true,
+    "Fournisseur": false,
+    "Crée par" : false
+  }); 
     const { data, setData, loading, reload, filters, setFilters} = useReparationData(null)
     const [modal, setModal] = useState({ type: null, id: null });
     const openModal = (type, id = null) => setModal({ type, id });
 
     const closeAllModals = () => setModal({ type: null, id: null });
-    const handleAddReparation = () => {
+    
+    const handleDelete = () => {
 
     }
 
-    const columns = [
-        {
-            title:'#',
-            dataIndex: 'id',
-            key: 'id',
-            render: (text, record, index) => {
-              const pageSize = pagination.pageSize || 10;
-              const pageIndex = pagination.current || 1;
-              return (pageIndex - 1) * pageSize + index + 1;
-            }
-        },
-        {
-            title: 'Génération',
-            dataIndex: 'generation',
-            render: (text) => (
-                <div>{text}</div>
-            )
-        },
-        {
-            title: 'Modele',
-            dataIndex: 'nom_modele',
-            render: (text) => (
-                <div>{text}</div>
-            )
-        },
-        {
-            title: 'Marque',
-            dataIndex: 'nom_marque',
-            render: (text) => (
-                <div>{text}</div>
-            )
-        },
-        {
-            title: 'Type rep.',
-            dataIndex: 'type_rep',
-            render: (text) => (
-                <div>{text}</div>
-            )
-        },
-        {
-            title: 'Date Entrée',
-            dataIndex: 'date_entree',
-            render: (text) => {
-                <div>{text}</div>
-            }
-        },
-        {
-            title: 'Date Sortie',
-            dataIndex: 'date_sortie',
-            render: (text) => {
-                <div>{text}</div>
-            }
-        },
-        {
-            title: 'Date rep',
-            dataIndex: 'date_reparation',
-            render: (text) => {
-                <div>{text}</div>
-            }
-        },
-        {
-            title: 'Budget',
-            dataIndex: 'montant',
-            render: (text) => {
-                <div>{text}</div>
-            }
-        }
-    ]
+    const columns = useReparateurGenColumns({
+        pagination,
+        columnsVisibility,
+        onEdit: (id) => openModal('Add', id),
+        onDetail: (id) => openModal('Detail', id),
+        onDelete: handleDelete
+    })
+
+        const columnMenu = (
+            <div style={{ padding: 10, background:'#fff' }}>
+                {Object.keys(columnsVisibility).map((colName) => (
+                    <div key={colName}>
+                    <Checkbox
+                        checked={columnsVisibility[colName]}
+                        onChange={() =>
+                        setColumnsVisibility((prev) => ({
+                            ...prev,
+                            [colName]: !prev[colName],
+                        }))
+                        }
+                    >
+                        {colName}
+                    </Checkbox>
+                    </div>
+                ))}
+            </div>
+        );
 
   return (
     <>
@@ -121,6 +95,12 @@ const ReparationGenerat = () => {
                         >
                             Ajouter
                         </Button>
+
+                        <Dropdown overlay={columnMenu} trigger={["click"]}>
+                            <Button icon={<MenuOutlined />}>
+                                Colonnes <DownOutlined />
+                            </Button>
+                        </Dropdown>
                     </div>
                 </div>
                 <Table
