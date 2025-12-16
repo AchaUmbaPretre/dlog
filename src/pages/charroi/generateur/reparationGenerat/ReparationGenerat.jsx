@@ -3,6 +3,8 @@ import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutline
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationGeneratForm from './reparationGeneratForm/ReparationGeneratForm';
+import { getRepGenerateur } from '../../../../services/generateurService';
+import { useReparationData } from './hook/useReparationGenData';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -13,9 +15,8 @@ const ReparationGenerat = () => {
         current: 1,
         pageSize: 15,
     }); 
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
     const scroll = { x: 'max-content' };
+    const { data, setData, loading, reload, filters, setFilters} = useReparationData(null)
     const [modal, setModal] = useState({ type: null, id: null });
     const openModal = (type, id = null) => setModal({ type, id });
 

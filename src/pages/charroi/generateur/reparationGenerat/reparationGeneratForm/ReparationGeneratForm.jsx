@@ -76,7 +76,7 @@ const ReparationGeneratForm = ({ idRepGen, closeModal, onSaved}) => {
                             </Col>
 
                             <Col xs={24} md={8}>
-                                <Form.Item label="Statut" name="id_statut" rules={[{ required: true, message: 'Veuillez sélectionner un statut.' }]}>
+                                <Form.Item label="Statut" name="id_statut_vehicule" rules={[{ required: true, message: 'Veuillez sélectionner un statut.' }]}>
                                     {renderField(isListsLoading, (
                                         <Select showSearch placeholder="Sélectionnez un statut" options={statusOptions} />
                                     ))
@@ -91,7 +91,7 @@ const ReparationGeneratForm = ({ idRepGen, closeModal, onSaved}) => {
                             </Col>
 
                             <Col xs={24} sm={8}>
-                                <Form.Item label="Date prévue" name="date_prevue">
+                                <Form.Item label="Date prévue" name="date_prevu">
                                     {renderField(isListsLoading, <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} placeholder="Sélectionnez une date" />)}
                                 </Form.Item>
                             </Col>
