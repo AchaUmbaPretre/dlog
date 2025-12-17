@@ -4,6 +4,7 @@ import { Card, Button, Tooltip, Space, notification, Tag, Skeleton, Table, Modal
 import moment from 'moment';
 import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
 import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import ReparationGeneratTracking from './reparationGeneratTracking/ReparationGeneratTracking';
 
 
 const ReparationGeneratDetail = ({idRepgen}) => {
@@ -151,9 +152,10 @@ const ReparationGeneratDetail = ({idRepgen}) => {
                     <>
                         <Tooltip title="Faire un suivi">
                             <Button
-                                icon={<EyeOutlined />}
-                                aria-label="Voir les détails"
-                                style={{ color: 'blue' }}
+                              icon={<EyeOutlined />}
+                              aria-label="Voir les détails"
+                              style={{ color: 'blue' }}
+                              onClick={() => openModal('suivi', record.id_sub_reparations_generateur) }
                             />
                         </Tooltip>
                     </>
@@ -275,7 +277,7 @@ const ReparationGeneratDetail = ({idRepgen}) => {
         centered
         destroyOnClose
       >
-
+        <ReparationGeneratTracking idRep={modal.id} />
       </Modal>
     </>
   )
