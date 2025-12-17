@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Form, Select, notification, Input, Table, Button, Tag, Row, Col, Card, Skeleton } from 'antd';
+import { Form, Select, notification, InputNumber, DatePicker, Input, Table, Button, Tag, Row, Col, Card, Skeleton } from 'antd';
 import { getCat_inspection } from '../../../../../../services/batimentService';
 import { useReparationTracking } from './hook/useReparationTracking';
 import { SendOutlined, ToolOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
@@ -16,7 +16,6 @@ const ReparationGeneratTracking = ({ idRep }) => {
     });
     const [dataEvol, setDataEvol] = useState(1)
     
-
     const columns = [
         {
           title: '#',
@@ -77,6 +76,13 @@ const ReparationGeneratTracking = ({ idRep }) => {
 
     }
 
+    useEffect(() => {
+        const info = form.getFieldValue('info');
+        if (!info || info.length === 0) {
+            form.setFieldsValue({ info: [{}] }); 
+        }
+    }, [form]);
+
     const evaluationOptions = useMemo(() => data?.evaluation?.map(e => ({ value: e.id_evaluation, label: e.nom_evaluation})), [data?.evaluation]);
     const statutOptions = useMemo(() => data?.statut?.map(s => ({ value: s.id_statut_vehicule,label: `${s.nom_statut_vehicule}` })), [data?.statut]);
     const tacheOptions = useMemo(() => data?.tache?.map(t => ({ value: t.id_cat_inspection, label: t.nom_cat_inspection })), [data.tache]);
@@ -106,8 +112,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                         </Skeleton>
                     </div>
                 </Card>
-            </Card>
-            <Form
+                            <Form
                 form={form}
                 layout="vertical"
                 onFinish={onFinish}
@@ -122,7 +127,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                 label="Évaluation"
                                 rules={[{ required: true, message: 'Veuillez sélectionner une option.' }]}
                             >
-                                <Select showSearch placeholder="Sélectionnez un générateur" options={evaluationOptions} />
+                                <Select showSearch placeholder="Sélectionnez une évaluation" onChange={setDataEvol} options={evaluationOptions} />
                             </Form.Item>
                         </Card>
                     </Col>
@@ -133,7 +138,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                 name="id_statut_vehicule"
                                 label="État du véhicule"
                             >
-                                <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={statutOptions} />
+                                <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" options={statutOptions} />
                             </Form.Item>
                         </Card>
                     </Col>
@@ -152,7 +157,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                                     label="Tâche"
                                                     rules={[{ required: true, message: 'Veuillez fournir une tâche.' }]}
                                                 >
-                                                    <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={tacheOptions} />
+                                                    <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" options={tacheOptions} />
                                                 </Form.Item> 
                                             </Col>
 
@@ -162,7 +167,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                                     name={[name, "id_piece"]}
                                                     label="Pièce"
                                                 >
-                                                    <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={pieceOptions} />
+                                                    <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" options={pieceOptions} />
                                                 </Form.Item>
                                             </Col>
 
@@ -172,7 +177,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                                     name={[name, "budget"]}
                                                     label="Budget"
                                                 >
-
+                                                    <InputNumber min={0} placeholder="20" style={{ width: '100%' }} />
                                                 </Form.Item>
                                             </Col>
 
@@ -202,16 +207,73 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                         Ajouter
                                     </Button>
                                 </Form.Item>
+                                <div style={{ marginTop: '20px' }}>
+                                    <Button size="large" type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading}>
+                                        Soumettre
+                                    </Button>
+                                </div>
                             </>
                         )
 
                         }
                     </Form.List>
-                )
+                )}
+                {dataEvol !== 1 && (
+                    <Card style={{ marginTop: 10 }}>
+                        <Row gutter={12}>
+                            <Col xs={24} md={12}>
+                                <Form.Item name="intitule" label="Intitulé">
+                                    <Input placeholder="Saisir le titre..." />
+                                </Form.Item>
+                            </Col>
 
-                }
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="date_debut"
+                                    label="Date début"
+                                    rules={[{ required: true, message: 'Veuillez fournir une date.' }]}
+                                    initialValue={moment()}
+                                >
+                                    <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item
+                                    name="date_fin"
+                                    label="Date fin"
+                                    rules={[{ required: false, message: 'Veuillez fournir une date.' }]}
+                                >
+                                    <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={12}>
+                                <Form.Item
+                                    name="montant"
+                                    label="Coût"
+                                    rules={[{ required: true, message: 'Veuillez fournir un coût.' }]}
+                                >
+                                    <InputNumber min={0} placeholder="Saisir le coût..." style={{ width: '100%' }} />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item name="description" label="Description">
+                                            <Input.TextArea placeholder="Saisir la description..." style={{ width: '100%', resize: 'none', height: '40px' }} />
+                                </Form.Item>
+                            </Col>
+
+                            <Col xs={24} md={12}>
+                                <Form.Item name="raison_fin" label="Motif">
+                                    <Input.TextArea placeholder="Saisir le motif..." style={{ width: '100%', resize: 'none', height: '40px' }} />
+                                </Form.Item>
+                            </Col>
+                        </Row> 
+                    </Card>     
+                )}
             </Form>
-
+            </Card>
         </div>
     </>
   );
