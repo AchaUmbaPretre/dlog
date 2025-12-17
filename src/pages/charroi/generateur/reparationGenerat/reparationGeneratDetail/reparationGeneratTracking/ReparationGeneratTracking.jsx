@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Form, Select, notification, Table, Tag, Row, Col, Card, Skeleton } from 'antd';
+import { Form, Select, notification, Input, Table, Button, Tag, Row, Col, Card, Skeleton } from 'antd';
 import { getCat_inspection } from '../../../../../../services/batimentService';
 import { useReparationTracking } from './hook/useReparationTracking';
 import { SendOutlined, ToolOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
@@ -8,13 +8,13 @@ import moment from 'moment';
 
 
 const ReparationGeneratTracking = ({ idRep }) => {
-  const [form] = Form.useForm();
-  const { data, loading, refresh } = useReparationTracking({idRep})
-  const [pagination, setPagination] = useState({
+    const [form] = Form.useForm();
+    const { data, loading, refresh } = useReparationTracking({idRep})
+    const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
     });
-   const [dataEvol, setDataEvol] = useState(1)
+    const [dataEvol, setDataEvol] = useState(1)
     
 
     const columns = [
@@ -165,12 +165,43 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                                     <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={pieceOptions} />
                                                 </Form.Item>
                                             </Col>
+
                                             <Col xs={24} md={8}>
-                                                
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, "budget"]}
+                                                    label="Budget"
+                                                >
+
+                                                </Form.Item>
+                                            </Col>
+
+                                            <Col xs={24}>
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, "commentaire"]}
+                                                    label="Commentaire"
+                                                >
+                                                    <Input.TextArea placeholder="Saisir un commentaire..." style={{ width: '100%', resize: 'none', height: '70px' }} />
+                                                </Form.Item>
+                                            </Col>
+
+                                            <Col>
+                                                <Button type="text" danger icon={<MinusCircleOutlined />} onClick={() => remove(name)} />
                                             </Col>
                                         </Row>
                                     </Card>
                                 ))}
+                                <Form.Item>
+                                    <Button
+                                        type="dashed"
+                                        onClick={() => add()}
+                                        icon={<PlusCircleOutlined />}
+                                        style={{ width: '100%' }}
+                                    >
+                                        Ajouter
+                                    </Button>
+                                </Form.Item>
                             </>
                         )
 
