@@ -15,7 +15,8 @@ const ReparationGeneratTracking = ({ idRep }) => {
         pageSize: 20,
     });
     const [dataEvol, setDataEvol] = useState(1)
-    
+    const [num, setNum] = useState([]);
+
     const columns = [
         {
           title: '#',
@@ -92,7 +93,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
     <>
         <div className="suivi_reparation_form">
             <div className="reparation_detail_title">
-                <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N°</h1>
+                <h1 className="reparation_detail_h1">SUIVI INTERVENTION BON N° {data.detail[0]?.id_sub_reparations_generateur}</h1>
             </div>
             <Card className="suivi_reparation_wrapper">
                 <Card type="inner" title="INFORMATIONS GENERALES">
@@ -112,13 +113,13 @@ const ReparationGeneratTracking = ({ idRep }) => {
                         </Skeleton>
                     </div>
                 </Card>
-                            <Form
-                form={form}
-                layout="vertical"
-                onFinish={onFinish}
-                autoComplete="off"
-                className="custom-form"
-            >
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={onFinish}
+                    autoComplete="off"
+                    className="custom-form"
+                >
                 <Row gutter={24}>
                     <Col span={12}>
                         <Card style={{ marginTop: 10 }}>
