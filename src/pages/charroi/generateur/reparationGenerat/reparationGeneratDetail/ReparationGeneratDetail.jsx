@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getRepGenerateurOne } from '../../../../../services/generateurService';
-import { Card, Button, Tooltip, Space, notification, Tag, Skeleton, Table } from 'antd';
+import { Card, Button, Tooltip, Space, notification, Tag, Skeleton, Table, Modal } from 'antd';
 import moment from 'moment';
 import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
 import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
@@ -15,33 +15,35 @@ const ReparationGeneratDetail = ({idRepgen}) => {
   });
   const [modele, setModele] = useState('');
   const [details, setDetails] = useState('');
+  const [desc , setDesc] = useState('');
   const scroll = { x: 'max-content' };
+  const [modal, setModal] = useState({ type: null, id: null });
 
-  const handleDetails = () => {
+    const openModal = (type, id = null) => setModal({ type, id });
+    const closeAllModals = () => setModal({ type: null, id: null });
 
-  }
+    useEffect(() => {
+      setLoading(true)
+      const fetchData = async() => {
+        try {
+          const res = await getRepGenerateurOne(idRepgen)
+          setData(res?.data?.sqlInfo);
+          setDetails(res?.data?.sqlDetail);
+          setDesc(res?.data?.sqlDesc);
+          setModele(res?.data[0].nom_modele)
 
-  useEffect(() => {
-    setLoading(true)
-    const fetchData = async() => {
-      try {
-        const res = await getRepGenerateurOne(idRepgen)
-        setData(res?.data?.sqlInfo);
-        setDetails(res?.data?.sqlDetail)
-        setModele(res?.data[0].nom_modele)
-
-      } catch (error) {
-        notification.error({
-          message : "Erreur de changement",
-          description : "Impossible de récupérer les données des réparations",
-          placement: "topRight"
-        })
-      } finally {
-        setLoading(false)
+        } catch (error) {
+          notification.error({
+            message : "Erreur de changement",
+            description : "Impossible de récupérer les données des réparations",
+            placement: "topRight"
+          })
+        } finally {
+          setLoading(false)
+        }
       }
-    }
-    fetchData()
-  }, [idRepgen]);
+      fetchData()
+    }, [idRepgen]);
 
     const columns = [
             {
@@ -247,7 +249,7 @@ const ReparationGeneratDetail = ({idRepgen}) => {
                 <Skeleton loading={loading} active paragraph={false}>
                   <Table
                     columns={columnsThree}
-                    dataSource={data}
+                    dataSource={desc}
                     onChange={(pagination) => setPagination(pagination)}
                     pagination={pagination}
                     rowKey="id"
@@ -265,6 +267,16 @@ const ReparationGeneratDetail = ({idRepgen}) => {
         </Card>
 
       </div>
+      <Modal
+        open={modal.type === "suivi"}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1020}
+        centered
+        destroyOnClose
+      >
+
+      </Modal>
     </>
   )
 }
