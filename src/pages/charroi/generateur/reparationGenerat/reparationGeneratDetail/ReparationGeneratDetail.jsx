@@ -30,7 +30,7 @@ const ReparationGeneratDetail = ({idRepgen}) => {
           setData(res?.data?.sqlInfo);
           setDetails(res?.data?.sqlDetail);
           setDesc(res?.data?.sqlDesc);
-          setModele(res?.data[0].nom_modele)
+          setModele(res?.data.sqlInfo[0].nom_modele)
 
         } catch (error) {
           notification.error({
