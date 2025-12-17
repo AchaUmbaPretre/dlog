@@ -125,3 +125,12 @@ export const getRepGenerateurOne  = async (id) => {
 export const postRepGenerateur = async (data) => {
   return axios.post(`${DOMAIN}/api/generateur/rep_generateur`, data);
 };
+
+//Sous reparation generation
+export const getRepSousGeneById  = async (id) => {
+  return axios.get(`${DOMAIN}/api/generateur/sous_rep_genById`, {
+    params: {
+      id_sub_reparations_generateur : id
+    }
+  });
+};
