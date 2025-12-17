@@ -3,7 +3,7 @@ import { getRepGenerateurOne } from '../../../../../services/generateurService';
 import { Card, Button, Tooltip, Space, notification, Tag, Skeleton, Table } from 'antd';
 import moment from 'moment';
 import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteIcons';
-import { EyeOutlined, ToolOutlined, FileTextOutlined, UserOutlined, MoreOutlined } from '@ant-design/icons';
+import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
 
 
 const ReparationGeneratDetail = ({idRepgen}) => {
@@ -13,7 +13,8 @@ const ReparationGeneratDetail = ({idRepgen}) => {
         current: 1,
         pageSize: 20,
   });
-  const [modele, setModele] = useState('')
+  const [modele, setModele] = useState('');
+  const [details, setDetails] = useState('');
   const scroll = { x: 'max-content' };
 
   const handleDetails = () => {
@@ -25,7 +26,8 @@ const ReparationGeneratDetail = ({idRepgen}) => {
     const fetchData = async() => {
       try {
         const res = await getRepGenerateurOne(idRepgen)
-        setData(res?.data);
+        setData(res?.data?.sqlInfo);
+        setDetails(res?.data?.sqlDetail)
         setModele(res?.data[0].nom_modele)
 
       } catch (error) {
@@ -226,7 +228,7 @@ const ReparationGeneratDetail = ({idRepgen}) => {
                 <Skeleton loading={loading} active paragraph={false}>
                   <Table
                     columns={columnsTwo}
-                    dataSource={data}
+                    dataSource={details}
                     onChange={(pagination) => setPagination(pagination)}
                     pagination={pagination}
                     rowKey="id"
