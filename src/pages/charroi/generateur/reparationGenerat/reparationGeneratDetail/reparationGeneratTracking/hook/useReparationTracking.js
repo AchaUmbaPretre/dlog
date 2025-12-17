@@ -19,12 +19,14 @@ const initialState = {
   piece: [],
   statut: [],
   reparation: [],
-  detail: null
+  detail: []
 };
 
-export const useReparationTracking = ({ idRep }) => {
+export const useReparationTracking = ({idRep}) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(initialState);
+
+  console.log(idRep)
 
   const fetchAll = useCallback(async () => {
     let isMounted = true;
@@ -45,11 +47,17 @@ export const useReparationTracking = ({ idRep }) => {
         getStatutVehicule()
       ]);
 
-      let detail = null;
+      let detail = [];
       if (idRep) {
         const res = await getRepSousGeneById(idRep);
-        detail = res?.data ?? null;
+
+        if (Array.isArray(res?.data)) {
+            detail = res.data;
+        } else if (res?.data) {
+            detail = [res.data];
+        }
       }
+
 
       if (isMounted) {
         setData({

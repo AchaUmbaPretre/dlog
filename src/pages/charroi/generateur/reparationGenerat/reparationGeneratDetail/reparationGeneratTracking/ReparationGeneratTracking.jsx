@@ -9,12 +9,13 @@ import moment from 'moment';
 
 const ReparationGeneratTracking = ({ idRep }) => {
   const [form] = Form.useForm();
-  const { data, loading, refresh } = useReparationTracking(idRep)
+  const { data, loading, refresh } = useReparationTracking({idRep})
   const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 20,
     });
-      const columns = [
+
+    const columns = [
         {
           title: '#',
           dataIndex: 'id',
@@ -82,7 +83,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                         <Skeleton loading={loading} active paragraph={false}>
                             <Table
                                 columns={columns}
-                                dataSource={data}
+                                dataSource={data.detail}
                                 onChange={(pagination) => setPagination(pagination)}
                                 pagination={pagination}
                                 rowKey="id"
