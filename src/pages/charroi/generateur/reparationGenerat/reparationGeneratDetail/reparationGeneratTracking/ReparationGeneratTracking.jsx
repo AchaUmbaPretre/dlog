@@ -75,7 +75,9 @@ const ReparationGeneratTracking = ({ idRep }) => {
 
     }
 
-    const evaluationOptions = useMemo(() => data?.evaluation?.map(e => ({ value: e.id_evaluation, label: e.nom_evaluation})), [data.evaluation])
+    const evaluationOptions = useMemo(() => data?.evaluation?.map(e => ({ value: e.id_evaluation, label: e.nom_evaluation})), [data?.evaluation]);
+    const statutOptions = useMemo(() => data?.statut?.map(s => ({ value: s.id_statut_vehicule,label: `${s.nom_statut_vehicule}` })), [data?.statut])
+
   return (
     <>
         <div className="suivi_reparation_form">
@@ -127,7 +129,7 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                 name="id_statut_vehicule"
                                 label="État du véhicule"
                             >
-
+                                <Select showSearch placeholder="Sélectionnez un générateur" options={statutOptions} />
                             </Form.Item>
                         </Card>
                     </Col>
