@@ -14,6 +14,8 @@ const ReparationGeneratTracking = ({ idRep }) => {
         current: 1,
         pageSize: 20,
     });
+   const [dataEvol, setDataEvol] = useState(1)
+    
 
     const columns = [
         {
@@ -76,7 +78,9 @@ const ReparationGeneratTracking = ({ idRep }) => {
     }
 
     const evaluationOptions = useMemo(() => data?.evaluation?.map(e => ({ value: e.id_evaluation, label: e.nom_evaluation})), [data?.evaluation]);
-    const statutOptions = useMemo(() => data?.statut?.map(s => ({ value: s.id_statut_vehicule,label: `${s.nom_statut_vehicule}` })), [data?.statut])
+    const statutOptions = useMemo(() => data?.statut?.map(s => ({ value: s.id_statut_vehicule,label: `${s.nom_statut_vehicule}` })), [data?.statut]);
+    const tacheOptions = useMemo(() => data?.tache?.map(t => ({ value: t.id_cat_inspection, label: t.nom_cat_inspection })), [data.tache]);
+    const pieceOptions = useMemo(() => data?.piece?.map(p => ({ value: p.id, label: p.nom })), [data?.piece])
 
   return (
     <>
@@ -129,11 +133,52 @@ const ReparationGeneratTracking = ({ idRep }) => {
                                 name="id_statut_vehicule"
                                 label="État du véhicule"
                             >
-                                <Select showSearch placeholder="Sélectionnez un générateur" options={statutOptions} />
+                                <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={statutOptions} />
                             </Form.Item>
                         </Card>
                     </Col>
                 </Row>
+                {dataEvol === 1 && (
+                    <Form.List name="info">
+                        {(fields, { add, remove}) => (
+                            <>
+                                {fields.map(({ key, name, ...restField }) => (
+                                    <Card key={key} style={{ margin: '10px 0' }}>
+                                        <Row gutter={12}>
+                                            <Col xs={24} md={8}>
+                                            <Form.Item
+                                                    {...restField}
+                                                    name={[name, "id_tache_rep"]}
+                                                    label="Tâche"
+                                                    rules={[{ required: true, message: 'Veuillez fournir une tâche.' }]}
+                                                >
+                                                    <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={tacheOptions} />
+                                                </Form.Item> 
+                                            </Col>
+
+                                            <Col xs={24} md={7}>
+                                                <Form.Item
+                                                    {...restField}
+                                                    name={[name, "id_piece"]}
+                                                    label="Pièce"
+                                                >
+                                                    <Select allowClear showSearch placeholder="Sélectionnez un générateur" optionFilterProp="label" onChange={setDataEvol} options={pieceOptions} />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col xs={24} md={8}>
+                                                
+                                            </Col>
+                                        </Row>
+                                    </Card>
+                                ))}
+                            </>
+                        )
+
+                        }
+                    </Form.List>
+                )
+
+                }
             </Form>
 
         </div>
