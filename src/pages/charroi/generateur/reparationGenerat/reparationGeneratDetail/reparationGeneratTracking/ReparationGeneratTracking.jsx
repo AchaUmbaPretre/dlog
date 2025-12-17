@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Form, notification, Table, Tag, Card, Skeleton } from 'antd';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { Form, Select, notification, Table, Tag, Row, Col, Card, Skeleton } from 'antd';
 import { getCat_inspection } from '../../../../../../services/batimentService';
 import { useReparationTracking } from './hook/useReparationTracking';
 import { SendOutlined, ToolOutlined, CalendarOutlined,DollarOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
@@ -70,7 +70,12 @@ const ReparationGeneratTracking = ({ idRep }) => {
           render: (text) => <Tag color="green">{text} $</Tag>
         }
       ]; 
+    
+    const onFinish = async (values) => {
 
+    }
+
+    const evaluationOptions = useMemo(() => data?.evaluation?.map(e => ({ value: e.id_evaluation, label: e.nom_evaluation})), [data.evaluation])
   return (
     <>
         <div className="suivi_reparation_form">
@@ -96,6 +101,38 @@ const ReparationGeneratTracking = ({ idRep }) => {
                     </div>
                 </Card>
             </Card>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={onFinish}
+                autoComplete="off"
+                className="custom-form"
+            >
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <Card style={{ marginTop: 10 }}>
+                            <Form.Item
+                                name="id_evaluation"
+                                label="Évaluation"
+                                rules={[{ required: true, message: 'Veuillez sélectionner une option.' }]}
+                            >
+                                <Select showSearch placeholder="Sélectionnez un générateur" options={evaluationOptions} />
+                            </Form.Item>
+                        </Card>
+                    </Col>
+
+                    <Col span={12}>
+                        <Card style={{ marginTop: 10 }}>
+                            <Form.Item
+                                name="id_statut_vehicule"
+                                label="État du véhicule"
+                            >
+
+                            </Form.Item>
+                        </Card>
+                    </Col>
+                </Row>
+            </Form>
 
         </div>
     </>
