@@ -9,6 +9,7 @@ import {
 import { Input, Button, Checkbox, Empty, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import { useInspectionGeneratColumns } from './hook/useInspectionGeneratColumns';
 import { useInspectionGeneratData } from './hook/useInspectionGeneratData';
+import FormInspectionGenerateur from './formInspectionGenerateur/FormInspectionGenerateur';
 
 
 const { Text } = Typography;
@@ -116,7 +117,7 @@ const InspectionGenerateur = () => {
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
-                            onClick={handleAddInspection}
+                            onClick={()=> openModal('Add')}
                         >
                             Ajouter
                         </Button>
@@ -150,6 +151,18 @@ const InspectionGenerateur = () => {
                 />
             </div>
         </div>
+
+        <Modal
+          title=""
+          visible={modal.type === 'Add'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+          <FormInspectionGenerateur />
+        </Modal>
+
     </>
   )
 }
