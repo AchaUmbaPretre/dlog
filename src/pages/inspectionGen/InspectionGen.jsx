@@ -884,7 +884,7 @@ const InspectionGen = () => {
                               </div>
                           )}
                         </div>
-                      </div>
+                    </div>
                       }
                   </div>
                     <div className="client-actions">

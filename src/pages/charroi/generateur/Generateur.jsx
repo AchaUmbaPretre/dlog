@@ -12,6 +12,7 @@ import ListTypeGenerateur from './TypeGenerateur/ListTypeGenerateur';
 import PleinGenerateur from './composant/pleinGenerateur/PleinGenerateur';
 import RapportGenerateur from './composant/rapportGenerateur/RapportGenerateur';
 import ReparationGenerat from './reparationGenerat/ReparationGenerat';
+import InspectionGenerateur from './inspectionGenerateur/InspectionGenerateur';
 
 const tabConfig = [
   {
@@ -40,6 +41,12 @@ const tabConfig = [
   },
   {
     key: '5',
+    label: 'Inspection',
+    icon: <ToolOutlined />,
+    component: <InspectionGenerateur />
+  },
+  {
+    key: '6',
     label: 'Réparation',
     icon: <ToolOutlined />,
     component: <ReparationGenerat />
