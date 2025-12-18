@@ -109,6 +109,16 @@ export const getRapportPleinGenerateur = async (date_debut, date_fin) => {
   });
 };
 
+//Inspection générateur
+export const getInspectGenerateur  = async () => {
+  return axios.get(`${DOMAIN}/api/generateur/inspect_generateur`);
+};
+
+export const postInspectGenerateur = async (data) => {
+  return axios.post(`${DOMAIN}/api/generateur/inspect_generateur`, data);
+};
+
+
 //Reparation générateur
 export const getRepGenerateur  = async () => {
   return axios.get(`${DOMAIN}/api/generateur/rep_generateur`);

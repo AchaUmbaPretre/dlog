@@ -2,8 +2,23 @@ import { useMemo } from "react"
 import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import moment from "moment";
 import { formatNumber } from "../../../../../utils/formatNumber";
-import { statusIcons } from "../../../../../utils/prioriteIcons";
+import { getInspectionIcon, statusIcons } from "../../../../../utils/prioriteIcons";
+import { FileSearchOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
+  const columnStyles = {
+        title: {
+          maxWidth: '220px',
+          whiteSpace: 'nowrap',
+          overflowX: 'scroll', 
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none', 
+        },
+        hideScroll: {
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+  };
 
 export const useInspectionGeneratColumns = ({
   pagination,
@@ -203,8 +218,11 @@ export const useInspectionGeneratColumns = ({
                         </Tooltip>
 
                     </Space>
-                )
-            }
-        ]
-    })
+                ),
+            },
+        ];
+
+    // filter by visibility map (keys are column titles created by caller)
+    return allColumns.filter((col) => columnsVisibility[col.title] !== false);
+    }, [pagination, columnsVisibility, onEdit, onDetail, onDelete])
 }
