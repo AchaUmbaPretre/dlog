@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import {
   ThunderboltOutlined,
-  DatabaseOutlined,
-  AppstoreOutlined,
+  DownOutlined,
+  MenuOutlined,
   PlusCircleOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
-import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { Input, Button, Checkbox, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 
 
 const { Text } = Typography;
@@ -18,7 +18,40 @@ const InspectionGenerateur = () => {
         current: 1,
         pageSize: 15,
     });
+    const [columnsVisibility, setColumnsVisibility] = useState({
+        '#': true,
+        'Code' : true,
+        'Marque': true,
+        'Date inspection': true,
+        'Date réparation' : false,
+        'type_rep': true,
+        "Cat inspection" : true,
+        "Avis d expert": false,
+        "Montant": true,
+        'Statut vehicule': true,
+        'Date validation':true,
+        'Statut': true,
+        'Type rep': true,
+        'Budget_valide' : true,
+    });
     const scroll = { x: 'max-content' };
+
+    const columnMenu = (
+        <div style={{ padding: 10, background: "#fff" }}>
+        {Object.keys(columnsVisibility).map((colName) => (
+            <div key={colName}>
+            <Checkbox
+                checked={columnsVisibility[colName]}
+                onChange={() =>
+                setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
+                }
+            >
+                {colName}
+            </Checkbox>
+            </div>
+        ))}
+        </div>
+    );
 
     const handleAddInspection = () => {
 
@@ -52,6 +85,12 @@ const InspectionGenerateur = () => {
                         >
                             Ajouter
                         </Button>
+
+                        <Dropdown overlay={columnMenu} trigger={["click"]}>
+                            <Button icon={<MenuOutlined />}>
+                                Colonnes <DownOutlined />
+                            </Button>
+                        </Dropdown>
                     </div>
                 </div>
             </div>

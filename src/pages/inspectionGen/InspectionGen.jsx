@@ -697,7 +697,7 @@ const InspectionGen = () => {
             if (!text) {
               return (
                 <Tag icon={<CalendarOutlined />} color="red">
-                      Aucune date
+                  Aucune date
                 </Tag>
               );
             }
@@ -884,7 +884,7 @@ const InspectionGen = () => {
                               </div>
                           )}
                         </div>
-                    </div>
+                      </div>
                       }
                   </div>
                     <div className="client-actions">
