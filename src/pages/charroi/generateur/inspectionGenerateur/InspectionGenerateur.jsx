@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Input, Button, Checkbox, Empty, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
 import { useInspectionGeneratColumns } from './hook/useInspectionGeneratColumns';
+import { useInspectionGeneratData } from './hook/useInspectionGeneratData';
 
 
 const { Text } = Typography;
@@ -37,6 +38,7 @@ const InspectionGenerateur = () => {
     });
     const scroll = { x: 'max-content' };
     const [modal, setModal] = useState({ type: null, id: null });
+    const { data, loading, reload, filters, setFilters } = useInspectionGeneratData(null)
 
     const openModal = (type, id = null) => setModal({ type, id });
     const closeAllModals = () => setModal({ type: null, id: null });

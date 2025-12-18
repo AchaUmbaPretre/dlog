@@ -1,7 +1,9 @@
-import { use, useCallback } from "react";
+import { use, useCallback, useEffect } from "react";
 import { useState } from "react";
+import { getInspectGenerateur } from "../../../../../services/generateurService";
+import { notification } from "antd";
 
-const useInspectionGeneratData = (initialFilters = null) => {
+export const useInspectionGeneratData = (initialFilters = null) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(initialFilters);
@@ -12,10 +14,32 @@ const useInspectionGeneratData = (initialFilters = null) => {
         setLoading(true);
 
         try {
-            
+            const res = await getInspectGenerateur(effective);
+            setData(res?.data || []);
+
         } catch (error) {
-            
+            notification.error({
+                message: "Erreur de chargement",
+                description: "Impossible de récupérer les données carburant.",
+                placement: "topRight",
+            });
+        } finally {
+            setLoading(false);
         }
-    }
-  )
+    },
+    [filters]
+  );
+
+    useEffect(() => {
+      load();
+    }, [load]);
+
+    return {
+        data,
+        setData,
+        loading,
+        reload: load,
+        filters,
+        setFilters
+    };
 }
