@@ -1,9 +1,9 @@
 import React from 'react'
 
-const inspectionGenerateurValider = () => {
+const InspectionGenerateurValider = () => {
   return (
     <div>inspectionGenerateurValider</div>
   )
 }
 
-export default inspectionGenerateurValider
+export default InspectionGenerateurValider

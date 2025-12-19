@@ -10,7 +10,7 @@ import { useInspectionGeneratColumns } from './hook/useInspectionGeneratColumns'
 import { useInspectionGeneratData } from './hook/useInspectionGeneratData';
 import FormInspectionGenerateur from './formInspectionGenerateur/FormInspectionGenerateur';
 import InspectionGeneDetail from './inspectionGeneDetail/InspectionGeneDetail';
-
+import InspectionGenerateurValider from './inspectionGenerateurValider/InspectionGenerateurValider';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -169,7 +169,7 @@ const InspectionGenerateur = () => {
           width={1000}
           centered
         >
-            <InspectionGeneDetail closeModal={closeAllModals} />
+            <InspectionGenerateurValider closeModal={closeAllModals} />
         </Modal>
 
     </>
