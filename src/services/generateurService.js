@@ -118,6 +118,31 @@ export const postInspectGenerateur = async (data) => {
   return axios.post(`${DOMAIN}/api/generateur/inspect_generateur`, data);
 };
 
+//Sous Inspection générateur
+export const getInspectGenerateurById  = async (id) => {
+  return axios.get(`${DOMAIN}/api/generateur/sous_inspect_generateurById`,{
+    params: {
+      id_inspection_generateur: id
+    }
+  });
+};
+
+//Validation inspection générateur
+export const getInspectionGenerateurValide = async (id) => {
+    return axios.get(`${DOMAIN}/api/generateur/inspection_validation`, {
+      params: {
+        id_sub_inspection_generateur : id
+      }
+    });
+}
+
+export const postInspectionGenerateurValide= async (data) => {
+    return axios.post(`${DOMAIN}/api/generateur/inspection_validation`, data );
+}
+
+export const putInspectionGenerateurValide= async (data) => {
+    return axios.put(`${DOMAIN}/api/generateur/inspection_validation_put`, data );
+}
 
 //Reparation générateur
 export const getRepGenerateur  = async () => {
