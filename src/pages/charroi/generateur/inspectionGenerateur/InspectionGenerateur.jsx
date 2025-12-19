@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import {
-  ThunderboltOutlined,
   DownOutlined,
   MenuOutlined,
   PlusCircleOutlined,
@@ -23,18 +22,19 @@ const InspectionGenerateur = () => {
     });
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
-        'Code' : true,
+        'Modèle': true,
         'Marque': true,
-        'Date inspection': true,
-        'Date réparation' : false,
-        'type_rep': true,
-        "Cat inspection" : true,
-        "Avis d expert": false,
-        "Montant": true,
+        'Date': true,
+        'Date rep.' : false,
+        'Date validation.' : false,
+        'Type de rep.': true,
+        "Cat inspect." : true,
+        "Avis d'expert": false,
+        "Commentaire": false,
+        "Budget": true,
+        "#Validé": true,
         'Statut vehicule': true,
-        'Date validation':true,
         'Statut': true,
-        'Type rep': true,
         'Budget_valide' : true,
     });
     const scroll = { x: 'max-content' };
