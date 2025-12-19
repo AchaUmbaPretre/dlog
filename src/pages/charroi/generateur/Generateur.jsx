@@ -36,21 +36,21 @@ const tabConfig = [
   },
   {
     key: '4',
-    label: 'Les types',
-    icon: <AppstoreOutlined />,
-    component: <ListTypeGenerateur />
-  },
-  {
-    key: '5',
     label: 'Inspections',
     icon: <FileSearchOutlined />,
     component: <InspectionGenerateur />
   },
   {
-    key: '6',
+    key: '5',
     label: 'Réparations',
     icon: <ToolOutlined />,
     component: <ReparationGenerat />
+  },
+  {
+    key: '6',
+    label: 'Les types',
+    icon: <AppstoreOutlined />,
+    component: <ListTypeGenerateur />
   }
 ];
 
