@@ -166,10 +166,10 @@ const InspectionGenerateur = () => {
           visible={modal.type === 'detail'}
           onCancel={closeAllModals}
           footer={null}
-          width={1000}
+          width={1050}
           centered
         >
-            <InspectionGeneDetail closeModal={closeAllModals} />
+            <InspectionGeneDetail closeModal={closeAllModals} inspectionId={modal.id} />
         </Modal>
 
         <Modal
