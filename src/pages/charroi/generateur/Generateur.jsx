@@ -4,7 +4,8 @@ import {
   ThunderboltOutlined,
   DatabaseOutlined,
   AppstoreOutlined,
-  ToolOutlined
+  ToolOutlined,
+  FileSearchOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import ListGenerateur from './listGenerateur/ListGenerateur';
@@ -42,7 +43,7 @@ const tabConfig = [
   {
     key: '5',
     label: 'Inspection',
-    icon: <ToolOutlined />,
+    icon: <FileSearchOutlined />,
     component: <InspectionGenerateur />
   },
   {
