@@ -42,13 +42,13 @@ const tabConfig = [
   },
   {
     key: '5',
-    label: 'Inspection',
+    label: 'Inspections',
     icon: <FileSearchOutlined />,
     component: <InspectionGenerateur />
   },
   {
     key: '6',
-    label: 'Réparation',
+    label: 'Réparations',
     icon: <ToolOutlined />,
     component: <ReparationGenerat />
   }
