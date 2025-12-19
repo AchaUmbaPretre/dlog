@@ -95,28 +95,6 @@ const InspectionGenDetail = ({ inspectionId }) => {
         }
     }, [data, idInspections, inspectionId]);
 
-/*     const getActionMenu = (record, openModal) => {
-        const handleClick = ({ key }) => {
-    
-          switch (key) {
-            case 'validerInspection':
-              handleValider(openModal, idInspections)
-              break;
-            default:
-              break;
-            }
-            };
-          
-            return (
-              <Menu onClick={handleClick}>
-                <Menu.Item key="validerInspection">
-                    <PlusOutlined style={{ color: 'orange' }} /> Valider
-                </Menu.Item>
-                <Menu.Divider />
-              </Menu>
-            );
-    }; */
-
     const getActionMenu = (record, openModal) => {
         const handleClick = ({ key }) => {
 

@@ -1,8 +1,21 @@
-import React from 'react'
+import { useCallback, useEffect, useState } from 'react';
+import { Card, Menu, Dropdown, Modal, notification, Button, Tooltip, Tag, Image, Divider } from 'antd';
 
-const InspectionGeneDetail = () => {
+
+const InspectionGeneDetail = ({ inspectionId }) => {
+    const [datas, setDatas] = useState([]);
+    const [loading, setLoading] = useState(false);
+
   return (
-    <div>InspectionGeneDetail</div>
+    <>
+        <div className="inspectionGenDetail">
+            <Card loading={loading} className="rows">
+               <div className="inspectionGen_wrapper">
+                
+               </div> 
+            </Card>
+        </div>
+    </>
   )
 }
 

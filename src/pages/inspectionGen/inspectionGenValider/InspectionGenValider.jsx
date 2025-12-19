@@ -137,7 +137,7 @@ const InspectionGenValider = ({ closeModal, inspectionId, modelTypes }) => {
                       [record.id_sub_inspection_gen]: value
                     }));
                   }}
-                  style={{ width: '100%', border:'none', border:'1px solid #f2f2f2a8', outline:'none', padding:'5px 9px' }}
+                  style={{ width: '100%', border:'1px solid #f2f2f2a8', outline:'none', padding:'5px 9px' }}
                   placeholder="Saisir le budget validé"
                 />
               )
