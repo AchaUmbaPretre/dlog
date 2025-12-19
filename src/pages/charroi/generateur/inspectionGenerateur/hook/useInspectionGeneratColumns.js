@@ -68,8 +68,18 @@ export const useInspectionGeneratColumns = ({
                         </>
                     }
                 >
-
+                    <Menu.Item key="DetailSuivi">
+                        <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+                    </Menu.Item>
+                    <Menu.Item key="ajouterSuivi">
+                        <PlusOutlined style={{ color: 'orange' }} /> Ajouter
+                    </Menu.Item>
                 </Menu.SubMenu>
+                <Menu.Divider />
+                <Menu.Item key="reparer">
+                    <ToolOutlined style={{ color: 'orange' }} /> Réparer
+                </Menu.Item>
+
             </Menu>
         )
     };
