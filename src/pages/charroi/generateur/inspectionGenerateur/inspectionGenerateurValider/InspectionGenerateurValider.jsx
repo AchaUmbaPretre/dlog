@@ -14,7 +14,6 @@ const InspectionGenerateurValider = ({ closeModal, inspectionId, modelTypes }) =
   const [budgetValide, setBudgetValide] = useState({});
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-
     const fetchDatas = async() => {
         try {
             const { data } = await getInspectGenerateurById(inspectionId);

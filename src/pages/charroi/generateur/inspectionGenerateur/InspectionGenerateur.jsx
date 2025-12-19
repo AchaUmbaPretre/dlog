@@ -158,7 +158,7 @@ const InspectionGenerateur = () => {
           width={1000}
           centered
         >
-          <FormInspectionGenerateur closeModal={closeAllModals} />
+          <FormInspectionGenerateur onSaved={reload} closeModal={closeAllModals} />
         </Modal>
 
         <Modal
