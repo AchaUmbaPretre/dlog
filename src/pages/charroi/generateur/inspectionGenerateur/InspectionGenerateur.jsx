@@ -160,7 +160,7 @@ const InspectionGenerateur = () => {
           width={1000}
           centered
         >
-          <FormInspectionGenerateur />
+          <FormInspectionGenerateur closeModal={closeAllModals} />
         </Modal>
 
     </>

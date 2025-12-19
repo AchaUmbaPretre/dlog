@@ -41,8 +41,8 @@ export const useInspectionGeneratColumns = ({
                 width: "4%",      
             },
             {
-                title: 'Générateur',
-                dataIndex: 'nom_generateur',
+                title: 'Modèle',
+                dataIndex: 'nom_modele',
                 render: (text, record) => (
                     <div>
                         {text}
@@ -95,6 +95,27 @@ export const useInspectionGeneratColumns = ({
                 },
             },
             {
+                title: 'Date validation',
+                dataIndex: 'date_validation',
+                render: (text) => {
+                    if(!text) {
+                        return (
+                           <Tag icon={<CalendarOutlined />} color="red">
+                                Aucune date
+                            </Tag> 
+                        )
+                    }
+                    const date = moment(text);
+                    const isValid = date.isValid();
+
+                    return (
+                        <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
+                            {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
+                        </Tag>
+                    )
+                }
+            },
+            {
                 title: 'Type de rep.',
                 dataIndex: 'type_rep',
                 render: (text) => (
@@ -131,6 +152,16 @@ export const useInspectionGeneratColumns = ({
                 )
             },
             {
+                title: "Commentaire",
+                dataIndex: 'commentaire',
+                key: 'commentaire',
+                render : (text) => (
+                    <div className={columnStyles.hideScroll}>
+                        {text}
+                    </div>
+                )
+            },
+            {
                 title: "Budget",
                 dataIndex: 'montant',
                 key: 'montant',
@@ -139,46 +170,13 @@ export const useInspectionGeneratColumns = ({
                 render : (text) => (
                     <Space>
                         <Tag color="green">
-                            {formatNumber(text)}
+                            {formatNumber(text)} USD
                         </Tag>
                     </Space>
                 )
             },
             {
-                title: '#Validé',
-                dataIndex: 'budget_valide',
-                key: 'budget_valide',
-                sorter: (a, b) => a.budget_valide - b.budget_valide,
-                sortDirections: ['descend', 'ascend'],
-                render: (text) => (
-                    <Space>
-                        <Tag color="blue">{formatNumber(text)}</Tag>
-                    </Space>
-                )
-            },
-            {
-                title: 'Date validation',
-                dataIndex: 'date_validation',
-                render: (text) => {
-                    if(!text) {
-                        return (
-                           <Tag icon={<CalendarOutlined />} color="red">
-                                Aucune date
-                            </Tag> 
-                        )
-                    }
-                    const date = moment(text);
-                    const isValid = date.isValid();
-
-                    return (
-                        <Tag icon={<CalendarOutlined />} color={isValid ? "blue" : "red"}>
-                            {isValid ? date.format('DD-MM-YYYY') : 'Date invalide'}
-                        </Tag>
-                    )
-                }
-            },
-            {
-                title: '#Véhicule', 
+                title: '#Générateur', 
                 dataIndex: 'nom_statut_vehicule', 
                 key: 'nom_statut_vehicule',
                 render: (text) => {

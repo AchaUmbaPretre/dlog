@@ -9,7 +9,7 @@ import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 
 const FormInspectionGenerateur = ({idInspection = null, onSaved, closeModal}) => {
     const [form] = Form.useForm();
-    const { loading, lists, submitting, handleFinish, doSubmit } = useInspectionGenForm({onSaved});
+    const { loading, lists, submitting, handleFinish, doSubmit } = useInspectionGenForm(idInspection,{onSaved});
     const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
     
     const onFinish = async(values) => {
@@ -80,7 +80,7 @@ const FormInspectionGenerateur = ({idInspection = null, onSaved, closeModal}) =>
                                     label="Date prevue"
                                     rules={[
                                         {
-                                            required: true,
+                                            required: false,
                                             message: 'Veuillez fournir une date...',
                                         },
                                     ]}

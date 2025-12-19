@@ -3,11 +3,12 @@ import { useReparateurGenLoader } from "../../../reparationGenerat/hook/useRepar
 import { useReparationGenSubmit } from "../../../reparationGenerat/hook/useReparationGenSubmit";
 import { useSelector } from "react-redux";
 import dayjs from 'dayjs';
+import { useInspectionGenSubmit } from "./useInspectionGenSubmit";
 
-export const useInspectionGenForm = ({ onSaved } = {}) => {
+export const useInspectionGenForm = (idInspection, { onSaved } = {}) => {
     const userId = useSelector((s) => s.user?.currentUser?.id_utilisateur);
     const { loading, lists, reload } = useReparateurGenLoader();
-    const { submitting, submit } = useReparationGenSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
+    const { submitting, submit } = useInspectionGenSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
     
     const buildPayload = useCallback((values) => ({
             ...values,
