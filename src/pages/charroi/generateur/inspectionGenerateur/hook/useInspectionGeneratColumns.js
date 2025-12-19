@@ -176,6 +176,29 @@ export const useInspectionGeneratColumns = ({
                 )
             },
             {
+                title: "#Validé",
+                dataIndex: 'budget_valide',
+                key: 'budget_valide',
+                sorter: (a, b) => a.budget_valide - b.budget_valide,
+                sortDirections: ['descend', 'ascend'],
+                render: (text) => (
+                    <Space style={columnStyles.title} className={columnStyles.hideScroll}>
+                        {text && parseFloat(text) !== 0 ? (
+                        <Tag color="blue">
+                            {`${parseFloat(text)
+                                .toLocaleString("en-US", {
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
+                                })
+                                .replace(/,/g, " ")} $`}
+                            </Tag>
+                          ) : (
+                        <Tag icon={<CloseCircleOutlined />} color="red">Non validé</Tag>
+                        )}
+                    </Space>
+                ),
+            },
+            {
                 title: '#Générateur', 
                 dataIndex: 'nom_statut_vehicule', 
                 key: 'nom_statut_vehicule',
