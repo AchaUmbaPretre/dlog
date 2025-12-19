@@ -1,9 +1,9 @@
 import { useMemo } from "react"
-import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { Button, Menu, Tooltip, Tag, Space, Dropdown } from 'antd';
 import moment from "moment";
 import { formatNumber } from "../../../../../utils/formatNumber";
 import { getInspectionIcon, statusIcons } from "../../../../../utils/prioriteIcons";
-import { TagsOutlined, FileSearchOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { TagsOutlined, FileSearchOutlined, EditOutlined,  DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
   const columnStyles = {
         title: {
@@ -237,7 +237,7 @@ export const useInspectionGeneratColumns = ({
                                   minimumFractionDigits: 2,
                                   maximumFractionDigits: 2,
                                 })
-                                .replace(/,/g, " ")} $`}
+                                .replace(/,/g, " ")} USD`}
                             </Tag>
                           ) : (
                         <Tag icon={<CloseCircleOutlined />} color="red">Non validé</Tag>
