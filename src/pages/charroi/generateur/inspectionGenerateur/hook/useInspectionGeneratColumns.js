@@ -3,7 +3,7 @@ import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag,
 import moment from "moment";
 import { formatNumber } from "../../../../../utils/formatNumber";
 import { getInspectionIcon, statusIcons } from "../../../../../utils/prioriteIcons";
-import { FileSearchOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { TagsOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
   const columnStyles = {
         title: {
@@ -44,18 +44,18 @@ export const useInspectionGeneratColumns = ({
                 title: 'Modèle',
                 dataIndex: 'nom_modele',
                 render: (text, record) => (
-                    <div>
+                    <Tag icon={<TagsOutlined />} color='blue' bordered={false}>
                         {text}
-                    </div>
+                    </Tag>
                 )
             },
             {
                 title: 'Marque',
                 dataIndex: 'nom_marque',
                 render: (text, record) => (
-                    <Space>
+                    <Tag style={{fontSize:'14px'}} color='magenta' bordered={false}>
                         {text}
-                    </Space>
+                    </Tag>
                 )
             },
             {
