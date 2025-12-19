@@ -45,10 +45,6 @@ const InspectionGenerateur = () => {
     const closeAllModals = () => setModal({ type: null, id: null });
 
 
-    const handleAddInspection = () => {
-
-    };
-
     const handleDelete = () => {
 
     };
@@ -162,6 +158,17 @@ const InspectionGenerateur = () => {
           centered
         >
           <FormInspectionGenerateur closeModal={closeAllModals} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modal.type === 'valider'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+            AAAAAAAAAAAAAA
         </Modal>
 
     </>
