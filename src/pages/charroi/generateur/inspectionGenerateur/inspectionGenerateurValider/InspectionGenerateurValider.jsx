@@ -2,37 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { Table, Card, Button,  Skeleton, notification } from 'antd';
 import { useSelector } from 'react-redux';
 import { getInspectGenerateurById, postInspectionGenerateurValide } from '../../../../../services/generateurService';
+import { useInspectionGenerateurValideData } from './hook/useInspectionGenerateurValideData';
 
 const InspectionGenerateurValider = ({ onSaved, closeModal, inspectionId, modelTypes }) => {
-  const [data, setData] = useState([]);
   const scroll = { x: 400 };
-  const [loading, setLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedInspectionIds, setSelectedInspectionIds] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [manoeuvreData, setManoeuvreData] = useState({});
   const [budgetValide, setBudgetValide] = useState({});
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-
-    const fetchDatas = async() => {
-        try {
-            const { data } = await getInspectGenerateurById(inspectionId);
-            setData(data)      
-
-        } catch (error) {
-            notification.error({
-                message: 'Erreur de chargement',
-                description: 'Une erreur est survenue lors du chargement des données.',
-            });
-            setLoading(false);
-        } finally{
-          setLoading(false)
-        }
-    }
-
-    useEffect(()=> {
-      fetchDatas()
-    }, [inspectionId])
+  const { data, loading, reload, setData } = useInspectionGenerateurValideData(inspectionId) 
 
     const onSelectChange = (newSelectedRowKeys, selectedRows) => {
       setSelectedRowKeys(newSelectedRowKeys);
@@ -159,7 +139,7 @@ const InspectionGenerateurValider = ({ onSaved, closeModal, inspectionId, modelT
             setSelectedRows([]);
             setManoeuvreData({});
             setBudgetValide({});
-            fetchDatas();
+            reload?.();
             onSaved()
         
           } catch (error) {

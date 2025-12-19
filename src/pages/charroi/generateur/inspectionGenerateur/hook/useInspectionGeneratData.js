@@ -1,5 +1,4 @@
-import { use, useCallback, useEffect } from "react";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { getInspectGenerateur } from "../../../../../services/generateurService";
 import { notification } from "antd";
 
