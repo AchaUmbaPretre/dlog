@@ -180,7 +180,7 @@ const InspectionGenerateur = () => {
           width={1000}
           centered
         >
-            <InspectionGenerateurValider closeModal={closeAllModals} inspectionId={modal.id} />
+            <InspectionGenerateurValider onSaved={reload}  closeModal={closeAllModals} inspectionId={modal.id} />
         </Modal>
 
     </>

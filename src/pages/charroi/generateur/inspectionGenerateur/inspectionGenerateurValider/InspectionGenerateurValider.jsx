@@ -3,7 +3,7 @@ import { Table, Card, Button,  Skeleton, notification } from 'antd';
 import { useSelector } from 'react-redux';
 import { getInspectGenerateurById, postInspectionGenerateurValide } from '../../../../../services/generateurService';
 
-const InspectionGenerateurValider = ({ closeModal, inspectionId, modelTypes }) => {
+const InspectionGenerateurValider = ({ onSaved, closeModal, inspectionId, modelTypes }) => {
   const [data, setData] = useState([]);
   const scroll = { x: 400 };
   const [loading, setLoading] = useState(true);
@@ -160,6 +160,7 @@ const InspectionGenerateurValider = ({ closeModal, inspectionId, modelTypes }) =
             setManoeuvreData({});
             setBudgetValide({});
             fetchDatas();
+            onSaved()
         
           } catch (error) {
             console.error('Erreur de validation:', error);
