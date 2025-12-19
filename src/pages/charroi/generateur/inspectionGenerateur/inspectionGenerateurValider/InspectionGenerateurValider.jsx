@@ -31,19 +31,19 @@ const InspectionGenerateurValider = ({ onSaved, closeModal, inspectionId, modelT
     }
 
     useEffect(()=> {
-        fetchDatas()
+      fetchDatas()
     }, [inspectionId])
 
     const onSelectChange = (newSelectedRowKeys, selectedRows) => {
-        setSelectedRowKeys(newSelectedRowKeys);
-        setSelectedInspectionIds(newSelectedRowKeys);
-        setSelectedRows(selectedRows);
-      };
+      setSelectedRowKeys(newSelectedRowKeys);
+      setSelectedInspectionIds(newSelectedRowKeys);
+      setSelectedRows(selectedRows);
+    };
       
     const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-      };
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
 
     const columns = [
             { 
