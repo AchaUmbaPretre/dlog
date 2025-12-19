@@ -53,7 +53,7 @@ export const useInspectionGeneratColumns = ({
                 title: 'Marque',
                 dataIndex: 'nom_marque',
                 render: (text, record) => (
-                    <Tag style={{fontSize:'14px'}} color='magenta' bordered={false}>
+                    <Tag icon={<TagsOutlined />} color='magenta' bordered={false}>
                         {text}
                     </Tag>
                 )
