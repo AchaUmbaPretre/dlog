@@ -163,6 +163,17 @@ const InspectionGenerateur = () => {
 
         <Modal
           title=""
+          visible={modal.type === 'detail'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1000}
+          centered
+        >
+            <InspectionGeneDetail closeModal={closeAllModals} />
+        </Modal>
+
+        <Modal
+          title=""
           visible={modal.type === 'valider'}
           onCancel={closeAllModals}
           footer={null}
