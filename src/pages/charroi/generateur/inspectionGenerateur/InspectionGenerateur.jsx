@@ -57,6 +57,7 @@ const InspectionGenerateur = () => {
     const columns = useInspectionGeneratColumns({
         pagination,
         columnsVisibility,
+        openModal,
         onEdit: (id) => openModal("Add", id),
         onDetail: (id) => openModal("Detail", id),
         onDelete: handleDelete,

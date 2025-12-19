@@ -3,7 +3,7 @@ import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag,
 import moment from "moment";
 import { formatNumber } from "../../../../../utils/formatNumber";
 import { getInspectionIcon, statusIcons } from "../../../../../utils/prioriteIcons";
-import { TagsOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { TagsOutlined, FileSearchOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 
   const columnStyles = {
         title: {
@@ -23,10 +23,57 @@ import { TagsOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageO
 export const useInspectionGeneratColumns = ({
   pagination,
   columnsVisibility,
+  openModal,
   onEdit,
   onDetail,
   onDelete,
 }) => {
+    const getActionMenu = (record) => {
+        const handleClick = ({ key }) => {
+            switch (key) {
+                case 'voirDetail' :
+                    openModal('detail', record.id_inspection_generateur)
+                    break;
+                case 'validerInspe' :
+                    openModal('valider', record.id_inspection_generateur)
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        return (
+            <Menu onClick={handleClick}>
+                <Menu.SubMenu
+                    key="inspection"
+                    title={
+                        <>
+                            <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+                        </>
+                    }
+                >
+                    <Menu.Item key="voirDetail">
+                        <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+                    </Menu.Item>
+                    <Menu.Item key="validerInspe">
+                        <PlusOutlined style={{ color: 'orange' }} /> Valider
+                    </Menu.Item>
+                </Menu.SubMenu>
+                <Menu.Divider />
+                <Menu.SubMenu
+                    key="tracking"
+                    title={
+                        <>
+                            <FileSearchOutlined style={{ color: 'green' }} /> Tracking
+                        </>
+                    }
+                >
+
+                </Menu.SubMenu>
+            </Menu>
+        )
+    };
+
     return useMemo(() => {
         const allColumns = [
             {
@@ -237,6 +284,10 @@ export const useInspectionGeneratColumns = ({
                                 aria-label="Edit generateur"
                             />
                         </Tooltip>
+
+                        <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
+                            <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
+                        </Dropdown>
 
                     </Space>
                 ),
