@@ -9,6 +9,7 @@ import { Input, Button, Checkbox, Empty, Menu, Tooltip, Typography, message, Ske
 import { useInspectionGeneratColumns } from './hook/useInspectionGeneratColumns';
 import { useInspectionGeneratData } from './hook/useInspectionGeneratData';
 import FormInspectionGenerateur from './formInspectionGenerateur/FormInspectionGenerateur';
+import InspectionGeneDetail from './inspectionGeneDetail/InspectionGeneDetail';
 
 
 const { Text } = Typography;
@@ -168,7 +169,7 @@ const InspectionGenerateur = () => {
           width={1000}
           centered
         >
-            AAAAAAAAAAAAAA
+            <InspectionGeneDetail closeModal={closeAllModals} />
         </Modal>
 
     </>
