@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Card, Button,  Skeleton, notification } from 'antd';
 import { useSelector } from 'react-redux';
-import { getInspectGenerateurById, postInspectionGenerateurValide } from '../../../../../services/generateurService';
+import { postInspectionGenerateurValide } from '../../../../../services/generateurService';
 import { useInspectionGenerateurValideData } from './hook/useInspectionGenerateurValideData';
 
 const InspectionGenerateurValider = ({ onSaved, closeModal, inspectionId, modelTypes }) => {
@@ -12,7 +12,7 @@ const InspectionGenerateurValider = ({ onSaved, closeModal, inspectionId, modelT
   const [manoeuvreData, setManoeuvreData] = useState({});
   const [budgetValide, setBudgetValide] = useState({});
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-  const { data, loading, reload, setData } = useInspectionGenerateurValideData(inspectionId) 
+  const { data, loading, reload } = useInspectionGenerateurValideData(inspectionId) 
 
     const onSelectChange = (newSelectedRowKeys, selectedRows) => {
       setSelectedRowKeys(newSelectedRowKeys);
