@@ -34,12 +34,14 @@ const SortieEam = () => {
         "Part description": true,
         "Stock type": true,
         "Requisition": false,
+        "Transanction date 22": false,
         "Purchase": false,
         "Transaction": false,
         "Out": false,
         "IN": false,
         "Site": false,
         "Status": true,
+        "Transaction Type26":false,
         "Bulk issue": true,
         "SMR": true
     });
