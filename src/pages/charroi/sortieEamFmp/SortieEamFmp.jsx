@@ -10,6 +10,7 @@ import {
   FileSearchOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
+import Reconciliation from './reconciliation/Reconciliation';
 
 
 const tabConfig = [
@@ -29,6 +30,7 @@ const tabConfig = [
         key: '3',
         label: 'RECONCILIATION',
         icon: <ThunderboltOutlined />,
+        component: <Reconciliation />
     },
 ]
 
