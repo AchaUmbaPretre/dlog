@@ -29,7 +29,6 @@ const tabConfig = [
         key: '3',
         label: 'SORTIE EAM & SORTIES FMP',
         icon: <ThunderboltOutlined />,
-        component: <SortieFmp />
     },
 ]
 
