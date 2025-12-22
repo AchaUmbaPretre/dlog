@@ -12,7 +12,7 @@ import {
 } from "antd";
 import {
   PrinterOutlined,
-  FireOutlined,
+  ArrowRightOutlined,
   DownOutlined,
   MenuOutlined
 } from "@ant-design/icons";
@@ -67,9 +67,9 @@ const SortieEam = () => {
         <Card
             title={
             <Space>
-                <FireOutlined style={{ color: "#fa541c", fontSize: 22 }} />
+                <ArrowRightOutlined style={{ color: "blue", fontSize: 22 }} />
                 <Title level={4} style={{ margin: 0 }}>
-                Gestion des carburants
+                Sorties EAM
                 </Title>
             </Space>
             }
@@ -78,7 +78,7 @@ const SortieEam = () => {
             extra={
             <Space wrap>
                 <Search
-                placeholder="Recherche chauffeur ou véhicule..."
+                placeholder="Recherche..."
                 allowClear
                 onChange={(e) => setSearchValue(e.target.value)}
                 style={{ width: 260 }}
