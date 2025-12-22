@@ -12,7 +12,8 @@ import {
   InboxOutlined,
   LogoutOutlined,
   RollbackOutlined,
-  DatabaseOutlined
+  DatabaseOutlined,
+  NumberOutlined
 } from "@ant-design/icons";
 
 
@@ -44,7 +45,16 @@ export const useSortieEamTable = ({
                 )
             },
             { title: "Mois", dataIndex: "mois", key: "mois" },
-            { title: "N° transanction", dataIndex: "transanction_num", key: "transanction_num" },
+            {
+              title: "N° transaction",
+              dataIndex: "transanction_num",
+              key: "transanction_num",
+              render: (value) => (
+                <Tag color="geekblue" icon={<NumberOutlined />}>
+                  {value}
+                </Tag>
+              ),
+            },
             { title: "Store description", dataIndex: "store_description", key: "store_description" },
             { title: "Part", dataIndex: "part", key: "part" },
             { title: "Part description", dataIndex: "part_description", key: "part_description" },
@@ -111,7 +121,7 @@ export const useSortieEamTable = ({
               }
             },
             {
-              title: "Transaction Type",
+              title: "Transaction Type26",
               dataIndex: "transaction_type26",
               key: "transaction_type26",        
               render: (type) => {
@@ -150,7 +160,15 @@ export const useSortieEamTable = ({
               }
             },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
-            { title: "SMR", dataIndex: "smr_ref", key: "smr_ref" },
+            { title: "SMR", 
+              dataIndex: "smr_ref", 
+              key: "smr_ref",
+              render: (v) => (
+                <Tag color="green" icon={<InboxOutlined />}>
+                  {v}
+                </Tag>
+              )
+            },
         ];
 
         return allColumns.filter((col) => columnsVisibility[col.title] !== false);

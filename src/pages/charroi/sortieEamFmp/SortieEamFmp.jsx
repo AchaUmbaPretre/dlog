@@ -27,7 +27,7 @@ const tabConfig = [
     },
     {
         key: '3',
-        label: 'SORTIE EAM & SORTIES FMP',
+        label: 'RECONCILIATION',
         icon: <ThunderboltOutlined />,
     },
 ]
