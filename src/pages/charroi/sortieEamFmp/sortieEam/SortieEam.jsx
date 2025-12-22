@@ -37,7 +37,7 @@ const SortieEam = () => {
         "SMR": true
     });
     const [searchValue, setSearchValue] = useState("");
-    const { data, setData, loading, reload, setFilters } = useSortieEamData(null);
+    const { data, loading } = useSortieEamData(null);
 
     const columns = useSortieEamTable({
         pagination,
