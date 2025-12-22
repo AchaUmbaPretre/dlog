@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Tabs } from 'antd';
 import SortieEam from './sortieEam/SortieEam'
 import SortieFmp from './sortieFmp/SortieFmp'
@@ -9,6 +9,7 @@ import {
   ToolOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
+import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 
 
 const tabConfig = [
