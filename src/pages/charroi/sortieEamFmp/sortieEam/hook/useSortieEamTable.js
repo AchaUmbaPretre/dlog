@@ -1,20 +1,11 @@
 import { useMemo } from "react";
 import {
-  Button,
-  Space,
   Tag,
-  Tooltip,
-  Popconfirm,
   Typography
 } from "antd";
 import moment from "moment";
 import {
-  CarOutlined,
-  EditOutlined,
-  UserOutlined,
   CalendarOutlined,
-  EyeOutlined,
-  DeleteOutlined,
 } from "@ant-design/icons";
 
 
@@ -22,12 +13,9 @@ const { Text } = Typography;
 
 export const useSortieEamTable = ({
     pagination,
-    columnVisibility,
-    onEdit,
-    onDetail,
-    onDelete
+    columnsVisibility   // <-- renommer ici
 }) => {
-    return useMemo(()=> {
+    return useMemo(() => {
         const allColumns = [
             {
                 title: "#",
@@ -35,17 +23,18 @@ export const useSortieEamTable = ({
                 width: 60,
                 align: "center",
                 render: (_, __, index) =>
-                (pagination.current - 1) * pagination.pageSize + index + 1,
+                    (pagination.current - 1) * pagination.pageSize + index + 1,
             },
-            { title: "Transanction", 
-              dataIndex: "transanction_date", 
-              key: "transanction_date",
-              sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix,
-              render: (text) => (
-                <Tag icon={<CalendarOutlined />} color="red">
-                    {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
-                </Tag>
-              )
+            { 
+                title: "Transanction", 
+                dataIndex: "transanction_date", 
+                key: "transanction_date",
+                sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix(),
+                render: (text) => (
+                    <Tag icon={<CalendarOutlined />} color="red">
+                        {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+                    </Tag>
+                )
             },
             { title: "Mois", dataIndex: "mois", key: "mois" },
             { title: "N° transanction", dataIndex: "transanction_num", key: "transanction_num" },
@@ -56,7 +45,7 @@ export const useSortieEamTable = ({
             { title: "Requisition", dataIndex: "requisition", key: "requisition" },
             { title: "SMR", dataIndex: "smr_ref", key: "smr_ref" },
         ];
-        return allColumns.filter((col) => columnVisibility[col.title] !== false);
 
-    }, [pagination, columnVisibility])
+        return allColumns.filter((col) => columnsVisibility[col.title] !== false);
+    }, [pagination, columnsVisibility]);
 }

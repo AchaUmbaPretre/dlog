@@ -5,23 +5,14 @@ import {
   Dropdown,
   Input,
   Space,
-  Modal,
   Typography,
   Card,
-  notification,
   Empty,
-  Checkbox,
-  Skeleton,
-  message,
+  Checkbox
 } from "antd";
 import {
-  CarOutlined,
-  DashboardOutlined,
-  DollarOutlined,
   PrinterOutlined,
   FireOutlined,
-  PlusCircleOutlined,
-  ReloadOutlined,
   DownOutlined,
   MenuOutlined
 } from "@ant-design/icons";
@@ -36,10 +27,6 @@ const SortieEam = () => {
         "#": true,
         "Transanction": true,
         "Mois": true,
-        "N° transanction": true,
-        "Store description": true,
-        "Part": true,
-        "Part description": true,
         "N° transanction": true,
         "Store description": true,
         "Part": true,
