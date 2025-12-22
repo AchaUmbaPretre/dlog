@@ -8,7 +8,10 @@ import {
   CalendarOutlined,
   CloseCircleOutlined,
   ClockCircleOutlined,
-  CheckCircleOutlined
+  CheckCircleOutlined,
+  InboxOutlined,
+  LogoutOutlined,
+  RollbackOutlined
 } from "@ant-design/icons";
 
 
@@ -94,7 +97,45 @@ export const useSortieEamTable = ({
                 }
               }
             },
-            { title: "Transaction Type26", dataIndex: "transaction_type26", key: "transaction_type26" },
+            {
+              title: "Transaction Type",
+              dataIndex: "transaction_type26",
+              key: "transaction_type26",        
+              render: (type) => {
+                switch (type) {
+                  case "Goods received":
+                    return (
+                      <Tag color="green" icon={<InboxOutlined />}>
+                        Goods received
+                      </Tag>
+                    );
+
+                  case "Issue":
+                    return (
+                      <Tag color="red" icon={<LogoutOutlined />}>
+                        Issue
+                      </Tag>
+                    );
+
+                  case "Return":
+                    return (
+                      <Tag color="blue" icon={<RollbackOutlined />}>
+                        Return
+                      </Tag>
+                    );
+
+                  case "Issue or return":
+                    return (
+                      <Tag color="orange" icon={<RollbackOutlined />}>
+                        Issue / Return
+                      </Tag>
+                    );
+
+                  default:
+                    return <Tag>{type}</Tag>;
+                }
+              }
+            },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { title: "SMR", dataIndex: "smr_ref", key: "smr_ref" },
         ];
