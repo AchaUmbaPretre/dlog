@@ -18,7 +18,7 @@ export const useSortieFmpData = (initialFilters = null) => {
             } catch (err) {
                 notification.error({
                     message: "Erreur de chargement",
-                    description: "Impossible de récupérer les données carburant.",
+                    description: "Impossible de récupérer les données de sortie FMP.",
                     placement: "topRight",
                 })
             } finally {

@@ -4,10 +4,6 @@ import SortieEam from './sortieEam/SortieEam'
 import SortieFmp from './sortieFmp/SortieFmp'
 import {
   ThunderboltOutlined,
-  DatabaseOutlined,
-  AppstoreOutlined,
-  ToolOutlined,
-  FileSearchOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import Reconciliation from './reconciliation/Reconciliation';
