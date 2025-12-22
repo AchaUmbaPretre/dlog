@@ -49,6 +49,7 @@ export const useSortieEamTable = ({
             { title: "IN", dataIndex: "quantite_in", key: "quantite_in" },
             { title: "Site", dataIndex: "site", key: "site" },
             { title: "Status", dataIndex: "transaction_status25", key: "transaction_status25" },
+            { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { title: "SMR", dataIndex: "smr_ref", key: "smr_ref" },
         ];
 

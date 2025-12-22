@@ -33,7 +33,6 @@ const SortieEam = () => {
         "Part": true,
         "Part description": true,
         "Stock type": true,
-        "Stock type": true,
         "Requisition": false,
         "Purchase": false,
         "Transaction": false,
@@ -41,6 +40,7 @@ const SortieEam = () => {
         "IN": false,
         "Site": false,
         "Status": true,
+        "Bulk issue": true,
         "SMR": true
     });
     const [searchValue, setSearchValue] = useState("");
