@@ -13,7 +13,7 @@ const { Text } = Typography;
 
 export const useSortieEamTable = ({
     pagination,
-    columnsVisibility   // <-- renommer ici
+    columnsVisibility
 }) => {
     return useMemo(() => {
         const allColumns = [
@@ -43,6 +43,12 @@ export const useSortieEamTable = ({
             { title: "Part description", dataIndex: "part_description", key: "part_description" },
             { title: "Stock type", dataIndex: "stock_type", key: "stock_type" },
             { title: "Requisition", dataIndex: "requisition", key: "requisition" },
+            { title: "Purchase", dataIndex: "purchase", key: "purchase" },
+            { title: "Transaction", dataIndex: "transaction", key: "transaction" },
+            { title: "Out", dataIndex: "quantite_out", key: "quantite_out" },
+            { title: "IN", dataIndex: "quantite_in", key: "quantite_in" },
+            { title: "Site", dataIndex: "site", key: "site" },
+            { title: "Status", dataIndex: "transaction_status25", key: "transaction_status25" },
             { title: "SMR", dataIndex: "smr_ref", key: "smr_ref" },
         ];
 

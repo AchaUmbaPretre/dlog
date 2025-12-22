@@ -33,7 +33,14 @@ const SortieEam = () => {
         "Part": true,
         "Part description": true,
         "Stock type": true,
+        "Stock type": true,
         "Requisition": false,
+        "Purchase": false,
+        "Transaction": false,
+        "Out": false,
+        "IN": false,
+        "Site": false,
+        "Status": true,
         "SMR": true
     });
     const [searchValue, setSearchValue] = useState("");
