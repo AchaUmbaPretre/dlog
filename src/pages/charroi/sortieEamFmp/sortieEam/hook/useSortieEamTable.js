@@ -11,7 +11,8 @@ import {
   CheckCircleOutlined,
   InboxOutlined,
   LogoutOutlined,
-  RollbackOutlined
+  RollbackOutlined,
+  DatabaseOutlined
 } from "@ant-design/icons";
 
 
@@ -47,7 +48,19 @@ export const useSortieEamTable = ({
             { title: "Store description", dataIndex: "store_description", key: "store_description" },
             { title: "Part", dataIndex: "part", key: "part" },
             { title: "Part description", dataIndex: "part_description", key: "part_description" },
-            { title: "Stock type", dataIndex: "stock_type", key: "stock_type" },
+            {
+              title: "Stock type",
+              dataIndex: "stock_type",
+              key: "stock_type",
+              render: (type) =>
+                type === "Stock" ? (
+                  <Tag color="blue" icon={<DatabaseOutlined />}>
+                    Stock
+                  </Tag>
+                ) : (
+                  <Tag>{type}</Tag>
+                )
+            },
             { title: "Requisition", dataIndex: "requisition", key: "requisition" },
             { 
                 title: "Transanction date 22", 

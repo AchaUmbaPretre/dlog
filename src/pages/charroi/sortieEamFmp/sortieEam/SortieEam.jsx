@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import {
   Table,
   Button,
@@ -70,6 +70,15 @@ const SortieEam = () => {
         </div>
     );
 
+    const filteredData = useMemo(() => {
+        const search = searchValue.toLowerCase().trim();
+        if(!search) return data;
+        return data.filter(
+            (item) =>
+                item.store_description?.toLowerCase().includes(search) || 
+                item.part_description?.toLowerCase().includes(search)
+        );
+    }, [data, searchValue]);
   
   return (
     <div className="carburant-page">
@@ -103,7 +112,7 @@ const SortieEam = () => {
         >
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={filteredData}
                 rowKey={(record) => record.id_sortie_eam}
                 size="middle"
                 loading={loading}
