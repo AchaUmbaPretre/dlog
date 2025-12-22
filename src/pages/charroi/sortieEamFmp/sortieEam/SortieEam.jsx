@@ -17,6 +17,7 @@ import {
   MenuOutlined
 } from "@ant-design/icons";
 import { useSortieEamTable } from './hook/useSortieEamTable';
+import { useSortieEamData } from './hook/useSortieEamData';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -26,18 +27,17 @@ const SortieEam = () => {
     const [columnsVisibility, setColumnsVisibility] = useState({
         "#": true,
         "Transanction": true,
-        "Mois": true,
+        "Mois": false,
         "N° transanction": true,
         "Store description": true,
         "Part": true,
         "Part description": true,
         "Stock type": true,
-        "Requisition": true,
+        "Requisition": false,
         "SMR": true
     });
-    const [loading, setLoading] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const [data, setData] = useState([]);
+    const { data, setData, loading, reload, setFilters } = useSortieEamData(null);
 
     const columns = useSortieEamTable({
         pagination,

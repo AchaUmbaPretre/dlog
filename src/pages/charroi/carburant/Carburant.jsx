@@ -64,9 +64,8 @@ const Carburant = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
   const { data, setData, loading, reload, setFilters } = useCarburantData(null);
-
   const { totalKmActuel, totalConsommation, distanceMoyenne, montantTotalUsd } =useCarburantKpis(data);
-
+ 
   const allIds = useMemo(() => [...new Set(data.map((d) => d.id_carburant))], [data]);
 
   const filteredData = useMemo(() => {
