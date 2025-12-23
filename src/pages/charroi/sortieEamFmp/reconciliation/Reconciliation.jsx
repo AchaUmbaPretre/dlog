@@ -51,52 +51,56 @@ const Reconciliation = () => {
 
   return (
     <>
-    <div className="carburant-page">
-        <Card
-            title={
-            <Space>
-                <ArrowRightOutlined style={{ color: "blue", fontSize: 22 }} />
-                <Title level={4} style={{ margin: 0 }}>
-                Sorties EAM
-                </Title>
-            </Space>
-            }
-            bordered={false}
-            className="shadow-sm rounded-2xl"
-            extra={
-            <Space wrap>
-                <Search
-                placeholder="Recherche..."
-                allowClear
-                onChange={(e) => setSearchValue(e.target.value)}
-                style={{ width: 260 }}
+        <div className="carburant-page">
+            <Card
+                title={
+                <Space>
+                    <ArrowRightOutlined style={{ color: "blue", fontSize: 22 }} />
+                    <Title level={4} style={{ margin: 0 }}>
+                    Réconciliation
+                    </Title>
+                </Space>
+                }
+                bordered={false}
+                className="shadow-sm rounded-2xl"
+                extra={
+                <Space wrap>
+                    <Search
+                    placeholder="Recherche..."
+                    allowClear
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    style={{ width: 260 }}
+                    />
+                    <Button icon={<PrinterOutlined />}>Imprimer</Button>
+                </Space>
+                }
+            >
+                <div className="select_rec">
+
+                </div>
+                
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    rowKey={(record) => record.id_sortie_eam}
+                    size="middle"
+                    loading={loading}
+                    pagination={{
+                        ...pagination,
+                        showSizeChanger: true,
+                        showQuickJumper: true,
+                        showTotal: (total) => `${total} enregistrements`,
+                    }}
+                    onChange={(p) => setPagination(p)}
+                    scroll={{ x: 1100 }}
+                    rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
+                    locale={{
+                        emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
+                    }}
+                    bordered
                 />
-                <Button icon={<PrinterOutlined />}>Imprimer</Button>
-            </Space>
-            }
-        >
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                rowKey={(record) => record.id_sortie_eam}
-                size="middle"
-                loading={loading}
-                pagination={{
-                    ...pagination,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                    showTotal: (total) => `${total} enregistrements`,
-                }}
-                onChange={(p) => setPagination(p)}
-                scroll={{ x: 1100 }}
-                rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
-                locale={{
-                    emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
-                }}
-                bordered
-            />
-      </Card>
-    </div>
+        </Card>
+        </div>
     </>
   )
 }
