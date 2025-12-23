@@ -80,7 +80,7 @@ const SortieFmp = () => {
         <Card
             title={
             <Space>
-                <InboxOutlined style={{ color: "blue", fontSize: 22 }} />
+                <InboxOutlined style={{ color: "#fa8c16", fontSize: 22 }} />
                 <Title level={4} style={{ margin: 0 }}>
                 Sorties FMP
                 </Title>

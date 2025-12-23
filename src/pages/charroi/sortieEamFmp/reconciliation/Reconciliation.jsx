@@ -62,7 +62,7 @@ const Reconciliation = () => {
             <Card
                 title={
                 <Space>
-                    <SwapOutlined style={{ color: "blue", fontSize: 22 }} />
+                    <SwapOutlined style={{ color: "#52c41a", fontSize: 22 }} />
                     <Title level={4} style={{ margin: 0 }}>
                     Réconciliation
                     </Title>

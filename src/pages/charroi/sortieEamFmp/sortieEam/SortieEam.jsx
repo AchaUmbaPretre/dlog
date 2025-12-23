@@ -87,7 +87,7 @@ const SortieEam = () => {
         <Card
             title={
             <Space style={{display:'flex', alignItems:'center'}}>
-                <LogoutOutlined style={{ color: "blue", fontSize: 22 }} />
+                <LogoutOutlined style={{ color: "#1677ff", fontSize: 22 }} />
                 <Title level={4} style={{ margin: 0 }}>
                 Sorties EAM
                 </Title>
