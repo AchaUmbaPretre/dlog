@@ -26,7 +26,7 @@ const SortieEam = () => {
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
     const [columnsVisibility, setColumnsVisibility] = useState({
         "#": true,
-        "Transanction": true,
+        "Date trans.": true,
         "Mois": false,
         "N° transanction": true,
         "Store description": true,
@@ -42,7 +42,7 @@ const SortieEam = () => {
         "Site": false,
         "Status": true,
         "Transaction Type26":false,
-        "Bulk issue": true,
+        "Bulk issue": false,
         "SMR": true
     });
     const [searchValue, setSearchValue] = useState("");

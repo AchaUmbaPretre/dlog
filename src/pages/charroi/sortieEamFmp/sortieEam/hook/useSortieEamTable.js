@@ -36,7 +36,7 @@ export const useSortieEamTable = ({
                     (pagination.current - 1) * pagination.pageSize + index + 1,
             },
             { 
-                title: "Transanction", 
+                title: "Date trans.", 
                 dataIndex: "transanction_date", 
                 key: "transanction_date",
                 sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix(),
@@ -183,7 +183,7 @@ export const useSortieEamTable = ({
               key: "smr_ref",
               render: (v) => (
                 <Tag color="green" icon={<InboxOutlined />}>
-                  {v}
+                  {v ?? 'N/A'}
                 </Tag>
               )
             },
