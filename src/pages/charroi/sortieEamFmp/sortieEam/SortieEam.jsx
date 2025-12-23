@@ -12,7 +12,7 @@ import {
 } from "antd";
 import {
   PrinterOutlined,
-  ArrowRightOutlined,
+  LogoutOutlined,
   DownOutlined,
   MenuOutlined
 } from "@ant-design/icons";
@@ -86,8 +86,8 @@ const SortieEam = () => {
     <div className="carburant-page">
         <Card
             title={
-            <Space>
-                <ArrowRightOutlined style={{ color: "blue", fontSize: 22 }} />
+            <Space style={{display:'flex', alignItems:'center'}}>
+                <LogoutOutlined style={{ color: "blue", fontSize: 22 }} />
                 <Title level={4} style={{ margin: 0 }}>
                 Sorties EAM
                 </Title>
