@@ -67,13 +67,14 @@ const SortieFmp = () => {
 
     const filteredData = useMemo(() => {
         const search = searchValue.toLowerCase().trim();
-        if(!search) return data;
+        if (!search) return data;
         return data.filter(
             (item) =>
-                item.designation?.toLowerCase().includes(search)
+                item.designation?.toLowerCase().includes(search) || 
+                String(item.smr).includes(search)  // convertir le nombre en string
         );
     }, [data, searchValue]);
-  
+
   return (
     <div className="carburant-page">
         <Card

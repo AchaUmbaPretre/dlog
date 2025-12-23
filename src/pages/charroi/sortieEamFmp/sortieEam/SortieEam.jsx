@@ -72,15 +72,15 @@ const SortieEam = () => {
 
     const filteredData = useMemo(() => {
         const search = searchValue.toLowerCase().trim();
-        if(!search) return data;
-        return data.filter(
-            (item) =>
-                item.store_description?.toLowerCase().includes(search) || 
-                item.part_description?.toLowerCase().includes(search) ||
-                item.smr_ref?.toLowerCase().includes(search)
+        if (!search) return data;
 
+        return data.filter((item) =>
+            (item.store_description?.toLowerCase().includes(search)) ||
+            (item.part_description?.toLowerCase().includes(search)) ||
+            (String(item.smr_ref).includes(search))  // convertir le nombre en string
         );
     }, [data, searchValue]);
+
   
   return (
     <div className="carburant-page">

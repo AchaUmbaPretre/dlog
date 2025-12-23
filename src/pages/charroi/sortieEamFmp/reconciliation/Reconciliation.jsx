@@ -93,7 +93,7 @@ const Reconciliation = () => {
                         optionFilterProp="label"
                         style={{ width: "100%" }}
                         options={smrOptions}
-                        placeholder="Sélectionnez..."
+                        placeholder="Sélectionnez un ou plusieurs SMR..."
                         onChange={setSelectedSmr}
                     />
                 </div>
