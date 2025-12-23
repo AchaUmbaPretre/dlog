@@ -16,8 +16,8 @@ const { Text } = Typography;
 export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-
     const searchInput = useRef(null);
+
   return useMemo(() => {
     const allColumns = [
       {

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Tag,
   Typography
@@ -17,6 +17,7 @@ import {
   ArrowDownOutlined,
   ArrowUpOutlined
 } from "@ant-design/icons";
+import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 
 const { Text } = Typography;
@@ -25,6 +26,10 @@ export const useSortieEamTable = ({
     pagination,
     columnsVisibility
 }) => {
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+  
     return useMemo(() => {
         const allColumns = [
             {
@@ -38,6 +43,13 @@ export const useSortieEamTable = ({
             { title: "SMR", 
               dataIndex: "smr_ref", 
               key: "smr_ref",
+              ...getColumnSearchProps(
+                  'smr_ref',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
               render: (v) => (
                 <Tag color="green" icon={<InboxOutlined />}>
                   {v ?? 'N/A'}
@@ -49,19 +61,63 @@ export const useSortieEamTable = ({
               title: "N° transanction",
               dataIndex: "transanction_num",
               key: "transanction_num",
+              ...getColumnSearchProps(
+                  'transanction_num',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
               render: (value) => (
                 <Tag color="geekblue" icon={<NumberOutlined />}>
                   {value}
                 </Tag>
               ),
             },
-            { title: "Part", dataIndex: "part", key: "part" },
-            { title: "Part description", dataIndex: "part_description", key: "part_description" },
-            { title: "Store description", dataIndex: "store_description", key: "store_description" },
+            { title: "Part", 
+              dataIndex: "part", 
+              key: "part",
+              ...getColumnSearchProps(
+                  'part',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
+            },
+            { title: "Part description", 
+              dataIndex: "part_description", 
+              key: "part_description",
+              ...getColumnSearchProps(
+                  'part_description',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
+            },
+            { title: "Store description", 
+              dataIndex: "store_description", 
+              key: "store_description",
+              ...getColumnSearchProps(
+                  'store_description',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
+            },
             {
               title: "Stock type",
               dataIndex: "stock_type",
               key: "stock_type",
+              ...getColumnSearchProps(
+                  'stock_type',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
               render: (type) =>
                 type === "Stock" ? (
                   <Tag color="blue" icon={<DatabaseOutlined />}>
@@ -83,11 +139,22 @@ export const useSortieEamTable = ({
                     </Tag>
                 )
             },
-            { title: "Purchase", dataIndex: "purchase", key: "purchase" },
+            { title: "Purchase", 
+              dataIndex: "purchase", 
+              key: "purchase",
+              ...getColumnSearchProps(
+                  'purchase',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
+            },
             { title: "Transaction", dataIndex: "transaction", key: "transaction" },
             { title: "Out", 
               dataIndex: "quantite_out", 
               key: "quantite_out",
+              sorter: (a,b) => a.quantite_out - b.quantite_out,
               render: (text) => (
                 <Tag color="red" icon={<ArrowDownOutlined />}>
                   {text}
@@ -97,13 +164,24 @@ export const useSortieEamTable = ({
             { title: "IN", 
               dataIndex: "quantite_in", 
               key: "quantite_in",
+              sorter: (a,b) => a.quantite_in - b.quantite_in,
               render: (text) => (
                 <Tag color="green" icon={<ArrowUpOutlined />}>
                   {text}
                 </Tag>
               )
             },
-            { title: "Site", dataIndex: "site", key: "site" },
+            { title: "Site", 
+              dataIndex: "site", 
+              key: "site",
+              ...getColumnSearchProps(
+                  'site',
+                  searchText,
+                  setSearchText,
+                  setSearchedColumn,
+                  searchInput
+              ),
+            },
             {
               title: "Status",
               dataIndex: "transaction_status25",
