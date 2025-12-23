@@ -56,8 +56,8 @@ export const useSortieEamTable = ({
               ),
             },
             { title: "Part", dataIndex: "part", key: "part" },
-            { title: "Store description", dataIndex: "store_description", key: "store_description" },
             { title: "Part description", dataIndex: "part_description", key: "part_description" },
+            { title: "Store description", dataIndex: "store_description", key: "store_description" },
             {
               title: "Stock type",
               dataIndex: "stock_type",
