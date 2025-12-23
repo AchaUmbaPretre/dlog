@@ -13,7 +13,8 @@ import {
   LogoutOutlined,
   RollbackOutlined,
   DatabaseOutlined,
-  NumberOutlined
+  NumberOutlined,
+  ArrowDownOutlined
 } from "@ant-design/icons";
 
 
@@ -85,7 +86,15 @@ export const useSortieEamTable = ({
             },
             { title: "Purchase", dataIndex: "purchase", key: "purchase" },
             { title: "Transaction", dataIndex: "transaction", key: "transaction" },
-            { title: "Out", dataIndex: "quantite_out", key: "quantite_out" },
+            { title: "Out", 
+              dataIndex: "quantite_out", 
+              key: "quantite_out",
+              render: (text) => (
+                <Tag color="red" icon={<ArrowDownOutlined />}>
+                  {text}
+                </Tag>
+              )
+            },
             { title: "IN", dataIndex: "quantite_in", key: "quantite_in" },
             { title: "Site", dataIndex: "site", key: "site" },
             {
