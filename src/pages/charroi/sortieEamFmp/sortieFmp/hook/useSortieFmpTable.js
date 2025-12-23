@@ -25,10 +25,14 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
       },
 
       {
-        title: "PD Code",
-        dataIndex: "produit_pd_code",
-        key: "produit_pd_code",
-        render: (v) => <Text strong>{v}</Text>
+        title: "SMR",
+        dataIndex: "smr",
+        key: "smr",
+        render: (v) => (
+          <Tag color="green" icon={<InboxOutlined />}>
+            {v}
+          </Tag>
+        )
       },
 
       {
@@ -36,6 +40,20 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         dataIndex: "sortie_gsm_num_be",
         key: "sortie_gsm_num_be",
         render: (v) => <Tag color='geekblue' icon={<NumberOutlined />}>{v}</Tag>
+      },
+
+      {
+        title: "Item Code",
+        dataIndex: "item_code",
+        key: "item_code",
+        render: (v) => <Tag icon={<BarcodeOutlined />}>{v}</Tag>
+      },
+
+      {
+        title: "PD Code",
+        dataIndex: "produit_pd_code",
+        key: "produit_pd_code",
+        render: (v) => <Text strong>{v}</Text>
       },
 
       {
@@ -63,13 +81,6 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
       },
 
       {
-        title: "Item Code",
-        dataIndex: "item_code",
-        key: "item_code",
-        render: (v) => <Tag icon={<BarcodeOutlined />}>{v}</Tag>
-      },
-
-      {
         title: "Désignation",
         dataIndex: "designation",
         key: "designation",
@@ -87,17 +98,6 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "Unité",
         dataIndex: "unite",
         key: "unite"
-      },
-
-      {
-        title: "SMR",
-        dataIndex: "smr",
-        key: "smr",
-        render: (v) => (
-          <Tag color="green" icon={<InboxOutlined />}>
-            {v}
-          </Tag>
-        )
       },
 
       {
