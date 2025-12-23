@@ -20,7 +20,7 @@ export const useReconciliationData = (initialFilters = null) => {
             } catch (error) {
                 notification.error({
                     message: "Erreur de chargement",
-                    description: "Impossible de récupérer les données de sortie EAM.",
+                    description: "Impossible de récupérer les données de réconciliation",
                     placement: "topRight",
                 });
             } finally {
