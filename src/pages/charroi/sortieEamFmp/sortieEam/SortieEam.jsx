@@ -76,7 +76,9 @@ const SortieEam = () => {
         return data.filter(
             (item) =>
                 item.store_description?.toLowerCase().includes(search) || 
-                item.part_description?.toLowerCase().includes(search)
+                item.part_description?.toLowerCase().includes(search) ||
+                item.smr_ref?.toLowerCase().includes(search)
+
         );
     }, [data, searchValue]);
   
