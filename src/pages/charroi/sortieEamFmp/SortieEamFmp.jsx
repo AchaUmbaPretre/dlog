@@ -15,19 +15,19 @@ const tabConfig = [
   {
     key: "1",
     label: "SORTIES EAM",
-    icon: <LogoutOutlined style={{ color: "#1677ff" }} />,
+    icon: <LogoutOutlined />,
     component: <SortieEam />
   },
   {
     key: "2",
     label: "SORTIES FMP",
-    icon: <InboxOutlined style={{ color: "#fa8c16" }} />,
+    icon: <InboxOutlined />,
     component: <SortieFmp />
   },
   {
     key: "3",
     label: "RÉCONCILIATION",
-    icon: <SwapOutlined style={{ color: "#52c41a" }} />,
+    icon: <SwapOutlined />,
     component: <Reconciliation />
   }
 ];
