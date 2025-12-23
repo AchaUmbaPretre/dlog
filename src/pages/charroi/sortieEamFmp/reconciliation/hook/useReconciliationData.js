@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { notification } from "antd";
-import { getReconciliation } from "../../../../../services/sortieEamFmp";
+import { getReconciliation, getSmr } from "../../../../../services/sortieEamFmp";
 
 export const useReconciliationData = (initialFilters = null) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState(initialFilters);
+    const [smr, setSmr] = useState([]);
+    const [selectedSmr, setSelectedSmr] = useState([]);
 
     const load = useCallback(
         async (overrideFilters = undefined) => {
@@ -32,12 +34,28 @@ export const useReconciliationData = (initialFilters = null) => {
         load();
     }, [load]);
 
+    useEffect(()=> {
+        try {
+            const { data } = getSmr();
+            setSmr(data)
+        } catch (error) {
+            notification.error({
+                message: "Erreur de chargement",
+                description: "Impossible de récupérer les données de SMR.",
+                placement: "topRight",
+            })
+        }
+    }, [])
+
     return {
         data, 
         setData,
         loading,
         reload: load,
         filters,
-        setFilters
+        setFilters,
+        smr,
+        setSmr,
+        setSelectedSmr
     };
 }

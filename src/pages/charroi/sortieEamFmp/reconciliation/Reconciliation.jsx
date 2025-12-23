@@ -8,7 +8,8 @@ import {
   Typography,
   Card,
   Empty,
-  Checkbox
+  Checkbox,
+  Select
 } from "antd";
 import {
   PrinterOutlined,
@@ -32,7 +33,7 @@ const Reconciliation = () => {
             "Ecart": true
     });
     const [searchValue, setSearchValue] = useState("");
-    const { data, loading } = useReconciliationData(null);
+    const { data, loading, smr, setSelectedSmr } = useReconciliationData(null);
 
     const columns = useReconciliationTable({
         pagination,
@@ -48,6 +49,15 @@ const Reconciliation = () => {
                     item.designation?.toLowerCase().includes(search)    
             );
     }, [data, searchValue]);
+
+    const smrOptions = useMemo(
+        () => 
+            smr.map((item) => ({
+                value: item.smr,
+                label: item.smr
+            })),
+        []
+    );
 
   return (
     <>
@@ -76,9 +86,17 @@ const Reconciliation = () => {
                 }
             >
                 <div className="select_rec">
-
+                    <Select
+                        mode="multiple"
+                        showSearch
+                        optionFilterProp="label"
+                        style={{ width: "100%" }}
+                        options={smrOptions}
+                        placeholder="Sélectionnez..."
+                        onChange={setSelectedSmr}
+                    />
                 </div>
-                
+
                 <Table
                     columns={columns}
                     dataSource={filteredData}

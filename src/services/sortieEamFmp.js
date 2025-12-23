@@ -11,6 +11,10 @@ export const getSortieFmp = async () => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/fmp`);
 };
 
+export const getSmr = async () => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/smr`);
+};
+
 
 export const getReconciliation = async (id) => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/reconciliation`,{
