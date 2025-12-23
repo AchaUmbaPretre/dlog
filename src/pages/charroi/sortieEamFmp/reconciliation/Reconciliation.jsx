@@ -2,7 +2,9 @@ import React from 'react'
 
 const Reconciliation = () => {
   return (
-    <div>Reconciliation</div>
+    <div>
+        
+    </div>
   )
 }
 
