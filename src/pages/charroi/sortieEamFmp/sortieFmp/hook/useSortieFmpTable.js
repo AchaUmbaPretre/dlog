@@ -32,6 +32,13 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
       },
 
       {
+        title: "N° BE",
+        dataIndex: "sortie_gsm_num_be",
+        key: "sortie_gsm_num_be",
+        render: (v) => <Tag color='geekblue' icon={<NumberOutlined />}>{v}</Tag>
+      },
+
+      {
         title: "N° GSM",
         dataIndex: "sortie_gsm_num",
         key: "sortie_gsm_num",
@@ -80,12 +87,6 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "Unité",
         dataIndex: "unite",
         key: "unite"
-      },
-
-      {
-        title: "N° BE",
-        dataIndex: "sortie_gsm_num_be",
-        key: "sortie_gsm_num_be"
       },
 
       {

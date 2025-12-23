@@ -28,17 +28,17 @@ const SortieFmp = () => {
     "#": true,
     "PD Code": true,
     "N° GSM": true,
+    "N° BE": true,
     "N° Log. GTM": false,
     "Site": true,
     "Item Code": true,
     "Désignation": true,
     "Nb Colis": true,
-    "Unité": false,
-    "N° BE": false,
+    "Unité": true,
     "SMR": true,
     "Différence": false,
     "Colonne 1": false,
-    "Commentaire": true
+    "Commentaire": false
     });
     const [searchValue, setSearchValue] = useState("");
     const { data, loading } = useSortieFmpData(null);
