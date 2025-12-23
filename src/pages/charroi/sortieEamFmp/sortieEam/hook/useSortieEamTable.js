@@ -35,20 +35,18 @@ export const useSortieEamTable = ({
                 render: (_, __, index) =>
                     (pagination.current - 1) * pagination.pageSize + index + 1,
             },
-            { 
-                title: "Date trans.", 
-                dataIndex: "transanction_date", 
-                key: "transanction_date",
-                sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix(),
-                render: (text) => (
-                    <Tag icon={<CalendarOutlined />} color="red">
-                        {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
-                    </Tag>
-                )
+            { title: "SMR", 
+              dataIndex: "smr_ref", 
+              key: "smr_ref",
+              render: (v) => (
+                <Tag color="green" icon={<InboxOutlined />}>
+                  {v ?? 'N/A'}
+                </Tag>
+              )
             },
             { title: "Mois", dataIndex: "mois", key: "mois" },
             {
-              title: "N° transaction",
+              title: "N° transanction",
               dataIndex: "transanction_num",
               key: "transanction_num",
               render: (value) => (
@@ -57,8 +55,8 @@ export const useSortieEamTable = ({
                 </Tag>
               ),
             },
-            { title: "Store description", dataIndex: "store_description", key: "store_description" },
             { title: "Part", dataIndex: "part", key: "part" },
+            { title: "Store description", dataIndex: "store_description", key: "store_description" },
             { title: "Part description", dataIndex: "part_description", key: "part_description" },
             {
               title: "Stock type",
@@ -178,14 +176,16 @@ export const useSortieEamTable = ({
               }
             },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
-            { title: "SMR", 
-              dataIndex: "smr_ref", 
-              key: "smr_ref",
-              render: (v) => (
-                <Tag color="green" icon={<InboxOutlined />}>
-                  {v ?? 'N/A'}
-                </Tag>
-              )
+            { 
+              title: "Date trans.", 
+              dataIndex: "transanction_date", 
+              key: "transanction_date",
+              sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix(),
+                render: (text) => (
+                  <Tag icon={<CalendarOutlined />} color="red">
+                    {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+                  </Tag>
+                )
             },
         ];
 

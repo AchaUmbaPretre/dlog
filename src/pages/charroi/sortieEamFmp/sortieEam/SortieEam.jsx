@@ -28,7 +28,7 @@ const SortieEam = () => {
         "#": true,
         "Date trans.": true,
         "Mois": false,
-        "N° transanction": true,
+        "N° transanction": false,
         "Store description": true,
         "Part": true,
         "Part description": true,
