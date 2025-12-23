@@ -14,7 +14,8 @@ import {
   RollbackOutlined,
   DatabaseOutlined,
   NumberOutlined,
-  ArrowDownOutlined
+  ArrowDownOutlined,
+  ArrowUpOutlined
 } from "@ant-design/icons";
 
 
@@ -95,7 +96,15 @@ export const useSortieEamTable = ({
                 </Tag>
               )
             },
-            { title: "IN", dataIndex: "quantite_in", key: "quantite_in" },
+            { title: "IN", 
+              dataIndex: "quantite_in", 
+              key: "quantite_in",
+              render: (text) => (
+                <Tag color="green" icon={<ArrowUpOutlined />}>
+                  {text}
+                </Tag>
+              )
+            },
             { title: "Site", dataIndex: "site", key: "site" },
             {
               title: "Status",
