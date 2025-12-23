@@ -150,7 +150,11 @@ export const useSortieEamTable = ({
                   searchInput
               ),
             },
-            { title: "Transaction", dataIndex: "transaction", key: "transaction" },
+            { title: "Transaction", 
+              dataIndex: "transaction", 
+              key: "transaction",
+              sorter: (a,b) => a.transaction - b.transaction
+            },
             { title: "Out", 
               dataIndex: "quantite_out", 
               key: "quantite_out",

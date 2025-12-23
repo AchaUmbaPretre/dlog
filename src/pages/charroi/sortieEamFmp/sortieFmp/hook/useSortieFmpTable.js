@@ -51,6 +51,7 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "N° BE",
         dataIndex: "sortie_gsm_num_be",
         key: "sortie_gsm_num_be",
+        sorter: (a,b) => a.sortie_gsm_num_be - b.sortie_gsm_num_be,
         ...getColumnSearchProps(
             'sortie_gsm_num_be',
             searchText,
@@ -79,6 +80,7 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "PD Code",
         dataIndex: "produit_pd_code",
         key: "produit_pd_code",
+        sorter: (a,b) => a.produit_pd_code - b.produit_pd_code,
         ...getColumnSearchProps(
             'produit_pd_code',
             searchText,
@@ -93,6 +95,7 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "N° GSM",
         dataIndex: "sortie_gsm_num",
         key: "sortie_gsm_num",
+        sorter: (a,b) => a.sortie_gsm_num - b.sortie_gsm_num,
         ...getColumnSearchProps(
             'sortie_gsm_num',
             searchText,
@@ -153,6 +156,7 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         dataIndex: "nbre_colis",
         key: "nbre_colis",
         align: "right",
+        sorter: (a,b) => a.nbre_colis - b.nbre_colis,
         ...getColumnSearchProps(
             'nbre_colis',
             searchText,
@@ -166,6 +170,7 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "Unité",
         dataIndex: "unite",
         key: "unite",
+        sorter: (a,b) => a.unite - b.unite,
         ...getColumnSearchProps(
             'unite',
             searchText,
