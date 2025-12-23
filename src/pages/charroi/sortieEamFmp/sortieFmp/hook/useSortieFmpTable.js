@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Tag, Typography } from "antd";
 import moment from "moment";
 import {
@@ -9,10 +9,15 @@ import {
   CommentOutlined,
   ClockCircleOutlined
 } from "@ant-design/icons";
+import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const { Text } = Typography;
 
 export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+
+    const searchInput = useRef(null);
   return useMemo(() => {
     const allColumns = [
       {
@@ -28,6 +33,13 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "SMR",
         dataIndex: "smr",
         key: "smr",
+        ...getColumnSearchProps(
+            'smr',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) => (
           <Tag color="green" icon={<InboxOutlined />}>
             {v}
@@ -39,6 +51,13 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "N° BE",
         dataIndex: "sortie_gsm_num_be",
         key: "sortie_gsm_num_be",
+        ...getColumnSearchProps(
+            'sortie_gsm_num_be',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) => <Tag color='geekblue' icon={<NumberOutlined />}>{v}</Tag>
       },
 
@@ -46,6 +65,13 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "Item Code",
         dataIndex: "item_code",
         key: "item_code",
+        ...getColumnSearchProps(
+            'item_code',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) => <Tag icon={<BarcodeOutlined />}>{v}</Tag>
       },
 
@@ -53,6 +79,13 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "PD Code",
         dataIndex: "produit_pd_code",
         key: "produit_pd_code",
+        ...getColumnSearchProps(
+            'produit_pd_code',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) => <Text strong>{v}</Text>
       },
 

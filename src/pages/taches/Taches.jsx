@@ -67,6 +67,7 @@ const Taches = () => {
   const [selectedTacheIds, setSelectedTacheIds] = useState([]);
   const [filteredDatas, setFilteredDatas] = useState(null);
   const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
   const [statistique, setStatistique] = useState([]);
   const [total, setTotal] = useState([]);
   const [allIds, setAllIds] = useState([]);
@@ -355,7 +356,7 @@ const Taches = () => {
         'departement',
         searchText,
         setSearchText,
-        '',
+        setSearchedColumn,
         searchInput
       ),
       render: text => (
@@ -374,7 +375,7 @@ const Taches = () => {
         'nom_tache',
         searchText,
         setSearchText,
-        '',
+        setSearchedColumn,
         searchInput
       ),
       render: (text,record) => (
@@ -392,7 +393,7 @@ const Taches = () => {
         'nom_client',
         searchText,
         setSearchText,
-        '',
+        setSearchedColumn,
         searchInput
       ),
       render: text => (
@@ -410,7 +411,7 @@ const Taches = () => {
         'statut',
         searchText,
         setSearchText,
-        '',
+        setSearchedColumn,
         searchInput
       ),
       render: text => {
@@ -477,7 +478,7 @@ const Taches = () => {
         'frequence',
         searchText,
         setSearchText,
-        '',
+        setSearchedColumn,
         searchInput
       ),
       render: text => (
@@ -542,7 +543,7 @@ const Taches = () => {
         'frequence',
         searchText,
         setSearchText,
-        '',
+        setSearchedColumn,
         searchInput
       ),
       render: text => (
