@@ -93,19 +93,40 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "N° GSM",
         dataIndex: "sortie_gsm_num",
         key: "sortie_gsm_num",
+        ...getColumnSearchProps(
+            'sortie_gsm_num',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) => <Tag icon={<NumberOutlined />}>{v}</Tag>
       },
 
       {
         title: "N° Log. GTM",
         dataIndex: "sortie_gsm_num_gtm",
-        key: "sortie_gsm_num_gtm"
+        key: "sortie_gsm_num_gtm",
+        ...getColumnSearchProps(
+            'sortie_gsm_num_gtm',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
       },
 
       {
         title: "Site",
         dataIndex: "sortie_gsm_num_site",
         key: "sortie_gsm_num_site",
+        ...getColumnSearchProps(
+            'sortie_gsm_num_gtm',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) => (
           <Tag icon={<HomeOutlined />} color="blue">
             {v}
@@ -117,26 +138,54 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "Désignation",
         dataIndex: "designation",
         key: "designation",
-        ellipsis: true
+        ellipsis: true,
+        ...getColumnSearchProps(
+            'designation',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
       },
 
       {
         title: "Nb Colis",
         dataIndex: "nbre_colis",
         key: "nbre_colis",
-        align: "right"
+        align: "right",
+        ...getColumnSearchProps(
+            'nbre_colis',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
       },
 
       {
         title: "Unité",
         dataIndex: "unite",
-        key: "unite"
+        key: "unite",
+        ...getColumnSearchProps(
+            'unite',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
       },
 
       {
         title: "Différence",
         dataIndex: "difference",
-        key: "difference"
+        key: "difference",
+        ...getColumnSearchProps(
+            'difference',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
       },
 
       {
@@ -149,6 +198,13 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         title: "Commentaire",
         dataIndex: "commentaire",
         key: "commentaire",
+        ...getColumnSearchProps(
+            'commentaire',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
         render: (v) =>
           v ? (
             <Tag icon={<CommentOutlined />} color="orange">
