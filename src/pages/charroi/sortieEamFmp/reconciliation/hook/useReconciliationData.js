@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { notification } from "antd";
 import { getReconciliation } from "../../../../../services/sortieEamFmp";
 
-export const useSortieEamData = (initialFilters = null) => {
+export const useReconciliationData = (initialFilters = null) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState(initialFilters);
