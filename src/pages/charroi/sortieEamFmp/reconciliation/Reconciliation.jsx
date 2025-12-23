@@ -2,20 +2,16 @@ import React, { useMemo, useState } from 'react'
 import {
   Table,
   Button,
-  Dropdown,
   Input,
   Space,
   Typography,
   Card,
   Empty,
-  Checkbox,
   Select
 } from "antd";
 import {
   PrinterOutlined,
-  ArrowRightOutlined,
-  DownOutlined,
-  MenuOutlined
+  SwapOutlined
 } from "@ant-design/icons";
 import { useReconciliationData } from './hook/useReconciliationData'
 import { useReconciliationTable } from './hook/useReconciliationTable';
@@ -66,7 +62,7 @@ const Reconciliation = () => {
             <Card
                 title={
                 <Space>
-                    <ArrowRightOutlined style={{ color: "blue", fontSize: 22 }} />
+                    <SwapOutlined style={{ color: "blue", fontSize: 22 }} />
                     <Title level={4} style={{ margin: 0 }}>
                     Réconciliation
                     </Title>

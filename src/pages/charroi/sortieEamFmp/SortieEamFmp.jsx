@@ -3,32 +3,34 @@ import { Tabs } from 'antd';
 import SortieEam from './sortieEam/SortieEam'
 import SortieFmp from './sortieFmp/SortieFmp'
 import {
-  ThunderboltOutlined,
+  LogoutOutlined,
+  SwapOutlined,
+  InboxOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import Reconciliation from './reconciliation/Reconciliation';
 
 
 const tabConfig = [
-    {
-        key: '1',
-        label: 'SORTIES EAM',
-        icon: <ThunderboltOutlined />,
-        component: <SortieEam />
-    },
-    {
-        key: '2',
-        label: 'SORTIES FMP',
-        icon: <ThunderboltOutlined />,
-        component: <SortieFmp />
-    },
-    {
-        key: '3',
-        label: 'RECONCILIATION',
-        icon: <ThunderboltOutlined />,
-        component: <Reconciliation />
-    },
-]
+  {
+    key: "1",
+    label: "SORTIES EAM",
+    icon: <LogoutOutlined style={{ color: "#1677ff" }} />,
+    component: <SortieEam />
+  },
+  {
+    key: "2",
+    label: "SORTIES FMP",
+    icon: <InboxOutlined style={{ color: "#fa8c16" }} />,
+    component: <SortieFmp />
+  },
+  {
+    key: "3",
+    label: "RÉCONCILIATION",
+    icon: <SwapOutlined style={{ color: "#52c41a" }} />,
+    component: <Reconciliation />
+  }
+];
 
 const SortieEamFmp = () => {
     const [activeKey, setActiveKey] = useState('1');
