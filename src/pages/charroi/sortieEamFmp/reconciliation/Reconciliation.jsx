@@ -33,7 +33,7 @@ const Reconciliation = () => {
             "Ecart": true
     });
     const [searchValue, setSearchValue] = useState("");
-    const { data, loading, smr, setSelectedSmr } = useReconciliationData(null);
+    const { data, loading, smrs, setSelectedSmr } = useReconciliationData(null);
 
     const columns = useReconciliationTable({
         pagination,
@@ -52,13 +52,14 @@ const Reconciliation = () => {
 
     const smrOptions = useMemo(
         () => 
-            smr.map((item) => ({
+            smrs?.map((item) => ({
                 value: item.smr,
                 label: item.smr
             })),
-        []
+        [smrs]
     );
 
+    console.log(smrs)
   return (
     <>
         <div className="carburant-page">
