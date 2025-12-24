@@ -42,11 +42,11 @@ const SortieEam = () => {
         "Transaction": false,
         "Out": true,
         "IN": true,
-        "Écart": true,
+        "Qté Doc." : false,
+        "Écart": false,
         "Site": false,
         "Status": false,
         "Transaction Type26":false,
-        "Qté phy." : false,
         "Bulk issue": false,
         "SMR": true
     });
