@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Tag, Typography } from "antd";
+import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const { Text } = Typography;
 
@@ -7,6 +8,11 @@ export const useReconciliationTable = ({
     pagination,
     columnsVisibility
 }) => {
+
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
     return useMemo(() => {
 
         const allColumns = [
@@ -16,6 +22,13 @@ export const useReconciliationTable = ({
                 key: "code_article",
                 fixed: "left",
                 width: 150,
+                ...getColumnSearchProps(
+                    'code_article',
+                    searchText,
+                    setSearchText,
+                    setSearchedColumn,
+                    searchInput
+                ),
                 render: (value) => <Text strong>{value}</Text>,
             },
             {
@@ -24,6 +37,13 @@ export const useReconciliationTable = ({
                 key: "description",
                 ellipsis: true,
                 width: 250,
+                ...getColumnSearchProps(
+                    'description',
+                    searchText,
+                    setSearchText,
+                    setSearchedColumn,
+                    searchInput
+                ),
             },
             {
                 title: "Qté EAM",
@@ -31,6 +51,7 @@ export const useReconciliationTable = ({
                 key: "qte_eam",
                 align: "right",
                 width: 120,
+                sorter: (a,b) => a.qte_eam - b.qte_eam,
                 render: (value) => (
                     <Text>{value}</Text>
                 ),
@@ -41,6 +62,7 @@ export const useReconciliationTable = ({
                 key: "qte_fmp",
                 align: "right",
                 width: 120,
+                sorter: (a,b) => a.qte_fmp - b.qte_fmp,
                 render: (value) => (
                     <Text>{value}</Text>
                 ),
@@ -51,6 +73,7 @@ export const useReconciliationTable = ({
                 key: "ecart",
                 align: "center",
                 width: 120,
+                sorter: (a,b) => a.ecart - b.ecart,
                 render: (value) => {
                     if (value === 0) {
                         return <Tag color="green">0</Tag>;
