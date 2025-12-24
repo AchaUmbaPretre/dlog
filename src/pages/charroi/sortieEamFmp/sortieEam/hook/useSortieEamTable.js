@@ -1,6 +1,8 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  Tag
+  Tag,
+  Tooltip,
+  
 } from "antd";
 import moment from "moment";
 import {
@@ -20,7 +22,8 @@ import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 export const useSortieEamTable = ({
     pagination,
-    columnsVisibility
+    columnsVisibility,
+    openDocModal
 }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -253,17 +256,25 @@ export const useSortieEamTable = ({
                 }
               }
             },
-            {
+           {
               title: "Doc EAM",
               dataIndex: "doc_physique_ok",
               key: "doc_physique_ok",
               align: "center",
-              render: (value) =>
-                value === 1 ? (
-                  <CheckCircleOutlined style={{ color: "green", fontSize: 18 }} />
-                ) : (
-                  <CloseCircleOutlined style={{ color: "red", fontSize: 18 }} />
-                )
+              render: (value, record) => (
+                <Tooltip title="Cliquer pour saisir / modifier le document physique">
+                  <span
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openDocModal(record)}
+                  >
+                    {value === 1 ? (
+                      <CheckCircleOutlined style={{ color: "green", fontSize: 18 }} />
+                    ) : (
+                      <CloseCircleOutlined style={{ color: "red", fontSize: 18 }} />
+                    )}
+                  </span>
+                </Tooltip>
+              )
             },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { 

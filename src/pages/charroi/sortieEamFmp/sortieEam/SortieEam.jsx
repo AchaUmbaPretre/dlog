@@ -45,12 +45,25 @@ const SortieEam = () => {
         "Bulk issue": false,
         "SMR": true
     });
+    const [docModalOpen, setDocModalOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [docPhysiqueOk, setDocPhysiqueOk] = useState(false);
+    const [qteDocPhysique, setQteDocPhysique] = useState(null);
+
     const [searchValue, setSearchValue] = useState("");
     const { data, loading } = useSortieEamData(null);
 
+    const openDocModal = (record) => {
+        setSelectedRow(record);
+        setDocPhysiqueOk(record.doc_physique_ok === 1);
+        setQteDocPhysique(record.qte_doc_physique);
+        setDocModalOpen(true);
+    };
+
     const columns = useSortieEamTable({
         pagination,
-        columnsVisibility
+        columnsVisibility,
+        openDocModal
     });
 
     const columnMenu = (
@@ -80,7 +93,6 @@ const SortieEam = () => {
             (String(item.smr_ref).includes(search))  // convertir le nombre en string
         );
     }, [data, searchValue]);
-
   
   return (
     <div className="carburant-page">
