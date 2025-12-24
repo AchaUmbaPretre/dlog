@@ -156,9 +156,9 @@ export const useSortieEamTable = ({
               sorter: (a,b) => a.transaction - b.transaction
             },
             { title: "Out", 
-              dataIndex: "quantite_out", 
-              key: "quantite_out",
-              sorter: (a,b) => a.quantite_out - b.quantite_out,
+              dataIndex: "total_quantite_out", 
+              key: "total_quantite_out",
+              sorter: (a,b) => a.total_quantite_out - b.total_quantite_out,
               render: (text) => (
                 <Tag color="red" icon={<ArrowDownOutlined />}>
                   {text}
@@ -166,9 +166,9 @@ export const useSortieEamTable = ({
               )
             },
             { title: "IN", 
-              dataIndex: "quantite_in", 
-              key: "quantite_in",
-              sorter: (a,b) => a.quantite_in - b.quantite_in,
+              dataIndex: "total_quantite_in", 
+              key: "total_quantite_in",
+              sorter: (a,b) => a.total_quantite_in - b.total_quantite_in,
               render: (text) => (
                 <Tag color="green" icon={<ArrowUpOutlined />}>
                   {text}
