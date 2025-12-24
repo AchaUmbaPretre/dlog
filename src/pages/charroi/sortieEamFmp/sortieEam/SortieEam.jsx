@@ -45,7 +45,7 @@ const SortieEam = () => {
         "Site": false,
         "Status": false,
         "Transaction Type26":false,
-        "Qté physique" : false,
+        "Qté phy." : false,
         "Bulk issue": false,
         "SMR": true
     });
@@ -55,8 +55,8 @@ const SortieEam = () => {
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
 
     const [searchValue, setSearchValue] = useState("");
-    const { data, setData, loading } = useSortieEamData(null);
-    const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData);
+    const { data, setData, loading, reload } = useSortieEamData(null);
+    const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData, reload);
 
     const openDocModal = (record) => {
         setSelectedRow(record);

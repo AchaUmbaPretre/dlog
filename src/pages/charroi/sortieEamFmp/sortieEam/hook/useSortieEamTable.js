@@ -281,7 +281,7 @@ export const useSortieEamTable = ({
                 </Tooltip>
               )
             },
-            { title: "Qté physique", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
+            { title: "Qté phy.", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { 
               title: "Date trans.", 
