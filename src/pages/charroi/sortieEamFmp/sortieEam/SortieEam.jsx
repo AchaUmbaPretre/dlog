@@ -40,7 +40,7 @@ const SortieEam = () => {
         "Out": true,
         "IN": true,
         "Site": false,
-        "Status": true,
+        "Status": false,
         "Transaction Type26":false,
         "Bulk issue": false,
         "SMR": true
