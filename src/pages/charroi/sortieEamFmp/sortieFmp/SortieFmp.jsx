@@ -52,7 +52,7 @@ const SortieFmp = () => {
     const [selectedRow, setSelectedRow] = useState(null);
     const [docPhysiqueOk, setDocPhysiqueOk] = useState(false);
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
-    const { postDocPhysiqueFmp, loading: loadingDoc } = useSortieFmpDocForm(data, setData, reload);    
+    const { postDocPhysiqueFmps, loading: loadingDoc } = useSortieFmpDocForm(data, setData, reload);    
 
     const openDocModal = (record) => {
         setSelectedRow(record);
@@ -150,7 +150,7 @@ const SortieFmp = () => {
             open={docModalOpen}
             onCancel={() => setDocModalOpen(false)}
             onOk={() => {
-                  postDocPhysiqueFmp({
+                  postDocPhysiqueFmps({
                   smr : selectedRow.smr,
                   sortie_gsm_num_be : selectedRow.sortie_gsm_num_be,
                   item_code : selectedRow.item_code,
