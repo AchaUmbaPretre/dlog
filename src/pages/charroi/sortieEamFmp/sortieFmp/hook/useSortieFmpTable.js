@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { Tag, Typography } from "antd";
+import { Tag, Typography, Tooltip } from "antd";
 import moment from "moment";
 import {
   BarcodeOutlined,
@@ -7,13 +7,14 @@ import {
   HomeOutlined,
   InboxOutlined,
   CommentOutlined,
-  ClockCircleOutlined
+  CheckCircleOutlined,
+  CloseCircleOutlined
 } from "@ant-design/icons";
 import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const { Text } = Typography;
 
-export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
+export const useSortieFmpTable = ({ pagination, columnsVisibility, openDocModal }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -166,6 +167,33 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility }) => {
         ),
       },
 
+      { title: "Qté Doc.", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
+      { title: "Écart", dataIndex: "ecart_doc_fmp", key: "ecart_doc_fmp" },
+
+      {
+        title: "Doc FMP",
+        dataIndex: "doc_physique_ok",
+        key: "doc_physique_ok",
+        align: "center",
+        render: (value, record) => (
+                <Tooltip title="Cliquer pour saisir / modifier le document physique">
+                  <span
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openDocModal(record)}
+                  >
+                    {value === 1 ? (
+                      <Tag color="green">
+                        <CheckCircleOutlined /> Oui
+                      </Tag>
+                    ) : (
+                      <Tag color="red">
+                        <CloseCircleOutlined /> Non
+                      </Tag>
+                    )}
+                  </span>
+                </Tooltip>
+              )
+        },
       {
         title: "Unité",
         dataIndex: "unite",

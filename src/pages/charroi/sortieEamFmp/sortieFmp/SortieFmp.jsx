@@ -8,7 +8,8 @@ import {
   Typography,
   Card,
   Empty,
-  Checkbox
+  Checkbox,
+  Modal
 } from "antd";
 import {
   PrinterOutlined,
@@ -18,6 +19,8 @@ import {
 } from "@ant-design/icons";
 import { useSortieFmpData } from './hook/useSortieFmpData';
 import { useSortieFmpTable } from './hook/useSortieFmpTable';
+import SortieFmpDocForm from './sortieFmpDocForm/SortieFmpDocForm';
+import { useSortieFmpDocForm } from './sortieFmpDocForm/hook/useSortieFmpDocForm';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -36,18 +39,32 @@ const SortieFmp = () => {
     "Nb Colis": true,
     "Qté Doc." : false,
     "Écart": false,
+    "Doc FMP": false,
     "Unité": false,
     "SMR": true,
     "Différence": false,
     "Colonne 1": false,
     "Commentaire": false
     });
+    const [docModalOpen, setDocModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const { data, loading } = useSortieFmpData(null);
+    const { data, setData, loading, reload } = useSortieFmpData(null);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [docPhysiqueOk, setDocPhysiqueOk] = useState(false);
+    const [qteDocPhysique, setQteDocPhysique] = useState(null);
+    const { postDocPhysiqueFmp, loading: loadingDoc } = useSortieFmpDocForm(data, setData, reload);    
+
+    const openDocModal = (record) => {
+        setSelectedRow(record);
+        setDocPhysiqueOk(record.doc_physique_ok === 1);
+        setQteDocPhysique(record.qte_doc_physique);
+        setDocModalOpen(true);
+    };
 
     const columns = useSortieFmpTable({
         pagination,
-        columnsVisibility
+        columnsVisibility,
+        openDocModal
     });
 
     const columnMenu = (
@@ -128,6 +145,29 @@ const SortieFmp = () => {
                 bordered
             />
       </Card>
+        <Modal
+            title={`Document physique – SMR ${selectedRow?.smr_ref || ""}`}
+            open={docModalOpen}
+            onCancel={() => setDocModalOpen(false)}
+            onOk={() => {
+                  postDocPhysiqueFmp({
+                  id_sortie_eam: selectedRow.id_sortie_eam,
+                  smr_ref : selectedRow.smr_ref,
+                  part : selectedRow.part,
+                  docPhysiqueOk,
+                  qteDocPhysique
+                  });
+                  setDocModalOpen(false);
+            }}
+            okText="Enregistrer"
+        >
+            <SortieFmpDocForm
+                docPhysiqueOk={docPhysiqueOk}
+                setDocPhysiqueOk={setDocPhysiqueOk}
+                qteDocPhysique={qteDocPhysique}
+                setQteDocPhysique={setQteDocPhysique}
+            />
+        </Modal>
     </div>
   )
 }
