@@ -24,11 +24,11 @@ export const getReconciliation = async (smrIds = []) => {
     });
 };
 
-export const postPhysiqueEam = async () => {
+export const postDocPhysiqueEam = async () => {
     return axios.post(`${DOMAIN}/api/sortieEamFmp/eam_post`);
 };
 
-export const postPhysiqueFmp = async () => {
+export const postDocPhysiqueFmp = async () => {
     return axios.post(`${DOMAIN}/api/sortieEamFmp/fmp_post`);
 };
 
