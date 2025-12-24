@@ -260,8 +260,8 @@ export const useSortieEamTable = ({
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { 
               title: "Date trans.", 
-              dataIndex: "transanction_date", 
-              key: "transanction_date",
+              dataIndex: "last_transaction_date", 
+              key: "last_transaction_date",
               sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix(),
                 render: (text) => (
                   <Tag icon={<CalendarOutlined />} color="red">
