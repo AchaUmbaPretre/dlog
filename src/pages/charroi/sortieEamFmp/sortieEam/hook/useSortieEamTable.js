@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
-  Tag,
-  Typography
+  Tag
 } from "antd";
 import moment from "moment";
 import {
@@ -18,9 +17,6 @@ import {
   ArrowUpOutlined
 } from "@ant-design/icons";
 import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
-
-
-const { Text } = Typography;
 
 export const useSortieEamTable = ({
     pagination,
