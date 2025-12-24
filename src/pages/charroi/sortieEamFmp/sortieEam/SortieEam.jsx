@@ -20,6 +20,7 @@ import {
 import { useSortieEamTable } from './hook/useSortieEamTable';
 import { useSortieEamData } from './hook/useSortieEamData';
 import SortieEamModal from './sortieEamModal/SortieEamModal';
+import { useSortieEamPhysiqueForm } from './sortieEamModal/hook/useSortieEamPhysiqueForm';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -53,7 +54,8 @@ const SortieEam = () => {
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
 
     const [searchValue, setSearchValue] = useState("");
-    const { data, loading } = useSortieEamData(null);
+    const { data, setData, loading } = useSortieEamData(null);
+    const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData);
 
     const openDocModal = (record) => {
         setSelectedRow(record);
@@ -151,10 +153,16 @@ const SortieEam = () => {
         title={`Document physique – SMR ${selectedRow?.smr_ref || ""}`}
         open={docModalOpen}
         onCancel={() => setDocModalOpen(false)}
-            onOk={() => {
-                
-                setDocModalOpen(false);
-            }}
+        onOk={() => {
+            postDocPhysiqueEams({
+            id_sortie_eam: selectedRow.id_sortie_eam,
+            smr_ref : selectedRow.smr_ref,
+            part : selectedRow.part,
+            docPhysiqueOk,
+            qteDocPhysique
+            });
+            setDocModalOpen(false);
+        }}
             okText="Enregistrer"
         >
             <SortieEamModal
@@ -163,7 +171,7 @@ const SortieEam = () => {
                 qteDocPhysique={qteDocPhysique}
                 setQteDocPhysique={setQteDocPhysique}
             />
-        </Modal>
+      </Modal>
     </div>
   )
 }

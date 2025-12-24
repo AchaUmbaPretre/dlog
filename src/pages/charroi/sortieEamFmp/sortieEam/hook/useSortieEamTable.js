@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import {
+  Space,
   Tag,
   Tooltip,
   
@@ -268,9 +269,13 @@ export const useSortieEamTable = ({
                     onClick={() => openDocModal(record)}
                   >
                     {value === 1 ? (
-                      <CheckCircleOutlined style={{ color: "green", fontSize: 18 }} />
+                      <Tag color="green">
+                        <CheckCircleOutlined /> OUI
+                      </Tag>
                     ) : (
-                      <CloseCircleOutlined style={{ color: "red", fontSize: 18 }} />
+                      <Tag color="red">
+                        <CloseCircleOutlined /> NON
+                      </Tag>
                     )}
                   </span>
                 </Tooltip>
