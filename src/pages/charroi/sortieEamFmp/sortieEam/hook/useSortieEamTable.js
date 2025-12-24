@@ -270,17 +270,18 @@ export const useSortieEamTable = ({
                   >
                     {value === 1 ? (
                       <Tag color="green">
-                        <CheckCircleOutlined /> OUI
+                        <CheckCircleOutlined /> Oui
                       </Tag>
                     ) : (
                       <Tag color="red">
-                        <CloseCircleOutlined /> NON
+                        <CloseCircleOutlined /> Non
                       </Tag>
                     )}
                   </span>
                 </Tooltip>
               )
             },
+            { title: "Qté physique", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { 
               title: "Date trans.", 

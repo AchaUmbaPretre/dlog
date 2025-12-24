@@ -45,6 +45,7 @@ const SortieEam = () => {
         "Site": false,
         "Status": false,
         "Transaction Type26":false,
+        "Qté physique" : false,
         "Bulk issue": false,
         "SMR": true
     });
