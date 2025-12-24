@@ -146,14 +146,14 @@ const SortieFmp = () => {
             />
       </Card>
         <Modal
-            title={`Document physique – SMR ${selectedRow?.smr_ref || ""}`}
+            title={`Document physique – SMR ${selectedRow?.smr || ""}`}
             open={docModalOpen}
             onCancel={() => setDocModalOpen(false)}
             onOk={() => {
                   postDocPhysiqueFmp({
-                  id_sortie_eam: selectedRow.id_sortie_eam,
-                  smr_ref : selectedRow.smr_ref,
-                  part : selectedRow.part,
+                  smr : selectedRow.smr,
+                  sortie_gsm_num_be : selectedRow.sortie_gsm_num_be,
+                  item_code : selectedRow.item_code,
                   docPhysiqueOk,
                   qteDocPhysique
                   });

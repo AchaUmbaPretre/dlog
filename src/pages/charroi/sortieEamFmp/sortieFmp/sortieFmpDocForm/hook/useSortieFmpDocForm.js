@@ -12,7 +12,7 @@ export const useSortieFmpDocForm = (reload) => {
       await postDocPhysiqueFmp({
         smr,
         sortie_gsm_num_be,
-        item_code,
+        item_code, 
         doc_physique_ok: docPhysiqueOk ? 1 : 0,
         qte_doc_physique: docPhysiqueOk ? qteDocPhysique : null,
       })
