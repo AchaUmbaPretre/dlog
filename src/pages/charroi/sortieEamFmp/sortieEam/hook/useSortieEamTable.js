@@ -175,6 +175,8 @@ export const useSortieEamTable = ({
                 </Tag>
               )
             },
+            { title: "Qté Doc.", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
+            { title: "Écart", dataIndex: "ecart_doc_eam", key: "ecart_doc_eam" },
             { title: "Site", 
               dataIndex: "site", 
               key: "site",
@@ -281,7 +283,6 @@ export const useSortieEamTable = ({
                 </Tooltip>
               )
             },
-            { title: "Qté phy.", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { 
               title: "Date trans.", 

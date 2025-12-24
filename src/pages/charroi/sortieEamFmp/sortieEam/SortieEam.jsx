@@ -42,6 +42,7 @@ const SortieEam = () => {
         "Transaction": false,
         "Out": true,
         "IN": true,
+        "Écart": true,
         "Site": false,
         "Status": false,
         "Transaction Type26":false,
