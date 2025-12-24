@@ -34,6 +34,8 @@ const SortieFmp = () => {
     "Item Code": true,
     "Désignation": true,
     "Nb Colis": true,
+    "Qté Doc." : false,
+    "Écart": false,
     "Unité": false,
     "SMR": true,
     "Différence": false,

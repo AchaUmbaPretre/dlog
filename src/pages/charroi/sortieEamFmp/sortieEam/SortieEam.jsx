@@ -44,6 +44,7 @@ const SortieEam = () => {
         "IN": true,
         "Qté Doc." : false,
         "Écart": false,
+        "Doc EAM": false,
         "Site": false,
         "Status": false,
         "Transaction Type26":false,
