@@ -8,7 +8,8 @@ import {
   Typography,
   Card,
   Empty,
-  Checkbox
+  Checkbox,
+  Modal
 } from "antd";
 import {
   PrinterOutlined,
@@ -18,6 +19,7 @@ import {
 } from "@ant-design/icons";
 import { useSortieEamTable } from './hook/useSortieEamTable';
 import { useSortieEamData } from './hook/useSortieEamData';
+import SortieEamModal from './sortieEamModal/SortieEamModal';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -145,6 +147,23 @@ const SortieEam = () => {
                 bordered
             />
       </Card>
+      <Modal
+        title={`Document physique – SMR ${selectedRow?.smr_ref || ""}`}
+        open={docModalOpen}
+        onCancel={() => setDocModalOpen(false)}
+            onOk={() => {
+                
+                setDocModalOpen(false);
+            }}
+            okText="Enregistrer"
+        >
+            <SortieEamModal
+                docPhysiqueOk={docPhysiqueOk}
+                setDocPhysiqueOk={setDocPhysiqueOk}
+                qteDocPhysique={qteDocPhysique}
+                setQteDocPhysique={setQteDocPhysique}
+            />
+        </Modal>
     </div>
   )
 }

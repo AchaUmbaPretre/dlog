@@ -256,7 +256,7 @@ export const useSortieEamTable = ({
                 }
               }
             },
-           {
+            {
               title: "Doc EAM",
               dataIndex: "doc_physique_ok",
               key: "doc_physique_ok",
