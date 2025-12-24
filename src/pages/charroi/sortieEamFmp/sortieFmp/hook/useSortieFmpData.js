@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { notification } from "antd";
-import { getSortieEam, getSortieFmp } from "../../../../../services/sortieEamFmp";
+import { getSortieFmp } from "../../../../../services/sortieEamFmp";
 
 export const useSortieFmpData = (initialFilters = null) => {
     const [data, setData] = useState([]);
