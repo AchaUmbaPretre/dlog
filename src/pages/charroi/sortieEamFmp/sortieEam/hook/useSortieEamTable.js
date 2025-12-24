@@ -253,7 +253,18 @@ export const useSortieEamTable = ({
                 }
               }
             },
-            { title: "Doc EAM", dataIndex: "doc_physique_ok", key: "doc_physique_ok" },
+            {
+              title: "Doc EAM",
+              dataIndex: "doc_physique_ok",
+              key: "doc_physique_ok",
+              align: "center",
+              render: (value) =>
+                value === 1 ? (
+                  <CheckCircleOutlined style={{ color: "green", fontSize: 18 }} />
+                ) : (
+                  <CloseCircleOutlined style={{ color: "red", fontSize: 18 }} />
+                )
+            },
             { title: "Bulk issue", dataIndex: "bulk_issue", key: "bulk_issue" },
             { 
               title: "Date trans.", 
