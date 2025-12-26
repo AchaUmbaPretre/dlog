@@ -22,6 +22,7 @@ import { useSortieEamData } from './hook/useSortieEamData';
 import SortieEamModal from './sortieEamModal/SortieEamModal';
 import { useSortieEamPhysiqueForm } from './sortieEamModal/hook/useSortieEamPhysiqueForm';
 import SortieByEam from './sortieByEam/SortieByEam';
+import SortieEamFilter from './sortieEamFilter/SortieEamFilter';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -62,7 +63,8 @@ const SortieEam = () => {
     const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData, reload);
     const [modal, setModal] = useState({ type: null, id: null, twoId : null });
     const [filterVisible, setFilterVisible] = useState(false);
-
+    const [filters, setFilters] = useState([]);
+    
     const openDocModal = (record) => {
         setSelectedRow(record);
         setDocPhysiqueOk(record.doc_physique_ok === 1);
@@ -111,6 +113,11 @@ const SortieEam = () => {
     const handFilter = () => {
         setFilterVisible((v) => !v);
     };
+
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+        reload(newFilters);
+    };
   
   return (
     <div className="carburant-page">
@@ -145,26 +152,29 @@ const SortieEam = () => {
             </Space>
             }
         >
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                rowKey={(record) => record.id_sortie_eam}
-                size="middle"
-                loading={loading}
-                pagination={{
-                    ...pagination,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                    showTotal: (total) => `${total} enregistrements`,
-                }}
-                onChange={(p) => setPagination(p)}
-                scroll={{ x: 1100 }}
-                rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
-                locale={{
-                    emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
-                }}
-                bordered
-            />
+            {filterVisible && <SortieEamFilter onFilter={handleFilterChange} />}
+            <div>
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    rowKey={(record) => record.id_sortie_eam}
+                    size="middle"
+                    loading={loading}
+                    pagination={{
+                        ...pagination,
+                        showSizeChanger: true,
+                        showQuickJumper: true,
+                        showTotal: (total) => `${total} enregistrements`,
+                    }}
+                    onChange={(p) => setPagination(p)}
+                    scroll={{ x: 1100 }}
+                    rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
+                    locale={{
+                        emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
+                    }}
+                    bordered
+                />
+            </div>
       </Card>
       <Modal
         title={`Document physique – SMR ${selectedRow?.smr_ref || ""}`}
