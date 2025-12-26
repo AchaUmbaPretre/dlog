@@ -69,6 +69,7 @@ export const useSortieEamTable = ({
               title: "N° transanction",
               dataIndex: "transanction_num",
               key: "transanction_num",
+              sorter: (a,b) => a.transanction_num - b.transanction_num,
               ...getColumnSearchProps(
                   'transanction_num',
                   searchText,
@@ -85,6 +86,7 @@ export const useSortieEamTable = ({
             { title: "Part", 
               dataIndex: "part", 
               key: "part",
+              sorter: (a,b) => a.part - b.part,
               ...getColumnSearchProps(
                   'part',
                   searchText,
