@@ -22,6 +22,7 @@ import { useSortieFmpTable } from './hook/useSortieFmpTable';
 import SortieFmpDocForm from './sortieFmpDocForm/SortieFmpDocForm';
 import { useSortieFmpDocForm } from './sortieFmpDocForm/hook/useSortieFmpDocForm';
 import SortieByFmp from './sortieByFmp/SortieByFmp';
+import SortieFmpFilter from './sortieFmpFilter/SortieFmpFilter';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -49,12 +50,13 @@ const SortieFmp = () => {
     });
     const [docModalOpen, setDocModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const { data, setData, loading, reload } = useSortieFmpData(null);
+    const { data, setData, loading, reload, filters, setFilters } = useSortieFmpData(null);
     const [selectedRow, setSelectedRow] = useState(null);
     const [docPhysiqueOk, setDocPhysiqueOk] = useState(false);
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
     const { postDocPhysiqueFmps, loading: loadingDoc } = useSortieFmpDocForm(data, setData, reload);    
     const [modal, setModal] = useState({ type: null, id: null, twoId : null });
+    const [filterVisible, setFilterVisible] = useState(false);
 
     const openDocModal = (record) => {
         setSelectedRow(record);
@@ -100,6 +102,16 @@ const SortieFmp = () => {
         );
     }, [data, searchValue]);
 
+    const handFilter = () => {
+        setFilterVisible((v) => !v);
+    };
+
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+        reload(newFilters);
+    };
+
+
   return (
     <div className="carburant-page">
         <Card
@@ -126,30 +138,36 @@ const SortieFmp = () => {
                     Colonnes <DownOutlined />
                 </Button>
                 </Dropdown>
+                <Button type="default" onClick={handFilter}>
+                    {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
+                </Button>
                 <Button icon={<PrinterOutlined />}>Imprimer</Button>
             </Space>
             }
         >
-            <Table
-                columns={columns}
-                dataSource={filteredData}
-                rowKey={(record) => record.id_sortie_eam}
-                size="middle"
-                loading={loading}
-                pagination={{
-                    ...pagination,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                    showTotal: (total) => `${total} enregistrements`,
-                }}
-                onChange={(p) => setPagination(p)}
-                scroll={{ x: 1100 }}
-                rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
-                locale={{
-                    emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
-                }}
-                bordered
-            />
+            {filterVisible && <SortieFmpFilter onFilter={handleFilterChange} />}
+            <div>
+                <Table
+                    columns={columns}
+                    dataSource={filteredData}
+                    rowKey={(record) => record.id_sortie_eam}
+                    size="middle"
+                    loading={loading}
+                    pagination={{
+                        ...pagination,
+                        showSizeChanger: true,
+                        showQuickJumper: true,
+                        showTotal: (total) => `${total} enregistrements`,
+                    }}
+                    onChange={(p) => setPagination(p)}
+                    scroll={{ x: 1100 }}
+                    rowClassName={(record, index) => (index % 2 === 0 ? "odd-row" : "even-row")}
+                    locale={{
+                        emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
+                    }}
+                    bordered
+                />
+            </div>
       </Card>
         <Modal
             title={`Document physique – SMR ${selectedRow?.smr || ""}`}

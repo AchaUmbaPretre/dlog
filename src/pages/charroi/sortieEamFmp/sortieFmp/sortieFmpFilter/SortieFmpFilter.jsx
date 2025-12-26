@@ -1,42 +1,59 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Select, DatePicker, Skeleton, notification } from "antd";
-import { getSortieEam } from '../../../../../services/sortieEamFmp';
-import { useSortieEamData } from '../hook/useSortieEamData';
+import { getSortieEam, getSortieFmp } from '../../../../../services/sortieEamFmp';
 const { RangePicker } = DatePicker;
 
 
-const SortieEamFilter = ({ onFilter }) => {
+const SortieFmpFilter = ({ onFilter }) => {
       const [dateRange, setDateRange] = useState(null);
+      const [loading, setLoading] = useState(false);
       const [selectedSmr, setSelectedSmr] = useState([]);
-      const [selectedPart, setSelectedPart] = useState([]);
+      const [selectedItems, setSelectedItems] = useState([]);
       const [smr, setSmr] = useState([]);
-    const { data, loading, reload} = useSortieEamData(null);
+
+      useEffect(()=> {
+        const fetchData = async() => {
+            try {
+                const res = await getSortieFmp();
+                setSmr(res?.data)
+            } catch (err) {
+                notification.error({
+                    message: "Erreur lors du chargement",
+                    description: err?.response?.data?.message || "Impossible de charger les sorties EAM.",
+                });
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchData();
+      }, []);
     
     const smrOptions = useMemo(() => {
-    const uniqueSmr = [...new Set(data.map(item => item.smr_ref))];
+    const uniqueSmr = [...new Set(smr.map(item => item.smr))];
 
-    return uniqueSmr.map(smr_ref => ({
-        value: smr_ref,
-        label: smr_ref
+    return uniqueSmr.map(smr => ({
+        value: smr,
+        label: smr
     }));
-    }, [data]);
+    }, [smr]);
 
-    const partOptions = useMemo(() => {
-    return [...new Set(data.map(item => item.part))]
+    const ItemOptions = useMemo(() => {
+    return [...new Set(smr.map(item => item.item_code))]
         .sort((a, b) => a.localeCompare(b))
-        .map(part => ({
-        value: part,
-        label: part
+        .map(item_code => ({
+        value: item_code,
+        label: item_code
         }));
-    }, [data]);
+    }, [smr]);
 
     useEffect(() => {
         onFilter({
         smr: selectedSmr,
-        part: selectedPart,
+        item_code : selectedItems,
         dateRange,
         });
-    }, [selectedSmr, selectedPart, dateRange]);
+    }, [selectedSmr, selectedItems, dateRange]);
 
   return (
     <>
@@ -63,15 +80,15 @@ const SortieEamFilter = ({ onFilter }) => {
             </div>
 
             <div className="filter_row">
-                <label>PART :</label>
+                <label>ITEM :</label>
                 <Select
                     mode="multiple"
                     showSearch
                     optionFilterProp="label"
                     style={{ width: "100%" }}
-                    options={partOptions}
+                    options={ItemOptions}
                     placeholder="Sélectionnez..."
-                    onChange={setSelectedPart}
+                    onChange={setSelectedItems}
                 />
             </div>
 
@@ -80,4 +97,4 @@ const SortieEamFilter = ({ onFilter }) => {
   )
 }
 
-export default SortieEamFilter
+export default SortieFmpFilter

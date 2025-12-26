@@ -83,21 +83,26 @@ export const useSortieEamTable = ({
                 </Tag>
               ),
             },
-            { title: "Part", 
-              dataIndex: "part", 
+            {
+              title: "Part",
+              dataIndex: "part",
               key: "part",
-              sorter: (a,b) => a.part - b.part,
+              sorter: (a, b) => {
+                if (!a.part) return -1;
+                if (!b.part) return 1;
+                return a.part.toString().localeCompare(b.part.toString());
+              },
               ...getColumnSearchProps(
-                  'part',
-                  searchText,
-                  setSearchText,
-                  setSearchedColumn,
-                  searchInput
+                'part',
+                searchText,
+                setSearchText,
+                setSearchedColumn,
+                searchInput
               ),
               render: (text, record) => (
-                 <Tooltip title={`Cliquez ici pour voir le détail de ce part ${text}`}>
-                    <div onClick={() => openModal("View", record.smr_ref, record.part)}>{text}</div>
-                 </Tooltip>
+                <Tooltip title={`Cliquez ici pour voir le détail de ce part ${text}`}>
+                  <div onClick={() => openModal("View", record.smr_ref, record.part)}>{text}</div>
+                </Tooltip>
               )
             },
             { title: "Part description", 
