@@ -63,10 +63,6 @@ const SortieEam = () => {
     const [modal, setModal] = useState({ type: null, id: null, twoId : null });
     const [filterVisible, setFilterVisible] = useState(false);
 
-    const handFilter = () => {
-        setFilterVisible((v) => !v);
-    };
-    
     const openDocModal = (record) => {
         setSelectedRow(record);
         setDocPhysiqueOk(record.doc_physique_ok === 1);
@@ -111,6 +107,10 @@ const SortieEam = () => {
             (String(item.smr_ref).includes(search))  // convertir le nombre en string
         );
     }, [data, searchValue]);
+
+    const handFilter = () => {
+        setFilterVisible((v) => !v);
+    };
   
   return (
     <div className="carburant-page">
