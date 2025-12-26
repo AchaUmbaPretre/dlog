@@ -61,7 +61,12 @@ const SortieEam = () => {
     const { data, setData, loading, reload } = useSortieEamData(null);
     const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData, reload);
     const [modal, setModal] = useState({ type: null, id: null, twoId : null });
+    const [filterVisible, setFilterVisible] = useState(false);
 
+    const handFilter = () => {
+        setFilterVisible((v) => !v);
+    };
+    
     const openDocModal = (record) => {
         setSelectedRow(record);
         setDocPhysiqueOk(record.doc_physique_ok === 1);
@@ -129,6 +134,9 @@ const SortieEam = () => {
                 style={{ width: 260 }}
                 />
                 <Dropdown overlay={columnMenu} trigger={["click"]}>
+                <Button type="default" onClick={handFilter}>
+                    {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
+                </Button>
                 <Button icon={<MenuOutlined />}>
                     Colonnes <DownOutlined />
                 </Button>
