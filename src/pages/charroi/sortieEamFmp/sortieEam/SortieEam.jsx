@@ -21,6 +21,7 @@ import { useSortieEamTable } from './hook/useSortieEamTable';
 import { useSortieEamData } from './hook/useSortieEamData';
 import SortieEamModal from './sortieEamModal/SortieEamModal';
 import { useSortieEamPhysiqueForm } from './sortieEamModal/hook/useSortieEamPhysiqueForm';
+import SortieByEam from './sortieByEam/SortieByEam';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -59,6 +60,7 @@ const SortieEam = () => {
     const [searchValue, setSearchValue] = useState("");
     const { data, setData, loading, reload } = useSortieEamData(null);
     const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData, reload);
+    const [modal, setModal] = useState({ type: null, id: null, twoId : null });
 
     const openDocModal = (record) => {
         setSelectedRow(record);
@@ -67,10 +69,15 @@ const SortieEam = () => {
         setDocModalOpen(true);
     };
 
+    const openModal = (type, id = null) => setModal({ type, id });
+    const closeAllModals = () => setModal({ type: null, id: null });
+
+
     const columns = useSortieEamTable({
         pagination,
         columnsVisibility,
-        openDocModal
+        openDocModal,
+        openModal
     });
 
     const columnMenu = (
@@ -174,6 +181,15 @@ const SortieEam = () => {
                 qteDocPhysique={qteDocPhysique}
                 setQteDocPhysique={setQteDocPhysique}
             />
+      </Modal>
+
+      <Modal
+        open= {modal.type === 'View'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1000}
+      >
+        <SortieByEam eam={modal.id} />
       </Modal>
     </div>
   )

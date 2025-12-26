@@ -24,7 +24,8 @@ import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 export const useSortieEamTable = ({
     pagination,
     columnsVisibility,
-    openDocModal
+    openDocModal,
+    openModal
 }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -50,8 +51,8 @@ export const useSortieEamTable = ({
                   setSearchedColumn,
                   searchInput
               ),
-              render: (v) => (
-                <Tag color="green" icon={<InboxOutlined />}>
+              render: (v, record) => (
+                <Tag onClick={() => openModal("View", record.smr_ref, record.part)} color="green" icon={<InboxOutlined />}>
                   {v ?? 'N/A'}
                 </Tag>
               )
@@ -84,6 +85,9 @@ export const useSortieEamTable = ({
                   setSearchedColumn,
                   searchInput
               ),
+              render: (text, record) => (
+                <div onClick={() => openModal("View", record.smr_ref, record.part)}>{text}</div>
+              )
             },
             { title: "Part description", 
               dataIndex: "part_description", 
