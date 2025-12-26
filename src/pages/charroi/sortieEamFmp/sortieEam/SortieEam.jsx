@@ -186,7 +186,7 @@ const SortieEam = () => {
         open= {modal.type === 'View'}
         onCancel={closeAllModals}
         footer={null}
-        width={1000}
+        width={1050}
       >
         <SortieByEam eam={modal.id} part={modal.idTwo} />
       </Modal>
