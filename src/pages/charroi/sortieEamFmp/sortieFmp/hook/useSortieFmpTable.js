@@ -48,9 +48,11 @@ export const useSortieFmpTable = ({
             searchInput
         ),
         render: (v, record) => (
-          <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color="green" icon={<InboxOutlined />}>
-            {v}
-          </Tag>
+          <Tooltip title={`Cliquez ici pour voir le détail de ce part ${v}`}>
+            <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color="green" icon={<InboxOutlined />}>
+              {v}
+            </Tag>
+          </Tooltip>
         )
       },
 
@@ -66,7 +68,13 @@ export const useSortieFmpTable = ({
             setSearchedColumn,
             searchInput
         ),
-        render: (v, record) => <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color='geekblue' icon={<NumberOutlined />}>{v}</Tag>
+        render: (v, record) => (
+          <Tooltip title={`Cliquez ici pour voir le détail de ce N°BE ${v}`}>
+            <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color='geekblue' icon={<NumberOutlined />}>
+              {v}
+            </Tag>
+          </Tooltip>
+      )
       },
 
       {
