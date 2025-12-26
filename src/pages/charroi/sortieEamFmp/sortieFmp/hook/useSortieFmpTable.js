@@ -14,7 +14,12 @@ import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const { Text } = Typography;
 
-export const useSortieFmpTable = ({ pagination, columnsVisibility, openDocModal }) => {
+export const useSortieFmpTable = ({ 
+  pagination, 
+  columnsVisibility, 
+  openDocModal,
+  openModal
+}) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -41,8 +46,8 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility, openDocModal 
             setSearchedColumn,
             searchInput
         ),
-        render: (v) => (
-          <Tag color="green" icon={<InboxOutlined />}>
+        render: (v, record) => (
+          <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color="green" icon={<InboxOutlined />}>
             {v}
           </Tag>
         )
@@ -60,7 +65,7 @@ export const useSortieFmpTable = ({ pagination, columnsVisibility, openDocModal 
             setSearchedColumn,
             searchInput
         ),
-        render: (v) => <Tag color='geekblue' icon={<NumberOutlined />}>{v}</Tag>
+        render: (v, record) => <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color='geekblue' icon={<NumberOutlined />}>{v}</Tag>
       },
 
       {
