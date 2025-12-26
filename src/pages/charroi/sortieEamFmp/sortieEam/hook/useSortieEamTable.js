@@ -179,8 +179,16 @@ export const useSortieEamTable = ({
                 </Tag>
               )
             },
-            { title: "Qté Doc.", dataIndex: "qte_doc_physique", key: "qte_doc_physique" },
-            { title: "Écart", dataIndex: "ecart_doc_eam", key: "ecart_doc_eam" },
+            { title: "Qté Doc.", 
+              dataIndex: "qte_doc_physique", 
+              key: "qte_doc_physique",
+              sorter: (a,b) => a.qte_doc_physique - b.qte_doc_physique
+            },
+            { title: "Écart", 
+              dataIndex: "ecart_doc_eam", 
+              key: "ecart_doc_eam",
+              sorter: (a,b) => a.ecart_doc_eam - b.ecart_doc_eam
+            },
             { title: "Site", 
               dataIndex: "site", 
               key: "site",
