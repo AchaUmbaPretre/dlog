@@ -59,12 +59,11 @@ const SortieEam = () => {
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
 
     const [searchValue, setSearchValue] = useState("");
-    const { data, setData, loading, reload } = useSortieEamData(null);
+    const { data, setData, loading, reload, filters, setFilters} = useSortieEamData(null);
     const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData, reload);
     const [modal, setModal] = useState({ type: null, id: null, twoId : null });
     const [filterVisible, setFilterVisible] = useState(false);
-    const [filters, setFilters] = useState([]);
-    
+
     const openDocModal = (record) => {
         setSelectedRow(record);
         setDocPhysiqueOk(record.doc_physique_ok === 1);
@@ -126,7 +125,7 @@ const SortieEam = () => {
             <Space style={{display:'flex', alignItems:'center'}}>
                 <LogoutOutlined style={{ color: "#1677ff", fontSize: 22 }} />
                 <Title level={4} style={{ margin: 0 }}>
-                Sorties EAM
+                    Sorties EAM
                 </Title>
             </Space>
             }

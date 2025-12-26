@@ -3,8 +3,12 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
-export const getSortieEam = async () => {
-    return axios.get(`${DOMAIN}/api/sortieEamFmp/eam`);
+export const getSortieEam = async (data) => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/eam`, {
+        params: {
+            data
+        }
+    });
 };
 
 export const getSortieByEam = async (eam, part) => {
