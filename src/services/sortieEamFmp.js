@@ -7,6 +7,10 @@ export const getSortieEam = async () => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/eam`);
 };
 
+export const getSortieByEam = async () => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/by_smr_eam`);
+};
+
 export const getSortieFmp = async () => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/fmp`);
 };
