@@ -21,6 +21,7 @@ import { useSortieFmpData } from './hook/useSortieFmpData';
 import { useSortieFmpTable } from './hook/useSortieFmpTable';
 import SortieFmpDocForm from './sortieFmpDocForm/SortieFmpDocForm';
 import { useSortieFmpDocForm } from './sortieFmpDocForm/hook/useSortieFmpDocForm';
+import SortieByFmp from './sortieByFmp/SortieByFmp';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -53,6 +54,7 @@ const SortieFmp = () => {
     const [docPhysiqueOk, setDocPhysiqueOk] = useState(false);
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
     const { postDocPhysiqueFmps, loading: loadingDoc } = useSortieFmpDocForm(data, setData, reload);    
+    const [modal, setModal] = useState({ type: null, id: null, twoId : null });
 
     const openDocModal = (record) => {
         setSelectedRow(record);
@@ -61,10 +63,14 @@ const SortieFmp = () => {
         setDocModalOpen(true);
     };
 
+    const openModal = (type, id = null, idTwo = null) => setModal({ type, id, idTwo });
+    const closeAllModals = () => setModal({ type: null, id: null, idTwo: null });
+
     const columns = useSortieFmpTable({
         pagination,
         columnsVisibility,
-        openDocModal
+        openDocModal,
+        openModal
     });
 
     const columnMenu = (
@@ -168,6 +174,15 @@ const SortieFmp = () => {
                 setQteDocPhysique={setQteDocPhysique}
             />
         </Modal>
+
+        <Modal
+            open= {modal.type === 'View'}
+            onCancel={closeAllModals}
+            footer={null}
+            width={1150}
+        >
+            <SortieByFmp eam={modal.id} part={modal.idTwo} />
+      </Modal>
     </div>
   )
 }
