@@ -69,9 +69,8 @@ const SortieEam = () => {
         setDocModalOpen(true);
     };
 
-    const openModal = (type, id = null) => setModal({ type, id });
-    const closeAllModals = () => setModal({ type: null, id: null });
-
+    const openModal = (type, id = null, idTwo = null) => setModal({ type, id, idTwo });
+    const closeAllModals = () => setModal({ type: null, id: null, idTwo: null });
 
     const columns = useSortieEamTable({
         pagination,
@@ -189,7 +188,7 @@ const SortieEam = () => {
         footer={null}
         width={1000}
       >
-        <SortieByEam eam={modal.id} />
+        <SortieByEam eam={modal.id} part={modal.idTwo} />
       </Modal>
     </div>
   )
