@@ -12,6 +12,7 @@ import {
   Typography,
 } from 'antd';
 import { getSortieByEam, putSortieEam } from '../../../../../services/sortieEamFmp';
+import moment from 'moment';
 
 const { Title, Text} = Typography;
 const EditableCell = ({
@@ -107,11 +108,13 @@ const SortieByEam = ({ eam, part }) => {
     {
       title: 'Date',
       dataIndex: 'transanction_date',
+      sorter: (a,b) => moment(a.transanction_date).unix() - moment(b.transanction_date).unix(),
       render: (v) => new Date(v).toLocaleDateString(),
     },
     {
       title: 'Transaction #',
       dataIndex: 'transanction_num',
+      sorter: (a,b) => a.transanction_num - b.transanction_num,
     },
     {
       title: 'Store',
@@ -121,11 +124,13 @@ const SortieByEam = ({ eam, part }) => {
       title: 'Qté OUT',
       dataIndex: 'quantite_out',
       editable: true,
+      sorter: (a,b) => a.quantite_out - b.quantite_out,
     },
     {
       title: 'Qté IN',
       dataIndex: 'quantite_in',
       editable: true,
+      sorter: (a,b) => a.quantite_in - b.quantite_in
     },
     {
       title: 'Action',
