@@ -14,9 +14,6 @@ import { getSortieByFmp, putSortieFmp } from '../../../../../services/sortieEamF
 
 const { Title, Text } = Typography;
 
-/* =======================
-   Editable Cell (Auto-save)
-======================= */
 const EditableCell = ({
   editing,
   dataIndex,
@@ -102,9 +99,6 @@ const SortieByFmp = ({ num_be, smr }) => {
     }
   };
 
-  /* =======================
-        Colonnes Table
-  ======================= */
   const columns = [
     {
       title: 'ITEM',
@@ -142,9 +136,6 @@ const SortieByFmp = ({ num_be, smr }) => {
     };
   });
 
-  /* =======================
-        Totaux
-  ======================= */
   const totalColis = useMemo(
     () => data.reduce((sum, r) => sum + (r.nbre_colis || 0), 0),
     [data]
@@ -152,7 +143,6 @@ const SortieByFmp = ({ num_be, smr }) => {
 
   return (
     <Card bordered={false} style={{ borderRadius: 12 }}>
-      {/* ===== HEADER ===== */}
       <Space direction="vertical" size={6}>
         <Title level={4} style={{ marginBottom: 0 }}>
           Sorties FMP
@@ -170,7 +160,6 @@ const SortieByFmp = ({ num_be, smr }) => {
 
       <Divider />
 
-      {/* ===== TABLE ===== */}
       <Form form={form} component={false}>
         <Table
           components={{
