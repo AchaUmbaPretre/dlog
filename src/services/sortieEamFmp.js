@@ -24,6 +24,19 @@ export const getSortieFmp = async () => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/fmp`);
 };
 
+export const getSortieByFmp = async (num_be,smr) => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/by_smr_fmp`, {
+        params: {
+            sortie_gsm_num_be : num_be,
+            smr
+        }
+    });
+};
+
+export const putSortieFmp = async (data) => {
+    return axios.put(`${DOMAIN}/api/sortieEamFmp/put_fmp`, data);
+};
+
 export const getSmr = async () => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/smr`);
 };
