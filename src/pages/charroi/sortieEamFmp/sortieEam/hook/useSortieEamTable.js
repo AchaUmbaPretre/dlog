@@ -43,6 +43,7 @@ export const useSortieEamTable = ({
             { title: "SMR", 
               dataIndex: "smr_ref", 
               key: "smr_ref",
+              sorter: (a,b) => a.smr_ref - b.smr_ref,
               ...getColumnSearchProps(
                   'smr_ref',
                   searchText,
