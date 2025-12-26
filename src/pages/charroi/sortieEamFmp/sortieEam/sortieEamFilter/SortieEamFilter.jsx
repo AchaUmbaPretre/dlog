@@ -80,7 +80,7 @@ const SortieEamFilter = () => {
                     style={{ width: "100%" }}
                     options={partOptions}
                     placeholder="Sélectionnez..."
-                    onChange={setSelectedSmr}
+                    onChange={setSelectedPart}
                 />
             </div>
 
