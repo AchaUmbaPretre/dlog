@@ -52,9 +52,16 @@ export const useSortieEamTable = ({
                   searchInput
               ),
               render: (v, record) => (
-                <Tag onClick={() => openModal("View", record.smr_ref, record.part)} color="green" icon={<InboxOutlined />}>
-                  {v ?? 'N/A'}
-                </Tag>
+                <Tooltip title={`Cliquez ici pour voir le détail de ce SMR ${v}`} >
+                  <Tag
+                    color="green"
+                    icon={<InboxOutlined />}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => openModal("View", record.smr_ref, record.part)}
+                  >
+                    {v ?? "N/A"}
+                  </Tag>
+                </Tooltip>
               )
             },
             { title: "Mois", dataIndex: "mois", key: "mois" },
@@ -86,7 +93,9 @@ export const useSortieEamTable = ({
                   searchInput
               ),
               render: (text, record) => (
-                <div onClick={() => openModal("View", record.smr_ref, record.part)}>{text}</div>
+                 <Tooltip title={`Cliquez ici pour voir le détail de ce part ${text}`}>
+                    <div onClick={() => openModal("View", record.smr_ref, record.part)}>{text}</div>
+                 </Tooltip>
               )
             },
             { title: "Part description", 
