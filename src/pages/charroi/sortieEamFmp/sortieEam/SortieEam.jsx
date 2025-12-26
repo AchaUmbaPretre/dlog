@@ -133,10 +133,10 @@ const SortieEam = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
                 style={{ width: 260 }}
                 />
-                <Dropdown overlay={columnMenu} trigger={["click"]}>
                 <Button type="default" onClick={handFilter}>
                     {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
                 </Button>
+                <Dropdown overlay={columnMenu} trigger={["click"]}>
                 <Button icon={<MenuOutlined />}>
                     Colonnes <DownOutlined />
                 </Button>
