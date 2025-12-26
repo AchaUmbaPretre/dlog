@@ -181,7 +181,7 @@ const SortieFmp = () => {
             footer={null}
             width={1150}
         >
-            <SortieByFmp eam={modal.id} part={modal.idTwo} />
+            <SortieByFmp num_be={modal.id} smr={modal.idTwo} />
       </Modal>
     </div>
   )
