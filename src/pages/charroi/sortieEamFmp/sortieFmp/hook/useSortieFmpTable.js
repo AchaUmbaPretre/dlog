@@ -39,6 +39,7 @@ export const useSortieFmpTable = ({
         title: "SMR",
         dataIndex: "smr",
         key: "smr",
+        sorter: (a,b) => a.smr - b.smr,
         ...getColumnSearchProps(
             'smr',
             searchText,
