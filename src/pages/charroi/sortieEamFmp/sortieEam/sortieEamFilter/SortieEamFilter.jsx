@@ -4,7 +4,7 @@ import { getSortieEam } from '../../../../../services/sortieEamFmp';
 const { RangePicker } = DatePicker;
 
 
-const SortieEamFilter = () => {
+const SortieEamFilter = ({ onFilter }) => {
       const [dateRange, setDateRange] = useState(null);
       const [loading, setLoading] = useState(false);
       const [selectedSmr, setSelectedSmr] = useState([]);
@@ -39,13 +39,21 @@ const SortieEamFilter = () => {
     }, [smr]);
 
     const partOptions = useMemo(() => {
-        const uniqueSmr = [...new Set(smr.map(item => item.part))];
-
-        return uniqueSmr.map(part => ({
-            value: part,
-            label: part 
+    return [...new Set(smr.map(item => item.part))]
+        .sort((a, b) => a.localeCompare(b))
+        .map(part => ({
+        value: part,
+        label: part
         }));
     }, [smr]);
+
+    useEffect(() => {
+        onFilter({
+        smr: selectedSmr,
+        part: selectedPart,
+        dateRange,
+        });
+    }, [selectedSmr, selectedPart, dateRange]);
 
   return (
     <>
