@@ -52,7 +52,7 @@ const SortieFmp = () => {
     });
     const [docModalOpen, setDocModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
-    const { data, setData, loading, reload, filters, setFilters } = useSortieFmpData(null);
+    const { data, setData, loading, reload, setFilters } = useSortieFmpData(null);
     const [selectedRow, setSelectedRow] = useState(null);
     const [docPhysiqueOk, setDocPhysiqueOk] = useState(false);
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
@@ -104,9 +104,6 @@ const SortieFmp = () => {
         );
     }, [data, searchValue]);
 
-    const handFilter = () => {
-        setFilterVisible((v) => !v);
-    };
 
     const handleFilterChange = (newFilters) => {
         setFilters(newFilters);

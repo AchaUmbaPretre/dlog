@@ -111,9 +111,6 @@ const SortieEam = () => {
         );
     }, [data, searchValue]);
 
-    const handFilter = () => {
-        setFilterVisible((v) => !v);
-    };
 
     const handleFilterChange = (newFilters) => {
         setFilters(newFilters);
