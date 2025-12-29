@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { notification } from "antd";
-import { getReconciliation, getSmr } from "../../../../../services/sortieEamFmp";
+import { getPartItem, getReconciliation, getSmr } from "../../../../../services/sortieEamFmp";
 
 export const useReconciliationData = (initialFilters = null) => {
     const [data, setData] = useState([]);
@@ -8,7 +8,8 @@ export const useReconciliationData = (initialFilters = null) => {
     const [filters, setFilters] = useState(initialFilters);
     const [smrs, setSmrs] = useState([]);
     const [selectedSmr, setSelectedSmr] = useState([]);
-
+    const [items, setItems] = useState([]);
+     
     const load = useCallback(
         async (overrideFilters) => {
             const effectiveFilters = overrideFilters ?? selectedSmr;
@@ -51,6 +52,23 @@ export const useReconciliationData = (initialFilters = null) => {
         loadSmrs();
     }, []);
 
+    useEffect(() => {
+        const loadItem = async () => {
+            try {
+                const res = await getPartItem();
+                setItems(res?.data ?? []);
+            } catch (error) {
+                notification.error({
+                    message: "Erreur de chargement",
+                    description: "Impossible de récupérer les données d'Item.",
+                    placement: "topRight",
+                });
+            }
+        };
+
+        loadItem();
+    }, []);
+
     return {
         data,
         setData,
@@ -61,5 +79,7 @@ export const useReconciliationData = (initialFilters = null) => {
         smrs,
         selectedSmr,
         setSelectedSmr,
+        items, 
+        setItems
     };
 };
