@@ -9,7 +9,8 @@ export const useReconciliationData = (initialFilters = null) => {
     const [smrs, setSmrs] = useState([]);
     const [selectedSmr, setSelectedSmr] = useState([]);
     const [items, setItems] = useState([]);
-     
+    const [selectedItems, setSelectedItems] = useState([]);
+
     const load = useCallback(
         async (overrideFilters) => {
             const effectiveFilters = overrideFilters ?? selectedSmr;
@@ -28,7 +29,7 @@ export const useReconciliationData = (initialFilters = null) => {
                 setLoading(false);
             }
         },
-        [selectedSmr]
+        [selectedSmr, selectedItems]
     );
 
     useEffect(() => {
@@ -80,6 +81,8 @@ export const useReconciliationData = (initialFilters = null) => {
         selectedSmr,
         setSelectedSmr,
         items, 
-        setItems
+        setItems,
+        selectedItems, 
+        setSelectedItems
     };
 };
