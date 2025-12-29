@@ -53,10 +53,10 @@ export const getPartItem = async () => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/part_item`);
 };
 
-export const getReconciliation = async (smrIds = []) => {
+export const getReconciliation = async (data) => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/reconciliation`, {
         params: {
-            smr: smrIds
+            data
         }
     });
 };

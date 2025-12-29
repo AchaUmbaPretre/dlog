@@ -6,8 +6,7 @@ import {
   Space,
   Typography,
   Card,
-  Empty,
-  Select
+  Empty
 } from "antd";
 import {
   PrinterOutlined,
