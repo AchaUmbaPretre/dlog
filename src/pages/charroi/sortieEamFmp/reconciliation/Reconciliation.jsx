@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import { useReconciliationData } from './hook/useReconciliationData'
 import { useReconciliationTable } from './hook/useReconciliationTable';
+import ReconciliationFilter from './reconciliationFilter/ReconciliationFilter';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -29,7 +30,8 @@ const Reconciliation = () => {
             "Ecart": true
     });
     const [searchValue, setSearchValue] = useState("");
-    const { data, loading, smrs, setSelectedSmr } = useReconciliationData(null);
+    const { data, loading, reload, filters, setFilters, smrs, setSelectedSmr } = useReconciliationData(null);
+    const [filterVisible, setFilterVisible] = useState(false);
 
     const columns = useReconciliationTable({
         pagination,
@@ -46,16 +48,15 @@ const Reconciliation = () => {
             );
     }, [data, searchValue]);
 
-    const smrOptions = useMemo(
-        () => 
-            smrs?.map((item) => ({
-                value: item.smr,
-                label: item.smr
-            })),
-        [smrs]
-    );
+    const handFilter = () => {
+        setFilterVisible((v) => !v);
+    };
 
-    console.log(smrs)
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+        reload(newFilters);
+    };
+
   return (
     <>
         <div className="carburant-page">
@@ -78,22 +79,14 @@ const Reconciliation = () => {
                     onChange={(e) => setSearchValue(e.target.value)}
                     style={{ width: 260 }}
                     />
+                    <Button type="default" onClick={handFilter}>
+                        {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
+                    </Button>
                     <Button icon={<PrinterOutlined />}>Imprimer</Button>
                 </Space>
                 }
             >
-                <div className="select_rec">
-                    <Select
-                        mode="multiple"
-                        showSearch
-                        optionFilterProp="label"
-                        style={{ width: "100%" }}
-                        options={smrOptions}
-                        placeholder="Sélectionnez un ou plusieurs SMR..."
-                        onChange={setSelectedSmr}
-                    />
-                </div>
-
+                {filterVisible && <ReconciliationFilter onFilter={handleFilterChange}/>}
                 <Table
                     columns={columns}
                     dataSource={filteredData}

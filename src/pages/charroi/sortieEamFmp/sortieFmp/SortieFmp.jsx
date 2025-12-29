@@ -98,7 +98,7 @@ const SortieFmp = () => {
         return data.filter(
             (item) =>
                 item.designation?.toLowerCase().includes(search) || 
-                String(item.smr).includes(search)  // convertir le nombre en string
+                String(item.smr).includes(search)
         );
     }, [data, searchValue]);
 
