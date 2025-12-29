@@ -1,6 +1,25 @@
 import React, { useMemo, useState } from "react";
-import { Table, Button, Input, Space, Typography, Card, Empty, Tag, Checkbox, Dropdown } from "antd";
-import { PrinterOutlined, SwapOutlined, FilterOutlined, MinusOutlined, CheckOutlined, DownOutlined, MenuOutlined } from "@ant-design/icons";
+import {
+  Table,
+  Button,
+  Input,
+  Space,
+  Typography,
+  Card,
+  Empty,
+  Tag,
+  Checkbox,
+  Dropdown
+} from "antd";
+import {
+  PrinterOutlined,
+  SwapOutlined,
+  FilterOutlined,
+  MinusOutlined,
+  CheckOutlined,
+  DownOutlined,
+  MenuOutlined
+} from "@ant-design/icons";
 import { useReconciliationData } from "./hook/useReconciliationData";
 import { useReconciliationTable } from "./hook/useReconciliationTable";
 import ReconciliationFilter from "./reconciliationFilter/ReconciliationFilter";
@@ -16,39 +35,31 @@ const Reconciliation = () => {
     qte_eam: true,
     qte_fmp: true,
     ecart: true,
-    type_smr: true,
+    type_smr: false,
   });
   const [searchValue, setSearchValue] = useState("");
-  const [filters, setFilters] = useState({});
+  const { data, loading, reload, setFilters } = useReconciliationData(null);
   const [filterVisible, setFilterVisible] = useState(false);
 
-  const { data, loading, reload } = useReconciliationData(null);
+  const columns = useReconciliationTable({ pagination, columnsVisibility });
 
-  const columns = useReconciliationTable({ columnsVisibility, searchText: searchValue, setSearchText: setSearchValue });
-
-  // Filtrage combiné (recherche + filtres ReconciliationFilter)
+  // Filtrage par recherche
   const filteredData = useMemo(() => {
-    return data.filter(item => {
-      const matchesSearch =
-        !searchValue ||
-        item.description?.toLowerCase().includes(searchValue.toLowerCase()) ||
-        item.code_article?.toLowerCase().includes(searchValue.toLowerCase());
-
-      const matchesFilters = Object.entries(filters).every(([key, value]) => {
-        if (!value || value.length === 0) return true;
-        return value.includes(item[key]);
-      });
-
-      return matchesSearch && matchesFilters;
-    });
-  }, [data, searchValue, filters]);
+    const search = searchValue.toLowerCase().trim();
+    if (!search) return data;
+    return data.filter(
+      (item) =>
+        item.description?.toLowerCase().includes(search) ||
+        item.code_article?.toLowerCase().includes(search)
+    );
+  }, [data, searchValue]);
 
   // Séparer AVEC / SANS SMR
-  const dataAvecSmr = filteredData.filter(r => r.type_smr === "AVEC_SMR");
-  const dataSansSmr = filteredData.filter(r => r.type_smr === "SANS_SMR");
+  const dataAvecSmr = filteredData.filter((r) => r.type_smr === "AVEC_SMR");
+  const dataSansSmr = filteredData.filter((r) => r.type_smr === "SANS_SMR");
 
   // Totaux
-  const calcTotals = arr => ({
+  const calcTotals = (arr) => ({
     qte_eam: arr.reduce((sum, r) => sum + r.qte_eam, 0),
     qte_fmp: arr.reduce((sum, r) => sum + r.qte_fmp, 0),
     ecart: arr.reduce((sum, r) => sum + r.ecart, 0),
@@ -57,31 +68,31 @@ const Reconciliation = () => {
   const totalAvecSmr = calcTotals(dataAvecSmr);
   const totalSansSmr = calcTotals(dataSansSmr);
 
-  const handleFilterToggle = () => setFilterVisible(v => !v);
+  const handleFilterToggle = () => setFilterVisible((v) => !v);
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
     reload(newFilters);
   };
 
-  const columnMenu = (
-    <div style={{ padding: 10, background: "#fff" }}>
-      {Object.keys(columnsVisibility).map(colName => (
-        <div key={colName}>
-          <Checkbox
-            checked={columnsVisibility[colName]}
-            onChange={() =>
-              setColumnsVisibility(prev => ({ ...prev, [colName]: !prev[colName] }))
-            }
-          >
-            {colName}
-          </Checkbox>
+    const columnMenu = (
+        <div style={{ padding: 10, background: "#fff" }}>
+        {Object.keys(columnsVisibility).map((colName) => (
+            <div key={colName}>
+            <Checkbox
+                checked={columnsVisibility[colName]}
+                onChange={() =>
+                setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
+                }
+            >
+                {colName}
+            </Checkbox>
+            </div>
+        ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 
-  const tableFooter = totals => (
+  const tableFooter = (totals) => (
     <Space size="large" style={{ fontWeight: 600 }}>
       <Text strong>Total EAM: {totals.qte_eam}</Text>
       <Text strong>Total FMP: {totals.qte_fmp}</Text>
@@ -95,7 +106,9 @@ const Reconciliation = () => {
         title={
           <Space>
             <SwapOutlined style={{ color: "#1890ff", fontSize: 22 }} />
-            <Title level={4} style={{ margin: 0 }}>Réconciliation</Title>
+            <Title level={4} style={{ margin: 0 }}>
+              Réconciliation
+            </Title>
           </Space>
         }
         bordered={false}
@@ -109,7 +122,9 @@ const Reconciliation = () => {
               style={{ width: 280 }}
             />
             <Dropdown overlay={columnMenu} trigger={["click"]}>
-              <Button icon={<MenuOutlined />}>Colonnes <DownOutlined /></Button>
+                <Button icon={<MenuOutlined />}>
+                    Colonnes <DownOutlined />
+                </Button>
             </Dropdown>
             <Button
               type={filterVisible ? "primary" : "default"}
@@ -118,18 +133,30 @@ const Reconciliation = () => {
             >
               {filterVisible ? "Masquer les filtres" : "Afficher les filtres"}
             </Button>
-            <Button icon={<PrinterOutlined />} type="default">Imprimer</Button>
+            <Button icon={<PrinterOutlined />} type="default">
+              Imprimer
+            </Button>
           </Space>
         }
       >
-        {filterVisible && <ReconciliationFilter onFilter={handleFilterChange} style={{ marginBottom: 16 }} />}
+        {filterVisible && (
+          <ReconciliationFilter
+            onFilter={handleFilterChange}
+            style={{ marginBottom: 16 }}
+          />
+        )}
 
         {/* Tableau AVEC SMR */}
         <Card
           title={
             <Space>
-              <Tag color="green" icon={<CheckOutlined />}>AVEC SMR</Tag>
-              <Text strong>Totaux - EAM: {totalAvecSmr.qte_eam}, FMP: {totalAvecSmr.qte_fmp}, Écart: {totalAvecSmr.ecart}</Text>
+              <Tag color="green" icon={<CheckOutlined />}>
+                AVEC SMR
+              </Tag>
+              <Text strong>
+                Totaux - EAM: {totalAvecSmr.qte_eam}, FMP: {totalAvecSmr.qte_fmp}, Écart:{" "}
+                {totalAvecSmr.ecart}
+              </Text>
             </Space>
           }
           style={{ marginBottom: 24 }}
@@ -144,7 +171,9 @@ const Reconciliation = () => {
             pagination={{ ...pagination, showSizeChanger: true, showQuickJumper: true }}
             onChange={(p) => setPagination(p)}
             scroll={{ x: 1200 }}
-            locale={{ emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} /> }}
+            locale={{
+              emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
+            }}
             bordered
             footer={() => tableFooter(totalAvecSmr)}
           />
@@ -154,8 +183,13 @@ const Reconciliation = () => {
         <Card
           title={
             <Space>
-              <Tag color="orange" icon={<MinusOutlined />}>SANS SMR</Tag>
-              <Text strong>Totaux - EAM: {totalSansSmr.qte_eam}, FMP: {totalSansSmr.qte_fmp}, Écart: {totalSansSmr.ecart}</Text>
+              <Tag color="orange" icon={<MinusOutlined />}>
+                SANS SMR
+              </Tag>
+              <Text strong>
+                Totaux - EAM: {totalSansSmr.qte_eam}, FMP: {totalSansSmr.qte_fmp}, Écart:{" "}
+                {totalSansSmr.ecart}
+              </Text>
             </Space>
           }
           bordered={false}
@@ -169,7 +203,9 @@ const Reconciliation = () => {
             pagination={{ ...pagination, showSizeChanger: true, showQuickJumper: true }}
             onChange={(p) => setPagination(p)}
             scroll={{ x: 1200 }}
-            locale={{ emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} /> }}
+            locale={{
+              emptyText: <Empty description="Aucune donnée disponible" image={Empty.PRESENTED_IMAGE_SIMPLE} />,
+            }}
             bordered
             footer={() => tableFooter(totalSansSmr)}
           />

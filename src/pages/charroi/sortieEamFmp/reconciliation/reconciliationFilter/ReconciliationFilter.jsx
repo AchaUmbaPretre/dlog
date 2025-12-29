@@ -5,8 +5,7 @@ import { useReconciliationData } from '../hook/useReconciliationData';
 const { RangePicker } = DatePicker;
 
 const ReconciliationFilter = ({ onFilter }) => {
-    const [dateRange, setDateRange] = useState(null);
-    const { smrs, selectedSmr, setSelectedSmr, items, selectedItems, setSelectedItems } = useReconciliationData(null);
+    const { smrs, selectedSmr, setSelectedSmr, items, selectedItems, setSelectedItems, dateRange, setDateRange } = useReconciliationData(null);
 
     const itemsOptions = useMemo(
         () => 
