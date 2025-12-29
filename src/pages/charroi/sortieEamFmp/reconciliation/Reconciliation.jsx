@@ -23,11 +23,11 @@ const { Title } = Typography;
 const Reconciliation = () => {
     const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
     const [columnsVisibility, setColumnsVisibility] = useState({
-            "Code article": true,
-            "Description": true,
-            "Qté EAM": false,
-            "Qté FMP": false,
-            "Ecart": true
+        "Code article": true,
+        "Description": true,
+        "Qté EAM": false,
+        "Qté FMP": false,
+        "Ecart": true
     });
     const [searchValue, setSearchValue] = useState("");
     const { data, loading, reload, filters, setFilters, smrs, setSelectedSmr } = useReconciliationData(null);
