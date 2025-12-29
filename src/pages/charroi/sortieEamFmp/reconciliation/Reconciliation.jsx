@@ -30,7 +30,7 @@ const Reconciliation = () => {
         "Ecart": true
     });
     const [searchValue, setSearchValue] = useState("");
-    const { data, loading, reload, filters, setFilters, smrs, setSelectedSmr } = useReconciliationData(null);
+    const { data, loading, reload, setFilters } = useReconciliationData(null);
     const [filterVisible, setFilterVisible] = useState(false);
 
     const columns = useReconciliationTable({
