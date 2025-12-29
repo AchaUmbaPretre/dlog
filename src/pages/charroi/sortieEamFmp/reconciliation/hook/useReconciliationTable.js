@@ -22,6 +22,7 @@ export const useReconciliationTable = ({
                 key: "code_article",
                 fixed: "left",
                 width: 150,
+                sorter: (a,b) => a.code_article - b.code_article,
                 ...getColumnSearchProps(
                     'code_article',
                     searchText,
