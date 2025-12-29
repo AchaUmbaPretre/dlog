@@ -66,7 +66,6 @@ const Reconciliation = () => {
     );
   }, [data, searchValue]);
 
-  /** 🔹 SÉPARATION AVEC / SANS SMR */
   const dataAvecSmr = useMemo(
     () => filteredData.filter((r) => r.type_smr === "AVEC_SMR"),
     [filteredData]
@@ -77,7 +76,6 @@ const Reconciliation = () => {
     [filteredData]
   );
 
-  /** 🔹 TOTAUX */
   const calcTotals = (arr) => ({
     qte_eam: arr.reduce((s, r) => s + r.qte_eam, 0),
     qte_fmp: arr.reduce((s, r) => s + r.qte_fmp, 0),
@@ -163,7 +161,6 @@ const Reconciliation = () => {
           />
         </Card>
 
-        {/* ================= SANS SMR ================= */}
         <Card
           title={
             <Space>
