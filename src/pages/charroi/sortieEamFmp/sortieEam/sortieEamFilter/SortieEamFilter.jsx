@@ -9,7 +9,6 @@ const SortieEamFilter = ({ onFilter }) => {
       const [dateRange, setDateRange] = useState(null);
       const [selectedSmr, setSelectedSmr] = useState([]);
       const [selectedPart, setSelectedPart] = useState([]);
-      const [smr, setSmr] = useState([]);
     const { data, loading, reload} = useSortieEamData(null);
     
     const smrOptions = useMemo(() => {
