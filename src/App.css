@@ -172,3 +172,11 @@ body,.app-rows{
   }
 
 }
+
+.row-avec-smr {
+    background-color: #f6ffed;
+}
+
+.row-sans-smr {
+    background-color: #fff7e6;
+}

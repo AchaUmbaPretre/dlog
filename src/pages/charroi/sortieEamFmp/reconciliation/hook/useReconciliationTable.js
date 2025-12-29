@@ -4,17 +4,12 @@ import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const { Text } = Typography;
 
-export const useReconciliationTable = ({
-    pagination,
-    columnsVisibility
-}) => {
-
+export const useReconciliationTable = ({ pagination, columnsVisibility }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
 
     return useMemo(() => {
-
         const allColumns = [
             {
                 title: "Code article",
@@ -22,13 +17,7 @@ export const useReconciliationTable = ({
                 key: "code_article",
                 fixed: "left",
                 width: 150,
-                ...getColumnSearchProps(
-                    'code_article',
-                    searchText,
-                    setSearchText,
-                    setSearchedColumn,
-                    searchInput
-                ),
+                ...getColumnSearchProps('code_article', searchText, setSearchText, setSearchedColumn, searchInput),
                 render: (value) => <Text strong>{value}</Text>,
             },
             {
@@ -37,13 +26,7 @@ export const useReconciliationTable = ({
                 key: "description",
                 ellipsis: true,
                 width: 250,
-                ...getColumnSearchProps(
-                    'description',
-                    searchText,
-                    setSearchText,
-                    setSearchedColumn,
-                    searchInput
-                ),
+                ...getColumnSearchProps('description', searchText, setSearchText, setSearchedColumn, searchInput),
             },
             {
                 title: "Qté EAM",
@@ -52,9 +35,6 @@ export const useReconciliationTable = ({
                 align: "right",
                 width: 120,
                 sorter: (a,b) => a.qte_eam - b.qte_eam,
-                render: (value) => (
-                    <Text>{value}</Text>
-                ),
             },
             {
                 title: "Qté FMP",
@@ -63,9 +43,6 @@ export const useReconciliationTable = ({
                 align: "right",
                 width: 120,
                 sorter: (a,b) => a.qte_fmp - b.qte_fmp,
-                render: (value) => (
-                    <Text>{value}</Text>
-                ),
             },
             {
                 title: "Écart",
@@ -75,23 +52,34 @@ export const useReconciliationTable = ({
                 width: 120,
                 sorter: (a,b) => a.ecart - b.ecart,
                 render: (value) => {
-                    if (value === 0) {
-                        return <Tag color="green">0</Tag>;
-                    }
-                    if (value > 0) {
-                        return <Tag color="blue">+{value}</Tag>;
-                    }
+                    if (value === 0) return <Tag color="green">0</Tag>;
+                    if (value > 0) return <Tag color="blue">+{value}</Tag>;
                     return <Tag color="red">{value}</Tag>;
                 },
             },
+            {
+                title: "SMR",
+                dataIndex: "type_smr",
+                key: "type_smr",
+                align: "center",
+                width: 120,
+                render: (value) =>
+                    value === "SANS_SMR"
+                        ? <Tag color="orange">Sans SMR</Tag>
+                        : <Tag color="green">Avec SMR</Tag>,
+                filters: [
+                    { text: "Avec SMR", value: "AVEC_SMR" },
+                    { text: "Sans SMR", value: "SANS_SMR" },
+                ],
+                onFilter: (value, record) => record.type_smr === value,
+            },
         ];
 
-        // Gestion optionnelle de visibilité dynamique
         const visibleColumns = columnsVisibility
             ? allColumns.filter(col => columnsVisibility[col.key] !== false)
             : allColumns;
 
         return visibleColumns;
 
-    }, [pagination, columnsVisibility]);
+    }, [pagination, columnsVisibility, searchText]);
 };
