@@ -15,7 +15,9 @@ import {
   PrinterOutlined,
   LogoutOutlined,
   DownOutlined,
-  MenuOutlined
+  MenuOutlined,
+  EyeInvisibleOutlined,
+  FilterOutlined
 } from "@ant-design/icons";
 import { useSortieEamTable } from './hook/useSortieEamTable';
 import { useSortieEamData } from './hook/useSortieEamData';
@@ -139,9 +141,14 @@ const SortieEam = () => {
                 onChange={(e) => setSearchValue(e.target.value)}
                 style={{ width: 260 }}
                 />
-                <Button type="default" onClick={handFilter}>
-                    {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
-                </Button>
+                    <Button
+                        icon={
+                            filterVisible ? <EyeInvisibleOutlined /> : <FilterOutlined />
+                        }
+                        onClick={() => setFilterVisible(v => !v)}
+                    >
+                        {filterVisible ? "Cacher les filtres" : "Afficher les filtres"}
+                    </Button>
                 <Dropdown overlay={columnMenu} trigger={["click"]}>
                 <Button icon={<MenuOutlined />}>
                     Colonnes <DownOutlined />

@@ -15,7 +15,9 @@ import {
   PrinterOutlined,
   InboxOutlined,
   DownOutlined,
-  MenuOutlined
+  MenuOutlined,
+  EyeInvisibleOutlined,
+  FilterOutlined
 } from "@ant-design/icons";
 import { useSortieFmpData } from './hook/useSortieFmpData';
 import { useSortieFmpTable } from './hook/useSortieFmpTable';
@@ -138,8 +140,13 @@ const SortieFmp = () => {
                     Colonnes <DownOutlined />
                 </Button>
                 </Dropdown>
-                <Button type="default" onClick={handFilter}>
-                    {filterVisible ? "🚫 Cacher les filtres" : "👁️ Afficher les filtres"}
+                <Button
+                    icon={
+                        filterVisible ? <EyeInvisibleOutlined /> : <FilterOutlined />
+                    }
+                    onClick={() => setFilterVisible(v => !v)}
+                >
+                    {filterVisible ? "Cacher les filtres" : "Afficher les filtres"}
                 </Button>
                 <Button icon={<PrinterOutlined />}>Imprimer</Button>
             </Space>

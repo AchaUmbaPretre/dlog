@@ -14,6 +14,8 @@ import {
   SwapOutlined,
   CheckOutlined,
   MinusOutlined,
+  EyeInvisibleOutlined,
+  FilterOutlined
 } from "@ant-design/icons";
 
 import { useReconciliationData } from "./hook/useReconciliationData";
@@ -85,7 +87,6 @@ const Reconciliation = () => {
   const totalAvec = calcTotals(dataAvecSmr);
   const totalSans = calcTotals(dataSansSmr);
 
-  /** 🔹 FILTRE (RESET PAGINATIONS OBLIGATOIRE) */
   const handleFilterChange = (filters) => {
     setPaginationAvec((p) => ({ ...p, current: 1 }));
     setPaginationSans((p) => ({ ...p, current: 1 }));
@@ -112,8 +113,13 @@ const Reconciliation = () => {
               style={{ width: 260 }}
               onChange={(e) => setSearchValue(e.target.value)}
             />
-            <Button onClick={() => setFilterVisible((v) => !v)}>
-              {filterVisible ? "Cacher filtres" : "Afficher filtres"}
+            <Button
+                icon={
+                    filterVisible ? <EyeInvisibleOutlined /> : <FilterOutlined />
+                }
+                onClick={() => setFilterVisible(v => !v)}
+            >
+                {filterVisible ? "Cacher les filtres" : "Afficher les filtres"}
             </Button>
             <Button icon={<PrinterOutlined />}>Imprimer</Button>
           </Space>
@@ -123,7 +129,6 @@ const Reconciliation = () => {
           <ReconciliationFilter onFilter={handleFilterChange} />
         )}
 
-        {/* ================= AVEC SMR ================= */}
         <Card
           title={
             <Space>
