@@ -8,7 +8,8 @@ import {
   InboxOutlined,
   CommentOutlined,
   CheckCircleOutlined,
-  CloseCircleOutlined
+  CloseCircleOutlined,
+  CalendarOutlined
 } from "@ant-design/icons";
 import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
@@ -207,7 +208,8 @@ export const useSortieFmpTable = ({
                   </span>
                 </Tooltip>
               )
-        },
+      },
+
       {
         title: "Unité",
         dataIndex: "unite",
@@ -260,7 +262,19 @@ export const useSortieFmpTable = ({
           ) : (
             <Text type="secondary">—</Text>
           )
-      }
+      },
+
+      { 
+        title: "Date sortie", 
+        dataIndex: "last_date", 
+        key: "last_date",
+          sorter: (a,b) => moment(a.last_date).unix() - moment(b.last_date).unix(),
+          render: (text) => (
+            <Tag icon={<CalendarOutlined />} color="red">
+              {text ? moment(text).format("DD-MM-YYYY") : "Aucune"}
+            </Tag>
+          )
+      },
     ];
 
     return allColumns.filter(

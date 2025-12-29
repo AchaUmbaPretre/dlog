@@ -48,7 +48,8 @@ const SortieFmp = () => {
     "SMR": true,
     "Différence": false,
     "Colonne 1": false,
-    "Commentaire": false
+    "Commentaire": false,
+    "Date sortie" : true
     });
     const [docModalOpen, setDocModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");

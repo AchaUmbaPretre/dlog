@@ -39,13 +39,15 @@ const SortieFmpFilter = ({ onFilter }) => {
     }, [smr]);
 
     const ItemOptions = useMemo(() => {
-    return [...new Set(smr.map(item => item.item_code))]
-        .sort((a, b) => a.localeCompare(b))
-        .map(item_code => ({
-        value: item_code,
-        label: item_code
-        }));
+        return [...new Set(smr.map(item => item.item_code))]
+            .filter(item_code => item_code != null) // <-- filtre null et undefined
+            .sort((a, b) => a.localeCompare(b))
+            .map(item_code => ({
+            value: item_code,
+            label: item_code
+            }));
     }, [smr]);
+
 
     useEffect(() => {
         onFilter({
