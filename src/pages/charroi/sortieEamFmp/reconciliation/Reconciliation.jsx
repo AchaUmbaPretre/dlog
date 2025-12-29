@@ -195,7 +195,7 @@ const Reconciliation = () => {
         </Card>
       </Card>
     </div>
-  );
+  );           
 };
 
 export default Reconciliation;
