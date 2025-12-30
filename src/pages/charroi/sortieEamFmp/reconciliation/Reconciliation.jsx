@@ -39,7 +39,7 @@ const Reconciliation = () => {
   });
 
   const { data, loading, reload, setFilters } = useReconciliationData(null);
-  const columns = useReconciliationTable({ columnsVisibility });
+  const columns = useReconciliationTable({ columnsVisibility, pagination });
 
   const filteredData = useMemo(() => {
     if (!searchValue.trim()) return data;
@@ -143,6 +143,7 @@ const Reconciliation = () => {
             onChange={(pag) => setPagination(pag)}
             bordered
             scroll={{ x: "max-content", y: 500 }}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             sticky
           />
         </Card>

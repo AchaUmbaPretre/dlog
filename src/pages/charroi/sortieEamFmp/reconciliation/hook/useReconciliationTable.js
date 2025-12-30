@@ -9,17 +9,25 @@ import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
   CloseCircleOutlined,
+  InboxOutlined
 } from "@ant-design/icons";
 
 const { Text } = Typography;
 
-export const useReconciliationTable = ({ columnsVisibility }) => {
+export const useReconciliationTable = ({ columnsVisibility, pagination }) => {
   return useMemo(() => {
     const allColumns = [
       {
+            title: "#",
+            key: "index",
+            width: 15,
+            render: (_, __, index) =>
+                (pagination.current - 1) * pagination.pageSize + index + 1,
+      },
+      {
         title: (
           <Tooltip title="Identifiant SMR">
-            <Space style={{ color: "#722ed1" }}>
+            <Space>
               <ThunderboltOutlined style={{ color: "#722ed1" }} />
               SMR
             </Space>
@@ -30,12 +38,19 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
         width: 120,
         fixed: "left",
         sorter: (a,b) => a.smr - b.smr,
-        render: (v) => <Text strong>{v ?? "N/A"}</Text>,
+        render: (v) => (
+            <Tag
+                color="green"
+                icon={<InboxOutlined />}
+            >
+                {v ?? "N/A"}
+            </Tag>
+        )
       },
       {
         title: (
           <Tooltip title="Code de l'article">
-            <Space style={{ color: "#fa8c16" }}>
+            <Space>
               <FileTextOutlined style={{ color: "#fa8c16" }} />
               Code article
             </Space>
@@ -51,7 +66,7 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
       {
         title: (
           <Tooltip title="Quantité selon EAM">
-            <Space style={{ color: "#1890ff" }}>
+            <Space>
               <BoxPlotOutlined style={{ color: "#1890ff" }} />
               Qté EAM
             </Space>
@@ -66,7 +81,7 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
       {
         title: (
           <Tooltip title="Quantité selon FMP">
-            <Space style={{ color: "#52c41a" }}>
+            <Space>
               <CarOutlined style={{ color: "#52c41a" }} />
               Qté FMP
             </Space>
