@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Select, DatePicker, Skeleton, notification } from "antd";
-import { getSortieEam, getSortieFmp } from '../../../../../services/sortieEamFmp';
+import { getSortieFmp } from '../../../../../services/sortieEamFmp';
 const { RangePicker } = DatePicker;
 
 

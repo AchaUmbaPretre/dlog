@@ -128,15 +128,15 @@ const SortieFmp = () => {
             extra={
             <Space wrap>
                 <Search
-                placeholder="Recherche..."
-                allowClear
-                onChange={(e) => setSearchValue(e.target.value)}
-                style={{ width: 260 }}
+                    placeholder="Recherche..."
+                    allowClear
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    style={{ width: 260 }}
                 />
                 <Dropdown overlay={columnMenu} trigger={["click"]}>
-                <Button icon={<MenuOutlined />}>
-                    Colonnes <DownOutlined />
-                </Button>
+                    <Button icon={<MenuOutlined />}>
+                        Colonnes <DownOutlined />
+                    </Button>
                 </Dropdown>
                 <Button
                     icon={

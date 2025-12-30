@@ -50,10 +50,31 @@ export const useSortieFmpTable = ({
         ),
         render: (v, record) => (
           <Tooltip title={`Cliquez ici pour voir le détail de ce part ${v}`}>
-            <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color="green" icon={<InboxOutlined />}>
+            <Tag onClick={() => openModal("View", record.item_code, record.smr)} color="green" icon={<InboxOutlined />}>
               {v}
             </Tag>
           </Tooltip>
+        )
+      },
+
+      {
+        title: "Item Code",
+        dataIndex: "item_code",
+        key: "item_code",
+        ...getColumnSearchProps(
+            'item_code',
+            searchText,
+            setSearchText,
+            setSearchedColumn,
+            searchInput
+        ),
+        render: (v, record) => (
+          <Tooltip title={`Cliquez ici pour voir le détail de cet Item ${v}`}>
+            <Tag onClick={() => openModal("View", record.item_code, record.smr)} icon={<BarcodeOutlined />}>
+              {v}
+            </Tag>
+          </Tooltip>
+
         )
       },
 
@@ -70,26 +91,10 @@ export const useSortieFmpTable = ({
             searchInput
         ),
         render: (v, record) => (
-          <Tooltip title={`Cliquez ici pour voir le détail de ce N°BE ${v}`}>
-            <Tag onClick={() => openModal("View", record.sortie_gsm_num_be, record.smr)} color='geekblue' icon={<NumberOutlined />}>
+            <Tag color='geekblue' icon={<NumberOutlined />}>
               {v}
             </Tag>
-          </Tooltip>
       )
-      },
-
-      {
-        title: "Item Code",
-        dataIndex: "item_code",
-        key: "item_code",
-        ...getColumnSearchProps(
-            'item_code',
-            searchText,
-            setSearchText,
-            setSearchedColumn,
-            searchInput
-        ),
-        render: (v) => <Tag icon={<BarcodeOutlined />}>{v}</Tag>
       },
 
       {

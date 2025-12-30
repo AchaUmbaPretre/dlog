@@ -117,8 +117,8 @@ const SortieByEam = ({ eam, part }) => {
       sorter: (a,b) => a.transanction_num - b.transanction_num,
     },
     {
-      title: 'Store',
-      dataIndex: 'store_description',
+      title: 'Part desc.',
+      dataIndex: 'part_description',
     },
     {
       title: 'Qté OUT',

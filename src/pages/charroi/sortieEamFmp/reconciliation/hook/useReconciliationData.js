@@ -19,7 +19,7 @@ export const useReconciliationData = (initialFilters = null) => {
 
             try {
                 const res = await getReconciliation(effectiveFilters);
-                setData(res?.data ?? []);
+                setData(res?.data?.data ?? []);
             } catch (error) {
                 notification.error({
                     message: "Erreur de chargement",

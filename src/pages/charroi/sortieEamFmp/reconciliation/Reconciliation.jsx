@@ -141,24 +141,20 @@ const Reconciliation = () => {
           }
           style={{ marginBottom: 24 }}
         >
-          <Table
-            columns={columns}
-            dataSource={dataAvecSmr}
-            rowKey={(r) => r.id_sortie_eam}
-            loading={loading}
-            pagination={{
-              ...paginationAvec,
-              showSizeChanger: true,
-              showQuickJumper: true,
-            }}
-            onChange={setPaginationAvec}
-            locale={{
-              emptyText: (
-                <Empty description="Aucune donnée AVEC SMR" />
-              ),
-            }}
-            bordered
-          />
+            <Table
+                columns={columns}
+                dataSource={filteredData}
+                rowKey={(r) => `${r.smr}-${r.code_article}`}
+                loading={loading}
+                pagination={{
+                    current: paginationAvec.current,
+                    pageSize: paginationAvec.pageSize,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                }}
+                onChange={setPaginationAvec}
+                bordered
+            />
         </Card>
 
         <Card
@@ -175,23 +171,20 @@ const Reconciliation = () => {
           }
         >
           <Table
-            columns={columns}
-            dataSource={dataSansSmr}
-            rowKey={(r) => r.id_sortie_eam}
-            loading={loading}
-            pagination={{
-              ...paginationSans,
-              showSizeChanger: true,
-              showQuickJumper: true,
-            }}
-            onChange={setPaginationSans}
-            locale={{
-              emptyText: (
-                <Empty description="Aucune donnée SANS SMR" />
-              ),
-            }}
-            bordered
-          />
+                columns={columns}
+                dataSource={filteredData}
+                rowKey={(r) => `${r.smr}-${r.code_article}`}
+                loading={loading}
+                pagination={{
+                    current: paginationAvec.current,
+                    pageSize: paginationAvec.pageSize,
+                    showSizeChanger: true,
+                    showQuickJumper: true,
+                }}
+                onChange={setPaginationAvec}
+                bordered
+            />
+
         </Card>
       </Card>
     </div>
