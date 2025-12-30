@@ -116,12 +116,12 @@ const SortieFmp = () => {
     <div className="carburant-page">
         <Card
             title={
-            <Space>
-                <InboxOutlined style={{ color: "#fa8c16", fontSize: 22 }} />
-                <Title level={4} style={{ margin: 0 }}>
-                Sorties FMP
-                </Title>
-            </Space>
+                <Space>
+                    <InboxOutlined style={{ color: "#fa8c16", fontSize: 22 }} />
+                    <Title level={4} style={{ margin: 0 }}>
+                        Sorties FMP
+                    </Title>
+                </Space>
             }
             bordered={false}
             className="shadow-sm rounded-2xl"
