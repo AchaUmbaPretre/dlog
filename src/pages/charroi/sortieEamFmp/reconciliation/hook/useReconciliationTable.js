@@ -14,7 +14,7 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
         width: 120,
         fixed: "left",
         sorter: (a, b) => a.smr.localeCompare(b.smr),
-        render: (v) => <Text strong>{v}</Text>,
+        render: (v) => <Text strong>{v ?? 'N/A'}</Text>,
       },
       {
         title: "Code article",

@@ -13,7 +13,6 @@ import {
   PrinterOutlined,
   SwapOutlined,
   CheckOutlined,
-  MinusOutlined,
   EyeInvisibleOutlined,
   FilterOutlined
 } from "@ant-design/icons";
@@ -66,24 +65,6 @@ const Reconciliation = () => {
     );
   }, [data, searchValue]);
 
-  const dataAvecSmr = useMemo(
-    () => filteredData.filter((r) => r.type_smr === "AVEC_SMR"),
-    [filteredData]
-  );
-
-  const dataSansSmr = useMemo(
-    () => filteredData.filter((r) => r.type_smr === "SANS_SMR"),
-    [filteredData]
-  );
-
-  const calcTotals = (arr) => ({
-    qte_eam: arr.reduce((s, r) => s + r.qte_eam, 0),
-    qte_fmp: arr.reduce((s, r) => s + r.qte_fmp, 0),
-    ecart: arr.reduce((s, r) => s + r.ecart, 0),
-  });
-
-  const totalAvec = calcTotals(dataAvecSmr);
-  const totalSans = calcTotals(dataSansSmr);
 
   const handleFilterChange = (filters) => {
     setPaginationAvec((p) => ({ ...p, current: 1 }));
@@ -128,17 +109,6 @@ const Reconciliation = () => {
         )}
 
         <Card
-          title={
-            <Space>
-              <Tag color="green" icon={<CheckOutlined />}>
-                AVEC SMR
-              </Tag>
-              <Text strong>
-                Totaux — EAM: {totalAvec.qte_eam} | FMP:{" "}
-                {totalAvec.qte_fmp} | Écart: {totalAvec.ecart}
-              </Text>
-            </Space>
-          }
           style={{ marginBottom: 24 }}
         >
             <Table
@@ -155,36 +125,6 @@ const Reconciliation = () => {
                 onChange={setPaginationAvec}
                 bordered
             />
-        </Card>
-
-        <Card
-          title={
-            <Space>
-              <Tag color="orange" icon={<MinusOutlined />}>
-                SANS SMR
-              </Tag>
-              <Text strong>
-                Totaux — EAM: {totalSans.qte_eam} | FMP:{" "}
-                {totalSans.qte_fmp} | Écart: {totalSans.ecart}
-              </Text>
-            </Space>
-          }
-        >
-          <Table
-                columns={columns}
-                dataSource={filteredData}
-                rowKey={(r) => `${r.smr}-${r.code_article}`}
-                loading={loading}
-                pagination={{
-                    current: paginationAvec.current,
-                    pageSize: paginationAvec.pageSize,
-                    showSizeChanger: true,
-                    showQuickJumper: true,
-                }}
-                onChange={setPaginationAvec}
-                bordered
-            />
-
         </Card>
       </Card>
     </div>
