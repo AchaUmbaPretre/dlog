@@ -29,8 +29,7 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
         key: "smr",
         width: 120,
         fixed: "left",
-        sorter: (a, b) =>
-          (a.smr ?? "").localeCompare(b.smr ?? ""),
+        sorter: (a,b) => a.smr - b.smr,
         render: (v) => <Text strong>{v ?? "N/A"}</Text>,
       },
       {
