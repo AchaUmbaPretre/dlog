@@ -1,6 +1,6 @@
-import { useMemo, useRef, useState } from "react";
+// useReconciliationTable.jsx
+import { useMemo } from "react";
 import { Tag, Typography } from "antd";
-import getColumnSearchProps from "../../../../../utils/columnSearchUtils";
 
 const { Text } = Typography;
 
@@ -14,15 +14,14 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
         width: 120,
         fixed: "left",
         sorter: (a, b) => a.smr.localeCompare(b.smr),
-        render: (v) => <Text strong>{v ?? 'N/A'}</Text>,
+        render: (v) => <Text strong>{v ?? "N/A"}</Text>,
       },
       {
         title: "Code article",
         dataIndex: "code_article",
         key: "code_article",
         width: 160,
-        sorter: (a, b) =>
-          a.code_article.localeCompare(b.code_article),
+        sorter: (a, b) => a.code_article.localeCompare(b.code_article),
         render: (v) => <Text>{v}</Text>,
       },
       {
@@ -57,9 +56,7 @@ export const useReconciliationTable = ({ columnsVisibility }) => {
     ];
 
     return columnsVisibility
-      ? allColumns.filter(
-          (c) => columnsVisibility[c.key] !== false
-        )
+      ? allColumns.filter((c) => columnsVisibility[c.key] !== false)
       : allColumns;
   }, [columnsVisibility]);
 };
