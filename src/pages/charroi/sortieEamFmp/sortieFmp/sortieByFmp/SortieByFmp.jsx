@@ -42,7 +42,7 @@ const EditableCell = ({
   </td>
 );
 
-const SortieByFmp = ({ num_be, smr }) => {
+const SortieByFmp = ({ item_code, smr }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState(null);
@@ -50,12 +50,12 @@ const SortieByFmp = ({ num_be, smr }) => {
 
   useEffect(() => {
     fetchData();
-  }, [num_be, smr]);
+  }, [item_code, smr]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await getSortieByFmp(num_be, smr);
+      const res = await getSortieByFmp(item_code, smr);
       setData(res?.data?.data || []);
     } catch {
       notification.error({
@@ -149,7 +149,7 @@ const SortieByFmp = ({ num_be, smr }) => {
         </Title>
 
         <Space wrap>
-          <Tag color="blue">BE : {num_be}</Tag>
+          <Tag color="blue">ITEMS : {item_code}</Tag>
           <Tag color="geekblue">SMR : {smr}</Tag>
         </Space>
 
