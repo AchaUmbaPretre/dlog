@@ -107,7 +107,8 @@ const SortieEam = () => {
         return data.filter((item) =>
             (item.store_description?.toLowerCase().includes(search)) ||
             (item.part_description?.toLowerCase().includes(search)) ||
-            (String(item.smr_ref).includes(search))  // convertir le nombre en string
+            (item.part?.toLowerCase().includes(search)) ||
+            (String(item.smr_ref).includes(search))
         );
     }, [data, searchValue]);
 
