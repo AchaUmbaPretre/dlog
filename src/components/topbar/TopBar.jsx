@@ -189,7 +189,7 @@ const TopBar = () => {
             onChange={toggleTvMode}
             checkedChildren={<DesktopOutlined />}
             unCheckedChildren={<DesktopOutlined />}
-            style={{ marginRight: 16 }}
+            className='topbar_switch'
           />
 
           <Popover
@@ -199,6 +199,7 @@ const TopBar = () => {
             placement="Right"
             visible={visible}
             onVisibleChange={setVisible}
+            
           >
             <Badge count={notifications.length} overflowCount={99}>
               <div className="topbar-icons">
@@ -207,7 +208,7 @@ const TopBar = () => {
             </Badge>
           </Popover>
           <hr />
-          <div className="topbar-icons">
+          <div className="topbar-icons topbar_message">
             <MailOutlined aria-label="Messages" />
           </div>
           <hr />

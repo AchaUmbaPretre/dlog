@@ -83,6 +83,13 @@
     align-items: center;
     gap: 15px;
 
+    .topbar_switch {
+      margin-right: 16;
+      @include mobileXR {
+        display: none;
+      }
+    }
+
     hr {
       height: 20px;
       color: var(--border);
@@ -126,6 +133,7 @@
         font-size: 1rem;
         color: var(--text);
       }
+      
     }
 
     .hamburger {
