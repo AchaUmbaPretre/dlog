@@ -37,7 +37,7 @@ const EditableCell = ({ editing, dataIndex, title, record, onSave, children, inp
   </td>
 );
 
-const SortieByFmp = ({ item_code, smr }) => {
+const SortieByFmp = ({ item_code, smr, reload }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState(null);
@@ -92,6 +92,7 @@ const SortieByFmp = ({ item_code, smr }) => {
           item.id_sortie_fmp === id_sortie_fmp ? { ...item, ...values } : item
         )
       );
+      reload();
 
       notification.success({
         message: 'Sauvegardé',
