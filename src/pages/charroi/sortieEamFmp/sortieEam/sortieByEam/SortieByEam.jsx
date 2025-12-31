@@ -121,6 +121,12 @@ const SortieByEam = ({ eam, part }) => {
       dataIndex: 'part_description',
     },
     {
+      title: 'SMR',
+      dataIndex: 'smr_ref',
+      editable: true,
+      sorter: (a,b) => a.smr_ref - b.smr_ref,
+    },
+    {
       title: 'Qté OUT',
       dataIndex: 'quantite_out',
       editable: true,
