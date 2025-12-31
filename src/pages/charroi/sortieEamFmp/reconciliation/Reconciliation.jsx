@@ -9,6 +9,8 @@ import {
   Card,
   Collapse,
   notification,
+  Checkbox,
+  Dropdown
 } from "antd";
 import {
   PrinterOutlined,
@@ -16,6 +18,8 @@ import {
   EyeInvisibleOutlined,
   FilterOutlined,
   ReloadOutlined,
+  DownOutlined,
+  MenuOutlined
 } from "@ant-design/icons";
 
 import { useReconciliationData } from "./hook/useReconciliationData";
@@ -30,12 +34,16 @@ const Reconciliation = () => {
   const [searchValue, setSearchValue] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
 
-  const [columnsVisibility] = useState({
-    code_article: true,
-    description: true,
-    qte_eam: true,
-    qte_fmp: true,
-    ecart: true,
+  const [columnsVisibility, setColumnsVisibility] = useState({
+    smr: true,
+    "code_article": true,
+    "qte_eam": true,
+    "qte_physique_eam": false,
+    "ecart_logique": true,
+    "ecart_physique_eam": false,
+    "qte_physique_fmp": false,
+    "qte_fmp": true,
+    "ecart_physique_fmp": false
   });
 
   const { data, loading, reload, setFilters } = useReconciliationData(null);
@@ -81,6 +89,23 @@ const Reconciliation = () => {
     });
   }, [reload]);
 
+      const columnMenu = (
+          <div style={{ padding: 10, background: "#fff" }}>
+          {Object.keys(columnsVisibility).map((colName) => (
+              <div key={colName}>
+              <Checkbox
+                  checked={columnsVisibility[colName]}
+                  onChange={() =>
+                  setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
+                  }
+              >
+                  {colName}
+              </Checkbox>
+              </div>
+          ))}
+          </div>
+      );
+
   return (
     <div className="reconciliation-page">
       <Card
@@ -107,6 +132,11 @@ const Reconciliation = () => {
             >
               {filterVisible ? "Cacher les filtres" : "Afficher les filtres"}
             </Button>
+            <Dropdown overlay={columnMenu} trigger={["click"]}>
+                <Button icon={<MenuOutlined />}>
+                    Colonnes <DownOutlined />
+                </Button>
+            </Dropdown>
             <Button type="primary" icon={<PrinterOutlined />} onClick={handlePrint}>
               Imprimer
             </Button>
