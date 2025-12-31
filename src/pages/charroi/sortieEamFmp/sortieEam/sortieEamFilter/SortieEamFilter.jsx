@@ -9,7 +9,7 @@ const SortieEamFilter = ({ onFilter }) => {
     const [dateRange, setDateRange] = useState(null);
     const [selectedSmr, setSelectedSmr] = useState([]);
     const [selectedPart, setSelectedPart] = useState([]);
-    const { data, loading, reload} = useSortieEamData(null);
+    const { data, loading } = useSortieEamData(null);
     
     const smrOptions = useMemo(() => {
     const uniqueSmr = [...new Set(data.map(item => item.smr_ref))];
