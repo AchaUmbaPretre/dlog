@@ -16,16 +16,8 @@ import { getSortieByFmp, putSortieFmp } from '../../../../../services/sortieEamF
 
 const { Title, Text } = Typography;
 
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  record,
-  onSave,
-  children,
-  inputType,
-  ...restProps
-}) => (
+// Cellule éditable
+const EditableCell = ({ editing, dataIndex, title, record, onSave, children, inputType, ...restProps }) => (
   <td {...restProps}>
     {editing ? (
       <Form.Item
@@ -34,16 +26,9 @@ const EditableCell = ({
         rules={[{ required: true, message: `Veuillez saisir ${title}` }]}
       >
         {inputType === 'number' ? (
-          <InputNumber
-            min={0}
-            style={{ width: '100%' }}
-            onBlur={() => onSave(record.id_sortie_fmp)}
-          />
+          <InputNumber min={0} style={{ width: '100%' }} />
         ) : (
-          <Input
-            style={{ width: '100%' }}
-            onBlur={() => onSave(record.id_sortie_fmp)}
-          />
+          <Input style={{ width: '100%' }} />
         )}
       </Form.Item>
     ) : (
@@ -58,6 +43,7 @@ const SortieByFmp = ({ item_code, smr }) => {
   const [editingKey, setEditingKey] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Récupération des données depuis l'API
   useEffect(() => {
     fetchData();
   }, [item_code, smr]);
@@ -67,7 +53,7 @@ const SortieByFmp = ({ item_code, smr }) => {
       setLoading(true);
       const res = await getSortieByFmp(item_code, smr);
       setData(res?.data?.data || []);
-    } catch {
+    } catch (err) {
       notification.error({
         message: 'Erreur',
         description: 'Impossible de charger les données FMP',
@@ -79,6 +65,7 @@ const SortieByFmp = ({ item_code, smr }) => {
 
   const isEditing = (record) => record.id_sortie_fmp === editingKey;
 
+  // Activer l'édition d'une ligne
   const edit = (record) => {
     form.setFieldsValue({
       nbre_colis: record.nbre_colis,
@@ -87,15 +74,24 @@ const SortieByFmp = ({ item_code, smr }) => {
     setEditingKey(record.id_sortie_fmp);
   };
 
+  // Sauvegarder les modifications
   const save = async (id_sortie_fmp) => {
     try {
       const values = await form.validateFields();
 
+      // Mise à jour en base
       await putSortieFmp({
         id_sortie_fmp,
         nbre_colis: values.nbre_colis,
         smr: values.smr,
       });
+
+      // Mise à jour locale du tableau
+      setData((prev) =>
+        prev.map((item) =>
+          item.id_sortie_fmp === id_sortie_fmp ? { ...item, ...values } : item
+        )
+      );
 
       notification.success({
         message: 'Sauvegardé',
@@ -105,27 +101,16 @@ const SortieByFmp = ({ item_code, smr }) => {
       });
 
       setEditingKey(null);
-      fetchData();
     } catch (err) {
       console.error(err);
     }
   };
 
+  // Colonnes du tableau
   const columns = [
-    {
-      title: 'ITEM',
-      dataIndex: 'item_code',
-    },
-    {
-      title: 'Désignation',
-      dataIndex: 'designation',
-      ellipsis: true,
-    },
-    {
-      title: 'Unité',
-      dataIndex: 'unite',
-      width: 90,
-    },
+    { title: 'ITEM', dataIndex: 'item_code' },
+    { title: 'Désignation', dataIndex: 'designation', ellipsis: true },
+    { title: 'Unité', dataIndex: 'unite', width: 90 },
     {
       title: 'SMR',
       dataIndex: 'smr',
@@ -150,14 +135,13 @@ const SortieByFmp = ({ item_code, smr }) => {
             Sauvegarder
           </Button>
         ) : (
-          <Button type="link" onClick={() => edit(record)}>
-            Edit
-          </Button>
+          <Button type="link" onClick={() => edit(record)}>Edit</Button>
         );
       },
     },
   ];
 
+  // Merge pour les cellules éditables
   const mergedColumns = columns.map((col) => {
     if (!col.editable) return col;
     return {
@@ -173,6 +157,7 @@ const SortieByFmp = ({ item_code, smr }) => {
     };
   });
 
+  // Total des colis
   const totalColis = useMemo(
     () => data.reduce((sum, r) => sum + (r.nbre_colis || 0), 0),
     [data]
@@ -181,15 +166,11 @@ const SortieByFmp = ({ item_code, smr }) => {
   return (
     <Card bordered={false} style={{ borderRadius: 12 }}>
       <Space direction="vertical" size={6}>
-        <Title level={4} style={{ marginBottom: 0 }}>
-          Sorties FMP
-        </Title>
-
+        <Title level={4} style={{ marginBottom: 0 }}>Sorties FMP</Title>
         <Space wrap>
           <Tag color="blue">ITEMS : {item_code}</Tag>
           <Tag color="geekblue">SMR : {smr}</Tag>
         </Space>
-
         {data?.[0]?.designation && (
           <Text type="secondary">{data[0].designation}</Text>
         )}
@@ -199,9 +180,7 @@ const SortieByFmp = ({ item_code, smr }) => {
 
       <Form form={form} component={false}>
         <Table
-          components={{
-            body: { cell: EditableCell },
-          }}
+          components={{ body: { cell: EditableCell } }}
           rowKey="id_sortie_fmp"
           dataSource={data}
           columns={mergedColumns}
@@ -211,12 +190,8 @@ const SortieByFmp = ({ item_code, smr }) => {
           size="middle"
           summary={() => (
             <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={3}>
-                <strong>Total colis</strong>
-              </Table.Summary.Cell>
-              <Table.Summary.Cell>
-                <strong>{totalColis}</strong>
-              </Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={3}><strong>Total colis</strong></Table.Summary.Cell>
+              <Table.Summary.Cell><strong>{totalColis}</strong></Table.Summary.Cell>
               <Table.Summary.Cell colSpan={2} />
             </Table.Summary.Row>
           )}
