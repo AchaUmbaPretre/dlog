@@ -127,8 +127,6 @@ const Reconciliation = () => {
             </Panel>
           </Collapse>
         )}
-
-        <Card bordered={false}>
           <Table
             columns={columns}
             dataSource={filteredData}
@@ -146,7 +144,6 @@ const Reconciliation = () => {
             rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             sticky
           />
-        </Card>
       </Card>
     </div>
   );

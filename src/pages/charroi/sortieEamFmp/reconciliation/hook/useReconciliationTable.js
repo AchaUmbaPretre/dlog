@@ -11,6 +11,7 @@ import {
   CloseCircleOutlined,
   InboxOutlined
 } from "@ant-design/icons";
+import { renderEcartTag } from "../service/reconcialtionService";
 
 const { Text } = Typography;
 
@@ -80,6 +81,23 @@ export const useReconciliationTable = ({ columnsVisibility, pagination }) => {
       },
       {
         title: (
+            <Tooltip title="Quantité physique constatée (EAM)">
+            <Space>
+                <BoxPlotOutlined style={{ color: "#722ed1" }} />
+                Qté Phys. EAM
+            </Space>
+            </Tooltip>
+        ),
+        dataIndex: "qte_physique_eam",
+        key: "qte_physique_eam",
+        align: "right",
+        width: 140,
+        sorter: (a, b) =>
+            (a.qte_physique_eam ?? 0) - (b.qte_physique_eam ?? 0),
+      },
+
+      {
+        title: (
           <Tooltip title="Quantité selon FMP">
             <Space>
               <CarOutlined style={{ color: "#52c41a" }} />
@@ -99,37 +117,57 @@ export const useReconciliationTable = ({ columnsVisibility, pagination }) => {
             Écart
           </Tooltip>
         ),
-        dataIndex: "ecart",
-        key: "ecart",
+        dataIndex: "ecart_logique",
+        key: "ecart_logique",
         align: "center",
         width: 120,
-        sorter: (a, b) => (a.ecart ?? 0) - (b.ecart ?? 0),
-        render: (v) => {
-          if (v === 0)
-            return (
-              <Tag color="green" icon={<CheckCircleOutlined />}>
-                OK
-              </Tag>
-            );
-          if (v > 0 && v <= 5)
-            return (
-              <Tag color="#40a9ff" icon={<ExclamationCircleOutlined />}>
-                +{v}
-              </Tag>
-            );
-          if (v > 5 && v <= 10)
-            return (
-              <Tag color="#faad14" icon={<ExclamationCircleOutlined />}>
-                +{v}
-              </Tag>
-            );
-          return (
-            <Tag color="#f5222d" icon={<CloseCircleOutlined />}>
-              {v}
-            </Tag>
-          );
-        },
+        sorter: (a, b) => (a.ecart_logique ?? 0) - (b.ecart ?? 0),
+        render: renderEcartTag,
       },
+      {
+        title: (
+            <Tooltip title="Écart entre EAM et Physique (EAM)">
+            Écart Phys. EAM
+            </Tooltip>
+        ),
+        dataIndex: "ecart_physique_eam",
+        key: "ecart_physique_eam",
+        align: "center",
+        width: 140,
+        sorter: (a, b) =>
+            (a.ecart_physique_eam ?? 0) - (b.ecart_physique_eam ?? 0),
+        render: renderEcartTag,
+      },
+      {
+        title: (
+            <Tooltip title="Quantité physique constatée (FMP)">
+            <Space>
+                <CarOutlined style={{ color: "#13c2c2" }} />
+                Qté Phys. FMP
+            </Space>
+            </Tooltip>
+        ),
+        dataIndex: "qte_physique_fmp",
+        key: "qte_physique_fmp",
+        align: "right",
+        width: 140,
+        sorter: (a, b) =>
+            (a.qte_physique_fmp ?? 0) - (b.qte_physique_fmp ?? 0),
+      },
+      {
+        title: (
+            <Tooltip title="Écart entre FMP et Physique">
+            Écart Phys. FMP
+            </Tooltip>
+        ),
+        dataIndex: "ecart_physique_fmp",
+        key: "ecart_physique_fmp",
+        align: "center",
+        width: 140,
+        sorter: (a, b) =>
+            (a.ecart_physique_fmp ?? 0) - (b.ecart_physique_fmp ?? 0),
+        render: renderEcartTag,
+      }
     ];
 
     return columnsVisibility

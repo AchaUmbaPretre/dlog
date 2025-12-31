@@ -65,6 +65,11 @@ const SortieByFmp = ({ item_code, smr, reload }) => {
 
   const isEditing = (record) => record.id_sortie_fmp === editingKey;
 
+  const cancel = () => {
+    form.resetFields();     // remet les anciennes valeurs
+    setEditingKey(null);    // quitte le mode édition
+    };
+
   // Activer l'édition d'une ligne
   const edit = (record) => {
     form.setFieldsValue({
@@ -127,19 +132,39 @@ const SortieByFmp = ({ item_code, smr, reload }) => {
       render: (v) => <Text strong>{v}</Text>,
     },
     {
-      title: 'Action',
-      dataIndex: 'action',
-      render: (_, record) => {
-        const editable = isEditing(record);
+        title: 'Action',
+        dataIndex: 'action',
+        render: (_, record) => {
+            const editable = isEditing(record);
+
         return editable ? (
-          <Button type="link" onClick={() => save(record.id_sortie_fmp)}>
+        <Space>
+            <Button
+            type="primary"
+            size="small"
+            onClick={() => save(record.id_sortie_fmp)}
+            >
             Sauvegarder
-          </Button>
+            </Button>
+
+            <Button
+            size="small"
+            onClick={cancel}
+            >
+            Annuler
+            </Button>
+        </Space>
         ) : (
-          <Button type="link" onClick={() => edit(record)}>Edit</Button>
-        );
-      },
+        <Button
+            type="link"
+            onClick={() => edit(record)}
+            >
+                Edit
+            </Button>
+            );
     },
+    }
+
   ];
 
   // Merge pour les cellules éditables
@@ -191,9 +216,9 @@ const SortieByFmp = ({ item_code, smr, reload }) => {
           size="middle"
           summary={() => (
             <Table.Summary.Row>
-              <Table.Summary.Cell colSpan={3}><strong>Total colis</strong></Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={4}><strong>Total colis</strong></Table.Summary.Cell>
               <Table.Summary.Cell><strong>{totalColis}</strong></Table.Summary.Cell>
-              <Table.Summary.Cell colSpan={2} />
+              <Table.Summary.Cell colSpan={1} />
             </Table.Summary.Row>
           )}
         />

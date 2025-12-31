@@ -202,7 +202,7 @@ const SortieFmp = () => {
             open= {modal.type === 'View'}
             onCancel={closeAllModals}
             footer={null}
-            width={1150}
+            width={1160}
         >
             <SortieByFmp item_code={modal.id} smr={modal.idTwo} reload={reload} />
       </Modal>
