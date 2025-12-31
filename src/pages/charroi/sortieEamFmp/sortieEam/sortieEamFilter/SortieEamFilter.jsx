@@ -4,7 +4,6 @@ import { useSortieEamData } from '../hook/useSortieEamData';
 import { renderField } from '../../../../../utils/renderFieldSkeleton';
 const { RangePicker } = DatePicker;
 
-
 const SortieEamFilter = ({ onFilter }) => {
     const [dateRange, setDateRange] = useState(null);
     const [selectedSmr, setSelectedSmr] = useState([]);

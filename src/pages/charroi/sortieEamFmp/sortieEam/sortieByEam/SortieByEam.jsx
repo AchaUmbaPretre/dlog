@@ -17,7 +17,6 @@ import moment from 'moment';
 
 const { Title, Text } = Typography;
 
-
 const EditableCell = ({ editing, dataIndex, title, inputType, children, ...restProps }) => (
   <td {...restProps}>
     {editing ? (
