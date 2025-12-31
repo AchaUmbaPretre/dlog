@@ -61,7 +61,7 @@ const SortieEam = () => {
     const [qteDocPhysique, setQteDocPhysique] = useState(null);
 
     const [searchValue, setSearchValue] = useState("");
-    const { data, setData, loading, reload, filters, setFilters} = useSortieEamData(null);
+    const { data, setData, loading, reload, setFilters} = useSortieEamData(null);
     const { postDocPhysiqueEams, loading: loadingDoc } = useSortieEamPhysiqueForm(data, setData, reload);
     const [modal, setModal] = useState({ type: null, id: null, twoId : null });
     const [filterVisible, setFilterVisible] = useState(false);
@@ -210,7 +210,7 @@ const SortieEam = () => {
         footer={null}
         width={1150}
       >
-        <SortieByEam eam={modal.id} part={modal.idTwo} />
+        <SortieByEam eam={modal.id} part={modal.idTwo} reload={reload} />
       </Modal>
     </div>
   )
