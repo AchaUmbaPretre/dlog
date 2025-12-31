@@ -33,7 +33,6 @@ const Reconciliation = () => {
   const [pagination, setPagination] = useState({ current: 1, pageSize: 15 });
   const [searchValue, setSearchValue] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
-
   const [columnsVisibility, setColumnsVisibility] = useState({
     smr: true,
     "code_article": true,
