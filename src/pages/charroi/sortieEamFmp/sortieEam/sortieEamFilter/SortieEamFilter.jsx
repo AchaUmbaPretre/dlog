@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Select, DatePicker, Skeleton, notification } from "antd";
-import { getSortieEam } from '../../../../../services/sortieEamFmp';
+import { Select, DatePicker, } from "antd";
 import { useSortieEamData } from '../hook/useSortieEamData';
+import { renderField } from '../../../../../utils/renderFieldSkeleton';
 const { RangePicker } = DatePicker;
 
 
 const SortieEamFilter = ({ onFilter }) => {
-      const [dateRange, setDateRange] = useState(null);
-      const [selectedSmr, setSelectedSmr] = useState([]);
-      const [selectedPart, setSelectedPart] = useState([]);
+    const [dateRange, setDateRange] = useState(null);
+    const [selectedSmr, setSelectedSmr] = useState([]);
+    const [selectedPart, setSelectedPart] = useState([]);
     const { data, loading, reload} = useSortieEamData(null);
     
     const smrOptions = useMemo(() => {
@@ -42,14 +42,17 @@ const SortieEamFilter = ({ onFilter }) => {
         <div className="filterTache" style={{marginBottom:'20px'}}>
             <div className="filter_row">
                 <label>Date :</label>
+                {renderField(loading, (
                 <RangePicker
                     style={{ width: "100%" }}
                     onChange={setDateRange}
                 />
+                ))}
             </div>
 
             <div className="filter_row">
                 <label>SMR :</label>
+                {renderField(loading, (
                 <Select
                     mode="multiple"
                     showSearch
@@ -59,10 +62,12 @@ const SortieEamFilter = ({ onFilter }) => {
                     placeholder="Sélectionnez..."
                     onChange={setSelectedSmr}
                 />
+                ))}
             </div>
 
             <div className="filter_row">
                 <label>PART :</label>
+                {renderField(loading, (
                 <Select
                     mode="multiple"
                     showSearch
@@ -72,8 +77,8 @@ const SortieEamFilter = ({ onFilter }) => {
                     placeholder="Sélectionnez..."
                     onChange={setSelectedPart}
                 />
+                ))}
             </div>
-
         </div>
     </>
   )
