@@ -24,6 +24,10 @@ export const putSortieEam = async (data) => {
     return axios.put(`${DOMAIN}/api/sortieEamFmp/put_eam`, data);
 };
 
+export const putSortieEamSmr = async (data) => {
+    return axios.put(`${DOMAIN}/api/sortieEamFmp/put_eam_smr`, data);
+};
+
 export const getSortieFmp = async (data) => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/fmp`, {
         params:{
@@ -43,6 +47,10 @@ export const getSortieByFmp = async (item_code,smr) => {
 
 export const putSortieFmp = async (data) => {
     return axios.put(`${DOMAIN}/api/sortieEamFmp/put_fmp`, data);
+};
+
+export const putSortieFmpSmr = async (data) => {
+    return axios.put(`${DOMAIN}/api/sortieEamFmp/put_fmp_smr`, data);
 };
 
 export const getSmr = async () => {
