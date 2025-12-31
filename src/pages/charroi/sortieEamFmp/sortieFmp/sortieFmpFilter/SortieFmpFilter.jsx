@@ -1,52 +1,35 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Select, DatePicker, Skeleton, notification } from "antd";
-import { getSortieFmp } from '../../../../../services/sortieEamFmp';
+import { Select, DatePicker } from "antd";
+import { useSortieFmpData } from '../hook/useSortieFmpData';
+import { renderField } from '../../../../../utils/renderFieldSkeleton';
 const { RangePicker } = DatePicker;
 
 
 const SortieFmpFilter = ({ onFilter }) => {
-      const [dateRange, setDateRange] = useState(null);
-      const [loading, setLoading] = useState(false);
-      const [selectedSmr, setSelectedSmr] = useState([]);
-      const [selectedItems, setSelectedItems] = useState([]);
-      const [smr, setSmr] = useState([]);
+    const [dateRange, setDateRange] = useState(null);
+    const [selectedSmr, setSelectedSmr] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+    const { data, loading } = useSortieFmpData(null);
 
-      useEffect(()=> {
-        const fetchData = async() => {
-            try {
-                const res = await getSortieFmp();
-                setSmr(res?.data)
-            } catch (err) {
-                notification.error({
-                    message: "Erreur lors du chargement",
-                    description: err?.response?.data?.message || "Impossible de charger les sorties EAM.",
-                });
-            } finally {
-                setLoading(false)
-            }
-        }
-
-        fetchData();
-      }, []);
     
     const smrOptions = useMemo(() => {
-    const uniqueSmr = [...new Set(smr.map(item => item.smr))];
+    const uniqueSmr = [...new Set(data.map(item => item.smr))];
 
     return uniqueSmr.map(smr => ({
         value: smr,
         label: smr
     }));
-    }, [smr]);
+    }, [data]);
 
     const ItemOptions = useMemo(() => {
-        return [...new Set(smr.map(item => item.item_code))]
+        return [...new Set(data.map(item => item.item_code))]
             .filter(item_code => item_code != null) // <-- filtre null et undefined
             .sort((a, b) => a.localeCompare(b))
             .map(item_code => ({
             value: item_code,
             label: item_code
             }));
-    }, [smr]);
+    }, [data]);
 
 
     useEffect(() => {
@@ -62,14 +45,17 @@ const SortieFmpFilter = ({ onFilter }) => {
         <div className="filterTache" style={{marginBottom:'20px'}}>
             <div className="filter_row">
                 <label>Date :</label>
+                {renderField(loading, (
                 <RangePicker
                     style={{ width: "100%" }}
                     onChange={setDateRange}
                 />
+                ))}
             </div>
 
             <div className="filter_row">
                 <label>SMR :</label>
+                {renderField(loading, (
                 <Select
                     mode="multiple"
                     showSearch
@@ -79,10 +65,12 @@ const SortieFmpFilter = ({ onFilter }) => {
                     placeholder="Sélectionnez..."
                     onChange={setSelectedSmr}
                 />
+                ))}
             </div>
 
             <div className="filter_row">
                 <label>ITEM :</label>
+                {renderField(loading, (
                 <Select
                     mode="multiple"
                     showSearch
@@ -92,6 +80,7 @@ const SortieFmpFilter = ({ onFilter }) => {
                     placeholder="Sélectionnez..."
                     onChange={setSelectedItems}
                 />
+                ))}
             </div>
 
         </div>
