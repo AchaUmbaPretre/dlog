@@ -1,4 +1,3 @@
-// Reconciliation.jsx
 import React, { useMemo, useState, useCallback } from "react";
 import {
   Table,
@@ -88,21 +87,21 @@ const Reconciliation = () => {
     });
   }, [reload]);
 
-      const columnMenu = (
-          <div style={{ padding: 10, background: "#fff" }}>
-          {Object.keys(columnsVisibility).map((colName) => (
-              <div key={colName}>
-              <Checkbox
-                  checked={columnsVisibility[colName]}
-                  onChange={() =>
-                  setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
-                  }
-              >
-                  {colName}
-              </Checkbox>
-              </div>
-          ))}
-          </div>
+    const columnMenu = (
+        <div style={{ padding: 10, background: "#fff" }}>
+        {Object.keys(columnsVisibility).map((colName) => (
+            <div key={colName}>
+                <Checkbox
+                    checked={columnsVisibility[colName]}
+                    onChange={() =>
+                    setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
+                    }
+                >
+                    {colName}
+                </Checkbox>
+            </div>
+        ))}
+        </div>
       );
 
   return (
