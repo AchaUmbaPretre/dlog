@@ -90,16 +90,16 @@ const Reconciliation = () => {
     const columnMenu = (
         <div style={{ padding: 10, background: "#fff" }}>
         {Object.keys(columnsVisibility).map((colName) => (
-            <div key={colName}>
-                <Checkbox
-                    checked={columnsVisibility[colName]}
-                    onChange={() =>
-                    setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
-                    }
-                >
-                    {colName}
-                </Checkbox>
-            </div>
+          <div key={colName}>
+            <Checkbox
+              checked={columnsVisibility[colName]}
+              onChange={() =>
+                setColumnsVisibility((prev) => ({ ...prev, [colName]: !prev[colName] }))
+              }
+            >
+              {colName}
+            </Checkbox>
+          </div>
         ))}
         </div>
       );
