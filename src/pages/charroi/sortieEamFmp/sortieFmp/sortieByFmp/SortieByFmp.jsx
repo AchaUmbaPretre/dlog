@@ -3,6 +3,8 @@ import {
   Table,
   Form,
   InputNumber,
+  Input,
+  Button,
   notification,
   Card,
   Tag,
@@ -21,6 +23,7 @@ const EditableCell = ({
   record,
   onSave,
   children,
+  inputType,
   ...restProps
 }) => (
   <td {...restProps}>
@@ -30,11 +33,18 @@ const EditableCell = ({
         style={{ margin: 0 }}
         rules={[{ required: true, message: `Veuillez saisir ${title}` }]}
       >
-        <InputNumber
-          min={0}
-          style={{ width: '100%' }}
-          onBlur={() => onSave(record.id_sortie_fmp)}
-        />
+        {inputType === 'number' ? (
+          <InputNumber
+            min={0}
+            style={{ width: '100%' }}
+            onBlur={() => onSave(record.id_sortie_fmp)}
+          />
+        ) : (
+          <Input
+            style={{ width: '100%' }}
+            onBlur={() => onSave(record.id_sortie_fmp)}
+          />
+        )}
       </Form.Item>
     ) : (
       children
@@ -72,6 +82,7 @@ const SortieByFmp = ({ item_code, smr }) => {
   const edit = (record) => {
     form.setFieldsValue({
       nbre_colis: record.nbre_colis,
+      smr: record.smr,
     });
     setEditingKey(record.id_sortie_fmp);
   };
@@ -83,11 +94,12 @@ const SortieByFmp = ({ item_code, smr }) => {
       await putSortieFmp({
         id_sortie_fmp,
         nbre_colis: values.nbre_colis,
+        smr: values.smr,
       });
 
       notification.success({
         message: 'Sauvegardé',
-        description: 'Nombre de colis mis à jour',
+        description: 'Sortie FMP mise à jour',
         placement: 'bottomRight',
         duration: 2,
       });
@@ -115,10 +127,34 @@ const SortieByFmp = ({ item_code, smr }) => {
       width: 90,
     },
     {
+      title: 'SMR',
+      dataIndex: 'smr',
+      editable: true,
+      inputType: 'text',
+      render: (v) => <Text>{v}</Text>,
+    },
+    {
       title: 'Nb Colis',
       dataIndex: 'nbre_colis',
       editable: true,
+      inputType: 'number',
       render: (v) => <Text strong>{v}</Text>,
+    },
+    {
+      title: 'Action',
+      dataIndex: 'action',
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <Button type="link" onClick={() => save(record.id_sortie_fmp)}>
+            Sauvegarder
+          </Button>
+        ) : (
+          <Button type="link" onClick={() => edit(record)}>
+            Edit
+          </Button>
+        );
+      },
     },
   ];
 
@@ -132,6 +168,7 @@ const SortieByFmp = ({ item_code, smr }) => {
         title: col.title,
         editing: isEditing(record),
         onSave: save,
+        inputType: col.inputType,
       }),
     };
   });
@@ -180,11 +217,9 @@ const SortieByFmp = ({ item_code, smr }) => {
               <Table.Summary.Cell>
                 <strong>{totalColis}</strong>
               </Table.Summary.Cell>
+              <Table.Summary.Cell colSpan={2} />
             </Table.Summary.Row>
           )}
-          onRow={(record) => ({
-            onClick: () => edit(record),
-          })}
         />
       </Form>
     </Card>

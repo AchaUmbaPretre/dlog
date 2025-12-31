@@ -11,14 +11,6 @@ export const getSortieEam = async (data) => {
     });
 };
 
-export const getSortieEamById = async (data) => {
-    return axios.get(`${DOMAIN}/api/sortieEamFmp/put_eam_smr`, {
-        params: {
-            data
-        }
-    });
-};
-
 export const getSortieByEam = async (eam, part) => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/by_smr_eam`, {
         params: {
