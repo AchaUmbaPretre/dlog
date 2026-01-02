@@ -94,30 +94,37 @@ const InspectionGeneDetail = ({ inspectionId }) => {
                     key={item.id_inspection_detail}
                   >
                     <div className="inspectionGen_bottom_rows">
-                      <span className="inspectiongen_txt">
-                        Type : <strong>{item.type_rep}</strong>
-                      </span>
-                      <span className="inspectiongen_txt">
-                        Catégorie : <strong>{item.nom_cat_inspection}</strong>
-                      </span>
-                      <span className="inspectiongen_txt">
-                        Montant : <strong>{item.montant} $</strong>
-                      </span>
-                      <span className="inspectiongen_txt">
-                        Statut :
-                        <Tag color="orange">{item.nom_type_statut}</Tag>
-                      </span>
-                      <span className="inspectiongen_txt">Date d'enregistrement : 
-                        <Tag color="green" icon={<CalendarOutlined />}> {moment(item.created_at).format('LL [à] HH:mm')} </Tag> 
-                      </span> 
-                      <span className="inspectiongen_txt">Date de dernière mise à jour : 
-                        <Tag color="blue" icon={<CalendarOutlined />}>{moment(item.update_at).format('LL')}</Tag>
-                       </span> 
-                       <span className="inspectiongen_txt txt">Commentaire : 
-                       <strong>{item.commentaire}</strong></span> 
-                       <span className="inspectiongen_txt txt">Avis : 
-                        <strong>{item.avis}</strong>
-                       </span>
+                        <span className="inspectiongen_txt">
+                            Type : <strong>{item.type_rep}</strong>
+                        </span>
+
+                        <span className="inspectiongen_txt">
+                            Catégorie : <strong>{item.nom_cat_inspection}</strong>
+                        </span>
+
+                        <span className="inspectiongen_txt">
+                            Montant : <strong>{item.montant} $</strong>
+                        </span>
+
+                        <span className="inspectiongen_txt">
+                            Statut : <Tag color="orange">{item.nom_type_statut}</Tag>
+                        </span>
+
+                        <span className="inspectiongen_txt">Date d'enregistrement : 
+                            <Tag color="green" icon={<CalendarOutlined />}> {moment(item.created_at).format('LL [à] HH:mm')} </Tag> 
+                        </span> 
+
+                        <span className="inspectiongen_txt">Date de dernière mise à jour : 
+                            <Tag color="blue" icon={<CalendarOutlined />}>{moment(item.update_at).format('LL')}</Tag>
+                        </span> 
+
+                        <span className="inspectiongen_txt txt">Commentaire : 
+                            <strong>{item.commentaire}</strong>
+                        </span> 
+
+                        <span className="inspectiongen_txt txt">Avis : 
+                            <strong>{item.avis}</strong>
+                        </span>
                     </div>
                   </div>
                 ))}
