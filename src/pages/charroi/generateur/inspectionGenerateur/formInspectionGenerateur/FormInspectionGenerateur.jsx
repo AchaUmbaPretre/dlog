@@ -6,11 +6,10 @@ import { renderField } from '../../../../../utils/renderFieldSkeleton';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined  } from '@ant-design/icons';
 import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 
-
 const FormInspectionGenerateur = ({idInspection = null, onSaved, closeModal}) => {
     const [form] = Form.useForm();
     const { loading, lists, submitting, handleFinish, doSubmit } = useInspectionGenForm(idInspection,{onSaved});
-    const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
+    const { visible, message, pending, requestConfirm, cancel } = useConfirmAction();
     
     const onFinish = async(values) => {
         const result = await handleFinish(values);
