@@ -33,15 +33,15 @@ import GenerateurForm from "./generateurForm/GenerateurForm";
 import { getGenerateur } from "../../../../services/generateurService";
 import RelierGenerateur from "../composant/relierGenerateur/RelierGenerateur";
 import DetailGenerateur from "../detailGenerateur/DetailGenerateur";
+import FiltreGenerateur from "./filtreGenerateur/FiltreGenerateur";
+import { useListGenerateur } from "./hook/useListGenerateur";
 
 const { Search } = Input;
 const { Text, Title } = Typography;
 
 const ListGenerateur = () => {
  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
-  const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [data, setData] = useState([]);
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
     Marque: true,
@@ -57,29 +57,8 @@ const ListGenerateur = () => {
   });
   const [modal, setModal] = useState({ type: null, id: null });
   const [allIds, setAllIds] = useState([]);
-
-    const fetchData = async() => {
-        setLoading(true);
-
-        try {
-            const response = await getGenerateur();
-            setData(response?.data || []);
-            setAllIds([ ...new Set(data.map((d) => d.id_generateur) || [])]);
-
-        } catch (error) {
-            notification.error({
-                message: "Erreur de chargement",
-                description: "Impossible de récupérer les données du générateur.",
-                placement: "topRight",
-            });
-        } finally {
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, []);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const { data, loading, reload, filters, setFilters } = useListGenerateur(null)
 
   const openModal = (type, id = null) => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
@@ -239,6 +218,11 @@ const ListGenerateur = () => {
     );
   }, [data, searchValue]);
 
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    reload(newFilters);
+  };
+
   return (
     <div className="carburant-page">
         <Card
@@ -262,7 +246,7 @@ const ListGenerateur = () => {
             />
             <Button
               icon={<ReloadOutlined />}
-              onClick={fetchData}
+              onClick={reload}
               loading={loading}
             >
               Actualiser
@@ -289,6 +273,7 @@ const ListGenerateur = () => {
           </Space>
         }
       >
+      { filterVisible && <FiltreGenerateur onFilter={handleFilterChange}/>}
         <Table
           columns={columns}
           dataSource={filteredData}
@@ -324,7 +309,7 @@ const ListGenerateur = () => {
         centered
         destroyOnClose
       >
-        <GenerateurForm id_generateur={modal.id} closeModal={closeAllModals} fetchData={fetchData} />
+        <GenerateurForm id_generateur={modal.id} closeModal={closeAllModals} fetchData={reload} />
       </Modal>
 
       <Modal
@@ -335,7 +320,7 @@ const ListGenerateur = () => {
         centered
         destroyOnClose
       >
-        <DetailGenerateur id_generateur={modal.id} closeModal={closeAllModals} fetchData={fetchData} allIds={allIds} />
+        <DetailGenerateur id_generateur={modal.id} closeModal={closeAllModals} fetchData={reload} allIds={allIds} />
       </Modal>
 
       <Modal
@@ -346,7 +331,7 @@ const ListGenerateur = () => {
         centered
         destroyOnClose
       >
-        <RelierGenerateur closeModal={closeAllModals} fetchData={fetchData} />
+        <RelierGenerateur closeModal={closeAllModals} fetchData={reload} />
       </Modal>
     </div>
   )
