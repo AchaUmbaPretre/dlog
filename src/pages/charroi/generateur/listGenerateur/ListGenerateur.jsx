@@ -37,7 +37,7 @@ const { Search } = Input;
 const { Text, Title } = Typography;
 
 const ListGenerateur = () => {
- const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [searchValue, setSearchValue] = useState("");
   const [columnsVisibility, setColumnsVisibility] = useState({
     "#": true,
@@ -213,11 +213,6 @@ const ListGenerateur = () => {
             item.nom_type_carburant?.toLowerCase().includes(search)
     );
   }, [data, searchValue]);
-
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    reload(newFilters);
-  };
 
   return (
     <div className="carburant-page">
