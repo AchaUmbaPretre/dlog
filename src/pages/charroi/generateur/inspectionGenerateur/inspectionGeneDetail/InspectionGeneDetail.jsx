@@ -13,28 +13,28 @@ const InspectionGeneDetail = ({ inspectionId }) => {
     const [idValides, setIdValides] = useState([]);
     const [total, setTotal] = useState(null);
 
-        const fetchDataInsp = useCallback(async () => {
-            setLoading(true);
-            try {
+    const fetchDataInsp = useCallback(async () => {
+        setLoading(true);
+        try {
               const [inspectionData] = await Promise.all([
                 getInspectGenerateur(),
               ]);
     
             setData(inspectionData?.data || []);
     
-            } catch (error) {
+        } catch (error) {
               notification.error({
                 message: 'Erreur de chargement',
                 description: 'Une erreur est survenue lors du chargement des données.',
               });
-            } finally {
-              setLoading(false);
-            }
-          }, []);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
     
-        useEffect(() => {
-          fetchDataInsp()
-        }, [inspectionId])
+    useEffect(() => {
+        fetchDataInsp()
+    }, [inspectionId])
 
         const fetchDatas = async () => {
                 setLoading(true);
