@@ -32,7 +32,6 @@ const InspectionGeneDetail = ({ inspectionId }) => {
       <Card loading={false} className="rows">
         <div className="inspectionGen_wrapper">
 
-          {/* Navigation */}
           <div className="inspectionGen-arrow">
             <Tooltip title="Précédent">
               <Button className="row-arrow" onClick={goToPrevious}>
@@ -58,7 +57,6 @@ const InspectionGeneDetail = ({ inspectionId }) => {
             <InspectionSkeleton />
           ) : (
             <>
-              {/* Top */}
               <div className="inspectionGen_top">
                 <span className="inspection_span">
                   <DollarCircleOutlined /> TOTAL :
@@ -86,7 +84,6 @@ const InspectionGeneDetail = ({ inspectionId }) => {
                 </span>
               </div>
 
-              {/* Bottom */}
               <div className="inspectionGen_bottom_wrapper">
                 {datas.map(item => (
                   <div

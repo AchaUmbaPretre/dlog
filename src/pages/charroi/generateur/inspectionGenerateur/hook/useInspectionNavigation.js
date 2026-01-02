@@ -14,17 +14,19 @@ export const useInspectionNavigation = (initialInspectionId) => {
 
   const activeRequestRef = useRef(null);
 
-  useEffect(() => {
-    setCurrentInspectionId(initialInspectionId);
-  }, [initialInspectionId]);
+    useEffect(() => {
+        setCurrentInspectionId(Number(initialInspectionId));
+    }, [initialInspectionId]);
+
 
   useEffect(() => {
     const fetchIds = async () => {
       try {
         const res = await getInspectGenerateur();
         const ids = (res?.data || [])
-          .map(i => i.id_inspection_generateur)
-          .sort((a, b) => a - b);
+        .map(i => Number(i.id_inspection_generateur))
+        .sort((a, b) => a - b);
+
 
         setInspectionIds(ids);
       } catch {
@@ -75,11 +77,25 @@ export const useInspectionNavigation = (initialInspectionId) => {
   };
 
   const goToNext = () => {
-    const index = inspectionIds.indexOf(currentInspectionId);
-    if (index !== -1 && index < inspectionIds.length - 1) {
-      setCurrentInspectionId(inspectionIds[index + 1]);
-    }
-  };
+        if (!inspectionIds.length) return;
+
+        const index = inspectionIds.findIndex(
+            id => id === Number(currentInspectionId)
+        );
+
+        if (index === -1) {
+            console.warn('ID courant introuvable dans inspectionIds', {
+            currentInspectionId,
+            inspectionIds
+            });
+            return;
+        }
+
+        if (index < inspectionIds.length - 1) {
+            setCurrentInspectionId(inspectionIds[index + 1]);
+        }
+    };
+
 
   const headerInfo = useMemo(() => {
     if (!datas.length) return {};
