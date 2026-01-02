@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import {
   Table,
   Button,
@@ -8,7 +8,6 @@ import {
   Modal,
   Typography,
   Card,
-  notification,
   Empty,
   Checkbox,
   Tooltip,
@@ -30,10 +29,8 @@ import {
   ThunderboltOutlined
 } from "@ant-design/icons";
 import GenerateurForm from "./generateurForm/GenerateurForm";
-import { getGenerateur } from "../../../../services/generateurService";
 import RelierGenerateur from "../composant/relierGenerateur/RelierGenerateur";
 import DetailGenerateur from "../detailGenerateur/DetailGenerateur";
-import FiltreGenerateur from "./filtreGenerateur/FiltreGenerateur";
 import { useListGenerateur } from "./hook/useListGenerateur";
 
 const { Search } = Input;
@@ -57,8 +54,7 @@ const ListGenerateur = () => {
   });
   const [modal, setModal] = useState({ type: null, id: null });
   const [allIds, setAllIds] = useState([]);
-  const [filterVisible, setFilterVisible] = useState(false);
-  const { data, loading, reload, filters, setFilters } = useListGenerateur(null)
+  const { data, loading, reload, setFilters } = useListGenerateur(null)
 
   const openModal = (type, id = null) => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
@@ -273,7 +269,6 @@ const ListGenerateur = () => {
           </Space>
         }
       >
-      { filterVisible && <FiltreGenerateur onFilter={handleFilterChange}/>}
         <Table
           columns={columns}
           dataSource={filteredData}
