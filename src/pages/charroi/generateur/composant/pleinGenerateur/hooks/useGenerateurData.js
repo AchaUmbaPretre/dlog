@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { notification } from "antd";
-import { getPleinGenerateur, getPleinGenerateurV } from "../../../../../../services/generateurService";
+import { getPleinGenerateur } from "../../../../../../services/generateurService";
 
 export const useGenerateurData = (initialFilters = null) => {
     const [data, setData] = useState([]);

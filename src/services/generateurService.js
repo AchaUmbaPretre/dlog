@@ -67,8 +67,10 @@ export const putRelierGenerateurFichier = async (id, data) => {
 };
 
 //Plein generateur
-export const getPleinGenerateur  = async () => {
-  return axios.get(`${DOMAIN}/api/generateur/plein_generateur`);
+export const getPleinGenerateur  = async (data) => {
+  return axios.get(`${DOMAIN}/api/generateur/plein_generateur`,{
+    params: data
+  });
 };
 
 export const getPleinGenerateurV  = async (data) => {
