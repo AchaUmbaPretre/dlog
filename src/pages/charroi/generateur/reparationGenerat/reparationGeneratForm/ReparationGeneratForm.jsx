@@ -8,7 +8,6 @@ import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-
 const ReparationGeneratForm = ({ idRepGen, closeModal, onSaved}) => {
     const [form] = Form.useForm();
     const { loading, lists, submitting, handleFinish, doSubmit } = useReparateurGenForm();
