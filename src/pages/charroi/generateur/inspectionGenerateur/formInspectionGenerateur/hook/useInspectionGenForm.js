@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useReparateurGenLoader } from "../../../reparationGenerat/hook/useReparateurGenLoader";
-import { useReparationGenSubmit } from "../../../reparationGenerat/hook/useReparationGenSubmit";
 import { useSelector } from "react-redux";
 import dayjs from 'dayjs';
 import { useInspectionGenSubmit } from "./useInspectionGenSubmit";
