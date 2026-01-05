@@ -200,7 +200,7 @@ const Reconciliation = () => {
         open={modal.type === "Global"}
         onCancel={closeAllModals}
         footer={null}
-        width={950}
+        width={1000}
         centered
         destroyOnClose
       >
