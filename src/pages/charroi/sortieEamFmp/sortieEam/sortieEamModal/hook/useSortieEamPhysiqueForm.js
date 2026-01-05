@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { postDocPhysiqueEam } from "../../../../../../services/sortieEamFmp";
 
 export const useSortieEamPhysiqueForm = (data, setData, reload) => {
