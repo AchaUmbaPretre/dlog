@@ -3,7 +3,7 @@ import { Button, Menu, Tooltip, Tag, Space, Dropdown } from 'antd';
 import moment from "moment";
 import { formatNumber } from "../../../../../utils/formatNumber";
 import { getInspectionIcon, statusIcons } from "../../../../../utils/prioriteIcons";
-import { TagsOutlined, FileSearchOutlined, EditOutlined,  DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { TagsOutlined, FileSearchOutlined, EditOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CalendarOutlined } from '@ant-design/icons'
 
   const columnStyles = {
         title: {
