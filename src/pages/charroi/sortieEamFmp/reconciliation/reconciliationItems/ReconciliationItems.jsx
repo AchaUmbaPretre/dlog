@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { getReconGlobalItem } from '../../../../../services/sortieEamFmp';
+import { getReconciliationItem, getReconGlobalItem } from '../../../../../services/sortieEamFmp';
 
-const ReconciliationItems = (item) => {
+const ReconciliationItems = ({items}) => {
     const [data, setData] = useState([]);
+
+    console.log(items)
 
     useEffect(()=> {
         const fetchData = async() => {
             try {
-                const response = await getReconGlobalItem(item);
+                const response = await getReconciliationItem(items);
                 setData(response.data)
             } catch (error) {
                 console.log(error)
@@ -15,7 +17,7 @@ const ReconciliationItems = (item) => {
         }
 
         fetchData();
-    }, []);
+    }, [items]);
 
   return (
     <div>ReconciliationItems</div>

@@ -193,7 +193,7 @@ const Reconciliation = () => {
         centered
         destroyOnClose
       >
-        <ReconciliationItems item={modal.id} onSaved={reload} closeModal={closeAllModals} />
+        <ReconciliationItems items={modal.id} onSaved={reload} closeModal={closeAllModals} />
       </Modal>
 
       <Modal
