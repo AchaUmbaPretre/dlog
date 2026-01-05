@@ -189,7 +189,7 @@ const Reconciliation = () => {
         open={modal.type === "Items"}
         onCancel={closeAllModals}
         footer={null}
-        width={1250}
+        width={900}
         centered
         destroyOnClose
       >
