@@ -71,16 +71,21 @@ export const getReconciliation = async (data) => {
     });
 };
 
-export const getReconciliationItem = async (item) => {
-    return axios.get(`${DOMAINTWO}/api/sortieEamFmp/itemCode`, {
+export const getReconciliationItem = async (item, dateRange) => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/itemCode`, {
         params: {
-            item_code : item
+            item_code : item,
+            dateRange
         }
     });
 };
 
-export const getReconGlobalItem = async () => {
-    return axios.get(`${DOMAINTWO}/api/sortieEamFmp/global_item`);
+export const getReconGlobalItem = async (filters) => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/global_item`, {
+        params : {
+            filters
+        }
+    });
 };
 
 export const postDocPhysiqueEam = async (data) => {

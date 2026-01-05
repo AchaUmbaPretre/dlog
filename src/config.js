@@ -6,7 +6,7 @@ const TOKEN = currentUser?.accessToken;
 
 const config = {
     
-REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com',
+REACT_APP_SERVER_DOMAIN : 'http://localhost:8080',
 
 REACT_APP_DOMAIN :'https://dlog.geoconsult-rdc.com',
 

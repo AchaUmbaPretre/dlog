@@ -49,21 +49,30 @@ const Reconciliation = () => {
   });
   const [modal, setModal] = useState({ type: null, id: null });
 
-  const { data, loading, reload, setFilters } = useReconciliationData(null);
+  const { data, loading, reload, filters, setFilters} = useReconciliationData(null);
   const openModal = (type, id = '') => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
 
   const columns = useReconciliationTable({ columnsVisibility, pagination, openModal });
 
-  const filteredData = useMemo(() => {
-    if (!searchValue.trim()) return data;
-    const lowerSearch = searchValue.toLowerCase();
-    return data.filter(
-      (item) =>
-        item.description?.toLowerCase().includes(lowerSearch) ||
-        item.code_article?.toLowerCase().includes(lowerSearch)
+const filteredData = useMemo(() => {
+  if (!searchValue.trim()) return data;
+  const lowerSearch = searchValue.toLowerCase();
+
+  return data.filter((item) => {
+    const description = item.description?.toLowerCase() ?? "";
+    const codeArticle = item.code_article?.toLowerCase() ?? "";
+    const smr = item.smr != null ? String(item.smr).toLowerCase() : ""; // <-- conversion sécurisée
+
+    return (
+      description.includes(lowerSearch) ||
+      codeArticle.includes(lowerSearch) ||
+      smr.includes(lowerSearch)
     );
-  }, [data, searchValue]);
+  });
+}, [data, searchValue]);
+
+
 
   const handleFilterChange = useCallback(
     (filters) => {
@@ -193,7 +202,7 @@ const Reconciliation = () => {
         centered
         destroyOnClose
       >
-        <ReconciliationItems items={modal.id} onSaved={reload} closeModal={closeAllModals} />
+        <ReconciliationItems items={modal.id} dateRange={filters?.dateRange} onSaved={reload} closeModal={closeAllModals} />
       </Modal>
 
       <Modal
@@ -204,7 +213,7 @@ const Reconciliation = () => {
         centered
         destroyOnClose
       >
-        <ReconGlobalItems onSaved={reload} closeModal={closeAllModals} />
+        <ReconGlobalItems filters={filters} onSaved={reload} closeModal={closeAllModals} />
       </Modal>
     </div>
   );

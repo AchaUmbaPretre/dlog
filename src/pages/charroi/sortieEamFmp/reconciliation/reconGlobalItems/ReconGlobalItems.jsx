@@ -8,18 +8,20 @@ import { getReconGlobalItem } from '../../../../../services/sortieEamFmp';
 const { Text, Title } = Typography;
 const { Search } = Input;
 
-const ReconGlobalItems = () => {
+const ReconGlobalItems = ({filters}) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [sortedInfo, setSortedInfo] = useState({});
   const [pagination, setPagination] = useState({ current: 1, pageSize: 25 });
 
+  console.log(filters)
+  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await getReconGlobalItem();
+        const res = await getReconGlobalItem(filters);
         setRows(res.data?.data || []);
       } catch (err) {
         console.error('Erreur reconciliation globale:', err);
@@ -28,7 +30,7 @@ const ReconGlobalItems = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [filters]);
 
   const handleExportExcel = () => {
     const filteredRows = rows.filter((row) =>

@@ -17,7 +17,7 @@ import { getReconciliationItem } from '../../../../../services/sortieEamFmp';
 
 const { Title, Text } = Typography;
 
-const ReconciliationItems = ({ items }) => {
+const ReconciliationItems = ({ items, dateRange }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const ReconciliationItems = ({ items }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await getReconciliationItem(items);
+        const response = await getReconciliationItem(items, dateRange);
 
         const formattedData = Array.isArray(response.data?.data)
           ? response.data.data
@@ -44,7 +44,7 @@ const ReconciliationItems = ({ items }) => {
     };
 
     fetchData();
-  }, [items]);
+  }, [items, dateRange]);
 
   /**
    * 📤 Export Excel
