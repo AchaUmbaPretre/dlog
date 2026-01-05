@@ -72,7 +72,7 @@ export const getReconciliation = async (data) => {
 };
 
 export const getReconciliationItem = async (item, dateRange) => {
-    return axios.get(`${DOMAIN}/api/sortieEamFmp/itemCode`, {
+    return axios.get(`${DOMAINTWO}/api/sortieEamFmp/itemCode`, {
         params: {
             item_code : item,
             dateRange
@@ -81,7 +81,7 @@ export const getReconciliationItem = async (item, dateRange) => {
 };
 
 export const getReconGlobalItem = async (filters) => {
-    return axios.get(`${DOMAIN}/api/sortieEamFmp/global_item`, {
+    return axios.get(`${DOMAINTWO}/api/sortieEamFmp/global_item`, {
         params : {
             filters
         }

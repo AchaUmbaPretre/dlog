@@ -72,8 +72,6 @@ const filteredData = useMemo(() => {
   });
 }, [data, searchValue]);
 
-
-
   const handleFilterChange = useCallback(
     (filters) => {
       setPagination((p) => ({ ...p, current: 1 }));
