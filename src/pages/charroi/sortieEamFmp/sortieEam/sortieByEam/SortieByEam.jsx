@@ -122,7 +122,7 @@ const SortieByEam = ({ eam, part, reload }) => {
             <Button onClick={cancel}>Annuler</Button>
           </Space>
         ) : (
-          <Button disabled={editingKey !== ''} onClick={() => edit(record)}>Éditer</Button>
+          <Button onClick={() => edit(record)}>Éditer</Button>
         );
       },
     },
