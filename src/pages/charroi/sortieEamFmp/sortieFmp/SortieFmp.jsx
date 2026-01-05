@@ -32,24 +32,24 @@ const { Title } = Typography;
 const SortieFmp = () => {
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
     const [columnsVisibility, setColumnsVisibility] = useState({
-    "#": true,
-    "PD Code": true,
-    "N° GSM": true,
-    "N° BE": true,
-    "N° Log. GTM": false,
-    "Site": true,
-    "Item Code": true,
-    "Désignation": true,
-    "Nb Colis": true,
-    "Qté Doc." : false,
-    "Écart": false,
-    "Doc FMP": false,
-    "Unité": false,
-    "SMR": true,
-    "Différence": false,
-    "Colonne 1": false,
-    "Commentaire": false,
-    "Date sortie" : true
+        "#": true,
+        "PD Code": true,
+        "N° GSM": true,
+        "N° BE": true,
+        "N° Log. GTM": false,
+        "Site": true,
+        "Item Code": true,
+        "Désignation": true,
+        "Nb Colis": true,
+        "Qté Doc." : false,
+        "Écart": false,
+        "Doc FMP": false,
+        "Unité": false,
+        "SMR": true,
+        "Différence": false,
+        "Colonne 1": false,
+        "Commentaire": false,
+        "Date sortie" : true
     });
     const [docModalOpen, setDocModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
@@ -105,12 +105,10 @@ const SortieFmp = () => {
         );
     }, [data, searchValue]);
 
-
     const handleFilterChange = (newFilters) => {
         setFilters(newFilters);
         reload(newFilters);
     };
-
 
   return (
     <div className="carburant-page">
