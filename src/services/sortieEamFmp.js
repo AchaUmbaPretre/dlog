@@ -3,6 +3,8 @@ import config from '../config';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
+const DOMAINTWO = config.REACT_APP_DOMAIN;
+
 export const getSortieEam = async (data) => {
     return axios.get(`${DOMAIN}/api/sortieEamFmp/eam`, {
         params: {
@@ -70,7 +72,7 @@ export const getReconciliation = async (data) => {
 };
 
 export const getReconciliationItem = async (item) => {
-    return axios.get(`${DOMAIN}/api/sortieEamFmp/itemCode`, {
+    return axios.get(`${DOMAINTWO}/api/sortieEamFmp/itemCode`, {
         params: {
             item_code : item
         }
@@ -78,7 +80,7 @@ export const getReconciliationItem = async (item) => {
 };
 
 export const getReconGlobalItem = async () => {
-    return axios.get(`${DOMAIN}/api/sortieEamFmp/global_item`);
+    return axios.get(`${DOMAINTWO}/api/sortieEamFmp/global_item`);
 };
 
 export const postDocPhysiqueEam = async (data) => {
