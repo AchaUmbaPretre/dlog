@@ -10,8 +10,6 @@ import Vehicule from "./vehicule/Vehicule";
 import Modele from "../modeles/Modele";
 import Marque from "../marque/Marque";
 
-const { TabPane } = Tabs;
-
 const Charroi = () => {
   const [activeKey, setActiveKey] = useState("1");
 
