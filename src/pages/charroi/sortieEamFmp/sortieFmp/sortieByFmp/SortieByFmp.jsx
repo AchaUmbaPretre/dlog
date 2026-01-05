@@ -43,7 +43,6 @@ const SortieByFmp = ({ item_code, smr, reload }) => {
   const [editingKey, setEditingKey] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Récupération des données depuis l'API
   useEffect(() => {
     fetchData();
   }, [item_code, smr]);
