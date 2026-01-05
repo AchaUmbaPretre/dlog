@@ -69,6 +69,18 @@ export const getReconciliation = async (data) => {
     });
 };
 
+export const getReconciliationItem = async (item) => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/itemCode`, {
+        params: {
+            item_code : item
+        }
+    });
+};
+
+export const getReconGlobalItem = async () => {
+    return axios.get(`${DOMAIN}/api/sortieEamFmp/global_item`);
+};
+
 export const postDocPhysiqueEam = async (data) => {
     return axios.post(`${DOMAIN}/api/sortieEamFmp/eam_post`, data);
 };

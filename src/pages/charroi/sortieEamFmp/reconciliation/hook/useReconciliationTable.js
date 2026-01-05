@@ -15,7 +15,7 @@ import { renderEcartTag } from "../service/reconcialtionService";
 
 const { Text } = Typography;
 
-export const useReconciliationTable = ({ columnsVisibility, pagination }) => {
+export const useReconciliationTable = ({ columnsVisibility, pagination, openModal }) => {
   return useMemo(() => {
     const allColumns = [
       {
@@ -62,7 +62,7 @@ export const useReconciliationTable = ({ columnsVisibility, pagination }) => {
         width: 160,
         sorter: (a, b) =>
           (a.code_article ?? "").localeCompare(b.code_article ?? ""),
-        render: (v) => <Text>{v ?? "N/A"}</Text>,
+        render: (v) => <Text onClick={() => openModal('Items', v)}>{v ?? "N/A"}</Text>,
       },
       {
         title: (

@@ -9,7 +9,8 @@ import {
   Collapse,
   notification,
   Checkbox,
-  Dropdown
+  Dropdown,
+  Modal
 } from "antd";
 import {
   PrinterOutlined,
@@ -17,6 +18,7 @@ import {
   EyeInvisibleOutlined,
   FilterOutlined,
   ReloadOutlined,
+  FileTextOutlined,
   DownOutlined,
   MenuOutlined
 } from "@ant-design/icons";
@@ -24,6 +26,8 @@ import {
 import { useReconciliationData } from "./hook/useReconciliationData";
 import { useReconciliationTable } from "./hook/useReconciliationTable";
 import ReconciliationFilter from "./reconciliationFilter/ReconciliationFilter";
+import ReconGlobalItems from "./reconGlobalItems/ReconGlobalItems";
+import ReconciliationItems from "./reconciliationItems/ReconciliationItems";
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -43,9 +47,13 @@ const Reconciliation = () => {
     "qte_fmp": true,
     "ecart_physique_fmp": false
   });
+  const [modal, setModal] = useState({ type: null, id: null });
 
   const { data, loading, reload, setFilters } = useReconciliationData(null);
-  const columns = useReconciliationTable({ columnsVisibility, pagination });
+  const openModal = (type, id = '') => setModal({ type, id });
+  const closeAllModals = () => setModal({ type: null, id: null });
+
+  const columns = useReconciliationTable({ columnsVisibility, pagination, openModal });
 
   const filteredData = useMemo(() => {
     if (!searchValue.trim()) return data;
@@ -87,7 +95,7 @@ const Reconciliation = () => {
     });
   }, [reload]);
 
-    const columnMenu = (
+  const columnMenu = (
         <div style={{ padding: 10, background: "#fff" }}>
         {Object.keys(columnsVisibility).map((colName) => (
           <div key={colName}>
@@ -123,6 +131,9 @@ const Reconciliation = () => {
               style={{ width: 260 }}
               onChange={(e) => setSearchValue(e.target.value)}
             />
+            <Button icon={<FileTextOutlined />} onClick={() => openModal('Global')}>
+              Rapport
+            </Button>
             <Button
               type="default"
               icon={filterVisible ? <EyeInvisibleOutlined /> : <FilterOutlined />}
@@ -173,6 +184,28 @@ const Reconciliation = () => {
             sticky
           />
       </Card>
+
+      <Modal
+        open={modal.type === "Items"}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1250}
+        centered
+        destroyOnClose
+      >
+        <ReconciliationItems item={modal.id} onSaved={reload} closeModal={closeAllModals} />
+      </Modal>
+
+      <Modal
+        open={modal.type === "Global"}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1250}
+        centered
+        destroyOnClose
+      >
+        <ReconGlobalItems onSaved={reload} closeModal={closeAllModals} />
+      </Modal>
     </div>
   );
 };
