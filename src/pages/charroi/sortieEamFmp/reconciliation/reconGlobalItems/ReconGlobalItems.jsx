@@ -32,9 +32,6 @@ const ReconGlobalItems = () => {
     fetchData();
   }, []);
 
-  /**
-   * 🔍 Filtrage par item_code (case-insensitive)
-   */
   const filteredRows = useMemo(() => {
     if (!searchValue) return rows;
 
@@ -45,9 +42,6 @@ const ReconGlobalItems = () => {
     );
   }, [rows, searchValue]);
 
-  /**
-   * 📤 Export Excel professionnel
-   */
   const handleExportExcel = () => {
     const exportData = filteredRows.map((item) => ({
       'Item Code': item.item_code || 'N/A',
@@ -93,18 +87,24 @@ const ReconGlobalItems = () => {
       dataIndex: 'total_qte_eam',
       key: 'total_qte_eam',
       align: 'right',
+      sorter: (a, b) => Math.abs(a.total_qte_eam || 0) - Math.abs(b.total_qte_eam || 0),
+      defaultSortOrder: 'descend',
     },
     {
       title: 'Qté FMP',
       dataIndex: 'total_qte_fmp',
       key: 'total_qte_fmp',
       align: 'right',
+      sorter: (a, b) => Math.abs(a.total_qte_fmp || 0) - Math.abs(b.total_qte_fmp || 0),
+      defaultSortOrder: 'descend',
     },
     {
       title: 'Écart',
       dataIndex: 'ecart',
       key: 'ecart',
       align: 'right',
+      sorter: (a, b) => Math.abs(a.ecart || 0) - Math.abs(b.ecart || 0),
+      defaultSortOrder: 'descend',
       render: (value) => {
         if (value === 0) return <Tag color="blue">0</Tag>;
         if (value > 0) return <Tag color="green">+{value}</Tag>;
