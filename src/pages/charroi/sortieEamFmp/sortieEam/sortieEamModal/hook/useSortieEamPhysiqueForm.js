@@ -7,7 +7,6 @@ export const useSortieEamPhysiqueForm = (data, setData, reload) => {
   const postDocPhysiqueEams = async ({ id_sortie_eam, smr_ref, part, docPhysiqueOk, qteDocPhysique }) => {
     setLoading(true);
     try {
-      // Appel API
       await postDocPhysiqueEam({
         id_eam_doc: id_sortie_eam,
         smr_ref,
