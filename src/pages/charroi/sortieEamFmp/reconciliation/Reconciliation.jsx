@@ -139,7 +139,7 @@ const filteredData = useMemo(() => {
               onChange={(e) => setSearchValue(e.target.value)}
             />
             <Button icon={<FileTextOutlined />} onClick={() => openModal('Global')}>
-              Rapport
+              Items
             </Button>
             <Button
               type="default"
