@@ -55,22 +55,22 @@ const Reconciliation = () => {
 
   const columns = useReconciliationTable({ columnsVisibility, pagination, openModal });
 
-const filteredData = useMemo(() => {
-  if (!searchValue.trim()) return data;
-  const lowerSearch = searchValue.toLowerCase();
+  const filteredData = useMemo(() => {
+    if (!searchValue.trim()) return data;
+    const lowerSearch = searchValue.toLowerCase();
 
-  return data.filter((item) => {
-    const description = item.description?.toLowerCase() ?? "";
-    const codeArticle = item.code_article?.toLowerCase() ?? "";
-    const smr = item.smr != null ? String(item.smr).toLowerCase() : ""; // <-- conversion sécurisée
+    return data.filter((item) => {
+      const description = item.description?.toLowerCase() ?? "";
+      const codeArticle = item.code_article?.toLowerCase() ?? "";
+      const smr = item.smr != null ? String(item.smr).toLowerCase() : ""; // <-- conversion sécurisée
 
-    return (
-      description.includes(lowerSearch) ||
-      codeArticle.includes(lowerSearch) ||
-      smr.includes(lowerSearch)
-    );
-  });
-}, [data, searchValue]);
+      return (
+        description.includes(lowerSearch) ||
+        codeArticle.includes(lowerSearch) ||
+        smr.includes(lowerSearch)
+      );
+    });
+  }, [data, searchValue]);
 
   const handleFilterChange = useCallback(
     (filters) => {
