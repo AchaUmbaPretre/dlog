@@ -14,7 +14,6 @@ import {
   DeleteOutlined,
   FireOutlined,
   ThunderboltOutlined,
-  TagsOutlined,
   TrademarkOutlined,
   ToolOutlined,
   DollarCircleOutlined,
@@ -27,8 +26,6 @@ import {
 import moment from "moment";
 import { useMemo } from "react";
 import { statusIcons, statutIcons } from "../../../../../utils/prioriteIcons";
-
-
 
 export const useReparateurGenColumns = ({
   pagination,

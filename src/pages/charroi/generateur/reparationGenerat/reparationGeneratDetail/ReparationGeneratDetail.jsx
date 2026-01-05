@@ -6,13 +6,12 @@ import { evaluationStatusMap, statutIcons } from '../../../../../utils/prioriteI
 import { EyeOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
 import ReparationGeneratTracking from './reparationGeneratTracking/ReparationGeneratTracking';
 
-
 const ReparationGeneratDetail = ({idRepgen}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 20,
+      current: 1,
+      pageSize: 20,
   });
   const [modele, setModele] = useState('');
   const [details, setDetails] = useState('');

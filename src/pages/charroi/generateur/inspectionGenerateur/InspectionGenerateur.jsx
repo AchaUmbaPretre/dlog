@@ -5,14 +5,13 @@ import {
   PlusCircleOutlined,
   FileSearchOutlined
 } from '@ant-design/icons';
-import { Input, Button, Checkbox, Empty, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
+import { Input, Button, Checkbox, Empty, Table, Dropdown, Modal } from 'antd';
 import { useInspectionGeneratColumns } from './hook/useInspectionGeneratColumns';
 import { useInspectionGeneratData } from './hook/useInspectionGeneratData';
 import FormInspectionGenerateur from './formInspectionGenerateur/FormInspectionGenerateur';
 import InspectionGeneDetail from './inspectionGeneDetail/InspectionGeneDetail';
 import InspectionGenerateurValider from './inspectionGenerateurValider/InspectionGenerateurValider';
 
-const { Text } = Typography;
 const { Search } = Input;
 
 const InspectionGenerateur = () => {
