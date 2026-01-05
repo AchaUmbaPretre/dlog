@@ -29,7 +29,7 @@ const ReparationGenerat = () => {
         "Fournisseur": true,
         "Créé par" : false
     }); 
-    const { data, setData, loading, reload, filters, setFilters} = useReparationData(null)
+    const { data, loading, reload } = useReparationData(null)
     const [modal, setModal] = useState({ type: null, id: null });
     const openModal = (type, id = null) => setModal({ type, id });
 
