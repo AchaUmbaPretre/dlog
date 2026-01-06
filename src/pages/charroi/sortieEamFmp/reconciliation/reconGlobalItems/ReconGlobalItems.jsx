@@ -15,7 +15,6 @@ const ReconGlobalItems = ({filters}) => {
   const [sortedInfo, setSortedInfo] = useState({});
   const [pagination, setPagination] = useState({ current: 1, pageSize: 25 });
 
-  console.log(filters)
   
   useEffect(() => {
     const fetchData = async () => {

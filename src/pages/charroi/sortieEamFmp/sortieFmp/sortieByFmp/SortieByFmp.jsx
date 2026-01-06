@@ -83,7 +83,6 @@ const SortieByFmp = ({ item_code, smr, reload }) => {
     try {
       const values = await form.validateFields();
 
-      // Mise à jour en base
       await putSortieFmp({
         id_sortie_fmp,
         nbre_colis: values.nbre_colis,

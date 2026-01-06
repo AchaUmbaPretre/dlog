@@ -11,10 +11,10 @@ const PersonnelForm = ({fetchData, modalOff}) => {
 
   const handleError = (message) => {
     notification.error({
-        message: 'Erreur de chargement',
-        description: message,
+      message: 'Erreur de chargement',
+      description: message,
     });
-};
+  };
 
   useEffect(() => {
     const fetchData = async () => {
