@@ -92,7 +92,7 @@ export const postTacheDoc = async (data) => {
 };
 
 export const postTacheDocExcel = async (data) => {
-  return axios.post(`${DOMAIN}/api/carburant/carburant_excel`, data, {
+  return axios.post(`${DOMAIN}/api/sortieEamFmp/fmp_excel`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

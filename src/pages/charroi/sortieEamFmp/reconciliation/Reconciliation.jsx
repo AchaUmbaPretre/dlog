@@ -20,7 +20,8 @@ import {
   ReloadOutlined,
   FileTextOutlined,
   DownOutlined,
-  MenuOutlined
+  MenuOutlined,
+  FileExcelOutlined
 } from "@ant-design/icons";
 
 import { useReconciliationData } from "./hook/useReconciliationData";
@@ -28,6 +29,7 @@ import { useReconciliationTable } from "./hook/useReconciliationTable";
 import ReconciliationFilter from "./reconciliationFilter/ReconciliationFilter";
 import ReconGlobalItems from "./reconGlobalItems/ReconGlobalItems";
 import ReconciliationItems from "./reconciliationItems/ReconciliationItems";
+import { exportToExcel } from "./utils/exportToExcel";
 
 const { Title } = Typography;
 const { Panel } = Collapse;
@@ -48,7 +50,6 @@ const Reconciliation = () => {
     "ecart_physique_fmp": false
   });
   const [modal, setModal] = useState({ type: null, id: null });
-
   const { data, loading, reload, filters, setFilters} = useReconciliationData(null);
   const openModal = (type, id = '') => setModal({ type, id });
   const closeAllModals = () => setModal({ type: null, id: null });
@@ -102,6 +103,22 @@ const Reconciliation = () => {
     });
   }, [reload]);
 
+  const handleExportExcel = useCallback(() => {
+    exportToExcel({
+      data: filteredData,
+      columns,
+      fileName: `reconciliation_${new Date().toISOString().slice(0,10)}.xlsx`,
+      sheetName: "Réconciliation",
+    });
+
+    notification.success({
+      message: "Export Excel",
+      description: "Le fichier Excel a été généré avec succès.",
+      placement: "topRight",
+    });
+  }, [filteredData, columns]);
+
+
   const columnMenu = (
         <div style={{ padding: 10, background: "#fff" }}>
         {Object.keys(columnsVisibility).map((colName) => (
@@ -141,6 +158,15 @@ const Reconciliation = () => {
             <Button icon={<FileTextOutlined />} onClick={() => openModal('Global')}>
               Items
             </Button>
+            
+            <Button
+              type="default"
+              icon={<FileExcelOutlined />}
+              onClick={handleExportExcel}
+            >
+              Export Excel
+            </Button>
+
             <Button
               type="default"
               icon={filterVisible ? <EyeInvisibleOutlined /> : <FilterOutlined />}
