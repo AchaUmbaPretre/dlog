@@ -77,6 +77,8 @@ import Geofences from './pages/administration/geofences/Geofences';
 import Generateur from './pages/charroi/generateur/Generateur';
 import CarburantAll from './pages/charroi/carburant/composant/carburantAll/CarburantAll';
 import SortieEamFmp from './pages/charroi/sortieEamFmp/SortieEamFmp';
+import Presence from './pages/presence/Presence';
+import Conge from './pages/presence/conge/Conge';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -385,6 +387,14 @@ function App() {
         {
           path:'/sortie_eam_fmp',
           element: secure('/sortie_eam_fmp', <SortieEamFmp/>)
+        },
+        {
+          path:'/presence',
+          element: secure('/presence', <Presence/>)
+        },
+        {
+          path:'/conge',
+          element: secure('/conge', <Conge/>)
         }
       ]
     },
