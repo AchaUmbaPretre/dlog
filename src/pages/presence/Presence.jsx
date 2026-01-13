@@ -4,7 +4,7 @@ import { usePresenceData } from "./hooks/usePresenceData";
 import { postPresence } from "../../services/presenceService";
 
 const { Search } = Input;
-const { RangePicker } = DatePicker;
+const { MonthPicker } = DatePicker;
 
 const Presence = () => {
     const [searchValue, setSearchValue] = useState("");   
@@ -75,10 +75,22 @@ const Presence = () => {
                     onChange={(e) => setSearchValue(e.target.value)}
                     style={{ width: 260 }}
                 />
-                <RangePicker
-                    style={{ width: "100%" }}
-                    onChange={setDateRange}
+                <MonthPicker
+                    placeholder="Sélectionner un mois"
+                    format="MMMM YYYY"
+                    onChange={(date) => {
+                        if (!date) {
+                        setDateRange(null);
+                        return;
+                        }
+
+                        setDateRange({
+                        month: date.month() + 1,
+                        year: date.year()
+                        });
+                    }}
                 />
+
             </Space>
         }
     >

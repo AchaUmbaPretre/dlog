@@ -6,6 +6,7 @@ export const usePresenceData = () => {
   const [loading, setLoading] = useState(false);
   const [dateRange, setDateRange] = useState(null); 
 
+  console.log(dateRange)
   const load = useCallback(async () => {
     setLoading(true);
     try {
@@ -16,11 +17,11 @@ export const usePresenceData = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [dateRange]);
 
   useEffect(() => {
     load();
-  }, [load, dateRange]);
+  }, [load]);
 
   return {
     data,
