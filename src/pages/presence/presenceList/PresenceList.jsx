@@ -8,7 +8,7 @@ import { postPresence } from "../../../services/presenceService";
 const { MonthPicker } = DatePicker;
 const { Search } = Input;
 
-// Mapping statuts
+// Statuts simples pour Tag
 const STATUTS = {
   PRESENT: { label: "Présent", color: "#52c41a" },
   ABSENT: { label: "Absent", color: "#f5222d" },
@@ -17,7 +17,7 @@ const STATUTS = {
   NON_TRAVAILLE: { label: "Non travaillé", color: "#bfbfbf" }
 };
 
-// Cellule de présence
+// Cellule minimaliste
 const PresenceCell = ({ cell, onClick, disabled }) => {
   const statut = cell?.statut || (cell?.heure_entree || cell?.heure_sortie ? "PRESENT" : "ABSENT");
   const info = STATUTS[statut];
@@ -38,16 +38,12 @@ const PresenceCell = ({ cell, onClick, disabled }) => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: 55,
+          minHeight: 50,
           width: "100%",
-          borderRadius: 4,
-          transition: "all 0.2s",
-          backgroundColor: disabled ? "#f5f5f5" : "#fff",
-          opacity: disabled ? 0.5 : 1,
-          userSelect: "none",
+          userSelect: "none"
         }}
       >
-        <Tag color={info.color} style={{ fontWeight: 600, width: "100%", textAlign: "center" }}>
+        <Tag color={info.color} style={{ fontWeight: 600, fontSize: 12, width: "100%", textAlign: "center" }}>
           {info.label}
         </Tag>
         <div style={{ fontSize: 10, color: "#555" }}>
@@ -66,11 +62,10 @@ const PresenceList = () => {
   const { data, loading, reload, dateRange, setDateRange } = usePresenceData(currentMonth);
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
-  const isWeekend = (date) => [0, 6].includes(dayjs(date).day());
 
   const handleClickCell = useCallback(
     async (userId, date, cell) => {
-      if (isFutureDate(date) || !["ABSENT", "PRESENT"].includes(cell.statut)) return;
+      if (isFutureDate(date) || !["ABSENT", "PRESENT"].includes(cell?.statut)) return;
 
       const payload = { id_utilisateur: userId, date_presence: date, source: 1 };
       if (!cell.heure_entree) payload.heure_entree = new Date().toISOString();
@@ -91,29 +86,38 @@ const PresenceList = () => {
     [reload]
   );
 
-  // Colonnes dynamiques
   const columns = useMemo(() => {
     if (!data) return [];
+
+    const dynamicColumns = data.dates.map((d) => ({
+      title: d.label,
+      dataIndex: d.date,
+      align: "center",
+      width: 100,
+      render: (cell, record) => {
+        const disabled = isFutureDate(d.date) || !["ABSENT", "PRESENT"].includes(cell?.statut);
+        return <PresenceCell cell={cell || {}} disabled={disabled} onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)} />;
+      }
+    }));
+
+    dynamicColumns.push({
+      title: "Total",
+      dataIndex: "total",
+      fixed: "right",
+      width: 80,
+      align: "center",
+      render: (_, record) => {
+        const total = Object.values(record)
+          .filter((v) => v?.statut === "PRESENT")
+          .length;
+        return <strong>{total}</strong>;
+      }
+    });
+
     return [
       { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
       { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 220, render: (text) => <strong>{text}</strong> },
-      ...data.dates.map((d) => ({
-        title: d.label,
-        dataIndex: d.date,
-        align: "center",
-        width: 100,
-        onCell: () => ({ style: { backgroundColor: isWeekend(d.date) ? "#fafafa" : "#fff" } }),
-        render: (cell, record) => {
-          const disabled = isFutureDate(d.date) || !["ABSENT", "PRESENT"].includes(cell?.statut);
-          return (
-            <PresenceCell
-              cell={cell || {}}
-              disabled={disabled}
-              onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)}
-            />
-          );
-        }
-      }))
+      ...dynamicColumns
     ];
   }, [data, handleClickCell]);
 
@@ -121,7 +125,12 @@ const PresenceList = () => {
     if (!data) return [];
     return data.utilisateurs
       .filter((u) => u.nom.toLowerCase().includes(searchValue.toLowerCase()))
-      .map((u) => ({ key: u.id_utilisateur, id_utilisateur: u.id_utilisateur, nom: u.nom, ...u.presences }));
+      .map((u) => ({
+        key: u.id_utilisateur,
+        id_utilisateur: u.id_utilisateur,
+        nom: u.nom,
+        ...u.presences
+      }));
   }, [data, searchValue]);
 
   const changeMonth = (offset) => {
@@ -156,24 +165,13 @@ const PresenceList = () => {
         columns={columns}
         dataSource={dataSource}
         loading={loading}
-        bordered
         pagination={false}
         rowKey="id_utilisateur"
         scroll={{ x: "max-content", y: 600 }}
         size="middle"
         sticky
-        rowClassName={(record, index) => (index % 2 === 0 ? "even-row" : "odd-row")}
+        bordered
       />
-      <style jsx>{`
-        .even-row { background-color: #ffffff; }
-        .odd-row { background-color: #fafafa; }
-        .ant-table-thead > tr > th {
-          background-color: #f0f2f5;
-          font-weight: 600;
-          font-size: 13px;
-        }
-        .ant-table-tbody > tr:hover { background-color: #e6f7ff; }
-      `}</style>
     </Card>
   );
 };

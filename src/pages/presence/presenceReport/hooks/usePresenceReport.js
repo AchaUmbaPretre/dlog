@@ -2,36 +2,37 @@ import { useEffect, useState, useCallback } from "react";
 import { getPresenceRapport } from "../../../../services/presenceService";
 import dayjs from "dayjs";
 
-export const usePresenceReport = (initialPeriod) => {
+export const usePresenceReport = () => {
   const today = dayjs();
 
-  // Si initialPeriod est null, on prend le mois courant
-  const defaultPeriod = initialPeriod || { 
-    startDate: today.startOf('month').format('YYYY-MM-DD'),
-    endDate: today.endOf('month').format('YYYY-MM-DD')
-  };
+  // Période par défaut = mois courant
+  const defaultPeriod = { month: today.month() + 1, year: today.year() };
 
-  const [dateRange, setDateRange] = useState(defaultPeriod);
+  const [monthRange, setMonthRange] = useState(defaultPeriod);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const load = useCallback(async () => {
-    if (!dateRange?.startDate || !dateRange?.endDate) return;
+    if (!monthRange?.month || !monthRange?.year) return;
 
     setLoading(true);
     try {
-      const res = await getPresenceRapport(dateRange);
+      const res = await getPresenceRapport({
+        month: monthRange.month,
+        year: monthRange.year
+      });
       setData(res.data);
-    } catch (error) {
-      console.error("Erreur chargement rapport", error);
+    } catch (err) {
+      console.error("Erreur chargement rapport", err);
     } finally {
       setLoading(false);
     }
-  }, [dateRange]);
+  }, [monthRange]);
 
+  // Recharge à chaque changement de monthRange
   useEffect(() => {
     load();
   }, [load]);
 
-  return { data, setData, loading, reload: load, dateRange, setDateRange };
+  return { data, loading, monthRange, setMonthRange, reload: load };
 };
