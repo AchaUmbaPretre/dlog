@@ -7,6 +7,10 @@ export const getPresence = async () => {
   return axios.get(`${DOMAIN}/api/presence`);
 };
 
+export const getPresencePlanning = async () => {
+  return axios.get(`${DOMAIN}/api/presence/planning?mois=2026-01`);
+};
+
 export const getPresenceById = async () => {
   return axios.get(`${DOMAIN}/api/presence/presenceById`);
 };
