@@ -1,12 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { getPresencePlanning } from "../../../services/presenceService";
 
-export const usePresenceData = () => {
+export const usePresenceData = (initialPeriod) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [dateRange, setDateRange] = useState(null); 
+  const [dateRange, setDateRange] = useState(initialPeriod); 
 
-  console.log(dateRange)
   const load = useCallback(async () => {
     setLoading(true);
     try {

@@ -13,6 +13,13 @@ export const getPresencePlanning = async (dateRange) => {
   });
 };
 
+
+export const getPresenceRapport = async (dateRange) => {
+  return axios.get(`${DOMAIN}/api/presence/rapport`, {
+    params: dateRange ?? {}
+  });
+};
+
 export const getPresenceById = async () => {
   return axios.get(`${DOMAIN}/api/presence/presenceById`);
 };
