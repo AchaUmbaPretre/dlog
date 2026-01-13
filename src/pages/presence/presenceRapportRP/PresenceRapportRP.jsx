@@ -3,6 +3,7 @@ import { Table, Card, DatePicker, Button, Tag, Space, Spin } from "antd";
 import { ReloadOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { usePresenceRapportRPData } from "./hooks/usePresenceRapportRPData";
+import { formatDuration } from "../../../utils/renderTooltip";
 
 const { RangePicker } = DatePicker;
 
@@ -26,7 +27,7 @@ const PresenceRapportRP = () => {
       title: "Date",
       dataIndex: "date_presence",
       key: "date_presence",
-      render: d => moment(d).format("DD/MM/YYYY")
+      render: d => moment(d).format("DD-MM-YYYY")
     },
     {
       title: "Entrée",
@@ -46,7 +47,7 @@ const PresenceRapportRP = () => {
           dataIndex: "retard_minutes",
           key: "retard_minutes",
           render: v =>
-            v > 0 ? <Tag color="red">{v}</Tag> : <Tag color="green">0</Tag>
+            v > 0 ? <Tag color="red">{formatDuration(v)}</Tag> : <Tag color="green">0</Tag>
         }
       ]
     },

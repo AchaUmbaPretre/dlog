@@ -33,6 +33,19 @@ export const getPresenceRetardPonctualite = async (dateRange) => {
   });
 };
 
+export const getHRGlobalReport = async (dateRange) => {
+  if (!dateRange || dateRange.length !== 2) {
+    return axios.get(`${DOMAIN}/api/presence/hrglobal`);
+  }
+
+  return axios.get(`${DOMAIN}/api/presence/hrglobal`, {
+    params: {
+      startDate: dateRange[0].format("YYYY-MM-DD"),
+      endDate: dateRange[1].format("YYYY-MM-DD")
+    }
+  });
+};
+
 
 export const getPresenceById = async () => {
   return axios.get(`${DOMAIN}/api/presence/presenceById`);
