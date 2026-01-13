@@ -1,13 +1,14 @@
 import React, { useMemo, useState } from "react";
-import { Table, Tag, Card, Space, Input, notification } from "antd";
+import { Table, Tag, Card, Space, DatePicker, Input, notification } from "antd";
 import { usePresenceData } from "./hooks/usePresenceData";
 import { postPresence } from "../../services/presenceService";
 
 const { Search } = Input;
+const { RangePicker } = DatePicker;
 
 const Presence = () => {
-    const [searchValue, setSearchValue] = useState("");    
-    const { data, loading, reload } = usePresenceData();
+    const [searchValue, setSearchValue] = useState("");   
+    const { data, loading, reload, dateRange, setDateRange } = usePresenceData();
 
     const renderStatut = (statut) => {
         const map = {
@@ -73,6 +74,10 @@ const Presence = () => {
                     allowClear
                     onChange={(e) => setSearchValue(e.target.value)}
                     style={{ width: 260 }}
+                />
+                <RangePicker
+                    style={{ width: "100%" }}
+                    onChange={setDateRange}
                 />
             </Space>
         }
