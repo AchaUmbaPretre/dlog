@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, BarcodeOutlined, HomeOutlined, PhoneOutlined, DeleteOutlined, EnvironmentOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Tag, Modal, notification } from 'antd';
+import { ExportOutlined, BarcodeOutlined, HomeOutlined, PhoneOutlined, RetweetOutlined, EnvironmentOutlined, TruckOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { getSite } from '../../../../services/charroiService';
 import SitesForm from '../sitesForm/SitesForm';
 const { Search } = Input;
@@ -128,6 +128,23 @@ const ListSites = () => {
           {text}
         </div>
       ),
+    },
+    {
+        title: 'Actions',
+        key:'action',
+        width: '8%',
+        align: 'center',
+        render: (text, record) => (
+            <Space size="middle">
+                <Tooltip title="Relier à un ou plusieurs utilisateurs">
+                    <Button
+                        icon={<RetweetOutlined />}
+                        style={{ color: 'green' }}
+                        aria-label="Edit"
+                    />
+                </Tooltip>
+            </Space>
+        )
     }
   ];
 
