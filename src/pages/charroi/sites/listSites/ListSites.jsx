@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
 import { ExportOutlined, BarcodeOutlined, HomeOutlined, PhoneOutlined, DeleteOutlined, EnvironmentOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
-import SitesForm from './sitesForm/SitesForm';
-import { getSite } from '../../../services/charroiService';
-
+import { getSite } from '../../../../services/charroiService';
+import SitesForm from '../sitesForm/SitesForm';
 const { Search } = Input;
 
 const ListSites = () => {
