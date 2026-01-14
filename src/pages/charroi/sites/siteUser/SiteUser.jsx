@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Input, message, Dropdown, Menu, Tooltip, Tag, notification } from 'antd';
-import { ExportOutlined, BarcodeOutlined, HomeOutlined, TruckOutlined, PrinterOutlined } from '@ant-design/icons';
+import { ExportOutlined, SwapOutlined, BarcodeOutlined, HomeOutlined, TruckOutlined, PrinterOutlined } from '@ant-design/icons';
 import { getSiteUser } from '../../../../services/charroiService';
 const { Search } = Input;
 
@@ -65,7 +65,7 @@ const SiteUser = () => {
         width: "3%" 
     },
     {
-      title: 'Utilisateur',
+      title: 'Nom',
       dataIndex: 'nom',
       key: 'nom',
       render: (text) => (
@@ -108,7 +108,7 @@ const SiteUser = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <TruckOutlined className='client-icon'/>
+              <SwapOutlined className='client-icon'/>
             </div>
             <h2 className="client-h2">Liste d'affectations</h2>
           </div>
