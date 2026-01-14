@@ -18,7 +18,7 @@ import {
   PhoneOutlined,
   RetweetOutlined,
   EnvironmentOutlined,
-  TruckOutlined,
+  BankOutlined,
   PrinterOutlined,
   PlusCircleOutlined
 } from '@ant-design/icons';
@@ -30,7 +30,6 @@ import SiteUserForm from '../siteUser/siteUserForm/SiteUserForm';
 const { Search } = Input;
 
 const ListSites = () => {
-  /* ===================== STATES ===================== */
   const [loading, setLoading] = useState(false);
   const [sites, setSites] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -41,7 +40,6 @@ const ListSites = () => {
 
   const scroll = { x: 'max-content' };
 
-  /* ===================== DATA ===================== */
   const fetchSites = useCallback(async () => {
     setLoading(true);
     try {
@@ -61,7 +59,6 @@ const ListSites = () => {
     fetchSites();
   }, [fetchSites]);
 
-  /* ===================== HANDLERS ===================== */
   const openAddSiteModal = () => setIsAddSiteModalOpen(true);
   const closeAddSiteModal = () => setIsAddSiteModalOpen(false);
 
@@ -84,7 +81,6 @@ const ListSites = () => {
     </Menu>
   );
 
-  /* ===================== COLUMNS ===================== */
   const columns = [
     {
       title: '#',
@@ -165,13 +161,12 @@ const ListSites = () => {
     site.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
-  /* ===================== RENDER ===================== */
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
-            <TruckOutlined className="client-icon" />
+            <BankOutlined className="client-icon" />
             <h2 className="client-h2">Liste des sites</h2>
           </div>
 
