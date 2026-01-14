@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, Tooltip, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, BarcodeOutlined, HomeOutlined, TruckOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { Table, Button, Input, message, Dropdown, Menu, Tooltip, Tag, notification } from 'antd';
+import { ExportOutlined, BarcodeOutlined, HomeOutlined, TruckOutlined, PrinterOutlined } from '@ant-design/icons';
 import { getSiteUser } from '../../../../services/charroiService';
-import SitesForm from '../sitesForm/SitesForm';
 const { Search } = Input;
 
 const SiteUser = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const scroll = { x: 'max-content' };
 
     const fetchData = async () => {
       try {
         const res = await getSiteUser();
-        setData(res.data);
+        setData(res?.data.data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -30,20 +28,12 @@ const SiteUser = () => {
     fetchData();
   }, []);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   const handleExportExcel = () => {
     message.success('Exporting to Excel...');
   };
 
   const handleExportPDF = () => {
-    // Logic to export data to PDF
     message.success('Exporting to PDF...');
   };
 
@@ -130,13 +120,6 @@ const SiteUser = () => {
               />
             </div>
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
-              >
-                Ajouter un site
-              </Button>
               <Dropdown overlay={menu} trigger={['click']} className='client-export'>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
@@ -161,17 +144,6 @@ const SiteUser = () => {
           />
         </div>
       </div>
- 
-      <Modal
-        title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={900}
-        centered
-      >
-        <SitesForm idSite={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
-      </Modal>
     </>
   );
 };
