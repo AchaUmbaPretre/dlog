@@ -332,10 +332,6 @@ function App() {
           path: '/controle_technique',
           element: secure('/controle_technique', <ControleTechnique/>)
         },
-/*         {
-          path: '/liste_reparation',
-          element: <ControleTechnique/>
-        }, */
         {
           path: '/marque',
           element: secure('/marque', <Marque/>)
