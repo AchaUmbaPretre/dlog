@@ -4,6 +4,7 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { usePresenceData } from "../hooks/usePresenceData";
 import { postPresence } from "../../../services/presenceService";
+import { useSelector } from "react-redux";
 
 const { MonthPicker } = DatePicker;
 const { Search } = Input;
@@ -60,6 +61,7 @@ const PresenceList = () => {
   const currentMonth = { month: today.month() + 1, year: today.year() };
 
   const { data, loading, reload, dateRange, setDateRange } = usePresenceData(currentMonth);
+  const { permissions } = useSelector((state) => state.user?.currentUser);
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
 
@@ -67,7 +69,7 @@ const PresenceList = () => {
     async (userId, date, cell) => {
       if (isFutureDate(date) || !["ABSENT", "PRESENT"].includes(cell?.statut)) return;
 
-      const payload = { id_utilisateur: userId, date_presence: date, source: 1 };
+      const payload = { id_utilisateur: userId, date_presence: date, source: 1, permissions };
       if (!cell.heure_entree) payload.heure_entree = new Date().toISOString();
       else if (!cell.heure_sortie) payload.heure_sortie = new Date().toISOString();
       else return notification.info({ message: "Déjà pointé", description: "Les deux pointages sont effectués" });
@@ -116,7 +118,7 @@ const PresenceList = () => {
 
     return [
       { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
-      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 220, render: (text) => <strong>{text}</strong> },
+      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 150, render: (text) => <strong>{text}</strong> },
       ...dynamicColumns
     ];
   }, [data, handleClickCell]);

@@ -109,6 +109,7 @@ const PresenceReport = () => {
         size="middle"
         sticky
         pagination={{ pageSize: 20 }}
+        bordered
       />
     </Card>
   );
