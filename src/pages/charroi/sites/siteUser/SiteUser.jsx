@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Popconfirm, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, BarcodeOutlined, HomeOutlined, PhoneOutlined, DeleteOutlined, EnvironmentOutlined, TruckOutlined, CalendarOutlined, PrinterOutlined, EditOutlined, PlusCircleOutlined} from '@ant-design/icons';
-import { getSite } from '../../../../services/charroiService';
+import { Table, Button, Input, message, Dropdown, Menu, Tooltip, Tag, Modal, notification } from 'antd';
+import { ExportOutlined, BarcodeOutlined, HomeOutlined, TruckOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import { getSiteUser } from '../../../../services/charroiService';
 import SitesForm from '../sitesForm/SitesForm';
 const { Search } = Input;
 
@@ -14,8 +14,8 @@ const SiteUser = () => {
 
     const fetchData = async () => {
       try {
-        const { data } = await getSite();
-        setData(data.data);
+        const res = await getSiteUser();
+        setData(res.data);
         setLoading(false);
       } catch (error) {
         notification.error({

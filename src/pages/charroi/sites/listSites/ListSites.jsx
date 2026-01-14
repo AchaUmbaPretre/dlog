@@ -1,216 +1,246 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Input, message, Dropdown, Menu, Space, Tooltip, Tag, Modal, notification } from 'antd';
-import { ExportOutlined, BarcodeOutlined, HomeOutlined, PhoneOutlined, RetweetOutlined, EnvironmentOutlined, TruckOutlined, PrinterOutlined, PlusCircleOutlined} from '@ant-design/icons';
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Table,
+  Button,
+  Input,
+  Dropdown,
+  Menu,
+  Space,
+  Tooltip,
+  Tag,
+  Modal,
+  notification
+} from 'antd';
+import {
+  ExportOutlined,
+  BarcodeOutlined,
+  HomeOutlined,
+  PhoneOutlined,
+  RetweetOutlined,
+  EnvironmentOutlined,
+  TruckOutlined,
+  PrinterOutlined,
+  PlusCircleOutlined
+} from '@ant-design/icons';
+
 import { getSite } from '../../../../services/charroiService';
 import SitesForm from '../sitesForm/SitesForm';
+import SiteUserForm from '../siteUser/siteUserForm/SiteUserForm';
+
 const { Search } = Input;
 
 const ListSites = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  /* ===================== STATES ===================== */
+  const [loading, setLoading] = useState(false);
+  const [sites, setSites] = useState([]);
   const [searchValue, setSearchValue] = useState('');
+
+  const [isAddSiteModalOpen, setIsAddSiteModalOpen] = useState(false);
+  const [isSiteUserModalOpen, setIsSiteUserModalOpen] = useState(false);
+  const [selectedSite, setSelectedSite] = useState(null);
+
   const scroll = { x: 'max-content' };
 
-    const fetchData = async () => {
-      try {
-        const { data } = await getSite();
-        setData(data.data);
-        setLoading(false);
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          description: 'Une erreur est survenue lors du chargement des données.',
-        });
-        setLoading(false);
-      }
-    };
-
-  useEffect(() => {
-    fetchData();
+  /* ===================== DATA ===================== */
+  const fetchSites = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await getSite();
+      setSites(data?.data || []);
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Impossible de charger la liste des sites.'
+      });
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleAddClient = () => {
-    setIsModalVisible(true);
+  useEffect(() => {
+    fetchSites();
+  }, [fetchSites]);
+
+  /* ===================== HANDLERS ===================== */
+  const openAddSiteModal = () => setIsAddSiteModalOpen(true);
+  const closeAddSiteModal = () => setIsAddSiteModalOpen(false);
+
+  const openSiteUserModal = (site) => {
+    setSelectedSite(site);
+    setIsSiteUserModalOpen(true);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
+  const closeSiteUserModal = () => {
+    setSelectedSite(null);
+    setIsSiteUserModalOpen(false);
   };
 
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
+  const handlePrint = () => window.print();
 
-  const handleExportPDF = () => {
-    // Logic to export data to PDF
-    message.success('Exporting to PDF...');
-  };
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const menu = (
+  const exportMenu = (
     <Menu>
-      <Menu.Item key="1" onClick={handleExportExcel}>
-        Export to Excel
-      </Menu.Item>
-      <Menu.Item key="2" onClick={handleExportPDF}>
-        Export to PDF
-      </Menu.Item>
+      <Menu.Item key="excel">Exporter vers Excel</Menu.Item>
+      <Menu.Item key="pdf">Exporter vers PDF</Menu.Item>
     </Menu>
   );
 
+  /* ===================== COLUMNS ===================== */
   const columns = [
-    { 
-        title: '#', 
-        dataIndex: 'id', 
-        key: 'id', 
-        render: (text, record, index) => (
-          <Tooltip title={`Ligne ${index + 1}`}>
-            <Tag color="blue">{index + 1}</Tag>
-          </Tooltip>
-        ), 
-        width: "3%" 
+    {
+      title: '#',
+      width: 60,
+      render: (_, __, index) => (
+        <Tooltip title={`Ligne ${index + 1}`}>
+          <Tag color="blue">{index + 1}</Tag>
+        </Tooltip>
+      )
     },
     {
-        title: 'Code site',
-        dataIndex: 'CodeSite',
-        key: 'CodeSite',
-        render: (text) => (
-          <div>
-            <BarcodeOutlined style={{ color: '#1890ff', marginRight: 4 }} />
-            {text}
-          </div>
-        ),
-      },
-    {
-      title: 'Nom site',
-      dataIndex: 'nom_site',
-      key: 'nom_site',
+      title: 'Code site',
+      dataIndex: 'CodeSite',
       render: (text) => (
-        <div>
-          <HomeOutlined style={{ color: '#1890ff', marginRight: 4 }} />
+        <>
+          <BarcodeOutlined style={{ marginRight: 6, color: '#1890ff' }} />
           {text}
-        </div>
-      ),
+        </>
+      )
+    },
+    {
+      title: 'Nom du site',
+      dataIndex: 'nom_site',
+      render: (text) => (
+        <>
+          <HomeOutlined style={{ marginRight: 6, color: '#1890ff' }} />
+          {text}
+        </>
+      )
     },
     {
       title: 'Adresse',
       dataIndex: 'adress',
-      key: 'adresse',
       render: (text) => (
-        <div>
-          <EnvironmentOutlined style={{ color: '#faad14', marginRight: 4 }} />
+        <>
+          <EnvironmentOutlined style={{ marginRight: 6, color: '#faad14' }} />
           {text}
-        </div>
-      ),
+        </>
+      )
     },
     {
       title: 'Ville',
       dataIndex: 'name',
-      key: 'name',
       render: (text) => (
-        <div>
-          <EnvironmentOutlined style={{ color: 'red', marginRight: 4 }} />
+        <>
+          <EnvironmentOutlined style={{ marginRight: 6, color: 'red' }} />
           {text}
-        </div>
-      ),
+        </>
+      )
     },
     {
       title: 'Téléphone',
       dataIndex: 'tel',
-      key: 'tel',
       render: (text) => (
-        <div>
-          <PhoneOutlined style={{ color: '#eb2f96', marginRight: 4 }} />
+        <>
+          <PhoneOutlined style={{ marginRight: 6, color: '#eb2f96' }} />
           {text}
-        </div>
-      ),
+        </>
+      )
     },
     {
-        title: 'Actions',
-        key:'action',
-        width: '8%',
-        align: 'center',
-        render: (text, record) => (
-            <Space size="middle">
-                <Tooltip title="Relier à un ou plusieurs utilisateurs">
-                    <Button
-                        icon={<RetweetOutlined />}
-                        style={{ color: 'green' }}
-                        aria-label="Edit"
-                    />
-                </Tooltip>
-            </Space>
-        )
+      title: 'Actions',
+      align: 'center',
+      width: 120,
+      render: (_, record) => (
+        <Tooltip title="Associer des utilisateurs au site">
+          <Button
+            icon={<RetweetOutlined />}
+            style={{ color: 'green' }}
+            onClick={() => openSiteUserModal(record)}
+          />
+        </Tooltip>
+      )
     }
   ];
 
-  const filteredData = data.filter(item =>
-    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredSites = sites.filter((site) =>
+    site.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+  /* ===================== RENDER ===================== */
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
           <div className="client-row">
-            <div className="client-row-icon">
-              <TruckOutlined className='client-icon'/>
-            </div>
+            <TruckOutlined className="client-icon" />
             <h2 className="client-h2">Liste des sites</h2>
           </div>
+
           <div className="client-actions">
-            <div className="client-row-left">
-              <Search placeholder="Recherche..." 
-                enterButton 
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </div>
-            <div className="client-rows-right">
+            <Search
+              placeholder="Rechercher un site..."
+              allowClear
+              onChange={(e) => setSearchValue(e.target.value)}
+              style={{ width: 300 }}
+            />
+
+            <Space>
               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
-                onClick={handleAddClient}
+                onClick={openAddSiteModal}
               >
                 Ajouter un site
               </Button>
-              <Dropdown overlay={menu} trigger={['click']} className='client-export'>
+
+              <Dropdown overlay={exportMenu}>
                 <Button icon={<ExportOutlined />}>Export</Button>
               </Dropdown>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-                className='client-export'
-              >
-                Print
+
+              <Button icon={<PrinterOutlined />} onClick={handlePrint}>
+                Imprimer
               </Button>
-            </div>
+            </Space>
           </div>
+
           <Table
             columns={columns}
-            dataSource={filteredData}
-            pagination={{ pageSize: 10 }}
-            rowKey="key"
-            bordered
-            size="small" 
-            scroll={scroll}
+            dataSource={filteredSites}
+            rowKey="id_site"
             loading={loading}
+            bordered
+            size="small"
+            pagination={{ pageSize: 10 }}
+            scroll={scroll}
           />
         </div>
       </div>
- 
+
+      {/* MODAL AJOUT SITE */}
       <Modal
-        title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        open={isAddSiteModalOpen}
         footer={null}
         width={900}
         centered
+        destroyOnClose
+        onCancel={closeAddSiteModal}
       >
-        <SitesForm idSite={''} closeModal={() => setIsModalVisible(false)} fetchData={fetchData}/>
+        <SitesForm closeModal={closeAddSiteModal} fetchData={fetchSites} />
+      </Modal>
+
+      {/* MODAL SITE ↔ UTILISATEURS */}
+      <Modal
+        open={isSiteUserModalOpen}
+        footer={null}
+        width={900}
+        centered
+        destroyOnClose
+        onCancel={closeSiteUserModal}
+      >
+        <SiteUserForm
+          site={selectedSite}
+          closeModal={closeSiteUserModal}
+          fetchData={fetchSites}
+        />
       </Modal>
     </>
   );
