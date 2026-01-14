@@ -11,9 +11,6 @@ const ListSites = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const scroll = { x: 'max-content' };
-  
-  const handleEdit = (id) => {
-  };
 
     const fetchData = async () => {
       try {
