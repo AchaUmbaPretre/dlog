@@ -70,7 +70,7 @@ const columns = [
     ),
     dataIndex: 'utilisateur',
     key: 'utilisateur',
-    render: text => <Text strong>{text}</Text>,
+    render: (text, record) => <Text strong>{`${record.utilisateur} - ${record.utilisateur_lastname}`}</Text>,
   },
   {
     title: (
