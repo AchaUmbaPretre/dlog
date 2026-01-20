@@ -4,6 +4,7 @@ import { FieldTimeOutlined, LogoutOutlined, LoginOutlined, UserOutlined, Printer
 import Congeform from './congeform/Congeform';
 import { getConge } from '../../../services/presenceService';
 import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
+import { renderStatutConge, renderTypeConge } from './utils/renderStatutConge';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -86,13 +87,15 @@ const Conge = () => {
             title: 'Type conge',
             dataIndex: 'type_conge',
             key: 'type_conge',
-            align: 'center'
+            align: 'center',
+            render: type => renderTypeConge(type)
         },
         {
             title: 'Statut',
             dataIndex: 'statut',
             key: 'statut',
-            align: 'center'
+            align: 'center',
+            render: status => renderStatutConge(status)
         },
         {
             title: (
