@@ -33,6 +33,10 @@ export const getPresenceRetardPonctualite = async (dateRange) => {
   });
 };
 
+export const postAttendanceAdjustment = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/attendance-adjustments`, data);
+};
+
 export const getHRGlobalReport = async (dateRange) => {
   if (!dateRange || dateRange.length !== 2) {
     return axios.get(`${DOMAIN}/api/presence/hrglobal`);

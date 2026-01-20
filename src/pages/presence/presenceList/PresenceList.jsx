@@ -3,8 +3,9 @@ import { Table, Card, Space, DatePicker, Input, Button, Tooltip, Tag, notificati
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { usePresenceData } from "../hooks/usePresenceData";
-import { postPresence } from "../../../services/presenceService";
+import { postAttendanceAdjustment, postPresence } from "../../../services/presenceService";
 import { useSelector } from "react-redux";
+import AttendanceAdjustmentModal from "../autorisationSortie/attendanceAdjustmentModal/AttendanceAdjustmentModal";
 
 const { MonthPicker } = DatePicker;
 const { Search } = Input;
@@ -19,7 +20,7 @@ const STATUTS = {
 };
 
 // Cellule minimaliste
-const PresenceCell = ({ cell, onClick, disabled }) => {
+const PresenceCell = ({ cell, onClick, onRightClick, disabled }) => {
   const statut = cell?.statut || (cell?.heure_entree || cell?.heure_sortie ? "PRESENT" : "ABSENT");
   const info = STATUTS[statut];
 
@@ -33,6 +34,10 @@ const PresenceCell = ({ cell, onClick, disabled }) => {
     >
       <div
         onClick={!disabled ? onClick : undefined}
+        onContextMenu={(e) => {
+            e.preventDefault();
+            if (!disabled) onRightClick();
+        }}
         style={{
           cursor: disabled ? "not-allowed" : "pointer",
           display: "flex",
@@ -62,6 +67,8 @@ const PresenceList = () => {
 
   const { data, loading, reload, dateRange, setDateRange } = usePresenceData(currentMonth);
   const { permissions } = useSelector((state) => state.user?.currentUser);
+    const [adjustmentOpen, setAdjustmentOpen] = useState(false);
+    const [selectedPresence, setSelectedPresence] = useState(null);
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
 
@@ -96,10 +103,31 @@ const PresenceList = () => {
       dataIndex: d.date,
       align: "center",
       width: 100,
-      render: (cell, record) => {
-        const disabled = isFutureDate(d.date) || !["ABSENT", "PRESENT"].includes(cell?.statut);
-        return <PresenceCell cell={cell || {}} disabled={disabled} onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)} />;
+     render: (cell, record) => {
+  const disabled =
+    isFutureDate(d.date) ||
+    cell?.adjustment_statut === "VALIDE" ||
+    !["ABSENT", "PRESENT"].includes(cell?.statut);
+
+  return (
+    <PresenceCell
+      cell={cell || {}}
+      disabled={disabled}
+      onClick={() =>
+        handleClickCell(record.id_utilisateur, d.date, cell)
       }
+      onRightClick={() => {
+        setSelectedPresence({
+          id_presence: cell?.id_presence,
+          date: d.date,
+          nom: record.nom
+        });
+        setAdjustmentOpen(true);
+      }}
+    />
+  );
+}
+
     }));
 
     dynamicColumns.push({
@@ -174,6 +202,38 @@ const PresenceList = () => {
         sticky
         bordered
       />
+
+      {adjustmentOpen && selectedPresence && (
+  <AttendanceAdjustmentModal
+    open={adjustmentOpen}
+    presence={selectedPresence}
+    onClose={() => setAdjustmentOpen(false)}
+    onSubmit={async (values) => {
+      try {
+        await postAttendanceAdjustment({
+          id_presence: selectedPresence.id_presence,
+          ...values
+        });
+
+        notification.success({
+          message: "Demande envoyée",
+          description: "La demande sera traitée par les RH"
+        });
+
+        setAdjustmentOpen(false);
+        reload();
+      } catch (err) {
+        notification.error({
+          message: "Erreur",
+          description:
+            err?.response?.data?.message ||
+            "Impossible de soumettre la demande"
+        });
+      }
+    }}
+  />
+)}
+
     </Card>
   );
 };
