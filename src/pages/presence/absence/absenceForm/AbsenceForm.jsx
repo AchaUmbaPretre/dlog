@@ -1,272 +1,197 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useState } from 'react';
 import moment from 'moment';
-import { 
-    CheckCircleOutlined, 
-    SaveOutlined, 
-    LoadingOutlined, 
-    ClearOutlined,
-    FileTextOutlined } from '@ant-design/icons';
-import { Button, Form, Tooltip, Spin, Divider, Upload, Progress, Typography, Input, Card, Row, Col, Select, DatePicker, Skeleton, InputNumber, Space, message, Modal, notification } from 'antd';
-import { getUser } from '../../../../services/userService';
-import { getAbsenceType, postAbsence } from '../../../../services/presenceService';
+import {
+  CheckCircleOutlined,
+  SaveOutlined,
+  LoadingOutlined,
+  ClearOutlined,
+  FileTextOutlined,
+} from '@ant-design/icons';
+import {
+  Button,
+  Form,
+  Tooltip,
+  Spin,
+  Divider,
+  Progress,
+  Typography,
+  Input,
+  Card,
+  Row,
+  Col,
+  Select,
+  DatePicker,
+  Space,
+  notification,
+} from 'antd';
+
+import { postAbsence } from '../../../../services/presenceService';
+import { useAbsenceFormData } from './hooks/useAbsenceFormData';
+import { useProgress } from './hooks/useProgress';
 
 const { Title, Text } = Typography;
 const { RangePicker } = DatePicker;
 
-const AbsenceForm = ({ closeModal, fetchData}) => {
-    const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [users, setUsers] = useState([]);
-    const [type, setType] = useState([]);
-    const progressRef = useRef(null);
+const AbsenceForm = ({ closeModal, fetchData }) => {
+  const [form] = Form.useForm();
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
 
+  const { users, absenceTypes } = useAbsenceFormData();
+  const { progress, start, finish, reset } = useProgress();
 
-    const fetchDatas = async() => {
-            try {
-                const [dataUser, typeData] = await Promise.all([
-                    getUser(),
-                    getAbsenceType()
-                ])
-                
-                setUsers(dataUser.data);
-                setType(typeData.data)
+  const handleSubmit = useCallback(
+    async (values) => {
+      setSubmitting(true);
+      setSuccess(false);
+      start();
 
-            } catch (error) {
-                notification.error({
-                    message: "Erreur de chargement",
-                    description: "Impossible de récupérer les données.",
-                    placement: "topRight",
-                })
-            }
-    };
+      try {
+        const [date_debut, date_fin] = values.periode;
 
-    useEffect(() => {
-        fetchDatas();
-    }, []);
+        const payload = {
+          id_utilisateur: values.id_utilisateur,
+          id_absence_type: values.id_absence_type,
+          date_debut: moment(date_debut).format('YYYY-MM-DD'),
+          date_fin: moment(date_fin).format('YYYY-MM-DD'),
+          commentaire: values.commentaire?.trim() || null,
+        };
 
-      const startProgress = () => {
-        setProgress(10);
-        if (progressRef.current) clearInterval(progressRef.current);
-        progressRef.current = setInterval(() => {
-        setProgress((p) => {
-            if (p >= 90) { clearInterval(progressRef.current); return p; }
-            return p + Math.floor(Math.random() * 10) + 5;
+        await postAbsence(payload);
+
+        finish();
+        setSuccess(true);
+
+        notification.success({
+          message: 'Succès',
+          description: "La demande d'absence a été enregistrée avec succès.",
         });
-        }, 500);
-    };
 
-      const finishProgress = () => {
-        if (progressRef.current) clearInterval(progressRef.current);
-        setProgress(100);
-        setTimeout(() => setProgress(0), 800);
-    };
-
-    const handleSubmit = useCallback(
-        async (values) => {
-            setLoading(true);
-            setSuccess(false);
-            startProgress();
-
-            try {
-                await postAbsence(values);
-                finishProgress();
-                setSuccess(true);
-
-                notification.success({
-                    message: "Succès",
-                    description: `l'absence a été enregistré avec succès 🚗💨`,
-                    placement: "topRight",
-                    className: "success-notification",
-                });
-
-                setTimeout(() => {
-                    form.resetFields();
-                    setSuccess(false);
-                    closeModal();
-                    fetchData();
-                }, 1400);
-            } catch (error) {
-                console.error("Erreur :", error);
-                if (progressRef.current) clearInterval(progressRef.current);
-                setProgress(0);
-                notification.error({
-                    message: "Erreur",
-                    description: "Erreur lors de l'enregistrement",
-                    placement: "topRight",
-                });
-            } finally {
-                setLoading(false);
-            }
-        },
-        [form, closeModal, fetchData]
-    );
+        setTimeout(() => {
+          form.resetFields();
+          setSuccess(false);
+          closeModal?.();
+          fetchData?.();
+        }, 1200);
+      } catch {
+        reset();
+        notification.error({
+          message: 'Erreur',
+          description: "Une erreur est survenue lors de l'enregistrement.",
+        });
+      } finally {
+        setSubmitting(false);
+      }
+    },
+    [form, start, finish, reset, closeModal, fetchData]
+  );
 
   return (
-    <>
-        <Card bordered={false} className="vehicule-card pro shine-card">
-            <Spin
-                spinning={loading}
-                indicator={<LoadingOutlined style={{ fontSize: 28 }} spin />}
-                tip={loading ? "Enregistrement en cours..." : null}
-            >
-                <div className="vehicule-header">
-                    <div className="vehicule-header-content">
-                        <div className="vehicule-icon-wrap">
-                            <FileTextOutlined className="vehicule-icon pulse" />
-                        </div>
+    <Card bordered={false} className="vehicule-card pro shine-card">
+      <Spin spinning={submitting} indicator={<LoadingOutlined spin />}>
+        <div className="vehicule-header">
+          <FileTextOutlined className="vehicule-icon pulse" />
+          <div>
+            <Title level={3}>FORMULAIRE D’ABSENCE</Title>
+            <Text type="secondary">Veuillez renseigner les informations requises.</Text>
+          </div>
 
-                        <div style={{ flex: 1 }}>
-                            <Title level={3} className="vehicule-title">FORM D'ABSENCE</Title>
-                            <Text type="secondary">
-                                Remplissez les champs ci-dessous avec soin.
-                            </Text>
-                        </div>
+          {progress > 0 && (
+            <Progress percent={progress} size="small" showInfo={false} />
+          )}
 
-                        <div className="header-actions">
-                            {progress > 0 && (
-                            <div className="progress-wrap">
-                                <Progress
-                                    percent={Math.min(progress, 100)}
-                                    size="small"
-                                    strokeWidth={6}
-                                    showInfo={false}
-                                />
-                            </div>
-                            )}
+          {success && <CheckCircleOutlined className="success-badge" />}
+        </div>
 
-                            {success && (
-                                <div className="success-badge fade-in">
-                                <CheckCircleOutlined />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+        <Divider />
 
-                <Divider />
+        <Form form={form} layout="vertical" onFinish={handleSubmit}>
+          <Row gutter={[20, 12]}>
+            <Col md={12} xs={24}>
+              <Form.Item
+                label="Agent"
+                name="id_utilisateur"
+                rules={[{ required: true, message: 'Agent requis' }]}
+              >
+                <Select
+                  size="large"
+                  showSearch
+                  placeholder="Sélectionner un agent"
+                  options={users.map((u) => ({
+                    value: u.id_utilisateur,
+                    label: u.nom,
+                  }))}
+                />
+              </Form.Item>
+            </Col>
 
-                <Form
-                    form={form}
-                    layout="vertical"
-                    onFinish={handleSubmit}
-                    className="vehicule-form"
-                    autoComplete="off"
+            <Col md={12} xs={24}>
+              <Form.Item
+                label="Type d'absence"
+                name="id_absence_type"
+                rules={[{ required: true, message: 'Type requis' }]}
+              >
+                <Select
+                  size="large"
+                  placeholder="Sélectionner un type"
+                  options={absenceTypes.map((t) => ({
+                    value: t.id_absence_type,
+                    label: t.libelle,
+                  }))}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col md={12} xs={24}>
+              <Form.Item
+                label="Période"
+                name="periode"
+                rules={[{ required: true }]}
+              >
+                <RangePicker
+                  size="large"
+                  style={{ width: '100%' }}
+                  format="YYYY-MM-DD"
+                  disabledDate={(d) => d && d < moment().startOf('day')}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col md={12} xs={24}>
+              <Form.Item label="Commentaire" name="commentaire">
+                <Input.TextArea rows={4} maxLength={500} showCount />
+              </Form.Item>
+            </Col>
+
+            <Col span={24}>
+              <Space>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  icon={<SaveOutlined />}
+                  loading={submitting}
                 >
-                    <Row gutter={[20, 12]}>
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Agents"
-                                name="id_utilisateur"
-                                rules={[{ required: true, message: "Veuillez entrer la marque" }]}
-                            >
-                                <Select
-                                    showSearch
-                                    allowClear
-                                    options={users.map((item) => ({
-                                        value: item.id_utilisateur                                          ,
-                                        label: item.nom,
-                                    }))}
-                                    placeholder="Sélectionnez un agent..."
-                                    optionFilterProp="label"
-                                    size="large"
-                                />
-                            </Form.Item>
-                        </Col>
+                  Enregistrer
+                </Button>
 
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Type d'absence"
-                                name="id_absence_type"
-                                rules={[{ required: true, message: "Veuillez entrer la marque" }]}
-                            >
-                                <Select
-                                    showSearch
-                                    allowClear
-                                    options={type.map((item) => ({
-                                        value: item.id_absence_type                                          ,
-                                        label: item.libelle
-                                    }))}
-                                    placeholder="Sélectionnez un type..."
-                                    optionFilterProp="label"
-                                    size="large"
-                                />
-                            </Form.Item>
-                        </Col>
+                <Button
+                  icon={<ClearOutlined />}
+                  onClick={() => form.resetFields()}
+                  disabled={submitting}
+                >
+                  Annuler
+                </Button>
+              </Space>
+            </Col>
+          </Row>
+        </Form>
+      </Spin>
 
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Période d'absence"
-                                name="periode"
-                                rules={[
-                                { required: true, message: "Veuillez sélectionner la période d'absence" }
-                                ]}
-                            >
-                                <RangePicker
-                                style={{ width: '100%' }}
-                                size="large"
-                                format="YYYY-MM-DD"
-                                disabledDate={(current) => current && current < moment().startOf('day')}
-                                />
-                            </Form.Item>
-                        </Col>
+      <div className={`confetti ${success ? "show" : ""}`} aria-hidden="true">
+        <span /><span /><span /><span /><span />
+      </div>
+    </Card>
+  );
+};
 
-                        <Col xs={24} md={12}>
-                            <Form.Item
-                                label="Commentaire"
-                                name="commentaire"
-                            >
-                                <Input.TextArea
-                                rows={4}
-                                placeholder="Motif ou remarque (optionnel)"
-                                maxLength={500}
-                                showCount
-                                />
-                            </Form.Item>
-                        </Col>
-
-
-
-                        <Col span={24} className="vehicule-actions">
-                            <Space size="middle">
-                                <Tooltip title="Enregistrer cette absence">
-                                    <Button
-                                        type="primary"
-                                        htmlType="submit"
-                                        icon={<SaveOutlined />}
-                                        loading={loading}
-                                        className="vehicule-btn shine-btn"
-                                        size="large"
-                                    >
-                                        Enregistrer
-                                    </Button>
-                                </Tooltip>
-
-                                <Tooltip title="Effacer tous les champs">
-                                    <Button
-                                        onClick={() => form.resetFields()}
-                                        icon={<ClearOutlined />}
-                                        disabled={loading}
-                                        className="vehicule-btn-cancel"
-                                        size="large"
-                                    >
-                                        Annuler
-                                    </Button>
-                                </Tooltip>
-                            </Space>
-                        </Col>
-                        
-                    </Row>
-                </Form>
-            </Spin>
-
-            <div className={`confetti ${success ? "show" : ""}`} aria-hidden="true">
-                <span /><span /><span /><span /><span />
-            </div>
-        </Card>
-    </>
-  )
-}
-
-export default AbsenceForm
+export default AbsenceForm;

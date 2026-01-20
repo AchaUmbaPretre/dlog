@@ -154,7 +154,7 @@ const Absence = () => {
         width={950}
         centered
       >
-        <AbsenceForm fetchData={fetchData} modalOff={setIsModalVisible} />
+        <AbsenceForm closeModal={setIsModalVisible} fetchData={fetchData} />
       </Modal>
     </>
   );
