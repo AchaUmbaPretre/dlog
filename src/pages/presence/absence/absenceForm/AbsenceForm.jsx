@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import moment from 'moment';
 import { 
     CheckCircleOutlined, 
@@ -8,21 +8,22 @@ import {
     FileTextOutlined } from '@ant-design/icons';
 import { Button, Form, Tooltip, Spin, Divider, Upload, Progress, Typography, Input, Card, Row, Col, Select, DatePicker, Skeleton, InputNumber, Space, message, Modal, notification } from 'antd';
 import { getUser } from '../../../../services/userService';
-import { getAbsenceType } from '../../../../services/presenceService';
+import { getAbsenceType, postAbsence } from '../../../../services/presenceService';
 
 const { Title, Text } = Typography;
+const { RangePicker } = DatePicker;
 
-const AbsenceForm = () => {
+const AbsenceForm = ({ closeModal, fetchData}) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [progress, setProgress] = useState(0);
     const [users, setUsers] = useState([]);
     const [type, setType] = useState([]);
+    const progressRef = useRef(null);
 
 
-    useEffect(() => {
-        const fetchData = async() => {
+    const fetchDatas = async() => {
             try {
                 const [dataUser, typeData] = await Promise.all([
                     getUser(),
@@ -39,13 +40,68 @@ const AbsenceForm = () => {
                     placement: "topRight",
                 })
             }
-        };
-        fetchData();
+    };
+
+    useEffect(() => {
+        fetchDatas();
     }, []);
 
-    const handleSubmit = (values) => {
-
+      const startProgress = () => {
+        setProgress(10);
+        if (progressRef.current) clearInterval(progressRef.current);
+        progressRef.current = setInterval(() => {
+        setProgress((p) => {
+            if (p >= 90) { clearInterval(progressRef.current); return p; }
+            return p + Math.floor(Math.random() * 10) + 5;
+        });
+        }, 500);
     };
+
+      const finishProgress = () => {
+        if (progressRef.current) clearInterval(progressRef.current);
+        setProgress(100);
+        setTimeout(() => setProgress(0), 800);
+    };
+
+    const handleSubmit = useCallback(
+        async (values) => {
+            setLoading(true);
+            setSuccess(false);
+            startProgress();
+
+            try {
+                await postAbsence(values);
+                finishProgress();
+                setSuccess(true);
+
+                notification.success({
+                    message: "Succès",
+                    description: `l'absence a été enregistré avec succès 🚗💨`,
+                    placement: "topRight",
+                    className: "success-notification",
+                });
+
+                setTimeout(() => {
+                    form.resetFields();
+                    setSuccess(false);
+                    closeModal();
+                    fetchData();
+                }, 1400);
+            } catch (error) {
+                console.error("Erreur :", error);
+                if (progressRef.current) clearInterval(progressRef.current);
+                setProgress(0);
+                notification.error({
+                    message: "Erreur",
+                    description: "Erreur lors de l'enregistrement",
+                    placement: "topRight",
+                });
+            } finally {
+                setLoading(false);
+            }
+        },
+        [form, closeModal, fetchData]
+    );
 
   return (
     <>
@@ -138,6 +194,39 @@ const AbsenceForm = () => {
                                 />
                             </Form.Item>
                         </Col>
+
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                label="Période d'absence"
+                                name="periode"
+                                rules={[
+                                { required: true, message: "Veuillez sélectionner la période d'absence" }
+                                ]}
+                            >
+                                <RangePicker
+                                style={{ width: '100%' }}
+                                size="large"
+                                format="YYYY-MM-DD"
+                                disabledDate={(current) => current && current < moment().startOf('day')}
+                                />
+                            </Form.Item>
+                        </Col>
+
+                        <Col xs={24} md={12}>
+                            <Form.Item
+                                label="Commentaire"
+                                name="commentaire"
+                            >
+                                <Input.TextArea
+                                rows={4}
+                                placeholder="Motif ou remarque (optionnel)"
+                                maxLength={500}
+                                showCount
+                                />
+                            </Form.Item>
+                        </Col>
+
+
 
                         <Col span={24} className="vehicule-actions">
                             <Space size="middle">
