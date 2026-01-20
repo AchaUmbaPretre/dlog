@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, Typography, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
+import { getAbsence } from '../../../services/presenceService';
 
 
 const { Search } = Input;
@@ -15,7 +16,7 @@ const Absence = () => {
 
    const fetchData = async () => {
       try {
-        const { data } = await getPersonne();
+        const { data } = await getAbsence();
         setData(data);
         setLoading(false);
       } catch (error) {
