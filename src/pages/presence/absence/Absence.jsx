@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Typography, message, Menu, notification, Tag } from 'antd';
-import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Button, Input, Typography, notification } from 'antd';
+import { FileTextOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import { getAbsence } from '../../../services/presenceService';
-
 
 const { Search } = Input;
 const { Text } = Typography
@@ -102,7 +101,7 @@ const Absence = () => {
         <div className="client-wrapper">
           <div className="client-row">
             <div className="client-row-icon">
-              <ToolOutlined className='client-icon' />
+              <FileTextOutlined className='client-icon' />
             </div>
             <h2 className="client-h2">Liste d'absences</h2>
           </div>
