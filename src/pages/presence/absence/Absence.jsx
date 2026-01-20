@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Input, Typography, notification, Modal } from 'antd';
-import { FileTextOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  FileTextOutlined,
+  PrinterOutlined,
+  PlusOutlined,
+  UserOutlined,
+  CalendarOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  ClockCircleOutlined
+} from '@ant-design/icons';
+import moment from 'moment';
 import { getAbsence } from '../../../services/presenceService';
 import AbsenceForm from './absenceForm/AbsenceForm';
 
@@ -54,9 +64,9 @@ const Absence = () => {
       width: "3%",
     },
     {
-      title: 'Nom',
-      dataIndex: 'nom',
-      key: 'nom',
+      title: 'Agent',
+      dataIndex: 'utilisateur',
+      key: 'utilisateur',
       render: (text) => (
         <Text>{text}</Text>
       ),

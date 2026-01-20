@@ -47,15 +47,15 @@ const AbsenceForm = ({ closeModal, fetchData }) => {
 
 
       try {
-        const [date_debut, date_fin] = values.periode;
-
+        const [dateDebut, dateFin] = values.periode;
+        
         const payload = {
-          id_utilisateur: values.id_utilisateur,
-          id_absence_type: values.id_absence_type,
-          date_debut: moment(date_debut).format('YYYY-MM-DD'),
-          date_fin: moment(date_fin).format('YYYY-MM-DD'),
-          commentaire: values.commentaire?.trim() || null,
-          created_by: userId
+            id_utilisateur: values.id_utilisateur,
+            id_absence_type: values.id_absence_type,
+            date_debut: dateDebut.startOf('day').format('YYYY-MM-DD'),
+            date_fin: dateFin.endOf('day').format('YYYY-MM-DD'),
+            commentaire: values.commentaire?.trim() || null,
+            created_by: userId
         };
 
         await postAbsence(payload);
