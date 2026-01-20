@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Input, Typography, notification, Modal } from 'antd';
+import { Table, Button, Input, Typography, notification, Modal, Tag } from 'antd';
 import {
   FileTextOutlined,
   PrinterOutlined,
@@ -7,12 +7,11 @@ import {
   UserOutlined,
   CalendarOutlined,
   LoginOutlined,
-  LogoutOutlined,
-  ClockCircleOutlined
+  LogoutOutlined
 } from '@ant-design/icons';
-import moment from 'moment';
 import { getAbsence } from '../../../services/presenceService';
 import AbsenceForm from './absenceForm/AbsenceForm';
+import { renderDate, renderStatus } from './absenceForm/services/renderStatusAbsence';
 
 const { Search } = Input;
 const { Text } = Typography
@@ -55,55 +54,77 @@ const Absence = () => {
     setIsModalVisible(false)
   };
 
-  const columns = [
-    {
-      title: '#',
-      dataIndex: 'id',
-      key: 'id',
-      render: (text, record, index) => index + 1,
-      width: "3%",
-    },
-    {
-      title: 'Agent',
-      dataIndex: 'utilisateur',
-      key: 'utilisateur',
-      render: (text) => (
-        <Text>{text}</Text>
-      ),
-    },
-    {
-      title: 'Type absence',
-      dataIndex: 'type_absence',
-      key: 'type_absence',
-      render: (text) => (
-        <Text>{text}</Text>
-      ),
-    },
-    {
-      title: 'Date debut',
-      dataIndex: 'date_debut',
-      key: 'date_debut',
-      render: (text) => (
-        <Text>{text}</Text>
-      ),
-    },
-    {
-      title: 'Date fin',
-      dataIndex: 'date_fin',
-      key: 'date_fin',
-      render: (text) => (
-        <Text>{text}</Text>
-      ),
-    },
-    {
-      title: 'Statut',
-      dataIndex: 'statut',
-      key: 'statut',
-      render: (text) => (
-        <Text>{text}</Text>
-      ),
-    }
-  ];
+const columns = [
+  {
+    title: '#',
+    key: 'index',
+    width: 50,
+    align: 'center',
+    render: (_, __, index) => index + 1,
+  },
+  {
+    title: (
+      <>
+        <UserOutlined /> Agent
+      </>
+    ),
+    dataIndex: 'utilisateur',
+    key: 'utilisateur',
+    render: text => <Text strong>{text}</Text>,
+  },
+  {
+    title: (
+      <>
+        <CalendarOutlined /> Type d’absence
+      </>
+    ),
+    dataIndex: 'type_absence',
+    key: 'type_absence',
+    render: text => (
+      <Tag color="blue">{text.toUpperCase()}</Tag>
+    ),
+  },
+  {
+    title: (
+      <>
+        <LoginOutlined /> Date début
+      </>
+    ),
+    dataIndex: 'date_debut',
+    key: 'date_debut',
+    align: 'center',
+    render: date => renderDate(date),
+  },
+  {
+    title: (
+      <>
+        <LogoutOutlined /> Date fin
+      </>
+    ),
+    dataIndex: 'date_fin',
+    key: 'date_fin',
+    align: 'center',
+    render: date => renderDate(date),
+  },
+  {
+    title: 'Statut',
+    dataIndex: 'statut',
+    key: 'statut',
+    align: 'center',
+    render: status => renderStatus(status),
+  },
+  {
+    title: (
+      <>
+        <UserOutlined /> Créé par
+      </>
+    ),
+    dataIndex: 'created_name',
+    key: 'created_name',
+    render: (text, record) => <Text strong>{`${record.created_name} - ${record.created_lastname}`}</Text>,
+  },
+];
+
 
   const filteredData = data?.filter(item =>
     item.utilisateur?.toLowerCase().includes(searchValue.toLowerCase())
