@@ -7,6 +7,7 @@ import PresenceList from './presenceList/PresenceList';
 import PresenceReport from './presenceReport/PresenceReport';
 import { getTabStyle, iconStyle } from '../../utils/tabStyles';
 import PresenceRapportRP from './presenceRapportRP/PresenceRapportRP';
+import AutorisationSortie from './autorisationSortie/AutorisationSortie';
 
 const tabConfig = [
     {
@@ -26,6 +27,12 @@ const tabConfig = [
         label: 'Rapport Retard & Ponctualit',
         icon: <FileTextOutlined/>,
         component: <PresenceRapportRP/>
+    },
+    {
+        key: '4',
+        label: 'Autorisation de sortie',
+        icon: <FileTextOutlined/>,
+        component: <AutorisationSortie/>
     }
 ];
 
