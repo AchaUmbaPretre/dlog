@@ -36,7 +36,7 @@ const AbsenceForm = ({ closeModal, fetchData }) => {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const { users, absenceTypes } = useAbsenceFormData();
+  const { users, absenceTypes, userId } = useAbsenceFormData();
   const { progress, start, finish, reset } = useProgress();
 
   const handleSubmit = useCallback(
@@ -44,6 +44,7 @@ const AbsenceForm = ({ closeModal, fetchData }) => {
       setSubmitting(true);
       setSuccess(false);
       start();
+
 
       try {
         const [date_debut, date_fin] = values.periode;
@@ -54,6 +55,7 @@ const AbsenceForm = ({ closeModal, fetchData }) => {
           date_debut: moment(date_debut).format('YYYY-MM-DD'),
           date_fin: moment(date_fin).format('YYYY-MM-DD'),
           commentaire: values.commentaire?.trim() || null,
+          created_by: userId
         };
 
         await postAbsence(payload);

@@ -2,11 +2,13 @@ import { useEffect, useState, useCallback } from 'react';
 import { notification } from 'antd';
 import { getUser } from '../../../../../services/userService';
 import { getAbsenceType } from '../../../../../services/presenceService';
+import { useSelector } from 'react-redux';
 
 export const useAbsenceFormData = () => {
   const [users, setUsers] = useState([]);
   const [absenceTypes, setAbsenceTypes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -31,5 +33,5 @@ export const useAbsenceFormData = () => {
     fetchData();
   }, [fetchData]);
 
-  return { users, absenceTypes, loading };
+  return { users, absenceTypes, loading, userId };
 };

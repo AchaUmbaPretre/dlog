@@ -96,7 +96,7 @@ const Absence = () => {
   ];
 
   const filteredData = data?.filter(item =>
-    item.libelle?.toLowerCase().includes(searchValue.toLowerCase())
+    item.utilisateur?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
