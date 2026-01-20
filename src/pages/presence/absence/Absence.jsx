@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Input, Typography, notification } from 'antd';
+import { Table, Button, Input, Typography, notification, Modal } from 'antd';
 import { FileTextOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
 import { getAbsence } from '../../../services/presenceService';
+import AbsenceForm from './absenceForm/AbsenceForm';
 
 const { Search } = Input;
 const { Text } = Typography
@@ -36,9 +37,12 @@ const Absence = () => {
     setIsModalVisible(true);
   };
 
-
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
   };
 
   const columns = [
@@ -142,7 +146,7 @@ const Absence = () => {
         </div>
       </div>
 
-{/*       <Modal
+      <Modal
         title=""
         visible={isModalVisible}
         onCancel={handleCancel}
@@ -150,8 +154,8 @@ const Absence = () => {
         width={750}
         centered
       >
-        <PersonnelForm fetchData={fetchData} modalOff={setIsModalVisible} />
-      </Modal> */}
+        <AbsenceForm fetchData={fetchData} modalOff={setIsModalVisible} />
+      </Modal>
     </>
   );
 };
