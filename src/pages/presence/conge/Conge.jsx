@@ -31,6 +31,10 @@ const Conge = () => {
         fetchData();
     }, []);
 
+    const handleAdd = () => {
+        setIsModalVisible(true);
+    };
+
     const handleCancel = () => {
         setIsModalVisible(false)
     };
@@ -70,6 +74,7 @@ const Conge = () => {
                         <Button
                             type="primary"
                             icon={<PlusCircleOutlined />}
+                            onClick={handleAdd}
                         >
                             Ajouter
                         </Button>
