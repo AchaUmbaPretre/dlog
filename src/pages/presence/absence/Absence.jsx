@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import { getAbsence } from '../../../services/presenceService';
 import AbsenceForm from './absenceForm/AbsenceForm';
-import { renderDate, renderStatus } from './absenceForm/services/renderStatusAbsence';
+import { renderDate, renderStatus } from './absenceForm/utils/renderStatusAbsence';
 
 const { Search } = Input;
 const { Text } = Typography
