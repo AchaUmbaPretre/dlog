@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Input, Button, Table, Modal, notification } from 'antd';
-import { FieldTimeOutlined, PrinterOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Input, Button, Table, Modal, Typography, notification } from 'antd';
+import { FieldTimeOutlined, LogoutOutlined, LoginOutlined, UserOutlined, PrinterOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import Congeform from './congeform/Congeform';
 import { getConge } from '../../../services/presenceService';
+import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 
 const { Search } = Input;
+const { Text } = Typography;
 
 const Conge = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -47,6 +49,50 @@ const Conge = () => {
             width: 50,
             align: 'center',
             render: (_, __, index) => index + 1,
+        },
+        {
+            title: (
+            <>
+                <UserOutlined /> Agent
+            </>
+            ),
+            dataIndex: 'utilisateur',
+            key: 'utilisateur',
+            render: text => <Text strong>{text}</Text>,
+        },
+        {
+            title: (
+            <>
+                <LoginOutlined /> Date début
+            </>
+            ),
+            dataIndex: 'date_debut',
+            key: 'date_debut',
+            align: 'center',
+            render: date => renderDate(date),
+        },
+        {
+            title: (
+            <>
+                <LogoutOutlined /> Date fin
+            </>
+            ),
+            dataIndex: 'date_fin',
+            key: 'date_fin',
+            align: 'center',
+            render: date => renderDate(date),
+        },
+        {
+            title: 'Type conge',
+            dataIndex: 'type_conge',
+            key: 'type_conge',
+            align: 'center'
+        },
+        {
+            title: 'Statut',
+            dataIndex: 'statut',
+            key: 'statut',
+            align: 'center'
         }
     ]
 
