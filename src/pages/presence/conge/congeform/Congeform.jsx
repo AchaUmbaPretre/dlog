@@ -38,52 +38,52 @@ const Congeform = ({ closeModal, fetchData }) => {
     const { users, userId } = useCongeFormData();
     const { progress, start, finish, reset } = useProgress();
 
-    const handleSubmit = useCallback(
-        async (values) => {
-            setSubmitting(true);
+    const handleSubmit = useCallback(async (values) => {
+        setSubmitting(true);
+        setSuccess(false);
+        start();
+
+        try {
+            const [dateDebut, dateFin] = values.periode;
+
+            const payload = {
+                id_utilisateur: values.id_utilisateur,
+                date_debut: dateDebut.format('YYYY-MM-DD'),
+                date_fin: dateFin.format('YYYY-MM-DD'),
+                type_conge: values.type_conge,
+                statut: 'EN_ATTENTE',
+                commentaire: values.commentaire || null,
+                created_by: userId
+            };
+
+            await postConge(payload);
+
+            finish();
+            setSuccess(true);
+
+            notification.success({
+            message: 'Succès',
+            description: 'Le congé a été enregistré avec succès.',
+            });
+
+            setTimeout(() => {
+            form.resetFields();
             setSuccess(false);
-            start();
+            closeModal?.();
+            fetchData?.();
+            }, 1000);
 
-            try {
-                const [dateDebut, dateFin] = values.periode;
+        } catch (error) {
+            reset();
+            notification.error({
+            message: 'Erreur',
+            description: "Erreur lors de l'enregistrement du congé.",
+            });
+        } finally {
+            setSubmitting(false);
+        }
+    }, [form, start, finish, reset, closeModal, fetchData]);
 
-                const payload = {
-                    d_utilisateur: values.id_utilisateur,
-                    date_debut: dateDebut.startOf('day').format('YYYY-MM-DD'),
-                    date_fin: dateFin.endOf('day').format('YYYY-MM-DD'),
-                    type_conge: values.type_conge,
-                    statut: values.statut,
-                    commentaire	: values.commentaire,
-                    created_by: userId
-                }
-
-                await postConge(payload);
-
-                finish();
-                setSuccess(true);
-
-                notification.success({
-                    message: 'Succès',
-                    description: "Le congé a été enregistré avec succès.",
-                });
-
-                setTimeout(() => {
-                    form.resetFields();
-                    setSuccess(false);
-                    closeModal?.();
-                    fetchData?.();
-                }, 1200);
-
-            } catch (error) {
-                reset();
-                notification.error({
-                    message: 'Erreur',
-                    description: "Une erreur est survenue lors de l'enregistrement.",
-                });
-            }
-        },
-        [form, start, finish, reset, closeModal, fetchData]
-    );
 
   return (
     <>
@@ -135,10 +135,25 @@ const Congeform = ({ closeModal, fetchData }) => {
                                     size="large"
                                     style={{ width: '100%' }}
                                     format="YYYY-MM-DD"
-                                    disabledDate={(d) => d && d < moment().startOf('day')}
+                                    disabledDate={null}
                                 />
                             </Form.Item>
                         </Col>
+
+                        <Col md={12} xs={24}>
+                            <Form.Item
+                                label="Type de congé"
+                                name="type_conge"
+                                rules={[{ required: true, message: 'Type de congé requis' }]}
+                            >
+                                <Select size="large" placeholder="Sélectionner le type">
+                                <Select.Option value="ANNUEL">Annuel</Select.Option>
+                                <Select.Option value="MALADIE">Maladie</Select.Option>
+                                <Select.Option value="EXCEPTIONNEL">Exceptionnel</Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+
 
                         <Col md={12} xs={24}>
                             <Form.Item label="Commentaire" name="commentaire">
