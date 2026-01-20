@@ -5,6 +5,7 @@ import {
   CloseCircleOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons';
+import moment from 'moment';
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -48,7 +49,7 @@ const CongeDecisionModal = ({
         </Descriptions.Item>
 
         <Descriptions.Item label="Période">
-          Du <strong>{record.date_debut}</strong> au <strong>{record.date_fin}</strong>
+          Du <strong>{moment(record.date_debut).format('DD-MM-YYYY')}</strong> au <strong>{moment(record.date_fin).format('DD-MM-YYYY')}</strong>
         </Descriptions.Item>
 
         <Descriptions.Item label="Durée">
