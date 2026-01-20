@@ -104,7 +104,7 @@ const Absence = () => {
             <div className="client-row-icon">
               <ToolOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Personnel</h2>
+            <h2 className="client-h2">Liste d'absences</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
