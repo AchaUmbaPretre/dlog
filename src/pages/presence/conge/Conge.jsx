@@ -15,6 +15,7 @@ import { getConge, validateConge } from '../../../services/presenceService';
 import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import { renderStatutConge, renderTypeConge } from './utils/renderStatutConge';
 import { calculateDuration } from './utils/calculateDuration';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -26,6 +27,7 @@ const Conge = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [decisionModal, setDecisionModal] = useState({ visible: false, record: null });
   const scroll = { x: 700 };
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   // Fetch congés
   const fetchData = async () => {
@@ -58,8 +60,13 @@ const Conge = () => {
   // Confirmer validation ou refus
   const confirmDecision = async (statut) => {
     const { record } = decisionModal;
+    const payload = {
+        id_conge :record.id_conge, 
+        statut,
+        validated_by: userId
+    }
     try {
-      await validateConge(record.id_conge, statut);
+      await validateConge(payload);
       notification.success({
         message: `Congé ${statut === 'VALIDE' ? 'validé' : 'refusé'} !`
       });
