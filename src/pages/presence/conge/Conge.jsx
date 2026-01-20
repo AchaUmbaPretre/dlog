@@ -102,7 +102,10 @@ const Conge = () => {
             ),
             dataIndex: 'created_name',
             key: 'created_name',
-            render: (text, record) => <Text strong>{`${record.created_name} - ${record.created_name}`}</Text>,
+            render: (text, record) => 
+             text ?
+                <Text strong>{`${record.created_name} - ${record.created_name}`}</Text>
+                : 'Aucun'
         },
     ]
 
