@@ -151,7 +151,7 @@ const Absence = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={750}
+        width={950}
         centered
       >
         <AbsenceForm fetchData={fetchData} modalOff={setIsModalVisible} />
