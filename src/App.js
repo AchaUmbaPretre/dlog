@@ -79,6 +79,7 @@ import CarburantAll from './pages/charroi/carburant/composant/carburantAll/Carbu
 import SortieEamFmp from './pages/charroi/sortieEamFmp/SortieEamFmp';
 import Presence from './pages/presence/Presence';
 import Conge from './pages/presence/conge/Conge';
+import Absence from './pages/presence/absence/Absence';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -391,6 +392,10 @@ function App() {
         {
           path:'/conge',
           element: secure('/conge', <Conge/>)
+        },
+        {
+          path:'/absence',
+          element: secure('/absence', <Absence/>)
         }
       ]
     },

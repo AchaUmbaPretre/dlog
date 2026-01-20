@@ -1,22 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Modal, Input, Typography, message, Menu, notification, Tag } from 'antd';
 import { ExportOutlined, ToolOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
-import config from '../../config';
 
-import PersonnelForm from './personnelForm/PersonnelForm';
-import { getPersonne } from '../../services/userService';
 
 const { Search } = Input;
 const { Text } = Typography
 
-const Personnel = () => {
-  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+const Absence = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
   const [searchValue, setSearchValue] = useState('');
-  
 
    const fetchData = async () => {
       try {
@@ -34,24 +29,13 @@ const Personnel = () => {
 
   useEffect(() => {
     fetchData();
-  }, [DOMAIN]);
+  }, []);
   
 
   const handleAddClient = () => {
     setIsModalVisible(true);
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleExportExcel = () => {
-    message.success('Exporting to Excel...');
-  };
-
-  const handleExportPDF = () => {
-    message.success('Exporting to PDF...');
-  };
 
   const handlePrint = () => {
     window.print();
@@ -74,25 +58,33 @@ const Personnel = () => {
       ),
     },
     {
-      title: 'Prenom',
-      dataIndex: 'prenom',
-      key: 'prenom',
+      title: 'Type absence',
+      dataIndex: 'type_absence',
+      key: 'type_absence',
       render: (text) => (
         <Text>{text}</Text>
       ),
     },
     {
-      title: 'Matricule',
-      dataIndex: 'matricule',
-      key: 'matricule',
+      title: 'Date debut',
+      dataIndex: 'date_debut',
+      key: 'date_debut',
       render: (text) => (
         <Text>{text}</Text>
       ),
     },
     {
-      title: 'Département',
-      dataIndex: 'nom_departement',
-      key: 'nom_departement',
+      title: 'Date fin',
+      dataIndex: 'date_fin',
+      key: 'date_fin',
+      render: (text) => (
+        <Text>{text}</Text>
+      ),
+    },
+    {
+      title: 'Statut',
+      dataIndex: 'statut',
+      key: 'statut',
       render: (text) => (
         <Text>{text}</Text>
       ),
@@ -100,8 +92,7 @@ const Personnel = () => {
   ];
 
   const filteredData = data?.filter(item =>
-    item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
-    item.nom_departement?.toLowerCase().includes(searchValue.toLowerCase())
+    item.nom?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -151,7 +142,7 @@ const Personnel = () => {
         </div>
       </div>
 
-      <Modal
+{/*       <Modal
         title=""
         visible={isModalVisible}
         onCancel={handleCancel}
@@ -160,9 +151,9 @@ const Personnel = () => {
         centered
       >
         <PersonnelForm fetchData={fetchData} modalOff={setIsModalVisible} />
-      </Modal>
+      </Modal> */}
     </>
   );
 };
 
-export default Personnel;
+export default Absence;

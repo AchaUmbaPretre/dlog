@@ -64,3 +64,12 @@ export const getConge = async () => {
 export const postConge = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/conge`, data);
 };
+
+//Absence
+export const getAbsence = async () => {
+  return axios.get(`${DOMAIN}/api/presence/absence`);
+};
+
+export const postAbsence = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/absence`, data);
+};
