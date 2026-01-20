@@ -12,6 +12,7 @@ import {
 import { getAbsence } from '../../../services/presenceService';
 import AbsenceForm from './absenceForm/AbsenceForm';
 import { renderDate, renderStatus } from './absenceForm/utils/renderStatusAbsence';
+import { calculateDuration } from '../conge/utils/calculateDuration';
 
 const { Search } = Input;
 const { Text } = Typography
@@ -105,6 +106,12 @@ const columns = [
     key: 'date_fin',
     align: 'center',
     render: date => renderDate(date),
+  },
+  {
+    title: 'Durée (jours)',
+    key: 'duree',
+    align: 'center',
+    render: (_, record) => calculateDuration(record.date_debut, record.date_fin)
   },
   {
     title: 'Statut',

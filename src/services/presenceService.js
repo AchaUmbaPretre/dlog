@@ -65,6 +65,9 @@ export const postConge = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/conge`, data);
 };
 
+export const validateConge = async (data) => {
+    return axios.put(`${DOMAIN}/api/presence/validation_conge`, data)
+}
 //Absence
 export const getAbsence = async () => {
   return axios.get(`${DOMAIN}/api/presence/absence`);
