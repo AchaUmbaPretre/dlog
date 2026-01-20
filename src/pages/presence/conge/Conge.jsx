@@ -16,6 +16,7 @@ import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import { renderStatutConge, renderTypeConge } from './utils/renderStatutConge';
 import { calculateDuration } from './utils/calculateDuration';
 import { useSelector } from 'react-redux';
+import CongeDecisionModal from './congeDecisionModal/CongeDecisionModal';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -25,9 +26,13 @@ const Conge = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [decisionModal, setDecisionModal] = useState({ visible: false, record: null });
   const scroll = { x: 700 };
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const [decisionModal, setDecisionModal] = useState({
+    visible: false,
+    record: null
+    });
+  const [decisionLoading, setDecisionLoading] = useState(false);
 
   // Fetch congés
   const fetchData = async () => {
@@ -52,34 +57,43 @@ const Conge = () => {
   const handleAdd = () => setIsModalVisible(true);
   const handleCancel = () => setIsModalVisible(false);
 
+    const openDecisionModal = (record) => {
+    setDecisionModal({ visible: true, record });
+    };
+
   // Ouvrir modal décision
   const handleValidate = (record) => {
     setDecisionModal({ visible: true, record });
   };
 
-  // Confirmer validation ou refus
-  const confirmDecision = async (statut) => {
-    const { record } = decisionModal;
-    const payload = {
-        id_conge :record.id_conge, 
-        statut,
-        validated_by: userId
-    }
-    try {
-      await validateConge(payload);
-      notification.success({
-        message: `Congé ${statut === 'VALIDE' ? 'validé' : 'refusé'} !`
-      });
-      fetchData();
-    } catch (error) {
-      notification.error({
-        message: 'Erreur',
-        description: error.message || 'Impossible de mettre à jour le congé.'
-      });
-    } finally {
-      setDecisionModal({ visible: false, record: null });
-    }
-  };
+  const handleDecisionConfirm = async (statut, commentaire) => {
+  setDecisionLoading(true);
+
+  try {
+    await validateConge({
+      id_conge: decisionModal.record.id_conge,
+      statut,
+      commentaire,
+      validated_by: userId
+    });
+
+    notification.success({
+      message: 'Décision enregistrée',
+      description: `Le congé a été ${statut === 'VALIDE' ? 'validé' : 'refusé'}`
+    });
+
+    fetchData();
+    setDecisionModal({ visible: false, record: null });
+  } catch (err) {
+    notification.error({
+      message: 'Erreur',
+      description: err.message
+    });
+  } finally {
+    setDecisionLoading(false);
+  }
+};
+
 
   const columns = [
     {
@@ -130,37 +144,31 @@ const Conge = () => {
       render: (status) => renderStatutConge(status)
     },
     {
-      title: 'Décision',
-      key: 'decision',
-      align: 'center',
-      render: (_, record) => {
-        if (record.statut === 'VALIDE')
-          return <Text>{`Validé par ${record.validated_name} ${record.validated_lastname}`}</Text>;
-        if (record.statut === 'REFUSE')
-          return <Text>{`Refusé par ${record.validated_name} ${record.validated_lastname}`}</Text>;
-        // En attente : bouton pour manager
-        return (
-          <Space>
-            <Button
-              type="primary"
-              size="small"
-              icon={<CheckCircleOutlined />}
-              onClick={() => handleValidate(record)}
-            >
-              Valider
-            </Button>
-            <Button
-              type="danger"
-              size="small"
-              icon={<CloseCircleOutlined />}
-              onClick={() => handleValidate(record)}
-            >
-              Refuser
-            </Button>
-          </Space>
-        );
-      }
+  title: 'Décision',
+  align: 'center',
+  render: (_, record) => {
+    if (record.statut !== 'EN_ATTENTE') {
+      return (
+        <Text>
+          {record.statut === 'VALIDE' ? 'Validé' : 'Refusé'}
+          <br />
+          par {record.validated_name}
+        </Text>
+      );
     }
+
+    return (
+      <Button
+        type="primary"
+        size="small"
+        onClick={() => openDecisionModal(record)}
+      >
+        Décider
+      </Button>
+    );
+  }
+}
+
   ];
 
   return (
@@ -217,9 +225,8 @@ const Conge = () => {
         </div>
       </div>
 
-      {/* Modal Ajout Congé */}
       <Modal
-        title="Ajouter un congé"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
@@ -229,33 +236,20 @@ const Conge = () => {
         <Congeform closeModal={setIsModalVisible} fetchData={fetchData} />
       </Modal>
 
-      {/* Modal Décision */}
-      <Modal
-        title="Décision du congé"
+      <CongeDecisionModal
         visible={decisionModal.visible}
-        onCancel={() => setDecisionModal({ visible: false, record: null })}
-        footer={null}
-        centered
-      >
-        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-          <Text>Voulez-vous valider ou refuser ce congé ?</Text>
-          <Text strong>{decisionModal.record && `${decisionModal.record.agent_name} ${decisionModal.record.agent_lastname}`}</Text>
-          <Space>
-            <Button
-              type="primary"
-              onClick={() => confirmDecision('VALIDE')}
-            >
-              Valider
-            </Button>
-            <Button
-              type="danger"
-              onClick={() => confirmDecision('REFUSE')}
-            >
-              Refuser
-            </Button>
-          </Space>
-        </Space>
-      </Modal>
+        record={{
+            ...decisionModal.record,
+            duree: calculateDuration(
+            decisionModal.record?.date_debut,
+            decisionModal.record?.date_fin
+            )
+        }}
+        onClose={() => setDecisionModal({ visible: false, record: null })}
+        onConfirm={handleDecisionConfirm}
+        loading={decisionLoading}
+        />
+
     </>
   );
 };
