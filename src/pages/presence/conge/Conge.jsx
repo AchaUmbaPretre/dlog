@@ -58,7 +58,7 @@ const Conge = () => {
             ),
             dataIndex: 'utilisateur',
             key: 'utilisateur',
-            render: text => <Text strong>{text}</Text>,
+            render: (text, record) => <Text strong>{`${record.agent_name} - ${record.agent_lastname}`}</Text>,
         },
         {
             title: (
@@ -93,7 +93,17 @@ const Conge = () => {
             dataIndex: 'statut',
             key: 'statut',
             align: 'center'
-        }
+        },
+        {
+            title: (
+            <>
+                <UserOutlined /> Créé par
+            </>
+            ),
+            dataIndex: 'created_name',
+            key: 'created_name',
+            render: (text, record) => <Text strong>{`${record.created_name} - ${record.created_name}`}</Text>,
+        },
     ]
 
   return (
