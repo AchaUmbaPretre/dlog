@@ -70,6 +70,11 @@ export const getAbsence = async () => {
   return axios.get(`${DOMAIN}/api/presence/absence`);
 };
 
+export const getAbsenceType = async () => {
+  return axios.get(`${DOMAIN}/api/presence/absence_type`);
+};
+
+
 export const postAbsence = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/absence`, data);
 };

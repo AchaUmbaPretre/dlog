@@ -184,7 +184,7 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
                 <Form
                     form={form}
                     layout="vertical"
-                    onFinish={handleSubmit }
+                    onFinish={handleSubmit}
                 >
                     <Row gutter={24}>
                         <Card type="inner" title="IDENTIFICATION" style={{width:'100%', marginBottom:'20px'}}>
