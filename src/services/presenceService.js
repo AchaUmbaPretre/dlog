@@ -13,7 +13,6 @@ export const getPresencePlanning = async (dateRange) => {
   });
 };
 
-
 export const getPresenceRapport = async (dateRange) => {
   return axios.get(`${DOMAIN}/api/presence/month`, {
     params: dateRange ?? {}
@@ -31,6 +30,10 @@ export const getPresenceRetardPonctualite = async (dateRange) => {
       endDate: dateRange[1].format("YYYY-MM-DD")
     }
   });
+};
+
+export const getAttendanceAdjustment = async () => {
+  return axios.get(`${DOMAIN}/api/presence/attendance-adjustments`);
 };
 
 export const postAttendanceAdjustment = async (data) => {
