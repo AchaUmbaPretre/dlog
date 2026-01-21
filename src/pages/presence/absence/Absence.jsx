@@ -177,15 +177,15 @@ const columns = [
     align: 'center',
     render: (_, record) => {
         if (record.statut !== 'PROPOSEE') {
-        return (
-            <Text>
-            {record.statut === 'VALIDEE' ? 'Validée' : 'Rejetée'}
-            <br />
-            <Text type="secondary">
-                par {record.validated_name}
-            </Text>
-            </Text>
-        );
+            return (
+                <Text>
+                    {record.statut === 'VALIDEE' ? 'Validée' : 'Rejetée'}
+                    <br />
+                    <Text type="secondary">
+                        par {record.validated_name}
+                    </Text>
+                </Text>
+            );
         }
 
         return (
