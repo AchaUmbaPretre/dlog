@@ -89,7 +89,7 @@ const columns = [
             <div className="client-row-icon">
               <FieldTimeOutlined />
             </div>
-            <div className="client-h2">Liste des congés</div>
+            <div className="client-h2">Liste des jours feriés</div>
           </div>
 
           <div className="client-actions">
