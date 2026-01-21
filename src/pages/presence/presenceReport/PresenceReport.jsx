@@ -16,7 +16,6 @@ const PresenceReport = () => {
   const [searchValue, setSearchValue] = useState("");
   const { data, loading, monthRange, setMonthRange } = usePresenceReport();
 
-  // Colonnes du tableau
   const columns = useMemo(() => {
     if (!data?.report) return [];
 
@@ -44,7 +43,6 @@ const PresenceReport = () => {
       }));
   }, [data, searchValue]);
 
-  // Export Excel
   const exportExcel = () => {
     if (!dataSource.length) return;
 
