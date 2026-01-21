@@ -59,11 +59,6 @@ const Conge = () => {
     setDecisionModal({ visible: true, record });
     };
 
-  // Ouvrir modal décision
-  const handleValidate = (record) => {
-    setDecisionModal({ visible: true, record });
-  };
-
   const handleDecisionConfirm = async (statut, commentaire) => {
   setDecisionLoading(true);
 

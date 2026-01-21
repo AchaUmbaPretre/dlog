@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Input, Button, Table, Modal, Typography, notification, Space } from 'antd';
 import {
   FieldTimeOutlined,
-  LogoutOutlined,
-  LoginOutlined,
-  UserOutlined,
   PrinterOutlined,
   PlusCircleOutlined
 } from '@ant-design/icons';
-import { getConge, } from '../../../services/presenceService';
 import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import JourFerieForm from './jourFerieForm/JourFerieForm';
+import { getJourFerie } from '../../../services/presenceService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -26,7 +23,7 @@ const JourFerie = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await getConge();
+      const { data } = await getJourFerie();
       setData(data);
     } catch (error) {
       notification.error({
@@ -45,42 +42,44 @@ const JourFerie = () => {
   const handleAdd = () => setIsModalVisible(true);
   const handleCancel = () => setIsModalVisible(false);
 
-  const columns = [
-    {
-      title: '#',
-      key: 'index',
-      width: 50,
-      align: 'center',
-      render: (_, __, index) => index + 1
-    },
-    {
-      title: <><UserOutlined /> Agent</>,
-      dataIndex: 'utilisateur',
-      key: 'utilisateur',
-      render: (_, record) => <Text strong>{`${record.agent_name} ${record.agent_lastname}`}</Text>
-    },
-    {
-      title: <><LoginOutlined /> Date début</>,
-      dataIndex: 'date_debut',
-      key: 'date_debut',
-      align: 'center',
-      render: (date) => renderDate(date)
-    },
-    {
-      title: <><LogoutOutlined /> Date fin</>,
-      dataIndex: 'date_fin',
-      key: 'date_fin',
-      align: 'center',
-      render: (date) => renderDate(date)
-    },
-    {
-      title: 'Statut',
-      dataIndex: 'statut',
-      key: 'statut',
-      align: 'center',
-      render: (status) => renderStatutConge(status)
-    }
-  ];
+const columns = [
+  {
+    title: '#',
+    width: 50,
+    align: 'center',
+    render: (_, __, index) => index + 1
+  },
+  {
+    title: 'Libellé',
+    dataIndex: 'libelle',
+    key: 'libelle',
+    render: (text) => <Text strong>{text}</Text>
+  },
+  {
+    title: 'Date fériée',
+    dataIndex: 'date_ferie',
+    key: 'date_ferie',
+    align: 'center',
+    render: renderDate
+  },
+  {
+    title: 'Payé',
+    dataIndex: 'est_paye',
+    key: 'est_paye',
+    align: 'center',
+    render: (value) =>
+      value === 1 ? (
+        <Text type="success">Oui</Text>
+      ) : (
+        <Text type="danger">Non</Text>
+      )
+  }
+];
+
+  const filteredData = data?.filter(item =>
+    item.libelle?.toLowerCase().includes(searchValue.toLowerCase()) 
+  );
+
 
   return (
     <>
@@ -119,16 +118,10 @@ const JourFerie = () => {
 
           <Table
             columns={columns}
-            dataSource={data.filter(d => {
-              const search = searchValue.toLowerCase();
-              return (
-                d.agent_name.toLowerCase().includes(search) ||
-                d.agent_lastname.toLowerCase().includes(search)
-              );
-            })}
+            dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 15 }}
-            rowKey="id_conge"
+            rowKey="id_ferie"
             bordered
             size="middle"
             scroll={scroll}
