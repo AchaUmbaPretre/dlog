@@ -9,10 +9,12 @@ import {
   LoginOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
-import { getAbsence } from '../../../services/presenceService';
+import { getAbsence, validateAbsence } from '../../../services/presenceService';
 import AbsenceForm from './absenceForm/AbsenceForm';
 import { renderDate, renderStatus } from './absenceForm/utils/renderStatusAbsence';
 import { calculateDuration } from '../conge/utils/calculateDuration';
+import AbsenceDecisionModal from './absenceDecisionModal/AbsenceDecisionModal';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 const { Text } = Typography
@@ -23,6 +25,10 @@ const Absence = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 400 };
   const [searchValue, setSearchValue] = useState('');
+  const [decisionModalOpen, setDecisionModalOpen] = useState(false);
+  const [selectedAbsence, setSelectedAbsence] = useState(null);
+  const [decisionLoading, setDecisionLoading] = useState(false);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
    const fetchData = async () => {
       try {
@@ -41,6 +47,42 @@ const Absence = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDecision = async (decision, commentaire) => {
+  if (!selectedAbsence) return;
+
+  try {
+    setDecisionLoading(true);
+    const payload = {
+        id_absence: selectedAbsence.id_absence,
+        decision,
+        commentaire,
+        validated_by: userId
+    }
+    await validateAbsence(payload)
+
+    notification.success({
+      message: 'Décision enregistrée',
+      description:
+        decision === 'VALIDEE'
+          ? "L'absence a été validée avec succès."
+          : "L'absence a été rejetée.",
+    });
+
+    setDecisionModalOpen(false);
+    setSelectedAbsence(null);
+    fetchData();
+
+  } catch (error) {
+    notification.error({
+      message: 'Erreur',
+      description: "Impossible d'enregistrer la décision.",
+    });
+  } finally {
+    setDecisionLoading(false);
+  }
+};
+
   
 
   const handleAddClient = () => {
@@ -130,6 +172,36 @@ const columns = [
     key: 'created_name',
     render: (text, record) => <Text strong>{`${record.created_name} - ${record.created_lastname}`}</Text>,
   },
+  {
+    title: 'Décision',
+    align: 'center',
+    render: (_, record) => {
+        if (record.statut !== 'PROPOSEE') {
+        return (
+            <Text>
+            {record.statut === 'VALIDEE' ? 'Validée' : 'Rejetée'}
+            <br />
+            <Text type="secondary">
+                par {record.validated_name}
+            </Text>
+            </Text>
+        );
+        }
+
+        return (
+        <Button
+            type="primary"
+            size="small"
+            onClick={() => {
+            setSelectedAbsence(record);
+            setDecisionModalOpen(true);
+            }}
+        >
+            Décider
+        </Button>
+        );
+    }
+    }
 ];
 
 
@@ -182,6 +254,7 @@ const columns = [
             scroll={scroll}
           />
         </div>
+
       </div>
 
       <Modal
@@ -194,6 +267,18 @@ const columns = [
       >
         <AbsenceForm closeModal={setIsModalVisible} fetchData={fetchData} />
       </Modal>
+
+        <AbsenceDecisionModal
+            visible={decisionModalOpen}
+            record={selectedAbsence}
+            loading={decisionLoading}
+            onClose={() => {
+            setDecisionModalOpen(false);
+            setSelectedAbsence(null);
+            }}
+            onConfirm={handleDecision}
+        />
+
     </>
   );
 };

@@ -26,7 +26,7 @@ const Conge = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 700 };
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const [decisionModal, setDecisionModal] = useState({
+  const [decisionModal, setDecisionModal] = useState({
     visible: false,
     record: null
     });
