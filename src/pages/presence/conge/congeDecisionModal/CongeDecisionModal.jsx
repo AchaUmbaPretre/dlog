@@ -30,7 +30,7 @@ const CongeDecisionModal = ({
       width={700}
     >
       <Title level={4}>
-        <ExclamationCircleOutlined /> Décision du congé
+        <ExclamationCircleOutlined  style={{ color: '#faad14', marginRight: 8 }} /> Décision du congé
       </Title>
 
       <Text type="secondary">

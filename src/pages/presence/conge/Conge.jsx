@@ -142,30 +142,30 @@ const Conge = () => {
       render: (status) => renderStatutConge(status)
     },
     {
-  title: 'Décision',
-  align: 'center',
-  render: (_, record) => {
-    if (record.statut !== 'EN_ATTENTE') {
-      return (
-        <Text>
-          {record.statut === 'VALIDE' ? 'Validé' : 'Refusé'}
-          <br />
-          par {record.validated_name}
-        </Text>
-      );
-    }
+        title: 'Décision',
+        align: 'center',
+        render: (_, record) => {
+            if (record.statut !== 'EN_ATTENTE') {
+            return (
+                <Text>
+                {record.statut === 'VALIDE' ? 'Validé' : 'Refusé'}
+                <br />
+                par {record.validated_name}
+                </Text>
+            );
+            }
 
-    return (
-      <Button
-        type="primary"
-        size="small"
-        onClick={() => openDecisionModal(record)}
-      >
-        Décider
-      </Button>
-    );
-  }
-}
+            return (
+            <Button
+                type="primary"
+                size="small"
+                onClick={() => openDecisionModal(record)}
+            >
+                Décider
+            </Button>
+            );
+        }
+    }
 
   ];
 
