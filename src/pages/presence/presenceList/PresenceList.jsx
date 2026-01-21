@@ -147,7 +147,7 @@ const PresenceList = () => {
 
     return [
       { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
-      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 150, render: (text) => <strong>{text}</strong> },
+      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 150, render: (text, record) => <strong>{`${record.nom} - ${record.prenom}`}</strong> },
       ...dynamicColumns
     ];
   }, [data, handleClickCell]);
@@ -160,6 +160,7 @@ const PresenceList = () => {
         key: u.id_utilisateur,
         id_utilisateur: u.id_utilisateur,
         nom: u.nom,
+        prenom:u.prenom,
         ...u.presences
       }));
   }, [data, searchValue]);
