@@ -67,8 +67,9 @@ const PresenceList = () => {
 
   const { data, loading, reload, dateRange, setDateRange } = usePresenceData(currentMonth);
   const { permissions } = useSelector((state) => state.user?.currentUser);
-    const [adjustmentOpen, setAdjustmentOpen] = useState(false);
-    const [selectedPresence, setSelectedPresence] = useState(null);
+  const [adjustmentOpen, setAdjustmentOpen] = useState(false);
+  const [selectedPresence, setSelectedPresence] = useState(null);
+  const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
 
@@ -212,6 +213,7 @@ const PresenceList = () => {
       try {
         await postAttendanceAdjustment({
           id_presence: selectedPresence.id_presence,
+          created_by: userId,
           ...values
         });
 
