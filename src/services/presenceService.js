@@ -95,3 +95,11 @@ export const postAbsence = async (data) => {
 export const validateAbsence = async (data) => {
   return axios.put(`${DOMAIN}/api/presence/absence-validation`, data);
 };
+
+export const getJourFerie = async () => {
+  return axios.get(`${DOMAIN}/api/presence/jour-ferie`);
+};
+
+export const postJourFerie = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/jour-ferie`, data);
+};

@@ -8,6 +8,7 @@ import PresenceReport from './presenceReport/PresenceReport';
 import { getTabStyle, iconStyle } from '../../utils/tabStyles';
 import PresenceRapportRP from './presenceRapportRP/PresenceRapportRP';
 import AutorisationSortie from './autorisationSortie/AutorisationSortie';
+import JourFerie from './jourFerie/JourFerie';
 
 const tabConfig = [
     {
@@ -33,6 +34,12 @@ const tabConfig = [
         label: 'Autorisation de sortie',
         icon: <FileTextOutlined/>,
         component: <AutorisationSortie/>
+    },
+    {
+        key: '5',
+        label: 'Jour ferié',
+        icon: <FileTextOutlined/>,
+        component: <JourFerie/>
     }
 ];
 
