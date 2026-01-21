@@ -6,9 +6,7 @@ import {
   LoginOutlined,
   UserOutlined,
   PrinterOutlined,
-  PlusCircleOutlined,
-  CheckCircleOutlined,
-  CloseCircleOutlined
+  PlusCircleOutlined
 } from '@ant-design/icons';
 import Congeform from './congeform/Congeform';
 import { getConge, validateConge } from '../../../services/presenceService';

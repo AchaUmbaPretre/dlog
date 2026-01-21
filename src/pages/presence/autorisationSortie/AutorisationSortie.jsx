@@ -5,14 +5,10 @@ import {
   PrinterOutlined,
   PlusOutlined,
   UserOutlined,
-  CalendarOutlined,
-  LoginOutlined,
-  LogoutOutlined
+  CalendarOutlined
 } from '@ant-design/icons';
-import { getAbsence, getAttendanceAdjustment } from '../../../services/presenceService';
-import AbsenceForm from './absenceForm/AbsenceForm';
-import { renderDate, renderStatus } from './absenceForm/utils/renderStatusAbsence';
-import { calculateDuration } from '../conge/utils/calculateDuration';
+import {getAttendanceAdjustment } from '../../../services/presenceService';
+import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 
 const { Search } = Input;
 const { Text } = Typography
@@ -55,10 +51,21 @@ const AutorisationSortie = () => {
     setIsModalVisible(false)
   };
 
+const STATUS_COLORS = {
+  PROPOSE: 'orange',
+  VALIDE: 'green',
+  REJETE: 'red',
+};
+
+const TYPE_LABELS = {
+  RETARD_JUSTIFIE: 'Retard justifié',
+  CORRECTION_HEURE: 'Correction heures',
+  AUTORISATION_SORTIE: 'Autorisation de sortie',
+};
+
 const columns = [
   {
     title: '#',
-    key: 'index',
     width: 50,
     align: 'center',
     render: (_, __, index) => index + 1,
@@ -69,73 +76,82 @@ const columns = [
         <UserOutlined /> Agent
       </>
     ),
-    dataIndex: 'utilisateur',
-    key: 'utilisateur',
-    render: (text, record) => <Text strong>{`${record.utilisateur} - ${record.utilisateur_lastname}`}</Text>,
+    dataIndex: 'utilisateur_nom',
+    key: 'utilisateur_nom',
+    render: (text) => <Text strong>{text}</Text>,
   },
   {
     title: (
       <>
-        <CalendarOutlined /> Type
+        <CalendarOutlined /> Date
       </>
     ),
+    dataIndex: 'date_presence',
+    align: 'center',
+    render: (date) => renderDate(date),
+  },
+  {
+    title: 'Type d’ajustement',
     dataIndex: 'type',
-    key: 'type',
-    render: text => (
-      <Tag color="blue">{text.toUpperCase()}</Tag>
+    align: 'center',
+    render: (type) => (
+      <Tag color="blue">
+        {TYPE_LABELS[type] || type}
+      </Tag>
     ),
   },
   {
-    title: (
-      <>
-        <LoginOutlined /> Date début
-      </>
+    title: 'Ancienne valeur',
+    dataIndex: 'ancienne_valeur',
+    align: 'center',
+    render: (v) => v || '--',
+  },
+  {
+    title: 'Nouvelle valeur',
+    dataIndex: 'nouvelle_valeur',
+    align: 'center',
+    render: (v) => (
+      <Text strong>{v || '--'}</Text>
     ),
-    dataIndex: 'date_debut',
-    key: 'date_debut',
-    align: 'center',
-    render: date => renderDate(date),
   },
   {
-    title: (
-      <>
-        <LogoutOutlined /> Date fin
-      </>
-    ),
-    dataIndex: 'date_fin',
-    key: 'date_fin',
-    align: 'center',
-    render: date => renderDate(date),
+    title: 'Motif',
+    dataIndex: 'motif',
+    ellipsis: true,
   },
   {
-    title: 'Durée (jours)',
-    key: 'duree',
-    align: 'center',
-    render: (_, record) => calculateDuration(record.date_debut, record.date_fin)
-  },
-  {
-    title: 'Statut',
+    title: 'Statut RH',
     dataIndex: 'statut',
-    key: 'statut',
     align: 'center',
-    render: status => renderStatus(status),
+    render: (statut) => (
+      <Tag color={STATUS_COLORS[statut]}>
+        {statut}
+      </Tag>
+    ),
   },
   {
-    title: (
-      <>
-        <UserOutlined /> Créé par
-      </>
-    ),
-    dataIndex: 'created_name',
-    key: 'created_name',
-    render: (text, record) => <Text strong>{`${record.created_name} - ${record.created_lastname}`}</Text>,
+    title: 'Créée le',
+    dataIndex: 'created_at',
+    align: 'center',
+    render: (date) => renderDate(date),
+  },
+  {
+    title: 'Validée par',
+    align: 'center',
+    render: (_, record) =>
+      record.validated_by_nom ? (
+        <Text>{record.validated_by_nom}</Text>
+      ) : (
+        <Tag color="default">—</Tag>
+      ),
   },
 ];
 
 
-  const filteredData = data?.filter(item =>
-    item.utilisateur?.toLowerCase().includes(searchValue.toLowerCase())
-  );
+const filteredData = data?.filter(item =>
+  item.utilisateur_nom?.toLowerCase().includes(searchValue.toLowerCase())
+);
+
 
   return (
     <>
@@ -145,7 +161,7 @@ const columns = [
             <div className="client-row-icon">
               <FileTextOutlined className='client-icon' />
             </div>
-            <h2 className="client-h2">Liste d'absences</h2>
+            <h2 className="client-h2">Demandes d’ajustement de présence</h2>
           </div>
           <div className="client-actions">
             <div className="client-row-left">
@@ -183,17 +199,6 @@ const columns = [
           />
         </div>
       </div>
-
-      <Modal
-        title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={950}
-        centered
-      >
-        <AbsenceForm closeModal={setIsModalVisible} fetchData={fetchData} />
-      </Modal>
     </>
   );
 };

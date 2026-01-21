@@ -40,7 +40,7 @@ export const postAttendanceAdjustment = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/attendance-adjustments`, data);
 };
 
-export const putAttendanceAdjustment = async (data) => {
+export const validateAttendanceAdjustment = async (data) => {
   return axios.put(`${DOMAIN}/api/presence/validation-adjustments`, data);
 };
 
