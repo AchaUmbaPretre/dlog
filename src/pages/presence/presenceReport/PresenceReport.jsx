@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Card, Table, DatePicker, Button, Space, Tag, notification, Input } from "antd";
+import { Card, Table, DatePicker, Button, Space, notification, Input } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import 'dayjs/locale/fr';
