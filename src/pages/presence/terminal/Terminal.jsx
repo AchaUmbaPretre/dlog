@@ -5,9 +5,8 @@ import {
   PrinterOutlined,
   PlusCircleOutlined
 } from '@ant-design/icons';
-import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
-import JourFerieForm from './jourFerieForm/JourFerieForm';
-import { getJourFerie } from '../../../services/presenceService';
+import { getTerminal } from '../../../services/presenceService';
+import TerminalForm from './terminalForm/TerminalForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -23,7 +22,7 @@ const Terminal = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await getJourFerie();
+      const { data } = await getTerminal();
       setData(data);
     } catch (error) {
       notification.error({
@@ -142,7 +141,7 @@ const columns = [
         width={950}
         centered
       >
-        <JourFerieForm closeModal={setIsModalVisible} fetchData={fetchData} />
+        <TerminalForm closeModal={setIsModalVisible} fetchData={fetchData} />
       </Modal>
 
     </>

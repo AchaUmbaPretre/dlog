@@ -103,3 +103,12 @@ export const getJourFerie = async () => {
 export const postJourFerie = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/jour-ferie`, data);
 };
+
+//Terminal
+export const getTerminal = async () => {
+  return axios.get(`${DOMAIN}/api/presence/terminal`);
+};
+
+export const postTerminal = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/terminal`, data);
+};
