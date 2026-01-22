@@ -9,6 +9,7 @@ import { getTabStyle, iconStyle } from '../../utils/tabStyles';
 import PresenceRapportRP from './presenceRapportRP/PresenceRapportRP';
 import AutorisationSortie from './autorisationSortie/AutorisationSortie';
 import JourFerie from './jourFerie/JourFerie';
+import Terminal from './terminal/Terminal';
 
 const tabConfig = [
     {
@@ -40,6 +41,12 @@ const tabConfig = [
         label: 'Jour ferié',
         icon: <FileTextOutlined/>,
         component: <JourFerie/>
+    },
+    {
+        key: '6',
+        label: 'Terminal',
+        icon: <FileTextOutlined/>,
+        component: <Terminal/>
     }
 ];
 

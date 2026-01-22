@@ -12,7 +12,7 @@ import { getJourFerie } from '../../../services/presenceService';
 const { Search } = Input;
 const { Text } = Typography;
 
-const JourFerie = () => {
+const Terminal = () => {
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -50,34 +50,39 @@ const columns = [
     render: (_, __, index) => index + 1
   },
   {
-    title: 'Libellé',
-    dataIndex: 'libelle',
-    key: 'libelle',
+    title: 'Site',
+    dataIndex: 'nom_site',
+    key: 'nom_site',
     render: (text) => <Text strong>{text}</Text>
   },
   {
-    title: 'Date fériée',
-    dataIndex: 'date_ferie',
-    key: 'date_ferie',
-    align: 'center',
-    render: renderDate
+    title: 'Nom',
+    dataIndex: 'name',
+    key: 'name',
+    render: (text) => <Text>{text}</Text>
   },
   {
-    title: 'Payé',
-    dataIndex: 'est_paye',
-    key: 'est_paye',
-    align: 'center',
-    render: (value) =>
-      value === 1 ? (
-        <Text type="success">Oui</Text>
-      ) : (
-        <Text type="danger">Non</Text>
-      )
+    title: 'Zone',
+    dataIndex: 'location_zone',
+    key: 'location_zone',
+    render: (text) => <Text>{text}</Text>
+  },
+  {
+    title: 'Device model',
+    dataIndex: 'device_model',
+    key: 'device_model',
+    render: (text) => <Text>{text}</Text>
+  },
+  {
+    title: 'Device sn',
+    dataIndex: 'device_sn',
+    key: 'device_sn',
+    render: (text) => <Text>{text}</Text>
   }
 ];
 
   const filteredData = data?.filter(item =>
-    item.libelle?.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) 
   );
 
 
@@ -144,4 +149,4 @@ const columns = [
   );
 };
 
-export default JourFerie;
+export default Terminal;
