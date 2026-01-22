@@ -210,6 +210,7 @@ const Conge = () => {
             })}
             loading={loading}
             pagination={{ pageSize: 15 }}
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             rowKey="id_conge"
             bordered
             size="middle"

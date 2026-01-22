@@ -18,7 +18,6 @@ const Terminal = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const scroll = { x: 700 };
 
-  // Fetch congés
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -27,7 +26,7 @@ const Terminal = () => {
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des données.'
+        description: 'Une erreur est survenue lors du chargement des terminaux.'
       });
     }
     setLoading(false);
@@ -37,53 +36,54 @@ const Terminal = () => {
     fetchData();
   }, []);
 
-  // Ouvrir modal ajout
+  // 🔹 Ouvrir/fermer modal ajout
   const handleAdd = () => setIsModalVisible(true);
   const handleCancel = () => setIsModalVisible(false);
 
-const columns = [
-  {
-    title: '#',
-    width: 50,
-    align: 'center',
-    render: (_, __, index) => index + 1
-  },
-  {
-    title: 'Site',
-    dataIndex: 'nom_site',
-    key: 'nom_site',
-    render: (text) => <Text strong>{text}</Text>
-  },
-  {
-    title: 'Nom',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <Text>{text}</Text>
-  },
-  {
-    title: 'Zone',
-    dataIndex: 'location_zone',
-    key: 'location_zone',
-    render: (text) => <Text>{text}</Text>
-  },
-  {
-    title: 'Device model',
-    dataIndex: 'device_model',
-    key: 'device_model',
-    render: (text) => <Text>{text}</Text>
-  },
-  {
-    title: 'Device sn',
-    dataIndex: 'device_sn',
-    key: 'device_sn',
-    render: (text) => <Text>{text}</Text>
-  }
-];
+  // 🔹 Colonnes du tableau
+  const columns = [
+    {
+      title: '#',
+      width: 50,
+      align: 'center',
+      render: (_, __, index) => index + 1
+    },
+    {
+      title: 'Site',
+      dataIndex: 'nom_site',
+      key: 'nom_site',
+      render: (text) => <Text strong>{text}</Text>
+    },
+    {
+      title: 'Nom',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text) => <Text>{text}</Text>
+    },
+    {
+      title: 'Zone',
+      dataIndex: 'location_zone',
+      key: 'location_zone',
+      render: (text) => <Text>{text}</Text>
+    },
+    {
+      title: 'Device model',
+      dataIndex: 'device_model',
+      key: 'device_model',
+      render: (text) => <Text>{text}</Text>
+    },
+    {
+      title: 'Device sn',
+      dataIndex: 'device_sn',
+      key: 'device_sn',
+      render: (text) => <Text>{text}</Text>
+    }
+  ];
 
+  // 🔹 Filtrer les données selon la recherche
   const filteredData = data?.filter(item =>
-    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase()) 
+    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
   );
-
 
   return (
     <>
@@ -93,13 +93,13 @@ const columns = [
             <div className="client-row-icon">
               <FieldTimeOutlined />
             </div>
-            <h2 className="client-h2">Liste des jours fériés</h2>
+            <h2 className="client-h2">Liste des terminaux</h2>
           </div>
 
           <div className="client-actions">
             <div className="client-row-left">
               <Search
-                placeholder="Recherche..."
+                placeholder="Recherche par site..."
                 onChange={(e) => setSearchValue(e.target.value)}
                 enterButton
               />
@@ -125,7 +125,8 @@ const columns = [
             dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 15 }}
-            rowKey="id_ferie"
+            rowKey="id_terminal"
+            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             bordered
             size="middle"
             scroll={scroll}
@@ -134,16 +135,15 @@ const columns = [
       </div>
 
       <Modal
-        title=""
+        title="Ajouter un terminal"
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         width={950}
         centered
       >
-        <TerminalForm closeModal={setIsModalVisible} fetchData={fetchData} />
+        <TerminalForm closeModal={handleCancel} fetchData={fetchData} />
       </Modal>
-
     </>
   );
 };
