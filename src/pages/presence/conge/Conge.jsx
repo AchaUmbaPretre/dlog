@@ -90,7 +90,7 @@ const Conge = () => {
   } finally {
     setDecisionLoading(false);
   }
-};
+};      
 
 
   const columns = [
