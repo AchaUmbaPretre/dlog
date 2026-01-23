@@ -31,11 +31,10 @@ const Conge = () => {
     record: null
     });
   const [decisionLoading, setDecisionLoading] = useState(false);
-  const { permissions, scope_sites } = useSelector((state) => state.user?.currentUser);
+  const { permissions } = useSelector((state) => state.user?.currentUser);
 
     const canCreate = permissions?.includes('attendance.events.read');
     const canValidate = permissions?.includes('attendance.events.approve');
-    const canPrint = permissions?.includes('attendance.events.export');
 
   // Fetch congés
   const fetchData = async () => {
