@@ -31,6 +31,11 @@ const Conge = () => {
     record: null
     });
   const [decisionLoading, setDecisionLoading] = useState(false);
+  const { permissions, scope_sites } = useSelector((state) => state.user?.currentUser);
+
+    const canCreate = permissions?.includes('attendance.events.read');
+    const canValidate = permissions?.includes('attendance.events.approve');
+    const canPrint = permissions?.includes('attendance.events.export');
 
   // Fetch congés
   const fetchData = async () => {
@@ -140,27 +145,31 @@ const Conge = () => {
         title: 'Décision',
         align: 'center',
         render: (_, record) => {
-            if (record.statut !== 'EN_ATTENTE') {
-            return (
-                <Text>
-                {record.statut === 'VALIDE' ? 'Validé' : 'Refusé'}
-                <br />
-                par {record.validated_name}
-                </Text>
-            );
-            }
-
-            return (
-            <Button
-                type="primary"
-                size="small"
-                onClick={() => openDecisionModal(record)}
-            >
-                Décider
-            </Button>
-            );
+        if (record.statut !== 'EN_ATTENTE') {
+        return (
+            <Text>
+            {record.statut === 'VALIDE' ? 'Validé' : 'Refusé'}
+            <br />
+            par {record.validated_name}
+            </Text>
+        );
         }
+
+        if (!canValidate) {
+        return <Text type="secondary">—</Text>;
+        }
+
+        return (
+        <Button
+            type="primary"
+            size="small"
+            onClick={() => openDecisionModal(record)}
+        >
+            Décider
+        </Button>
+        );
     }
+}
 
   ];
 
@@ -185,13 +194,16 @@ const Conge = () => {
             </div>
 
             <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                onClick={handleAdd}
-              >
-                Ajouter
-              </Button>
+                {canCreate && (
+                    <Button
+                        type="primary"
+                        icon={<PlusCircleOutlined />}
+                        onClick={handleAdd}
+                    >
+                        Ajouter
+                    </Button>
+                )}
+
 
               <Button icon={<PrinterOutlined />}>
                 Print

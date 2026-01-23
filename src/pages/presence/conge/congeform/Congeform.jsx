@@ -34,7 +34,7 @@ const Congeform = ({ closeModal, fetchData }) => {
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
     
-    const { users, userId } = useCongeFormData();
+    const { users, userId, permissions, scope_sites } = useCongeFormData();
     const { progress, start, finish, reset } = useProgress();
 
     const handleSubmit = useCallback(async (values) => {
@@ -52,7 +52,9 @@ const Congeform = ({ closeModal, fetchData }) => {
                 type_conge: values.type_conge,
                 statut: 'EN_ATTENTE',
                 commentaire: values.commentaire || null,
-                created_by: userId
+                created_by: userId,
+                permissions,
+                scope_sites
             };
 
             await postConge(payload);

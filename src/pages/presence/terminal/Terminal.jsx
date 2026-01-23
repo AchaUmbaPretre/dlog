@@ -135,7 +135,7 @@ const Terminal = () => {
       </div>
 
       <Modal
-        title="Ajouter un terminal"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}

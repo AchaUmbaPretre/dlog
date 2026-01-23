@@ -7,6 +7,7 @@ export const useCongeFormData = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+    const { permissions, scope_sites } = useSelector((state) => state.user?.currentUser);
 
     const fetchData = useCallback(async () => {
         setLoading(true);
@@ -30,6 +31,5 @@ export const useCongeFormData = () => {
         fetchData();
     }, []);
 
-    return { users, loading, userId };
-
+    return { users, loading, userId, permissions, scope_sites };
 }
