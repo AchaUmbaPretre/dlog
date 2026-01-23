@@ -48,6 +48,8 @@ import './sideBar.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 import { useMenu } from '../../context/MenuProvider';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../redux/userRedux';
 
 const { Sider } = Layout;
 const { SubMenu, Item } = Menu;
@@ -61,6 +63,7 @@ const SideBar = ({data}) => {
   const [isReduced, setIsReduced] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const dispatch = useDispatch();
 
 
   const toggleSidebar = () => {
@@ -115,10 +118,9 @@ const SideBar = ({data}) => {
   const Logout = async () => {
     try {
       await logout();
-      localStorage.removeItem('persist:root');
+      dispatch(logoutUser());
       message.success('Déconnexion réussie !');
       navigate('/login');
-      window.location.reload();
     } catch (error) {
       message.error('Erreur lors de la déconnexion.');
     }

@@ -7,7 +7,7 @@ const userSlice = createSlice({
     isFetching: false,
     error: false,
     isSidebarOpen: false,
-    loading: false
+    loading: false,
   },
   reducers: {
     loginStart: (state) => {
@@ -21,6 +21,13 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = true;
     },
+    logoutUser: (state) => {
+      state.currentUser = null;
+      state.isFetching = false;
+      state.error = false;
+      state.loading = false;
+      state.isSidebarOpen = false;
+    },
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
@@ -29,7 +36,7 @@ const userSlice = createSlice({
     },
     fetchDataSuccess: (state, action) => {
       state.loading = false;
-      state.produit = action.payload
+      state.produit = action.payload;
     },
     fetchDataFailure: (state) => {
       state.loading = false;
@@ -38,5 +45,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, toggleSidebar, fetchDataRequest, fetchDataSuccess, fetchDataFailure } = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logoutUser, toggleSidebar, fetchDataRequest, fetchDataSuccess, fetchDataFailure } = userSlice.actions;
 export default userSlice.reducer;

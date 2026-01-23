@@ -1,9 +1,3 @@
-import axios from "axios";
-
-const user = JSON.parse(localStorage.getItem("persist:root"))?.user;
-const currentUser = user && JSON.parse(user).currentUser;
-const TOKEN = currentUser?.accessToken || null;
-
 const config = {
     
 REACT_APP_SERVER_DOMAIN : 'http://localhost:8080',
@@ -17,19 +11,4 @@ api_hash : '$2y$10$FbpbQMzKNaJVnv0H2RbAfel1NMjXRUoCy8pZUogiA/bvNNj1kdcY.'
 
 export default config;
 
-export const userRequest = axios.create({
-  baseURL: config.REACT_APP_SERVER_DOMAIN,
-});
-
-userRequest.interceptors.request.use((config) => {
-  const user = JSON.parse(localStorage.getItem("persist:root"))?.user;
-  const currentUser = user && JSON.parse(user).currentUser;
-  const TOKEN = currentUser?.accessToken;
-
-  if (TOKEN) {
-    config.headers.Authorization = `Bearer ${TOKEN}`;
-  }
-
-  return config;
-});
 

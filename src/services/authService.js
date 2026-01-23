@@ -1,4 +1,3 @@
-// src/services/authService.js
 import axios from 'axios';
 import config from '../config';
 
@@ -12,9 +11,21 @@ export const registerUser = async (user) => {
   return axios.post(`${DOMAIN}/api/auth/register`, user);
 };
 
-export const logout = async (user) => {
+export const logout = async () => {
+  try {
+    await axios.post(`${DOMAIN}/api/auth/logout`, {}, { withCredentials: true });
+
+    // Vider le localStorage et Redux
+    localStorage.removeItem('persist:root');
+    window.location.href = '/login'; // redirection vers login
+  } catch (err) {
+    console.error('Erreur logout:', err);
+  }
+};
+
+/* export const logout = async (user) => {
     return axios.post(`${DOMAIN}/api/auth/logout`, user);
-  };
+  }; */
 
 /* export const detailForgot  = async (user) => {
     return axios.post(`${DOMAIN}/api/auth/detail_forgot`, user);

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -69,7 +70,7 @@ export const postPresence = async (data) => {
 
 //Congé
 export const getConge = async () => {
-  return axios.get(`${DOMAIN}/api/presence/conge`);
+  return userRequest.get(`${DOMAIN}/api/presence/conge`);
 };
 
 export const postConge = async (data) => {

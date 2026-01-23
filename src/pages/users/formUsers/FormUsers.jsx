@@ -113,7 +113,7 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
               </Col>
               {
                 !userId  &&
-                <Col span={12}>
+              <Col span={12}>
                 <Form.Item
                   label="Mot de Passe"
                   name="mot_de_passe"
@@ -159,7 +159,7 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
                 </Form.Item>
               </Col>
 
-              <Col xs={24} md={24}>
+              <Col xs={24} md={12}>
                 <Form.Item
                   name="id_departement"
                   label="Département"
@@ -179,6 +179,15 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
                     placeholder="Sélectionnez un département..."
                     optionFilterProp="label"
                   />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  label="matricule terminal"
+                  name="matricule"
+                >
+                  <Input placeholder="Entrez le matricule" />
                 </Form.Item>
               </Col>
             </Row>
