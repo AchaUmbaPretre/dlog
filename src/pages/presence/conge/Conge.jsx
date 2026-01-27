@@ -41,7 +41,7 @@ const Conge = () => {
     setLoading(true);
     try {
       const { data } = await getConge();
-      setData(data);
+      setData(data.data);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
@@ -212,7 +212,7 @@ const Conge = () => {
 
           <Table
             columns={columns}
-            dataSource={data.filter(d => {
+            dataSource={data?.filter(d => {
               const search = searchValue.toLowerCase();
               return (
                 d.agent_name.toLowerCase().includes(search) ||

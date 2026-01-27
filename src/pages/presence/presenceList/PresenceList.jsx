@@ -105,7 +105,7 @@ const PresenceList = () => {
 
   const dataSource = useMemo(() => {
     if (!data) return [];
-    return data.utilisateurs
+    return data?.utilisateurs
       .filter((u) => u.nom.toLowerCase().includes(searchValue.toLowerCase()))
       .map((u) => ({
         key: u.id_utilisateur,

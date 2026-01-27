@@ -15,9 +15,8 @@ export const logout = async () => {
   try {
     await axios.post(`${DOMAIN}/api/auth/logout`, {}, { withCredentials: true });
 
-    // Vider le localStorage et Redux
     localStorage.removeItem('persist:root');
-    window.location.href = '/login'; // redirection vers login
+    window.location.href = '/login';
   } catch (err) {
     console.error('Erreur logout:', err);
   }
