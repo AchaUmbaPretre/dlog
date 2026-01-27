@@ -9,7 +9,7 @@ export const getPresence = async () => {
 };
 
 export const getPresencePlanning = async (dateRange) => {
-  return axios.get(`${DOMAIN}/api/presence/planning`, {
+  return userRequest.get(`${DOMAIN}/api/presence/planning`, {
     params: dateRange ?? {}
   });
 };
