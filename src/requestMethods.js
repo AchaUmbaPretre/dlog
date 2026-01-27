@@ -5,12 +5,9 @@ const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 export const userRequest = axios.create({
   baseURL: DOMAIN,
-  withCredentials: true, // envoie le cookie refreshToken automatiquement
+  withCredentials: true,
 });
 
-// ---------------------
-// Ajouter Authorization sur chaque requête si token présent
-// ---------------------
 userRequest.interceptors.request.use((reqConfig) => {
   try {
     const persisted = JSON.parse(localStorage.getItem("persist:root"));
