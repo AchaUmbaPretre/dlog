@@ -23,7 +23,7 @@ const Terminal = ({ id_terminal, closeModal }) => {
 
   // Modal gestion utilisateurs par terminal
   const [isUserTerminalModalVisible, setIsUserTerminalModalVisible] = useState(false);
-  const [selectedTerminalId, setSelectedTerminalId] = useState(null);
+  const [selectedTerminal, setSelectedTerminal] = useState(null);
 
   const scroll = { x: 700 };
 
@@ -49,25 +49,19 @@ const Terminal = ({ id_terminal, closeModal }) => {
     fetchData();
   }, [fetchData]);
 
-  /* ===========================
-   * MODAL HANDLERS
-   * =========================== */
   const openTerminalModal = () => setIsTerminalModalVisible(true);
   const closeTerminalModal = () => setIsTerminalModalVisible(false);
 
   const openUserTerminalModal = (id_terminal) => {
-    setSelectedTerminalId(id_terminal);
+    setSelectedTerminal(id_terminal);
     setIsUserTerminalModalVisible(true);
   };
 
   const closeUserTerminalModal = () => {
-    setSelectedTerminalId(null);
+    setSelectedTerminal(null);
     setIsUserTerminalModalVisible(false);
   };
 
-  /* ===========================
-   * TABLE COLUMNS
-   * =========================== */
   const columns = useMemo(
     () => [
       {
@@ -111,7 +105,7 @@ const Terminal = ({ id_terminal, closeModal }) => {
           <Button
             type="primary"
             icon={<TeamOutlined />}
-            onClick={() => openUserTerminalModal(record.id_terminal)}
+            onClick={() => openUserTerminalModal(record)}
           >
             Utilisateurs
           </Button>
@@ -121,9 +115,6 @@ const Terminal = ({ id_terminal, closeModal }) => {
     []
   );
 
-  /* ===========================
-   * FILTERED DATA
-   * =========================== */
   const filteredData = useMemo(() => {
     if (!searchValue) return data;
     return data.filter(item =>
@@ -131,15 +122,11 @@ const Terminal = ({ id_terminal, closeModal }) => {
     );
   }, [data, searchValue]);
 
-  /* ===========================
-   * RENDER
-   * =========================== */
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
 
-          {/* HEADER */}
           <div className="client-row">
             <div className="client-row-icon">
               <FieldTimeOutlined />
@@ -147,7 +134,6 @@ const Terminal = ({ id_terminal, closeModal }) => {
             <h2 className="client-h2">Liste des terminaux</h2>
           </div>
 
-          {/* ACTION BAR */}
           <div className="client-actions">
             <div className="client-row-left">
               <Search
@@ -189,7 +175,6 @@ const Terminal = ({ id_terminal, closeModal }) => {
         </div>
       </div>
 
-      {/* MODAL TERMINAL */}
       <Modal
         title="Créer un terminal"
         open={isTerminalModalVisible}
@@ -205,7 +190,6 @@ const Terminal = ({ id_terminal, closeModal }) => {
         />
       </Modal>
 
-      {/* MODAL USER TERMINAL */}
       <Modal
         title="Gestion des utilisateurs du terminal"
         open={isUserTerminalModalVisible}
@@ -216,7 +200,7 @@ const Terminal = ({ id_terminal, closeModal }) => {
         destroyOnClose
       >
         <UserTerminal
-          id_terminal={selectedTerminalId}
+          terminal={selectedTerminal}
           closeModal={closeUserTerminalModal}
         />
       </Modal>

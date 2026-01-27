@@ -3,7 +3,7 @@ import { Table, Button, notification, Spin, Checkbox } from 'antd';
 import { getUser } from '../../../../services/userService';
 import { postUserTerminal, getUserTerminalById } from '../../../../services/presenceService';
 
-const UserTerminal = ({ id_terminal, closeModal }) => {
+const UserTerminal = ({ terminal, closeModal }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -12,14 +12,14 @@ const UserTerminal = ({ id_terminal, closeModal }) => {
   const [selectedUsers, setSelectedUsers] = useState({}); 
 
   const fetchUsers = useCallback(async () => {
-    if (!id_terminal) return;
+    if (!terminal.id_terminal) return;
     setLoading(true);
     try {
       const resUsers = await getUser();
       const allUsers = resUsers?.data || [];
 
       // Récupérer les utilisateurs déjà affectés au terminal
-      const resAssigned = await getUserTerminalById(id_terminal);
+      const resAssigned = await getUserTerminalById(terminal?.id_terminal);
       const assigned = resAssigned?.data || [];
 
       // Construire l’état initial de selectedUsers
@@ -41,7 +41,7 @@ const UserTerminal = ({ id_terminal, closeModal }) => {
     } finally {
       setLoading(false);
     }
-  }, [id_terminal]);
+  }, [terminal?.id_terminal]);
 
   useEffect(() => {
     fetchUsers();
@@ -75,7 +75,7 @@ const UserTerminal = ({ id_terminal, closeModal }) => {
       const promises = Object.entries(selectedUsers).map(([user_id, perms]) =>
         postUserTerminal({
           user_id,
-          terminal_id: id_terminal,
+          terminal_id: terminal.id_terminal,
           can_read: perms.can_read,
           can_edit: perms.can_edit
         })
@@ -141,13 +141,13 @@ const UserTerminal = ({ id_terminal, closeModal }) => {
     }
   ];
 
-  if (!id_terminal) return null;
+  if (!terminal?.id_terminal) return null;
 
   return (
     <Spin spinning={loading}>
       <h3 style={{ marginBottom: 16 }}>
         Gestion des utilisateurs pour le terminal :
-        <strong style={{ marginLeft: 8 }}>{id_terminal}</strong>
+        <strong style={{ marginLeft: 8 }}>{terminal?.name}</strong>
       </h3>
 
       <Table
