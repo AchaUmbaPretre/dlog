@@ -29,11 +29,14 @@ const Absence = () => {
   const [selectedAbsence, setSelectedAbsence] = useState(null);
   const [decisionLoading, setDecisionLoading] = useState(false);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
+  const { permissions } = useSelector((state) => state.user?.currentUser);
+  
+  const canValidate = permissions?.includes('attendance.events.approve');
 
    const fetchData = async () => {
       try {
         const { data } = await getAbsence();
-        setData(data);
+        setData(data?.data);
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -188,6 +191,9 @@ const columns = [
             );
         }
 
+        if (!canValidate) {
+          return <Text type="secondary">—</Text>;
+        }
         return (
         <Button
             type="primary"
