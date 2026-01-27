@@ -29,7 +29,7 @@ userRequest.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await axios.get(`${DOMAIN}/api/refresh-token`, { withCredentials: true });
+        const res = await axios.get(`${DOMAIN}/api/auth/refresh-token`, { withCredentials: true });
         const newAccessToken = res.data.accessToken;
 
         // Mettre à jour le currentUser dans persist:root

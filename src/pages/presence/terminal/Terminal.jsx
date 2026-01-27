@@ -1,94 +1,145 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Input, Button, Table, Modal, Typography, notification } from 'antd';
 import {
   FieldTimeOutlined,
   PrinterOutlined,
-  PlusCircleOutlined
+  PlusCircleOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
+
 import { getTerminal } from '../../../services/presenceService';
 import TerminalForm from './terminalForm/TerminalForm';
+import UserTerminal from './userTerminal/UserTerminal';
 
 const { Search } = Input;
 const { Text } = Typography;
 
-const Terminal = () => {
-  const [searchValue, setSearchValue] = useState('');
-  const [loading, setLoading] = useState(true);
+const Terminal = ({ id_terminal, closeModal }) => {
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
+  const [isTerminalModalVisible, setIsTerminalModalVisible] = useState(false);
+
+  // Modal gestion utilisateurs par terminal
+  const [isUserTerminalModalVisible, setIsUserTerminalModalVisible] = useState(false);
+  const [selectedTerminalId, setSelectedTerminalId] = useState(null);
+
   const scroll = { x: 700 };
 
-  const fetchData = async () => {
+  /* ===========================
+   * DATA FETCHING
+   * =========================== */
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await getTerminal();
-      setData(data);
+      setData(data || []);
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',
-        description: 'Une erreur est survenue lors du chargement des terminaux.'
+        description: 'Impossible de charger la liste des terminaux.'
       });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
-  // 🔹 Ouvrir/fermer modal ajout
-  const handleAdd = () => setIsModalVisible(true);
-  const handleCancel = () => setIsModalVisible(false);
+  /* ===========================
+   * MODAL HANDLERS
+   * =========================== */
+  const openTerminalModal = () => setIsTerminalModalVisible(true);
+  const closeTerminalModal = () => setIsTerminalModalVisible(false);
 
-  // 🔹 Colonnes du tableau
-  const columns = [
-    {
-      title: '#',
-      width: 50,
-      align: 'center',
-      render: (_, __, index) => index + 1
-    },
-    {
-      title: 'Site',
-      dataIndex: 'nom_site',
-      key: 'nom_site',
-      render: (text) => <Text strong>{text}</Text>
-    },
-    {
-      title: 'Nom',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => <Text>{text}</Text>
-    },
-    {
-      title: 'Zone',
-      dataIndex: 'location_zone',
-      key: 'location_zone',
-      render: (text) => <Text>{text}</Text>
-    },
-    {
-      title: 'Device model',
-      dataIndex: 'device_model',
-      key: 'device_model',
-      render: (text) => <Text>{text}</Text>
-    },
-    {
-      title: 'Device sn',
-      dataIndex: 'device_sn',
-      key: 'device_sn',
-      render: (text) => <Text>{text}</Text>
-    }
-  ];
+  const openUserTerminalModal = (id_terminal) => {
+    setSelectedTerminalId(id_terminal);
+    setIsUserTerminalModalVisible(true);
+  };
 
-  // 🔹 Filtrer les données selon la recherche
-  const filteredData = data?.filter(item =>
-    item.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
+  const closeUserTerminalModal = () => {
+    setSelectedTerminalId(null);
+    setIsUserTerminalModalVisible(false);
+  };
+
+  /* ===========================
+   * TABLE COLUMNS
+   * =========================== */
+  const columns = useMemo(
+    () => [
+      {
+        title: '#',
+        width: 60,
+        align: 'center',
+        render: (_, __, index) => index + 1
+      },
+      {
+        title: 'Site',
+        dataIndex: 'nom_site',
+        key: 'nom_site',
+        render: (text) => <Text strong>{text}</Text>
+      },
+      {
+        title: 'Nom',
+        dataIndex: 'name',
+        key: 'name'
+      },
+      {
+        title: 'Zone',
+        dataIndex: 'location_zone',
+        key: 'location_zone'
+      },
+      {
+        title: 'Device model',
+        dataIndex: 'device_model',
+        key: 'device_model'
+      },
+      {
+        title: 'Device SN',
+        dataIndex: 'device_sn',
+        key: 'device_sn'
+      },
+      {
+        title: 'Actions',
+        key: 'actions',
+        width: 160,
+        align: 'center',
+        render: (_, record) => (
+          <Button
+            type="primary"
+            icon={<TeamOutlined />}
+            onClick={() => openUserTerminalModal(record.id_terminal)}
+          >
+            Utilisateurs
+          </Button>
+        )
+      }
+    ],
+    []
   );
 
+  /* ===========================
+   * FILTERED DATA
+   * =========================== */
+  const filteredData = useMemo(() => {
+    if (!searchValue) return data;
+    return data.filter(item =>
+      item.nom_site?.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [data, searchValue]);
+
+  /* ===========================
+   * RENDER
+   * =========================== */
   return (
     <>
       <div className="client">
         <div className="client-wrapper">
+
+          {/* HEADER */}
           <div className="client-row">
             <div className="client-row-icon">
               <FieldTimeOutlined />
@@ -96,12 +147,13 @@ const Terminal = () => {
             <h2 className="client-h2">Liste des terminaux</h2>
           </div>
 
+          {/* ACTION BAR */}
           <div className="client-actions">
             <div className="client-row-left">
               <Search
                 placeholder="Recherche par site..."
+                allowClear
                 onChange={(e) => setSearchValue(e.target.value)}
-                enterButton
               />
             </div>
 
@@ -109,40 +161,64 @@ const Terminal = () => {
               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
-                onClick={handleAdd}
+                onClick={openTerminalModal}
               >
                 Ajouter
               </Button>
 
               <Button icon={<PrinterOutlined />}>
-                Print
+                Imprimer
               </Button>
             </div>
           </div>
 
+          {/* TABLE */}
           <Table
             columns={columns}
             dataSource={filteredData}
             loading={loading}
             pagination={{ pageSize: 15 }}
             rowKey="id_terminal"
-            rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
             bordered
             size="middle"
             scroll={scroll}
+            rowClassName={(_, index) =>
+              index % 2 === 0 ? 'odd-row' : 'even-row'
+            }
           />
         </div>
       </div>
 
+      {/* MODAL TERMINAL */}
       <Modal
-        title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
+        title="Créer un terminal"
+        open={isTerminalModalVisible}
+        onCancel={closeTerminalModal}
         footer={null}
         width={950}
         centered
+        destroyOnClose
       >
-        <TerminalForm closeModal={handleCancel} fetchData={fetchData} />
+        <TerminalForm
+          closeModal={closeTerminalModal}
+          fetchData={fetchData}
+        />
+      </Modal>
+
+      {/* MODAL USER TERMINAL */}
+      <Modal
+        title="Gestion des utilisateurs du terminal"
+        open={isUserTerminalModalVisible}
+        onCancel={closeUserTerminalModal}
+        footer={null}
+        width={900}
+        centered
+        destroyOnClose
+      >
+        <UserTerminal
+          id_terminal={selectedTerminalId}
+          closeModal={closeUserTerminalModal}
+        />
       </Modal>
     </>
   );

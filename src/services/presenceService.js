@@ -79,7 +79,8 @@ export const postConge = async (data) => {
 
 export const validateConge = async (data) => {
     return axios.put(`${DOMAIN}/api/presence/validation_conge`, data)
-}
+};
+
 //Absence
 export const getAbsence = async () => {
   return axios.get(`${DOMAIN}/api/presence/absence`);
@@ -112,4 +113,21 @@ export const getTerminal = async () => {
 
 export const postTerminal = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/terminal`, data);
+};
+
+//User Terminal
+export const getUserTerminal = async () => {
+  return axios.get(`${DOMAIN}/api/presence/user-terminal`);
+};
+
+export const getUserTerminalById = async (id) => {
+    return axios.get(`${DOMAIN}/api/presence/user-terminalById`,{
+        params: {
+            id_terminal: id
+        }
+    })
+}
+
+export const postUserTerminal = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/user-terminal`, data);
 };

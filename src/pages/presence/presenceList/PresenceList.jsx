@@ -11,8 +11,6 @@ import { PresenceCell } from "./utils/presenceCell";
 const { MonthPicker } = DatePicker;
 const { Search } = Input;
 
-
-
 const PresenceList = () => {
   const [searchValue, setSearchValue] = useState("");
   const today = dayjs();
