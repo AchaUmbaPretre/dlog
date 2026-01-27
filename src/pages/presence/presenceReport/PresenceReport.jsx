@@ -98,6 +98,7 @@ const PresenceReport = () => {
             onChange={setSiteData}
             placeholder="Sélectionnez un site..."
             optionFilterProp="label"
+            style={{width:'100%'}}
           />
           
           <Search

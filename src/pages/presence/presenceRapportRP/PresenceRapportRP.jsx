@@ -117,6 +117,7 @@ const PresenceRapportRP = () => {
             onChange={setSiteData}
             placeholder="Sélectionnez un site..."
             optionFilterProp="label"
+            style={{width:'100%'}}
           />
           <Button
             icon={<ReloadOutlined />}

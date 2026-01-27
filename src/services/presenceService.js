@@ -25,15 +25,20 @@ export const getPresenceRapport = async ({ month, year, site }) => {
 };
 
 
-export const getPresenceRetardPonctualite = async (dateRange) => {
+export const getPresenceRetardPonctualite = async (dateRange, site) => {
   if (!dateRange || dateRange.length !== 2) {
-    return axios.get(`${DOMAIN}/api/presence/lateEarly`);
+    return axios.get(`${DOMAIN}/api/presence/lateEarly`, {
+      params: {
+        site
+      }
+    });
   }
 
   return axios.get(`${DOMAIN}/api/presence/lateEarly`, {
     params: {
       startDate: dateRange[0].format("YYYY-MM-DD"),
-      endDate: dateRange[1].format("YYYY-MM-DD")
+      endDate: dateRange[1].format("YYYY-MM-DD"),
+      site
     }
   });
 };
