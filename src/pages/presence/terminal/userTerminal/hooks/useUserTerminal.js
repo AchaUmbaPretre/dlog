@@ -1,20 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
 import { notification } from 'antd';
-import { getUserTerminalById, postUserTerminal } from '../../../../../services/presenceService';
+import {
+  getUserTerminalById,
+  postUserTerminal,
+  deleteUserTerminal
+} from '../../../../../services/presenceService';
 import { getUser } from '../../../../../services/userService';
 
 export const useUserTerminal = (terminalId, onSuccess) => {
   const [users, setUsers] = useState([]);
-  const [permissions, setPermissions] = useState({});
+  const [assignedUsers, setAssignedUsers] = useState({});
+  const [initialAssigned, setInitialAssigned] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const normalizePermissions = (assigned) =>
-    assigned.reduce((acc, item) => {
-      acc[item.user_id] = {
-        can_read: Boolean(item.can_read),
-        can_edit: Boolean(item.can_edit),
-      };
+  const normalizeAssigned = (rows) =>
+    rows.reduce((acc, r) => {
+      acc[r.user_id] = true;
       return acc;
     }, {});
 
@@ -28,12 +30,15 @@ export const useUserTerminal = (terminalId, onSuccess) => {
         getUserTerminalById(terminalId),
       ]);
 
+      const assigned = normalizeAssigned(assignedRes?.data || []);
+
       setUsers(usersRes?.data || []);
-      setPermissions(normalizePermissions(assignedRes?.data || []));
+      setAssignedUsers(assigned);
+      setInitialAssigned(assigned);
     } catch {
       notification.error({
         message: 'Erreur',
-        description: 'Chargement des utilisateurs impossible.',
+        description: 'Chargement des données impossible.',
       });
     } finally {
       setLoading(false);
@@ -44,42 +49,43 @@ export const useUserTerminal = (terminalId, onSuccess) => {
     fetchData();
   }, [fetchData]);
 
-  const togglePermission = (userId, permission) => {
-    setPermissions(prev => ({
+  const toggleUser = (userId) => {
+    setAssignedUsers(prev => ({
       ...prev,
-      [userId]: {
-        can_read: prev[userId]?.can_read ?? false,
-        can_edit: prev[userId]?.can_edit ?? false,
-        [permission]: !prev[userId]?.[permission],
-      },
+      [userId]: !prev[userId]
     }));
   };
 
   const submit = async () => {
-    if (!Object.keys(permissions).length) {
-      notification.warning({
-        message: 'Aucune sélection',
-        description: 'Sélectionnez au moins un utilisateur.',
-      });
-      return;
-    }
-
     setSubmitting(true);
     try {
-      await Promise.all(
-        Object.entries(permissions).map(([user_id, perms]) =>
-          postUserTerminal({
-            user_id,
-            terminal_id: terminalId,
-            can_read: perms.can_read ? 1 : 0,
-            can_edit: perms.can_edit ? 1 : 0,
-          })
+      const toAdd = [];
+      const toRemove = [];
+
+      for (const userId of Object.keys(assignedUsers)) {
+        if (assignedUsers[userId] && !initialAssigned[userId]) {
+          toAdd.push(userId);
+        }
+      }
+
+      for (const userId of Object.keys(initialAssigned)) {
+        if (!assignedUsers[userId]) {
+          toRemove.push(userId);
+        }
+      }
+
+      await Promise.all([
+        ...toAdd.map(user_id =>
+          postUserTerminal({ user_id, terminal_id: terminalId })
+        ),
+        ...toRemove.map(user_id =>
+          deleteUserTerminal(user_id, terminalId)
         )
-      );
+      ]);
 
       notification.success({
         message: 'Succès',
-        description: 'Permissions enregistrées.',
+        description: 'Accès aux terminaux mis à jour.',
       });
 
       onSuccess?.();
@@ -95,10 +101,10 @@ export const useUserTerminal = (terminalId, onSuccess) => {
 
   return {
     users,
-    permissions,
+    assignedUsers,
     loading,
     submitting,
-    togglePermission,
+    toggleUser,
     submit,
   };
 };

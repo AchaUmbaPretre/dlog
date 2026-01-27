@@ -32,7 +32,7 @@ const tabConfig = [
     },
     {
         key: '4',
-        label: 'Autorisation de sortie',
+        label: 'Ajustement de présence',
         icon: <FileTextOutlined/>,
         component: <AutorisationSortie/>
     },

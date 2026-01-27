@@ -131,3 +131,14 @@ export const getUserTerminalById = async (id) => {
 export const postUserTerminal = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/user-terminal`, data);
 };
+
+export const deleteUserTerminal = (user_id, terminal_id) => {
+  return axios.delete(`/user-terminals`, 
+    {
+      params: {
+        user_id, 
+        terminal_id
+      }
+    }
+  );
+};

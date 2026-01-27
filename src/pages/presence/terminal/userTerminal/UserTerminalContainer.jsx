@@ -4,10 +4,10 @@ import { useUserTerminal } from './hooks/useUserTerminal';
 const UserTerminalContainer = ({ terminal, closeModal }) => {
   const {
     users,
-    permissions,
+    assignedUsers,
     loading,
     submitting,
-    togglePermission,
+    toggleUser,
     submit,
   } = useUserTerminal(terminal?.id_terminal, closeModal);
 
@@ -18,26 +18,12 @@ const UserTerminalContainer = ({ terminal, closeModal }) => {
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Rôle', dataIndex: 'role', key: 'role' },
     {
-      title: 'Lecture',
+      title: 'Accès au terminal',
       align: 'center',
       render: (_, record) => (
         <Checkbox
-          checked={permissions[record.id_utilisateur]?.can_read}
-          onChange={() =>
-            togglePermission(record.id_utilisateur, 'can_read')
-          }
-        />
-      ),
-    },
-    {
-      title: 'Édition',
-      align: 'center',
-      render: (_, record) => (
-        <Checkbox
-          checked={permissions[record.id_utilisateur]?.can_edit}
-          onChange={() =>
-            togglePermission(record.id_utilisateur, 'can_edit')
-          }
+          checked={Boolean(assignedUsers[record.id_utilisateur])}
+          onChange={() => toggleUser(record.id_utilisateur)}
         />
       ),
     },
@@ -46,7 +32,7 @@ const UserTerminalContainer = ({ terminal, closeModal }) => {
   return (
     <Spin spinning={loading}>
       <h3 style={{ marginBottom: 16 }}>
-        Utilisateurs du terminal :
+        Accès au terminal :
         <strong style={{ marginLeft: 8 }}>{terminal.name}</strong>
       </h3>
 
