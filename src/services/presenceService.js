@@ -14,11 +14,16 @@ export const getPresencePlanning = async (dateRange) => {
   });
 };
 
-export const getPresenceRapport = async (dateRange) => {
+export const getPresenceRapport = async ({ month, year, site }) => {
   return axios.get(`${DOMAIN}/api/presence/month`, {
-    params: dateRange ?? {}
+    params: {
+      month,
+      year,
+      site
+    }
   });
 };
+
 
 export const getPresenceRetardPonctualite = async (dateRange) => {
   if (!dateRange || dateRange.length !== 2) {

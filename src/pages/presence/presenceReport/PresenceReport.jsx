@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Card, Table, DatePicker, Button, Space, notification, Input } from "antd";
+import { Card, Table, DatePicker, Button, Space, notification, Input, Select } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import 'dayjs/locale/fr';
@@ -14,7 +14,7 @@ const { Search } = Input;
 
 const PresenceReport = () => {
   const [searchValue, setSearchValue] = useState("");
-  const { data, loading, monthRange, setMonthRange } = usePresenceReport();
+  const { site, setSiteData, data, loading, monthRange, setMonthRange } = usePresenceReport();
 
   const columns = useMemo(() => {
     if (!data?.report) return [];
@@ -86,6 +86,20 @@ const PresenceReport = () => {
               })
             }
           />
+
+          <Select
+            size='midlle'
+            allowClear
+            showSearch
+            options={site?.map((item) => ({
+              value: item.id_site,
+              label: item.nom_site,
+            }))}
+            onChange={setSiteData}
+            placeholder="Sélectionnez un site..."
+            optionFilterProp="label"
+          />
+          
           <Search
             placeholder="Recherche utilisateur"
             allowClear

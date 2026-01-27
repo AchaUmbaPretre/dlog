@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Card, DatePicker, Button, Tag, Space, Spin } from "antd";
+import { Table, Card, DatePicker, Button, Select, Tag, Space, Spin } from "antd";
 import { ReloadOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { usePresenceRapportRPData } from "./hooks/usePresenceRapportRPData";
@@ -9,6 +9,8 @@ const { RangePicker } = DatePicker;
 
 const PresenceRapportRP = () => {
   const {
+    site,
+    setSiteData,
     data,
     loading,
     reload,
@@ -103,6 +105,18 @@ const PresenceRapportRP = () => {
             value={dateRange}
             onChange={setDateRange}
             format="DD/MM/YYYY"
+          />
+          <Select
+            size='midlle'
+            allowClear
+            showSearch
+            options={site?.map((item) => ({
+              value: item.id_site,
+              label: item.nom_site,
+            }))}
+            onChange={setSiteData}
+            placeholder="Sélectionnez un site..."
+            optionFilterProp="label"
           />
           <Button
             icon={<ReloadOutlined />}

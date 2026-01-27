@@ -22,10 +22,6 @@ export const logout = async () => {
   }
 };
 
-/* export const logout = async (user) => {
-    return axios.post(`${DOMAIN}/api/auth/logout`, user);
-  }; */
-
 /* export const detailForgot  = async (user) => {
     return axios.post(`${DOMAIN}/api/auth/detail_forgot`, user);
   }; */
