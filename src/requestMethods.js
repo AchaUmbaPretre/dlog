@@ -27,15 +27,11 @@ userRequest.interceptors.request.use((reqConfig) => {
   return reqConfig;
 });
 
-// ---------------------
-// Interceptor pour gérer les réponses
-// ---------------------
 userRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // 401 = accessToken expiré ou invalide
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -48,7 +44,6 @@ userRequest.interceptors.response.use(
           throw new Error("Pas de nouvel accessToken reçu");
         }
 
-        // 🔹 Mettre à jour le token dans localStorage de manière sécurisée
         const persisted = JSON.parse(localStorage.getItem("persist:root")) || {};
         const user = persisted.user ? JSON.parse(persisted.user) : {};
         user.currentUser = user.currentUser || {};
@@ -56,17 +51,12 @@ userRequest.interceptors.response.use(
         persisted.user = JSON.stringify(user);
         localStorage.setItem("persist:root", JSON.stringify(persisted));
 
-        // 🔹 Réessayer la requête originale avec le nouveau token
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
       } catch (refreshError) {
         console.error("Impossible de rafraîchir le token", refreshError);
 
-        // 🔹 Nettoyer localStorage mais NE PAS rediriger automatiquement
         localStorage.removeItem("persist:root");
-
-        // 🔹 Ici, tu peux déclencher un state global Redux/Context pour indiquer "déconnecté"
-        // 🔹 OU afficher un toast/message : "Veuillez vous reconnecter"
 
         return Promise.reject(refreshError);
       }
