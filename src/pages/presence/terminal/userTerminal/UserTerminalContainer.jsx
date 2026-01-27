@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Button, Checkbox, Spin } from 'antd';
 import { useUserTerminal } from './hooks/useUserTerminal';
 
