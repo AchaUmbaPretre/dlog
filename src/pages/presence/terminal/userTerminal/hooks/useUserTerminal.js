@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { notification } from 'antd';
-import { getUser } from '../../services/userService';
-import {
-  getUserTerminalById,
-  postUserTerminal
-} from '../../services/presenceService';
+import { getUserTerminalById, postUserTerminal } from '../../../../../services/presenceService';
+import { getUser } from '../../../../../services/userService';
+
 export const useUserTerminal = (terminalId, onSuccess) => {
   const [users, setUsers] = useState([]);
   const [permissions, setPermissions] = useState({});

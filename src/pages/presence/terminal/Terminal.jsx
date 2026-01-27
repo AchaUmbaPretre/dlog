@@ -9,7 +9,7 @@ import {
 
 import { getTerminal } from '../../../services/presenceService';
 import TerminalForm from './terminalForm/TerminalForm';
-import UserTerminal from './userTerminal/UserTerminal';
+import UserTerminal from './userTerminal/UserTerminalContainer';
 
 const { Search } = Input;
 const { Text } = Typography;
