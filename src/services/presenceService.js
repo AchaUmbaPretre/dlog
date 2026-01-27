@@ -121,11 +121,11 @@ export const getUserTerminal = async () => {
 };
 
 export const getUserTerminalById = async (id) => {
-    return axios.get(`${DOMAIN}/api/presence/user-terminalById`,{
-        params: {
-            id_terminal: id
-        }
-    })
+  return axios.get(`${DOMAIN}/api/presence/user-terminalById`,{
+    params: {
+      id_terminal: id
+    }
+  })
 }
 
 export const postUserTerminal = async (data) => {
