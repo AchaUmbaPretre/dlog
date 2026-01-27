@@ -1,4 +1,3 @@
-import React from "react";
 import { Table, Card, DatePicker, Button, Select, Tag, Space, Spin } from "antd";
 import { ReloadOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import moment from "moment";

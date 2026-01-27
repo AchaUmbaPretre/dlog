@@ -8,6 +8,9 @@ export const userRequest = axios.create({
   withCredentials: true, // envoie le cookie refreshToken automatiquement
 });
 
+// ---------------------
+// Ajouter Authorization sur chaque requête si token présent
+// ---------------------
 userRequest.interceptors.request.use((reqConfig) => {
   try {
     const persisted = JSON.parse(localStorage.getItem("persist:root"));
@@ -45,25 +48,26 @@ userRequest.interceptors.response.use(
           throw new Error("Pas de nouvel accessToken reçu");
         }
 
-        // Mettre à jour le token dans localStorage
+        // 🔹 Mettre à jour le token dans localStorage de manière sécurisée
         const persisted = JSON.parse(localStorage.getItem("persist:root")) || {};
         const user = persisted.user ? JSON.parse(persisted.user) : {};
-        if (!user.currentUser) user.currentUser = {};
+        user.currentUser = user.currentUser || {};
         user.currentUser.accessToken = newAccessToken;
         persisted.user = JSON.stringify(user);
         localStorage.setItem("persist:root", JSON.stringify(persisted));
 
-        // Réessayer la requête avec le nouveau token
+        // 🔹 Réessayer la requête originale avec le nouveau token
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
       } catch (refreshError) {
         console.error("Impossible de rafraîchir le token", refreshError);
 
-        // Nettoyer localStorage mais ne pas rediriger automatiquement
+        // 🔹 Nettoyer localStorage mais NE PAS rediriger automatiquement
         localStorage.removeItem("persist:root");
 
-        // Ici tu peux déclencher un state global pour indiquer "déconnecté"
-        // ou afficher un message d'erreur pour que l'utilisateur se reconnecte
+        // 🔹 Ici, tu peux déclencher un state global Redux/Context pour indiquer "déconnecté"
+        // 🔹 OU afficher un toast/message : "Veuillez vous reconnecter"
+
         return Promise.reject(refreshError);
       }
     }
