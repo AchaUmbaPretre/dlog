@@ -137,6 +137,7 @@ const FormUsers = ({userId, closeModal, fetchData}) => {
                     <Option value="Manager">Manager</Option>
                     <Option value="RH">RH</Option>
                     <Option value="RS">RS</Option>
+                    <Option value="Employé">Employé</Option>
                     <Option value="Securité">Securité</Option>
                   </Select>
                 </Form.Item>
