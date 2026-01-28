@@ -10,6 +10,7 @@ import PresenceRapportRP from './presenceRapportRP/PresenceRapportRP';
 import AutorisationSortie from './autorisationSortie/AutorisationSortie';
 import JourFerie from './jourFerie/JourFerie';
 import Terminal from './terminal/Terminal';
+import PresenceAll from './presenceAll/PresenceAll';
 
 const tabConfig = [
     {
@@ -20,30 +21,36 @@ const tabConfig = [
     },
     {
         key: '2',
+        label: 'Liste des présences',
+        icon: <FileTextOutlined/>,
+        component: <PresenceAll/>
+    },
+    {
+        key: '3',
         label: 'Rapport  Mensuel',
         icon: <FileTextOutlined/>,
         component: <PresenceReport/>
     },
     {
-        key: '3',
+        key: '4',
         label: 'Rapport Retard & Ponctualit',
         icon: <FileTextOutlined/>,
         component: <PresenceRapportRP/>
     },
     {
-        key: '4',
+        key: '5',
         label: 'Ajustement de présence',
         icon: <FileTextOutlined/>,
         component: <AutorisationSortie/>
     },
     {
-        key: '5',
+        key: '6',
         label: 'Jour ferié',
         icon: <FileTextOutlined/>,
         component: <JourFerie/>
     },
     {
-        key: '6',
+        key: '7',
         label: 'Terminal',
         icon: <FileTextOutlined/>,
         component: <Terminal/>
