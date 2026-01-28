@@ -8,6 +8,12 @@ export const userRequest = axios.create({
   withCredentials: true,
 });
 
+// 🔐 client dédié au refresh (sans interceptors)
+const refreshClient = axios.create({
+  baseURL: DOMAIN,
+  withCredentials: true,
+});
+
 /* ===================== REQUEST ===================== */
 userRequest.interceptors.request.use((config) => {
   try {
@@ -18,9 +24,7 @@ userRequest.interceptors.request.use((config) => {
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-  } catch {
-    // silence volontaire
-  }
+  } catch {}
 
   return config;
 });
@@ -31,20 +35,19 @@ userRequest.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    const status = error.response?.status;
-    const code = error.response?.data?.code;
+    if (!originalRequest) {
+      return Promise.reject(error);
+    }
 
-    // 🔐 refresh uniquement si access token expiré
     if (
-      status === 401 &&
-      code === "TOKEN_EXPIRED" &&
+      error.response?.status === 401 &&
       !originalRequest._retry &&
       !originalRequest.url.includes("/auth/refresh-token")
     ) {
       originalRequest._retry = true;
 
       try {
-        const res = await userRequest.get("/api/auth/refresh-token");
+        const res = await refreshClient.get("/api/auth/refresh-token");
         const newAccessToken = res.data.accessToken;
 
         if (!newAccessToken) throw new Error("No token");
@@ -57,11 +60,9 @@ userRequest.interceptors.response.use(
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return userRequest(originalRequest);
-      } catch (err) {
-        // 🔥 refresh failed → logout
+      } catch {
         localStorage.removeItem("persist:root");
         window.location.href = "/login";
-        return Promise.reject(err);
       }
     }
 
