@@ -1,14 +1,15 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { Input, Button, Table, Select, Card, Space, Typography, notification } from 'antd';
+import { Input, DatePicker, Table, Select, Card, Space, Typography, notification } from 'antd';
 import moment from 'moment';
 import { usePresenceAllData } from './hooks/usePresenceAllData';
+const { RangePicker } = DatePicker;
 
 const { Search } = Input;
 const { Text } = Typography;
 
 const PresenceAll = () => {
   const [searchValue, setSearchValue] = useState('');
-  const { presences, sites, loading, reload, setSiteData } = usePresenceAllData()
+  const { presences, sites, loading, reload, setSiteData, dateRange, setDateRange } = usePresenceAllData()
   const scroll = { x: 700 };
 
 const columns = useMemo(
@@ -56,13 +57,13 @@ const columns = useMemo(
             : <Text type="secondary">—</Text>
     },
     {
-    title: 'Heure sortie',
-    dataIndex: 'heure_sortie',
-    key: 'heure_sortie',
-    render: (time) =>
-        time
-        ? moment(time).format('HH:mm')
-        : <Text type="secondary">—</Text>
+        title: 'Heure sortie',
+        dataIndex: 'heure_sortie',
+        key: 'heure_sortie',
+        render: (time) =>
+            time
+            ? moment(time).format('HH:mm')
+            : <Text type="secondary">—</Text>
     }
   ],
   []
@@ -83,20 +84,21 @@ const columns = useMemo(
             title="Liste des présences"
             extra={
                 <Space wrap>
+                    <RangePicker
+                        value={dateRange}
+                        onChange={setDateRange}
+                        format="DD/MM/YYYY"
+                    />
                     <Select
-                        size='midlle'
                         allowClear
                         showSearch
-                        options={sites?.map((item) => ({
-                        value: item.id_site,
-                        label: item.nom_site,
+                        options={sites.map(item => ({
+                            value: item.id_site,
+                            label: item.nom_site,
                         }))}
                         onChange={setSiteData}
                         placeholder="Sélectionnez un site..."
-                        optionFilterProp="label"
-                        style={{width:'100%'}}
                     />
-                    
                     <Search
                         placeholder="Recherche utilisateur"
                         allowClear
@@ -111,7 +113,7 @@ const columns = useMemo(
                 dataSource={filteredData}
                 loading={loading}
                 pagination={{ pageSize: 15 }}
-                rowKey="id_terminal"
+                rowKey="id_presence"
                 bordered
                 size="middle"
                 scroll={scroll}

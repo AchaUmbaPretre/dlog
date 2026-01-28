@@ -4,9 +4,23 @@ import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
-export const getPresence = async () => {
-  return axios.get(`${DOMAIN}/api/presence`);
+export const getPresence = async (dateRange, siteId) => {
+  if (!dateRange || dateRange.length !== 2) {
+    return Promise.resolve({ data: [] });
+  }
+
+  const params = {
+    startDate: dateRange[0].format("YYYY-MM-DD"),
+    endDate: dateRange[1].format("YYYY-MM-DD"),
+  };
+
+  if (siteId) {
+    params.site = siteId;
+  }
+
+  return axios.get(`${DOMAIN}/api/presence`, { params });
 };
+
 
 export const getPresencePlanning = async (dateRange) => {
   return userRequest.get(`${DOMAIN}/api/presence/planning`, {
