@@ -8,13 +8,11 @@ export const userRequest = axios.create({
   withCredentials: true,
 });
 
-// 🔐 client dédié au refresh (sans interceptors)
 const refreshClient = axios.create({
   baseURL: DOMAIN,
   withCredentials: true,
 });
 
-/* ===================== REQUEST ===================== */
 userRequest.interceptors.request.use((config) => {
   try {
     const persisted = JSON.parse(localStorage.getItem("persist:root"));
@@ -29,7 +27,6 @@ userRequest.interceptors.request.use((config) => {
   return config;
 });
 
-/* ===================== RESPONSE ===================== */
 userRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
