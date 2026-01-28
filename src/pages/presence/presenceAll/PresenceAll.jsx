@@ -1,40 +1,15 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { Input, Button, Table, Typography, notification } from 'antd';
-import {
-  FieldTimeOutlined,
-  PrinterOutlined
-} from '@ant-design/icons';
-import { getPresence } from '../../../services/presenceService';
-import dayjs from 'dayjs';
+import { Input, Button, Table, Select, Card, Space, Typography, notification } from 'antd';
+import moment from 'moment';
+import { usePresenceAllData } from './hooks/usePresenceAllData';
 
 const { Search } = Input;
 const { Text } = Typography;
 
 const PresenceAll = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-
+  const { presences, sites, loading, reload, setSiteData } = usePresenceAllData()
   const scroll = { x: 700 };
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data } = await getPresence();
-      setData(data || []);
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger la liste des presences.'
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
 const columns = useMemo(
   () => [
@@ -68,83 +43,83 @@ const columns = useMemo(
       key: 'date_presence',
       render: (date) =>
         date
-          ? dayjs(date).format('DD-MM-YYYY')
+          ? moment(date).format('DD-MM-YYYY')
           : <Text type="secondary">—</Text>
     },
     {
-      title: 'Heure entrée',
-      dataIndex: 'heure_entree',
-      key: 'heure_entree',
-      render: (time) =>
-        time
-          ? dayjs(time, 'HH:mm:ss').format('HH:mm')
-          : <Text type="secondary">—</Text>
+        title: 'Heure entrée',
+        dataIndex: 'heure_entree',
+        key: 'heure_entree',
+        render: (time) =>
+            time
+            ? moment(time).format('HH:mm')
+            : <Text type="secondary">—</Text>
     },
     {
-      title: 'Heure sortie',
-      dataIndex: 'heure_sortie',
-      key: 'heure_sortie',
-      render: (time) =>
+    title: 'Heure sortie',
+    dataIndex: 'heure_sortie',
+    key: 'heure_sortie',
+    render: (time) =>
         time
-          ? dayjs(time, 'HH:mm:ss').format('HH:mm')
-          : <Text type="secondary">—</Text>
+        ? moment(time).format('HH:mm')
+        : <Text type="secondary">—</Text>
     }
   ],
   []
 );
 
+
   const filteredData = useMemo(() => {
-    if (!searchValue) return data;
-    return data.filter(item =>
+    if (!searchValue) return presences;
+    return presences.filter(item =>
       item.nom?.toLowerCase().includes(searchValue.toLowerCase())
     );
-  }, [data, searchValue]);
+  }, [presences, searchValue]);
 
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FieldTimeOutlined />
-            </div>
-            <h2 className="client-h2">Liste des présences</h2>
-          </div>
-
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search
-                placeholder="Recherche ..."
-                allowClear
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </div>
-
-            <div className="client-rows-right">
-              <Button icon={<PrinterOutlined />}>
-                Imprimer
-              </Button>
-            </div>
-          </div>
-
-          {/* TABLE */}
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={{ pageSize: 15 }}
-            rowKey="id_terminal"
-            bordered
-            size="middle"
-            scroll={scroll}
-            rowClassName={(_, index) =>
-              index % 2 === 0 ? 'odd-row' : 'even-row'
+        <Card
+            bordered={false}
+            title="Liste des présences"
+            extra={
+                <Space wrap>
+                    <Select
+                        size='midlle'
+                        allowClear
+                        showSearch
+                        options={sites?.map((item) => ({
+                        value: item.id_site,
+                        label: item.nom_site,
+                        }))}
+                        onChange={setSiteData}
+                        placeholder="Sélectionnez un site..."
+                        optionFilterProp="label"
+                        style={{width:'100%'}}
+                    />
+                    
+                    <Search
+                        placeholder="Recherche utilisateur"
+                        allowClear
+                        onChange={e => setSearchValue(e.target.value)}
+                        style={{ width: 250 }}
+                    />
+                </Space>
             }
-          />
-        </div>
-      </div>
-
+        >
+            <Table
+                columns={columns}
+                dataSource={filteredData}
+                loading={loading}
+                pagination={{ pageSize: 15 }}
+                rowKey="id_terminal"
+                bordered
+                size="middle"
+                scroll={scroll}
+                rowClassName={(_, index) =>
+                index % 2 === 0 ? 'odd-row' : 'even-row'
+                }
+            />
+    </Card>
     </>
   );
 };
