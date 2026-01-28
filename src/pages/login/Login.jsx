@@ -44,7 +44,7 @@ const Login = () => {
           >
             <Input
               prefix={<UserOutlined className="site_form_item_icon" />}
-              placeholder="Email Address"
+              placeholder="Email"
               size="large"
               autoComplete="off"
             />
