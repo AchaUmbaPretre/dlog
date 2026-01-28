@@ -8,54 +8,60 @@ export const userRequest = axios.create({
   withCredentials: true,
 });
 
-userRequest.interceptors.request.use((reqConfig) => {
+/* ===================== REQUEST ===================== */
+userRequest.interceptors.request.use((config) => {
   try {
     const persisted = JSON.parse(localStorage.getItem("persist:root"));
     const user = persisted?.user ? JSON.parse(persisted.user) : null;
-    const TOKEN = user?.currentUser?.accessToken;
+    const token = user?.currentUser?.accessToken;
 
-    if (TOKEN) {
-      reqConfig.headers.Authorization = `Bearer ${TOKEN}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
-  } catch (err) {
-    console.error("Erreur lors de la récupération du token depuis localStorage", err);
+  } catch {
+    // silence volontaire
   }
 
-  return reqConfig;
+  return config;
 });
 
+/* ===================== RESPONSE ===================== */
 userRequest.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const status = error.response?.status;
+    const code = error.response?.data?.code;
+
+    // 🔐 refresh uniquement si access token expiré
+    if (
+      status === 401 &&
+      code === "TOKEN_EXPIRED" &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/refresh-token")
+    ) {
       originalRequest._retry = true;
 
       try {
-        // Appel pour rafraîchir le token via le refreshToken cookie
-        const res = await axios.get(`${DOMAIN}/api/auth/refresh-token`, { withCredentials: true });
+        const res = await userRequest.get("/api/auth/refresh-token");
         const newAccessToken = res.data.accessToken;
 
-        if (!newAccessToken) {
-          throw new Error("Pas de nouvel accessToken reçu");
-        }
+        if (!newAccessToken) throw new Error("No token");
 
-        const persisted = JSON.parse(localStorage.getItem("persist:root")) || {};
-        const user = persisted.user ? JSON.parse(persisted.user) : {};
-        user.currentUser = user.currentUser || {};
+        const persisted = JSON.parse(localStorage.getItem("persist:root"));
+        const user = JSON.parse(persisted.user);
         user.currentUser.accessToken = newAccessToken;
         persisted.user = JSON.stringify(user);
         localStorage.setItem("persist:root", JSON.stringify(persisted));
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return axios(originalRequest);
-      } catch (refreshError) {
-        console.error("Impossible de rafraîchir le token", refreshError);
-
+        return userRequest(originalRequest);
+      } catch (err) {
+        // 🔥 refresh failed → logout
         localStorage.removeItem("persist:root");
-
-        return Promise.reject(refreshError);
+        window.location.href = "/login";
+        return Promise.reject(err);
       }
     }
 
