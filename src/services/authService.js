@@ -4,7 +4,9 @@ import config from '../config';
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN
 
 export const loginUser = async (user) => {
-  return axios.post(`${DOMAIN}/api/auth/login`, user);
+  return axios.post(`${DOMAIN}/api/auth/login`, user, {
+    withCredentials: true,
+  });
 };
 
 export const registerUser = async (user) => {

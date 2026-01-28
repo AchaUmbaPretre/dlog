@@ -3,7 +3,6 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.scss';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/authService';
 import { login } from '../../redux/apiCalls';
 import { useDispatch } from 'react-redux';
 
@@ -11,18 +10,21 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onFinish = async (values) => {
     setIsLoading(true);
+    setErrorMessage('');
 
     try {
       await login(dispatch, values, navigate);
     } catch (error) {
-      console.error(error);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="login">
@@ -67,6 +69,9 @@ const Login = () => {
             </a>
           </Form.Item>
           <Form.Item>
+            {errorMessage && (
+              <div className="login_error_message">{errorMessage}</div>
+            )}
             <Button
               type="primary"
               htmlType="submit"
@@ -78,6 +83,7 @@ const Login = () => {
               Se connecter
             </Button>
           </Form.Item>
+
         </Form>
         <div className="login_footer_note">
           Vous n'avez pas de compte ? <a href="/register">Inscrivez-vous ici</a>

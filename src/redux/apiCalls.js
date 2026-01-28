@@ -3,32 +3,57 @@ import axios from "axios";
 import { message } from "antd";
 import config from "../config";
 
-export const login = async (dispatch, user, navigate) => {
+/* export const login = async (dispatch, user, navigate) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
-
 
   dispatch(loginStart());
   try {
-    const res = await axios.post(`${DOMAIN}/api/auth/login`, user);
+    const res = await axios.post(`${DOMAIN}/api/auth/login`, user, { withCredentials: true,});
     dispatch(loginSuccess(res.data));
+
     if (res.data.success) {
       message.success("Connectez-vous avec succès");
       const role = res.data?.role;
-
       if (role === 'Securité') {
         navigate('/securite/dashboard');
       } else {
         navigate('/');
       }
-
     } else {
-      navigate('/login')
       message.error(res.data.message);
+      throw new Error(res.data.message);
     }
+
   } catch (err) {
     dispatch(loginFailure());
+    throw err;
+  }
+}; */
+
+
+export const login = async (dispatch, user, navigate) => {
+  const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
+
+  dispatch(loginStart());
+  try {
+    const res = await axios.post(`${DOMAIN}/api/auth/login`, user, { withCredentials: true });
+    dispatch(loginSuccess(res.data));
+
+    if (res.data.success) {
+      message.success("Connectez-vous avec succès");
+      const role = res.data?.role;
+      navigate(role === 'Securité' ? '/securite/dashboard' : '/');
+    } else {
+      throw new Error(res.data.message);
+    }
+
+  } catch (err) {
+    dispatch(loginFailure());
+    // Relance toujours une erreur avec le message du backend si disponible
+    throw new Error(err.response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.');
   }
 };
+
 
 export const register = async (dispatch, user) => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
