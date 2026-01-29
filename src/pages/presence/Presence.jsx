@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import { Tabs } from 'antd';
 import {
-  FileTextOutlined
+  DashboardOutlined,
+  CalendarOutlined,
+  UnorderedListOutlined,
+  BarChartOutlined,
+  ClockCircleOutlined,
+  EditOutlined,
+  CalendarTwoTone,
+  DesktopOutlined,
 } from '@ant-design/icons';
 import PresenceList from './presenceList/PresenceList';
 import PresenceReport from './presenceReport/PresenceReport';
@@ -11,51 +18,59 @@ import AutorisationSortie from './autorisationSortie/AutorisationSortie';
 import JourFerie from './jourFerie/JourFerie';
 import Terminal from './terminal/Terminal';
 import PresenceAll from './presenceAll/PresenceAll';
+import DashboardPresence from './dashboardPresence/DashboardPresence';
 
 const tabConfig = [
-    {
-        key: '1',
-        label: 'Planning de présence',
-        icon: <FileTextOutlined/>,
-        component: <PresenceList/>
-    },
-    {
-        key: '2',
-        label: 'Liste des présences',
-        icon: <FileTextOutlined/>,
-        component: <PresenceAll/>
-    },
-    {
-        key: '3',
-        label: 'Rapport  Mensuel',
-        icon: <FileTextOutlined/>,
-        component: <PresenceReport/>
-    },
-    {
-        key: '4',
-        label: 'Rapport Retard & Ponctualit',
-        icon: <FileTextOutlined/>,
-        component: <PresenceRapportRP/>
-    },
-    {
-        key: '5',
-        label: 'Ajustement de présence',
-        icon: <FileTextOutlined/>,
-        component: <AutorisationSortie/>
-    },
-    {
-        key: '6',
-        label: 'Jour ferié',
-        icon: <FileTextOutlined/>,
-        component: <JourFerie/>
-    },
-    {
-        key: '7',
-        label: 'Terminal',
-        icon: <FileTextOutlined/>,
-        component: <Terminal/>
-    }
+  {
+    key: '1',
+    label: 'Dashboard',
+    icon: <DashboardOutlined />,
+    component: <DashboardPresence />
+  },
+  {
+    key: '2',
+    label: 'Planning de présence',
+    icon: <CalendarOutlined />,
+    component: <PresenceList />
+  },
+  {
+    key: '3',
+    label: 'Liste des présences',
+    icon: <UnorderedListOutlined />,
+    component: <PresenceAll />
+  },
+  {
+    key: '4',
+    label: 'Rapport Mensuel',
+    icon: <BarChartOutlined />,
+    component: <PresenceReport />
+  },
+  {
+    key: '5',
+    label: 'Rapport Retard & Ponctualité',
+    icon: <ClockCircleOutlined />,
+    component: <PresenceRapportRP />
+  },
+  {
+    key: '6',
+    label: 'Ajustement de présence',
+    icon: <EditOutlined />,
+    component: <AutorisationSortie />
+  },
+  {
+    key: '7',
+    label: 'Jour férié',
+    icon: <CalendarTwoTone twoToneColor="#faad14" />,
+    component: <JourFerie />
+  },
+  {
+    key: '8',
+    label: 'Terminal',
+    icon: <DesktopOutlined />,
+    component: <Terminal />
+  }
 ];
+
 
 const Presence = () => {
     const [activeKey, setActiveKey] = useState('1');
