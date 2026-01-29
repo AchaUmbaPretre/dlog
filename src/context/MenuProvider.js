@@ -53,7 +53,7 @@ export const MenuProvider = ({ children }) => {
         const cached = localStorage.getItem('SidebarMenu');
         if (cached) {
           const parsed = JSON.parse(cached);
-          setData(parsed);
+          setDataPermission(parsed);
         }
       } finally {
         setIsLoading(false);
