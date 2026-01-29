@@ -39,27 +39,44 @@ export const MenuProvider = ({ children }) => {
   }, []);
 
   const fetchMenu = useCallback(async () => {
-      if (!userId) return;
-      setIsLoading(true);
-      try {
-        const response = await getMenusAllOne(userId);
-        setDataPermission(response.data);
-        localStorage.setItem('SidebarMenu', JSON.stringify(response.data));
-      } catch (error) {
-        notification.error({
-          message: 'Erreur lors du chargement des menus',
-          description: 'Chargement depuis le cache local…',
-        });
-        const cached = localStorage.getItem('SidebarMenu');
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          setDataPermission(parsed);
-        }
-      } finally {
-        setIsLoading(false);
+    if (!userId) return;
+
+    setIsLoading(true);
+
+    try {
+      const response = await getMenusAllOne(userId);
+      setDataPermission(response.data);
+      localStorage.setItem('SidebarMenu', JSON.stringify(response.data));
+    } catch (error) {
+      const status = error?.response?.status;
+
+      let message = 'Une erreur inattendue est survenue.';
+      let description = 'Veuillez réessayer ultérieurement.';
+
+      if (!error.response) {
+        // réseau coupé / serveur HS
+        message = 'Serveur indisponible';
+        description = 'Le serveur est momentanément indisponible. Réessayez dans quelques instants.';
+      } else if ([502, 503, 504].includes(status)) {
+        message = 'Service temporairement indisponible';
+        description = 'Le service rencontre un problème technique.';
       }
-    }, [userId]);
-  
+
+      notification.warning({
+        message,
+        description,
+      });
+
+      // Fallback cache
+      const cached = localStorage.getItem('SidebarMenu');
+      if (cached) {
+        setDataPermission(JSON.parse(cached));
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId]);
+
 
   return (
     <MenuContext.Provider
