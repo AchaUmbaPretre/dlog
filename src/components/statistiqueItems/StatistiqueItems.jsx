@@ -15,8 +15,13 @@ const StatistiqueItems = () => {
   const [template, setTemplate] = useState([]);
   const [declaration, setDeclaration] = useState([]);
   const navigate = useNavigate();
-
-
+  const [stats, setStats] = useState({
+    batiment: 0,
+    projet: 0,
+    template: 0,
+    declaration: 0
+  });
+  
   useEffect(() => {
     const fetchData = async () => {
         try {
