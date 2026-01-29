@@ -24,6 +24,7 @@ import InspectionImage from './inspectionImage/InspectionImage';
 import ReparationDetail from '../controleTechnique/reparation/reparationDetail/ReparationDetail';
 import CatInspection from '../catInspection/CatInspection';
 import InspectionRapport from './inspectionRapport/InspectionRapport';
+import { useMenu } from '../../context/MenuProvider';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -69,7 +70,7 @@ const InspectionGen = () => {
     const [loading, setLoading] = useState(true);
     const [statistique, setStatistique] = useState(null);
     const [activeKey, setActiveKey] = useState(['1', '2']);
-
+    
     const handleTabChange = (key) => {
       setActiveKey(key);
     };
@@ -211,28 +212,33 @@ const InspectionGen = () => {
       }
     };
 
-    const fetchDataInsp = useCallback(async (filters, searchValue) => {
-        setLoading(true);
-        try {
-          const [inspectionData] = await Promise.all([
-            getInspectionGen(searchValue, filters),
-          ]);
-          setData(inspectionData.data.inspections);
-          setStatistique(inspectionData.data.stats);
-        } catch (error) {
-          notification.error({
-            message: 'Erreur de chargement',
-            description: 'Une erreur est survenue lors du chargement des données.',
-          });
-        } finally {
-          setLoading(false);
+    const fetchDataInsp = useCallback(async (filters, searchValue = '') => {
+      setLoading(true);
+      try {
+        const [inspectionData] = await Promise.all([getInspectionGen(searchValue, filters)]);
+        setData(inspectionData.data.inspections);
+        setStatistique(inspectionData.data.stats);
+        localStorage.setItem('inspectionsCache', JSON.stringify(inspectionData.data));
+      } catch (error) {
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Chargement depuis le cache local…',
+        });
+        const cached = localStorage.getItem('inspectionsCache');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          setData(parsed.inspections);
+          setStatistique(parsed.stats);
         }
+      } finally {
+        setLoading(false);
+      }
     }, []);
 
     const handFilter = () => {
       fetchDataInsp()
       setFilterVisible(!filterVisible)
-    }
+    };
 
     const showDeleteConfirm = (id, userId, setData) => {
       Modal.confirm({

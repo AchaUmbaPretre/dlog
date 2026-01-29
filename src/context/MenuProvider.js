@@ -1,4 +1,3 @@
-
 import { createContext, useState, useContext, useCallback } from 'react';
 import { notification } from 'antd';
 import { getInspectionGen } from '../services/charroiService';
@@ -7,7 +6,6 @@ import { getMenusAllOne } from '../services/permissionService';
 
 const MenuContext = createContext();
 
-// Fournisseur de contexte pour englober l'application
 export const MenuProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -46,8 +44,17 @@ export const MenuProvider = ({ children }) => {
       try {
         const response = await getMenusAllOne(userId);
         setDataPermission(response.data);
+        localStorage.setItem('SidebarMenu', JSON.stringify(response.data));
       } catch (error) {
-        console.error('Erreur lors du chargement des menus :', error);
+        notification.error({
+          message: 'Erreur lors du chargement des menus',
+          description: 'Chargement depuis le cache local…',
+        });
+        const cached = localStorage.getItem('SidebarMenu');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          setData(parsed);
+        }
       } finally {
         setIsLoading(false);
       }
