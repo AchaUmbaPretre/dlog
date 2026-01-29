@@ -1,6 +1,8 @@
 import React from 'react'
-import DashboardStats from './dashboardStats/DashboardStats'
 import DashlistePresence from './dashlistePresence/DashlistePresence'
+import DashPresenceChart from './dashPresenceChart/DashPresenceChart'
+import DashboardStats from './dashboardStats/DashboardStats'
+import './dashboardPresence.scss';
 
 const DashboardPresence = () => {
   return (
@@ -8,7 +10,7 @@ const DashboardPresence = () => {
         <div className="dashboardPresence">
             <DashboardStats/>
             <div className="dashboard_wrapper">
-                <DashboardPresence/>
+                <DashPresenceChart/>
                 <DashlistePresence/>
             </div>
         </div>

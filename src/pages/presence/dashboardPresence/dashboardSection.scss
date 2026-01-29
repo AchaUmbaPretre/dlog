@@ -1,0 +1,31 @@
+.dashboard-section {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.section-header {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-body {
+  padding: 20px;
+  min-height: 220px;
+}
+
+.section-body-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-placeholder {
+  font-size: 13px;
+  color: #6b7280;
+}
