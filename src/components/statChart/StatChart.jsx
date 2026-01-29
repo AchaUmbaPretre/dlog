@@ -19,8 +19,6 @@ const StatChart = () => {
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  console.log(selectedStatus, filter, dateRange)
-
   const handleFilterChange = (value) => {
     setFilter(value);
     if (value !== 'range') {

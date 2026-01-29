@@ -14,10 +14,6 @@ import { useSelector } from 'react-redux';
 import { notifyWarning } from '../../utils/notifyWarning';
 
 const Statistique = () => {
-    const [data, setData] = useState(null);
-    const [tache, setTache] = useState(null);
-    const [client, setClient] = useState(null);
-    const [fournisseur, setFournisseur] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const role = useSelector((state) => state.user?.currentUser.role);
