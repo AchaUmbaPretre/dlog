@@ -1,7 +1,7 @@
 import React from 'react';
 import './../dashboardSection.scss';
 
-const DashlistePresence = () => {
+const DashlistePresence = ({employes}) => {
   return (
     <div className="dashboard-section">
       
