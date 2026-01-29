@@ -1,21 +1,70 @@
 import React from 'react';
+import { Table, Tag } from 'antd';
+import moment from 'moment';
+import 'moment/locale/fr';
 import './../dashboardSection.scss';
 
-const DashlistePresence = ({employes}) => {
+const DashlistePresence = ({ employes }) => {
+
+  // Colonnes du tableau
+  const columns = [
+    {
+      title: 'Nom',
+      dataIndex: 'nom',
+      key: 'nom'
+    },
+    {
+      title: 'Statut',
+      dataIndex: 'statut_jour',
+      key: 'statut_jour',
+      render: (text) => {
+        let color = 'default';
+        if (text === 'PRESENT') color = 'green';
+        else if (text === 'ABSENT') color = 'red';
+        else if (text === 'ABSENCE_JUSTIFIEE') color = 'orange';
+        return <Tag color={color}>{text}</Tag>;
+      }
+    },
+    {
+      title: 'Heure entrée',
+      dataIndex: 'heure_entree',
+      key: 'heure_entree',
+      render: (text) => text ? moment(text).format('HH:mm') : '-'
+    },
+    {
+      title: 'Heure sortie',
+      dataIndex: 'heure_sortie',
+      key: 'heure_sortie',
+      render: (text) => text ? moment(text).format('HH:mm') : '-'
+    },
+    {
+      title: 'Statut affiché',
+      dataIndex: 'statut_affiche',
+      key: 'statut_affiche',
+      render: (text) => {
+        let color = 'blue';
+        if (text === 'RETARD') color = 'red';
+        else if (text === 'A L_HEURE') color = 'green';
+        return <Tag color={color}>{text}</Tag>;
+      }
+    }
+  ];
+
   return (
     <div className="dashboard-section">
-      
       <div className="section-header">
         Liste des employés
       </div>
 
       <div className="section-body">
-        {/* Table Ant Design ici */}
-        <span className="section-placeholder">
-          Tableau des présences
-        </span>
+        <Table
+          columns={columns}
+          dataSource={employes}
+          rowKey="nom"
+          pagination={{ pageSize: 5 }}
+          bordered
+        />
       </div>
-
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Tabs } from 'antd';
 import { ResponsiveLine } from '@nivo/line';
 import { ResponsivePie } from '@nivo/pie';
+import { LineChartOutlined, PieChartOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
@@ -17,7 +18,7 @@ const DashPresenceChart = ({ evolution, statuts }) => {
       id: 'Présents',
       color: 'hsl(120, 70%, 50%)',
       data: evolution?.map((e) => ({
-        x: moment(e.date).format('dddd DD/MM'), // format jour/mois
+        x: moment(e.date).format('dddd DD/MM'),
         y: e.presents
       }))
     },
@@ -52,9 +53,17 @@ const DashPresenceChart = ({ evolution, statuts }) => {
           type="card"
         >
           {/* Line Chart */}
-          <TabPane tab="Évolution (7 derniers jours)" key="line">
+          <TabPane 
+            tab={
+              <span>
+                <LineChartOutlined style={{ marginRight: 6 }} />
+                Évolution (7 derniers jours)
+              </span>
+            } 
+            key="line"
+          >
             {evolution?.length ? (
-              <div style={{ height: 300 }}>
+              <div style={{ height: 350 }}>
                 <ResponsiveLine
                   data={lineData}
                   margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -92,7 +101,15 @@ const DashPresenceChart = ({ evolution, statuts }) => {
           </TabPane>
 
           {/* Pie Chart */}
-          <TabPane tab="Répartition par statut" key="pie">
+          <TabPane 
+            tab={
+              <span>
+                <PieChartOutlined style={{ marginRight: 6 }} />
+                Répartition par statut
+              </span>
+            } 
+            key="pie"
+          >
             {statuts?.length ? (
               <div style={{ height: 300 }}>
                 <ResponsivePie
