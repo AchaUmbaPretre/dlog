@@ -136,6 +136,10 @@ export const postJourFerie = async (data) => {
 
 //Horaire
 export const getHoraire = async () => {
+  return axios.get(`${DOMAIN}/api/presence/horaire`);
+};
+
+export const getHoraireUser = async () => {
   return axios.get(`${DOMAIN}/api/presence/horaire_user`);
 };
 

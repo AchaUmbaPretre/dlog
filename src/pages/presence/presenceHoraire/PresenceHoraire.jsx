@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import PresenceHoraireForm from './presenceHoraireForm/PresenceHoraireForm';
-import { getHoraire } from '../../../services/presenceService';
+import { getHoraire, getHoraireUser } from '../../../services/presenceService';
 import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 
 const { Search } = Input;
@@ -27,7 +27,7 @@ const PresenceHoraire = () => {
 
    const fetchData = async () => {
       try {
-        const res = await getHoraire();
+        const res = await getHoraireUser();
         setData(res?.data);
         setLoading(false);
       } catch (error) {
