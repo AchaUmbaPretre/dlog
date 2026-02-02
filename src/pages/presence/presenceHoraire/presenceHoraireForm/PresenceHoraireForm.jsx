@@ -117,6 +117,7 @@ const PresenceHoraireForm = () => {
 return (
   <Spin spinning={loading}>
     <div className="presence-horaire-container">
+        <h2 className="presence-horaire-title">Affectation des horaires</h2>
       <Table
         columns={columns}
         dataSource={users}
