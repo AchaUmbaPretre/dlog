@@ -24,97 +24,138 @@ const PresenceList = () => {
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
 
-  const handleClickCell = useCallback(
-    async (userId, date, cell) => {
-      if (isFutureDate(date) || !["ABSENT", "PRESENT"].includes(cell?.statut)) return;
+const handleClickCell = useCallback(
+  async (userId, date, cell) => {
+    const isFuture = isFutureDate(date);
+    if (isFuture)
+      return notification.warning({
+        message: "Action impossible",
+        description: "Impossible de pointer une date future"
+      });
 
-      const payload = { id_utilisateur: userId, date_presence: date, source: 1, permissions };
-      if (!cell.heure_entree) payload.heure_entree = new Date().toISOString();
-      else if (!cell.heure_sortie) payload.heure_sortie = new Date().toISOString();
-      else return notification.info({ message: "Déjà pointé", description: "Les deux pointages sont effectués" });
+    const isNew = !cell || !cell.id_presence;
+    const isAbsent = cell?.statut === "ABSENT";
+    const isPresent = cell?.statut === "PRESENT";
 
-      try {
-        await postPresence(payload);
-        notification.success({ message: "Présence enregistrée" });
-        reload();
-      } catch (err) {
-        notification.error({
-          message: "Erreur",
-          description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
-        });
-      }
-    },
-    [reload]
-  );
+    // ✅ autoriser ABSENT et PRESENT
+    if (!isNew && !isAbsent && !isPresent) {
+      return notification.info({
+        message: "Cellule non modifiable",
+        description: `Impossible de modifier ce statut : ${cell?.statut}`
+      });
+    }
 
-  const columns = useMemo(() => {
-    if (!data) return [];
+    const payload = {
+      id_utilisateur: userId,
+      date_presence: date,
+      source: 1,
+      permissions,
+      heure_entree: undefined,
+      heure_sortie: undefined,
+      update_absent: false
+    };
 
-    const dynamicColumns = data.dates.map((d) => ({
-      title: d.label,
-      dataIndex: d.date,
-      align: "center",
-      width: 100,
-     render: (cell, record) => {
-  const disabled =
-    isFutureDate(d.date) ||
-    cell?.adjustment_statut === "VALIDE" ||
-    !["ABSENT", "PRESENT"].includes(cell?.statut);
+    // ABSENT → PRESENT (correction tardive)
+    if (isAbsent) {
+      payload.update_absent = true; // important pour corriger l'absence
+      payload.heure_entree = new Date().toISOString();
+    } 
+    // Nouvelle cellule
+    else if (isNew) {
+      payload.heure_entree = new Date().toISOString();
+    } 
+    // PRESENT mais pas encore sortie
+    else if (isPresent && !cell.heure_sortie) {
+      payload.heure_sortie = new Date().toISOString();
+    } 
+    else {
+      return notification.info({
+        message: "Déjà pointé",
+        description: "Les deux pointages sont déjà effectués"
+      });
+    }
 
-  return (
-    <PresenceCell
-      cell={cell || {}}
-      disabled={disabled}
-      onClick={() =>
-        handleClickCell(record.id_utilisateur, d.date, cell)
-      }
-      onRightClick={() => {
-        setSelectedPresence({
-          id_presence: cell?.id_presence,
-          date: d.date,
-          nom: record.nom
-        });
-        setAdjustmentOpen(true);
-      }}
-    />
-  );
-}
+    try {
+      await postPresence(payload);
+      notification.success({ message: "Présence enregistrée" });
+      reload();
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
+      });
+    }
+  },
+  [reload, permissions]
+);
 
+
+
+const dataSource = useMemo(() => {
+  if (!data) return [];
+  return data?.utilisateurs
+    .filter((u) => u.nom.toLowerCase().includes(searchValue.toLowerCase()))
+    .map((u) => ({
+      key: u.id_utilisateur,
+      id_utilisateur: u.id_utilisateur,
+      nom: u.nom,
+      prenom: u.prenom,
+      ...u.presences
     }));
+}, [data, searchValue]);
 
-    dynamicColumns.push({
-      title: "Total",
-      dataIndex: "total",
-      fixed: "right",
-      width: 80,
-      align: "center",
-      render: (_, record) => {
-        const total = Object.values(record)
-          .filter((v) => v?.statut === "PRESENT")
-          .length;
-        return <strong>{total}</strong>;
-      }
-    });
+const columns = useMemo(() => {
+  if (!data) return [];
 
-    return [
-      { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
-      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 150, render: (text, record) => <strong>{`${record.nom} - ${record.prenom}`}</strong> },
-      ...dynamicColumns
-    ];
-  }, [data, handleClickCell]);
+  const dynamicColumns = data.dates.map((d) => ({
+    title: d.label,
+    dataIndex: d.date,
+    align: "center",
+    width: 100,
+    render: (cell, record) => {
+      const disabled = isFutureDate(d.date) || cell?.adjustment_statut === "VALIDE";
 
-  const dataSource = useMemo(() => {
-    if (!data) return [];
-    return data?.utilisateurs
-      .filter((u) => u.nom.toLowerCase().includes(searchValue.toLowerCase()))
-      .map((u) => ({
-        key: u.id_utilisateur,
-        id_utilisateur: u.id_utilisateur,
-        nom: u.nom,
-        prenom:u.prenom,
-        ...u.presences
-      }));
-  }, [data, searchValue]);
+      return (
+        <PresenceCell
+          cell={cell || {}}
+          disabled={disabled}
+          onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)}
+          onRightClick={() => {
+            if (!cell?.id_presence) return;
+            setSelectedPresence({
+              id_presence: cell.id_presence,
+              date: d.date,
+              nom: record.nom
+            });
+            setAdjustmentOpen(true);
+          }}
+        />
+      );
+    }
+  }));
+
+  // Colonne total
+  dynamicColumns.push({
+    title: "Total",
+    dataIndex: "total",
+    fixed: "right",
+    width: 80,
+    align: "center",
+    render: (_, record) => {
+      const total = Object.values(record).filter(
+        (v) => v?.statut === "PRESENT" || (v?.heure_entree || v?.heure_sortie)
+      ).length;
+      return <strong>{total}</strong>;
+    }
+  });
+
+  return [
+    { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
+    { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 150, render: (text, record) => <strong>{`${record.nom} - ${record.prenom}`}</strong> },
+    ...dynamicColumns
+  ];
+}, [data, handleClickCell]);
+
 
   const changeMonth = (offset) => {
     const base = dayjs(`${dateRange.year}-${dateRange.month}-01`).add(offset, "month");

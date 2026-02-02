@@ -10,7 +10,11 @@ const STATUTS = {
 };
 
 export const PresenceCell = ({ cell, onClick, onRightClick, disabled }) => {
-  const statut = cell?.statut || (cell?.heure_entree || cell?.heure_sortie ? "PRESENT" : "ABSENT");
+  const isAutoAbsent = cell?.auto_generated;
+  const statut = isAutoAbsent
+    ? "ABSENT"
+    : cell?.statut || (cell?.heure_entree || cell?.heure_sortie ? "PRESENT" : "ABSENT");
+
   const info = STATUTS[statut];
 
   return (
@@ -24,8 +28,8 @@ export const PresenceCell = ({ cell, onClick, onRightClick, disabled }) => {
       <div
         onClick={!disabled ? onClick : undefined}
         onContextMenu={(e) => {
-            e.preventDefault();
-            if (!disabled) onRightClick();
+          e.preventDefault();
+          if (!disabled && onRightClick) onRightClick();
         }}
         style={{
           cursor: disabled ? "not-allowed" : "pointer",

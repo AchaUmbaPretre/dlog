@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Input, Typography, notification, Modal, Tag } from 'antd';
+import { Table, Button, Input, Typography, Tooltip, notification, Modal, Tag } from 'antd';
 import {
   FileTextOutlined,
   PrinterOutlined,
@@ -12,7 +12,6 @@ import {
 import { getAbsence, validateAbsence } from '../../../services/presenceService';
 import AbsenceForm from './absenceForm/AbsenceForm';
 import { renderDate, renderStatus } from './absenceForm/utils/renderStatusAbsence';
-import { calculateDuration } from '../conge/utils/calculateDuration';
 import AbsenceDecisionModal from './absenceDecisionModal/AbsenceDecisionModal';
 import { useSelector } from 'react-redux';
 
@@ -156,7 +155,19 @@ const columns = [
     title: 'Durée (jours)',
     key: 'duree',
     align: 'center',
-    render: (_, record) => calculateDuration(record.date_debut, record.date_fin)
+    render: (_, record) => (
+      <Tooltip
+        title={
+          <>
+            <div>Total : {record.nb_jours_total} j</div>
+            <div>Fériés : {record.nb_jours_feries} j</div>
+            <div>Non travaillés : {record.nb_jours_non_travailles} j</div>
+          </>
+        }
+      >
+        <Text strong>{record.nb_jours_absence_effective}</Text>
+      </Tooltip>
+    )
   },
   {
     title: 'Statut',
