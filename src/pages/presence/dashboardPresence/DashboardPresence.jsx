@@ -5,6 +5,7 @@ import DashboardStats from './dashboardStats/DashboardStats'
 import './dashboardPresence.scss';
 import { getPresenceDashboard } from '../../../services/presenceService';
 import { notification } from 'antd';
+import TopAbsences from './topAbsences/TopAbsences';
 
 const DashboardPresence = () => {
     const [data, setData] = useState({
@@ -37,8 +38,14 @@ const DashboardPresence = () => {
         <div className="dashboardPresence">
             <DashboardStats kpi={data.kpi} />
             <div className="dashboard_wrapper">
-                <DashPresenceChart evolution={data.evolution} statuts={data.statuts} />
-                <DashlistePresence employes={data.employes}/>
+                <div style={{flex:1}}>
+                    <DashPresenceChart evolution={data?.evolution} statuts={data.statuts} kpi={data.kpi} />
+                </div>
+
+                <div style={{flex:1}}>
+                    <DashlistePresence employes={data?.employes} />
+                    <TopAbsences topAbsences={data?.topAbsences} />
+                </div>
             </div>
         </div>
     </>
