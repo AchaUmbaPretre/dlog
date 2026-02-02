@@ -134,6 +134,15 @@ export const postJourFerie = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/jour-ferie`, data);
 };
 
+//Horaire
+export const getHoraire = async () => {
+  return axios.get(`${DOMAIN}/api/presence/horaire_user`);
+};
+
+export const postHoraire = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/horaire_user`, data);
+};
+
 //Terminal
 export const getTerminal = async () => {
   return axios.get(`${DOMAIN}/api/presence/terminal`);
