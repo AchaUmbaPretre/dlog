@@ -19,6 +19,8 @@ import JourFerie from './jourFerie/JourFerie';
 import Terminal from './terminal/Terminal';
 import PresenceAll from './presenceAll/PresenceAll';
 import DashboardPresence from './dashboardPresence/DashboardPresence';
+import RapportGenPresence from './rapportGenPresence/RapportGenPresence';
+import PresenceHoraire from './presenceHoraire/PresenceHoraire';
 
 const tabConfig = [
   {
@@ -41,34 +43,34 @@ const tabConfig = [
   },
   {
     key: '4',
-    label: 'Rapport Mensuel',
+    label: 'Rapport',
     icon: <BarChartOutlined />,
-    component: <PresenceReport />
+    component: <RapportGenPresence />
   },
   {
     key: '5',
-    label: 'Rapport Retard & Ponctualité',
-    icon: <ClockCircleOutlined />,
-    component: <PresenceRapportRP />
-  },
-  {
-    key: '6',
     label: 'Ajustement de présence',
     icon: <EditOutlined />,
     component: <AutorisationSortie />
   },
   {
-    key: '7',
+    key: '6',
     label: 'Jour férié',
     icon: <CalendarTwoTone twoToneColor="#faad14" />,
     component: <JourFerie />
   },
   {
-    key: '8',
+    key: '7',
     label: 'Terminal',
     icon: <DesktopOutlined />,
     component: <Terminal />
-  }
+  },
+  {
+    key: '8',
+    label: 'Horaire',
+    icon: <CalendarTwoTone twoToneColor="#faad14" />,
+    component: <PresenceHoraire />
+  },
 ];
 
 
