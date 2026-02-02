@@ -27,8 +27,8 @@ const PresenceHoraire = () => {
 
    const fetchData = async () => {
       try {
-        const { data } = await getHoraire();
-        setData(data?.data);
+        const res = await getHoraire();
+        setData(res?.data);
         setLoading(false);
       } catch (error) {
         notification.error({
