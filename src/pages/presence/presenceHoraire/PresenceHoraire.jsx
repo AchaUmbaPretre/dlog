@@ -97,18 +97,7 @@ const columns = [
     key: 'date_debut',
     align: 'center',
     render: date => renderDate(date),
-  },
-  {
-    title: (
-      <>
-        <LogoutOutlined /> Date fin
-      </>
-    ),
-    dataIndex: 'date_fin',
-    key: 'date_fin',
-    align: 'center',
-    render: date => renderDate(date),
-  },
+  }
 ];
 
 const filteredData = data?.filter(item =>

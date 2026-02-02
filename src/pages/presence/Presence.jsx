@@ -68,7 +68,7 @@ const tabConfig = [
   {
     key: '8',
     label: 'Horaire',
-    icon: <CalendarTwoTone twoToneColor="#faad14" />,
+    icon: <CalendarTwoTone />,
     component: <PresenceHoraire />
   },
 ];
