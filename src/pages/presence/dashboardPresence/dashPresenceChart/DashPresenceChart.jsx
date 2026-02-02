@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Tabs } from 'antd';
 import { ResponsiveLine } from '@nivo/line';
 import { ResponsivePie } from '@nivo/pie';
-import { LineChartOutlined, PieChartOutlined } from '@ant-design/icons';
+import { LineChartOutlined, CheckOutlined, PieChartOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
@@ -135,6 +135,38 @@ const DashPresenceChart = ({ evolution, statuts }) => {
             )}
           </TabPane>
         </Tabs>
+      </div>
+
+      <div className="dashboard-stats" style={{margin:'10px'}}>
+        <div className="stat-item">
+          <div className="stat-value">
+            10%
+          </div>
+          <div className="stat-label">
+            <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
+            Taux de Présence
+          </div>
+        </div>
+
+        <div className="stat-item">
+          <div className="stat-value">
+            10%
+          </div>
+          <div className="stat-label">
+            <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
+            Retards Moyens
+          </div>
+        </div>
+
+        <div className="stat-item">
+          <div className="stat-value">
+            10%
+          </div>
+          <div className="stat-label">
+            <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
+            Absences Totales
+          </div>
+        </div>
       </div>
 
     </div>
