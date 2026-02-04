@@ -6,7 +6,7 @@ import { getHoraire, postHoraire } from '../../../../services/presenceService';
 
 const { Option } = Select;
 
-const PresenceHoraireForm = () => {
+const PresenceHoraireForm = ({closeModa, fetchData}) => {
   const [users, setUsers] = useState([]);
   const [horaires, setHoraires] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const PresenceHoraireForm = () => {
   // Stocke l’horaire choisi par utilisateur
   const [selectedHoraires, setSelectedHoraires] = useState({});
 
-  const fetchData = useCallback(async () => {
+  const fetchDatas = useCallback(async () => {
     setLoading(true);
     try {
       const [usersRes, horairesRes] = await Promise.all([
@@ -36,8 +36,8 @@ const PresenceHoraireForm = () => {
   }, []);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchDatas();
+  }, [fetchDatas]);
 
   const handleHoraireChange = (userId, horaireId) => {
     setSelectedHoraires((prev) => ({
@@ -74,6 +74,7 @@ const PresenceHoraireForm = () => {
 
       setSelectedHoraires({});
       fetchData();
+      closeModa();
     } catch (error) {
       notification.error({
         message: 'Erreur',

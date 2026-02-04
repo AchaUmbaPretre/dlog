@@ -3,12 +3,14 @@ import './../dashboardSection.scss';
 
 const TopAbsences = ({ topAbsences }) => {
 
-  // Colonnes du tableau
   const columns = [
     {
-      title: 'Nom',
+      title: 'Nom & Prénom',
       dataIndex: 'nom',
-      key: 'nom'
+      key: 'nom',
+      render: (text, record) => (
+        <div>{record.nom} - {record.prenom}</div>
+      )
     },
     {
       title: 'Nombre de jour',

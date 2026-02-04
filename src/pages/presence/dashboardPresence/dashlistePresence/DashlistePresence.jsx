@@ -5,12 +5,14 @@ import './../dashboardSection.scss';
 
 const DashlistePresence = ({ employes }) => {
 
-  // Colonnes du tableau
   const columns = [
     {
-      title: 'Nom',
+      title: 'Nom & Prénom',
       dataIndex: 'nom',
-      key: 'nom'
+      key: 'nom',
+      render: (text, record) => (
+        <div>{record.nom} - {record.prenom}</div>
+      )
     },
     {
       title: 'Statut',

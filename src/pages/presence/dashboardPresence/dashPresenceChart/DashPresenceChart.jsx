@@ -12,7 +12,6 @@ const { TabPane } = Tabs;
 const DashPresenceChart = ({ evolution, statuts, kpi }) => {
   const [activeTab, setActiveTab] = useState('line');
 
-  // Préparer les données Nivo Line avec date formatée
   const lineData = [
     {
       id: 'Présents',
@@ -32,7 +31,6 @@ const DashPresenceChart = ({ evolution, statuts, kpi }) => {
     }
   ];
 
-  // Préparer les données Nivo Pie
   const pieData = statuts?.map((s) => ({
     id: s.label,
     label: s.label,
