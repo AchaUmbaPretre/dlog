@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Form, Row, Checkbox, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
+import { Form, Row, Checkbox, Modal, Tooltip, Input, Card, Col, DatePicker, Skeleton, Select, Button } from 'antd';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 import DestinationForm from '../../demandeVehicule/destination/destinationForm/DestinationForm';
 import ClientForm from '../../../client/clientForm/ClientForm';
@@ -10,7 +10,6 @@ import ConfirmModal from '../../../../components/confirmModal/ConfirmModal';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
-    const [ loading, setLoading ] = useState(false);
     const [ affectationId, setAffectationId ] = useState('')
     const [ modalType, setModalType ] = useState(null);
     const [createBS, setCreateBS] = useState(true);
@@ -42,7 +41,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
     const onFinish = async (values) => {
         const result = await handleFinish(values);
-        requestConfirm(result, 'Voulez-vous enregistrer cet enregistrement ?');
+        requestConfirm(result, 'Souhaitez-vous confirmer l’affectation du véhicule ?');
     }
 
     const onConfirm = async () => {
@@ -61,7 +60,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
         }
         if (createBS) {
             setModalType('Bande');
-            closeModal();
         }
     }
 
@@ -303,7 +301,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                             </Col>
 
                             <div style={{ marginTop: '20px' }}>
-                                <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
+                                <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={submitting} disabled={submitting} >
                                     Soumettre
                                 </Button>
                             </div>

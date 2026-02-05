@@ -9,7 +9,6 @@ import { useConfirmAction } from '../../../generateur/composant/pleinGenerateur/
 import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 
 const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
-    const [ loading, setLoading ] = useState(false);
     const [ modalType, setModalType ] = useState(null);
     const [createBS, setCreateBS] = useState(true);
     const [ bonId, setBonId ] = useState('');
@@ -37,7 +36,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
 
     const onFinish = async (values) => {
         const result = await handleFinish(values);
-        requestConfirm(result, 'Voulez-vous enregistrer cet enregistrement ?');
+        requestConfirm(result, 'Souhaitez-vous confirmer la création du bon de sortie ?');
     }
 
     const onConfirm = async () => {
@@ -287,7 +286,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                             </Col>
 
                             <div style={{ marginTop: '20px' }}>
-                                <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
+                                <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={submitting} disabled={submitting} >
                                     Soumettre
                                 </Button>
                             </div>
