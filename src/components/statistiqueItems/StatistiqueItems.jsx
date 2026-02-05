@@ -11,10 +11,6 @@ import { notifyWarning } from '../../utils/notifyWarning';
 
 const StatistiqueItems = () => {
   const [loading, setLoading] = useState(true);
-  const [batiment, setBatiment] = useState([]);
-  const [projet, setProjet] = useState([]);
-  const [template, setTemplate] = useState([]);
-  const [declaration, setDeclaration] = useState([]);
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     batiment: 0,

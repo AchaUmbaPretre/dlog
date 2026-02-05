@@ -33,7 +33,6 @@ const TopBar = () => {
     return prefersDark ? 'dark' : 'light';
   });
 
-
   const toggleTvMode = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -47,31 +46,31 @@ const TopBar = () => {
   };
 
     useEffect(() => {
-    const handleKeydown = (e) => {
-      if (e.key === 'Escape') {
-        setIsTvMode(false);
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
+      const handleKeydown = (e) => {
+        if (e.key === 'Escape') {
+          setIsTvMode(false);
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+          navigate('/');
         }
-        navigate('/');
-      }
+      };
+      document.addEventListener('keydown', handleKeydown);
+      return () => document.removeEventListener('keydown', handleKeydown);
+    }, [navigate]);
+
+    useEffect(() => {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+      setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
     };
-    document.addEventListener('keydown', handleKeydown);
-    return () => document.removeEventListener('keydown', handleKeydown);
-  }, [navigate]);
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
-
-  const closeModal = () => {
-    setSelectedNotif(null);
-  };
+    const closeModal = () => {
+      setSelectedNotif(null);
+    };
 
   const handleNotificationClick = async (notif) => {
     try {
