@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FileSyncOutlined, FileDoneOutlined, TeamOutlined } from '@ant-design/icons';
-import { Skeleton, notification } from 'antd';
+import { Skeleton } from 'antd';
 import './statistique.scss';
 import StatChart from '../statChart/StatChart';
 import CountUp from 'react-countup';
