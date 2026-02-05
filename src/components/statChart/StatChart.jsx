@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { ResponsiveBar } from '@nivo/bar';
 import { CheckOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { Skeleton, Select, DatePicker, Button, Tooltip, Modal, notification } from 'antd';
+import { Skeleton, Select, DatePicker, Button, Tooltip, Modal } from 'antd';
 import { getTacheCountChart } from '../../services/tacheService';
 import { CSSTransition } from 'react-transition-group';
 import './statChart.css';
