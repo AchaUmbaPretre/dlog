@@ -301,7 +301,6 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
                                 </Checkbox>
                             </Col>
 
-
                             <div style={{ marginTop: '20px' }}>
                                 <Button type="primary" htmlType="submit" icon={<SendOutlined />} loading={loading} disabled={loading} >
                                     Soumettre
@@ -332,7 +331,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
         >
             <BandeSortieForm closeModal={() => setModalType(null)} fetchData={reload} affectationId={affectationId} />
         </Modal>
-        
+
         <Modal
             title=""
             visible={modalType === 'Destination'}
