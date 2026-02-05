@@ -42,8 +42,6 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
         loadingData,
         vehicule,
         chauffeur,
-        userId,
-        type,
         motif,
         service,
         client,

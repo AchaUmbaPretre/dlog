@@ -18,8 +18,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
         loadingData,
         vehicule,
         chauffeur,
-        userId,
-        type,
         motif,
         service,
         client,

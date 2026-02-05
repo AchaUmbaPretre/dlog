@@ -54,11 +54,11 @@ export const useAffectationData = ({ id_demande_vehicule }) => {
             } finally {
                 setLoadingData(false);
             }
-    }, [])
+    }, [id_demande_vehicule, form])
 
     useEffect(() => {
         load();
-    }, [load, id_demande_vehicule]);
+    }, [load]);
 
     return {
         destination,
