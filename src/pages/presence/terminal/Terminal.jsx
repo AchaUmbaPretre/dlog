@@ -176,7 +176,7 @@ const Terminal = ({ id_terminal, closeModal }) => {
       </div>
 
       <Modal
-        title="Créer un terminal"
+        title=""
         open={isTerminalModalVisible}
         onCancel={closeTerminalModal}
         footer={null}

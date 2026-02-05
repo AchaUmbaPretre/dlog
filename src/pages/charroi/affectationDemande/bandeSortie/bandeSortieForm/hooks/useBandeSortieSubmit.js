@@ -7,18 +7,20 @@ export function useBandeSortieSubmit({ onSuccess } = {}) {
 
   const submit = useCallback(async ({ payload }) => {
     setSubmitting(true);
-
     try {
-      await postBandeSortie(payload);
+      const response = await postBandeSortie(payload);
 
       notification.success({
         message: "Succès",
-        description: "Enregistrement réussi.",
+        description: "Le bon de sortie a été enregistré avec succès.",
       });
 
       onSuccess?.();
 
-      return { ok: true };
+      return { 
+        ok: true,
+        id: response.data?.id_bande_sortie,
+       };
     } catch (error) {
       console.error("useBandeSortieSubmit.submit", error);
 

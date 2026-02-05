@@ -5,6 +5,8 @@ import { postBandeSortie } from '../../../../../services/charroiService';
 
 import ReleveBonDeSortie from '../releveBonDeSortie/ReleveBonDeSortie';
 import { useBandeSortieForm } from './hooks/useBandeSortieForm';
+import { useConfirmAction } from '../../../generateur/composant/pleinGenerateur/formPleinGenerateur/hooks/useConfirmAction';
+import ConfirmModal from '../../../../../components/confirmModal/ConfirmModal';
 
 const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ loading, setLoading ] = useState(false);
@@ -28,44 +30,35 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
         handleFinish,
         doSubmit
     } = useBandeSortieForm(affectationId)
+    const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
+    
 
     const closeAllModals = () => {
         setModalType(null);
     };
 
     const onFinish = async (values) => {
-        await form.validateFields();
-        
-        const loadingKey = 'loadingAffectation';
-            message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
-            setLoading(true);
-        
-                try {
-                    const response = await postBandeSortie({
-                        ...values,
-                        id_affectation_demande : affectationId,
-                        user_cr: userId
-                    });
+        const result = await handleFinish(values);
+        requestConfirm(result, 'Voulez-vous enregistrer cet enregistrement ?');
+    }
 
-                    const newId = response.data?.id_bande_sortie;
-                    setBonId(newId);
-                    
-                    message.success({ content: "Le bon de sortie a été enregistré avec succès.", key: loadingKey });
-                    form.resetFields();
-                    fetchData();
-                    closeModal();
-                    
-                    if (createBS) {
-                    setModalType('releve');
-                    closeModal();
-                    }
-        
-                } catch (error) {
-                    console.error("Erreur lors de l'ajout de bon de sortie :", error);
-                    message.error({ content: 'Une erreur est survenue.', key: loadingKey });
-                } finally {
-                    setLoading(false);
-                }
+    const onConfirm = async () => {
+        const toSubmit = pending ?? null;
+        if (!toSubmit) return cancel();
+
+        const { payload } = toSubmit;
+        const res = await doSubmit({ payload, affectationId });
+
+        if(res.ok) {
+            fetchData();
+            form.resetFields();
+            closeModal();
+            cancel();
+        }
+        if (createBS) {
+            setBonId(res.id);
+            setModalType("releve");
+        }
     }
 
 
@@ -305,7 +298,14 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                 </Form>
             </div>
         </div>
-
+            <ConfirmModal
+                visible={visible}
+                title={"Confirmer l'enregistrement"}
+                content={message}
+                onConfirm={onConfirm}
+                onCancel={cancel}
+                loading={submitting}
+            />
         <Modal
             title=""
             visible={modalType === 'releve'}

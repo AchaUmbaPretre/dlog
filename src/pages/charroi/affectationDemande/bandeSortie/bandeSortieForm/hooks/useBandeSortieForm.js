@@ -23,6 +23,7 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
 
     const buildPayload = useCallback((values) => ({
         ...values,
+        id_affectation_demande : affectationId,
         user_cr: userId,
     }), [userId]);
 
@@ -32,7 +33,7 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
     }, [buildPayload])    
 
     
-    const doSubmit = useCallback(async ({ payload}) => {
+    const doSubmit = useCallback(async ({ payload }) => {
         return submit({ payload });
     }, [submit]);
             
