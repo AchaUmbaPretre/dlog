@@ -39,11 +39,12 @@
   }
 
 @media screen and (max-width: 568px){
-    .row_select{
-        width: 100%;
-        justify-content: center;
-    }
-    .total_tache{
-        display: none;
-    }
+  .row_select{
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .total_tache{
+    display: none;
+  }
 }

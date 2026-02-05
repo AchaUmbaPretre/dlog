@@ -58,7 +58,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
         }
     }
 
-
   return (
     <>
         <div className="controle_form">
