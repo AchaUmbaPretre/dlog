@@ -13,7 +13,7 @@ export function useAffectationForm(id_demande_vehicule, { onSaved } = {}) {
         service,
         client,
         reload
-    } = useAffectationData();
+    } = useAffectationData({id_demande_vehicule});
     const { submitting, submit } = useAffectationSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
 
     const buildPayload = useCallback((values) => ({

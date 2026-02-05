@@ -56,7 +56,8 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             form.resetFields();
             fetchData();
             closeModal();
-            setAffectationId(res.id)
+            setAffectationId(res.id);
+            cancel();
         }
         if (createBS) {
             setModalType('Bande');
