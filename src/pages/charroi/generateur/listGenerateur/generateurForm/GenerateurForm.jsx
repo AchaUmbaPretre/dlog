@@ -88,6 +88,7 @@ const GenerateurForm = ({id_generateur, closeModal, fetchData}) => {
         setConfirmationMessage("Voulez-vous vraiment enregistrer ces informations générateur ?");
         setConfirmVisible(true);
     }
+    
     const onFinish = async (values) => {
         if (!pendingPayload) return;
 
