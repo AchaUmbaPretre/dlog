@@ -41,7 +41,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
     const onFinish = async (values) => {
         const result = await handleFinish(values);
-        requestConfirm(result, 'Souhaitez-vous confirmer l’affectation du véhicule ?');
+        requestConfirm(result, 'Souhaitez-vous valider l’affectation du véhicule à cette demande ?');
     }
 
     const onConfirm = async () => {
