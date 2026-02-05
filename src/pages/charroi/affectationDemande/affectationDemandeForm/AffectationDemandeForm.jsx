@@ -1,74 +1,34 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Form, Row, Checkbox, Modal, Tooltip, Input, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getVehiculeDispo, postAffectationDemande } from '../../../../services/charroiService';
 import { SendOutlined, PlusOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import { getClient } from '../../../../services/clientService';
-import moment from 'moment';
 import DestinationForm from '../../demandeVehicule/destination/destinationForm/DestinationForm';
 import ClientForm from '../../../client/clientForm/ClientForm';
 import BandeSortieForm from '../bandeSortie/bandeSortieForm/BandeSortieForm';
+import { useAffectationForm } from './hooks/useAffectationForm';
+import { useConfirmAction } from '../../generateur/composant/pleinGenerateur/formPleinGenerateur/hooks/useConfirmAction';
+import ConfirmModal from '../../../../components/confirmModal/ConfirmModal';
 
 const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) => {
     const [form] = Form.useForm();
     const [ loading, setLoading ] = useState(false);
-    const [ loadingData, setLoadingData ] = useState(false);
-    const [ vehicule, setVehicule ] = useState([]);
-    const [ chauffeur, setChauffeur ] = useState([]);
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const [ motif, setMotif ] = useState([]);
-    const [ service, setService ] = useState([]);
-    const [ client, setClient ] = useState([]);
     const [ affectationId, setAffectationId ] = useState('')
-    const [ destination, setDestination ] = useState([]);
     const [ modalType, setModalType ] = useState(null);
     const [createBS, setCreateBS] = useState(true);
+    const {         
+        destination,
+        loadingData,
+        vehicule,
+        chauffeur,
+        motif,
+        service,
+        client,
+        reload,
+        submitting,
+        handleFinish,
+        doSubmit } = useAffectationForm(id_demande_vehicule);
+    const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
 
-    const fetchDatas = async() => {
-        setLoadingData(true);
-        try {
-            const [vehiculeData, chaufferData, serviceData, motifData, clientData, localData] = await Promise.all([
-                getVehiculeDispo(),
-                getChauffeur(),
-                getServiceDemandeur(),
-                getMotif(),
-                getClient(),
-                getDestination()
-            ]);
-
-            setVehicule(vehiculeData.data);
-            setChauffeur(chaufferData.data?.data);
-            setService(serviceData.data);
-            setMotif(motifData.data);
-            setClient(clientData.data);
-            setDestination(localData.data);
-
-            if(id_demande_vehicule) {
-                const { data : d } = await getDemandeVehiculeOne(id_demande_vehicule);
-                form.setFieldsValue({
-                    date_prevue : moment(d[0].date_prevue),
-                    date_retour : moment(d[0].date_retour),
-                    id_type_vehicule : d[0].id_type_vehicule,
-                    id_motif_demande : d[0].id_motif_demande,
-                    id_demandeur : d[0].id_demandeur,
-                    id_client : d[0].id_client,
-                    id_destination : d[0].id_destination,
-                    personne_bord : d[0].personne_bord
-                })
-            }
-            
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        } finally {
-            setLoadingData(false);
-        }
-    }
-
-    useEffect(()=> {
-        fetchDatas();
-    }, [id_demande_vehicule])
-    
-        const closeAllModals = () => {
+    const closeAllModals = () => {
         setModalType(null);
     };
       
@@ -81,39 +41,26 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
     const handleClient = () => openModal('Client')
 
     const onFinish = async (values) => {
-        await form.validateFields();
-        console.log(values)
+        const result = await handleFinish(values);
+        requestConfirm(result, 'Voulez-vous enregistrer cet enregistrement ?');
+    }
 
-        const loadingKey = 'loadingAffectation';
-        message.loading({ content: 'Traitement en cours, veuillez patienter...', key: loadingKey, duration: 0 });
-        setLoading(true);
+    const onConfirm = async () => {
+        const toSubmit = pending ?? null;
+        if (!toSubmit) return cancel();
 
-        try {
-            
-            const response = await postAffectationDemande({
-                ...values,
-                id_demande_vehicule : id_demande_vehicule,
-                user_cr: userId
-            })
+        const { payload } = toSubmit;
+        const res = await doSubmit({ payload });
 
-            const newId = response.data?.id_affectation;
-            setAffectationId(newId);
-            
-            message.success({ content: "La course a été mise a jour avec succès.", key: loadingKey });
+        if(res.ok) {
             form.resetFields();
             fetchData();
             closeModal();
-
-            if (createBS) {
-                setModalType('Bande');
-                closeModal();
-            }
-
-        } catch (error) {
-            console.error("Erreur lors de l'ajout de course :", error);
-            message.error({ content: 'Une erreur est survenue.', key: loadingKey });
-        } finally {
-            setLoading(false);
+            setAffectationId(res.id)
+        }
+        if (createBS) {
+            setModalType('Bande');
+            closeModal();
         }
     }
 
@@ -366,6 +313,15 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             </div>
         </div>
 
+        <ConfirmModal
+            visible={visible}
+            title={"Confirmer l'enregistrement"}
+            content={message}
+            onConfirm={onConfirm}
+            onCancel={cancel}
+            loading={submitting}
+        />
+
         <Modal
             title=""
             visible={modalType === 'Bande'}
@@ -374,8 +330,9 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             width={1000}
             centered
         >
-            <BandeSortieForm closeModal={() => setModalType(null)} fetchData={fetchData} affectationId={affectationId} />
+            <BandeSortieForm closeModal={() => setModalType(null)} fetchData={reload} affectationId={affectationId} />
         </Modal>
+        
         <Modal
             title=""
             visible={modalType === 'Destination'}
@@ -384,7 +341,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             width={700}
             centered
         >
-            <DestinationForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
+            <DestinationForm closeModal={() => setModalType(null)} fetchData={reload} />
         </Modal>
 
         <Modal
@@ -395,7 +352,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             width={700}
             centered
         >
-            <ClientForm closeModal={() => setModalType(null)} fetchData={fetchDatas} />
+            <ClientForm closeModal={() => setModalType(null)} fetchData={reload} />
         </Modal>
     </>
   )

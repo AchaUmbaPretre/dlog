@@ -18,7 +18,7 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
             destination,
             societe,
             reload
-         } = useBandeSortieData(affectationId);
+        } = useBandeSortieData(affectationId);
     const { submitting, submit } = useBandeSortieSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
 
     const buildPayload = useCallback((values) => ({
