@@ -33,17 +33,17 @@ const TopBar = () => {
     return prefersDark ? 'dark' : 'light';
   });
 
-  const toggleTvMode = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-      setIsTvMode(true);
-      navigate('/tv-dashboard');
-    } else {
-      document.exitFullscreen();
-      setIsTvMode(false);
-      navigate('/');
-    }
-  };
+    const toggleTvMode = () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        setIsTvMode(true);
+        navigate('/tv-dashboard');
+      } else {
+        document.exitFullscreen();
+        setIsTvMode(false);
+        navigate('/');
+      }
+    };
 
     useEffect(() => {
       const handleKeydown = (e) => {

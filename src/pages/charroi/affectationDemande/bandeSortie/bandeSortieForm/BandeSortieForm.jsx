@@ -40,23 +40,26 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     }
 
     const onConfirm = async () => {
-        const toSubmit = pending ?? null;
-        if (!toSubmit) return cancel();
+        if (!pending || submitting) return;
 
-        const { payload } = toSubmit;
-        const res = await doSubmit({ payload, affectationId });
+        const { payload } = pending;
 
-        if(res.ok) {
+        const res = await doSubmit({ payload });
+
+        cancel();
+
+        if (res.ok) {
             fetchData();
             form.resetFields();
             closeModal();
-            cancel();
         }
+
         if (createBS) {
             setBonId(res.id);
             setModalType("releve");
         }
-    }
+    };
+
 
   return (
     <>

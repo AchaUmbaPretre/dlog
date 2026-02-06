@@ -21,11 +21,18 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
         } = useBandeSortieData(affectationId);
     const { submitting, submit } = useBandeSortieSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
 
-    const buildPayload = useCallback((values) => ({
-        ...values,
-        id_affectation_demande : affectationId,
-        user_cr: userId,
-    }), [userId]);
+    const buildPayload = useCallback((values) => {
+        const payload = {
+            ...values,
+            user_cr: userId,
+        };
+
+        if (affectationId) {
+            payload.id_affectation_demande = affectationId;
+        }
+
+        return payload;
+    }, [userId, affectationId]);
 
     const handleFinish = useCallback(async (values) => {
         const payload = buildPayload(values);

@@ -31,7 +31,6 @@ const TopBarModelTv = () => {
     }
   };
 
-  // Sortie fullscreen avec Escape
   useEffect(() => {
     const handleKeydown = (e) => {
       if (e.key === "Escape") {

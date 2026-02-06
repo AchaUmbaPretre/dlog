@@ -405,7 +405,10 @@ const Vehicule = () => {
     ];
 
     const filteredData = mergedCourses.filter(item =>
-        item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase())
+      item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase()) || 
+      item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase()) || 
+      item.modele?.toLowerCase().includes(searchValue.toLowerCase()) || 
+      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
     );
 
   return (
