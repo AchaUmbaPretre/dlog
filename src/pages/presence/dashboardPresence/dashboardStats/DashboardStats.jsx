@@ -7,7 +7,7 @@ import {
 import './dashboardStats.scss';
 
 const DashboardStats = ({ kpi }) => {
-  if (!kpi) return null; // Sécurité si kpi n'est pas encore chargé
+  if (!kpi) return null;
 
   const { total, presents, absents, retards } = kpi;
 
@@ -39,10 +39,9 @@ const DashboardStats = ({ kpi }) => {
         <div className="stat-value">{absents ?? 0}</div>
         <div className="stat-label">
           <StopOutlined style={{ color: 'red', marginRight: 6 }} />
-          Absences
+          Absences & justifications
         </div>
       </div>
-
     </div>
   );
 };

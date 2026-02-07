@@ -11,17 +11,15 @@ const PresenceHoraireForm = ({closeModa, fetchData}) => {
   const [horaires, setHoraires] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
-  // Stocke l’horaire choisi par utilisateur
   const [selectedHoraires, setSelectedHoraires] = useState({});
-
+         
   const fetchDatas = useCallback(async () => {
     setLoading(true);
     try {
       const [usersRes, horairesRes] = await Promise.all([
         getUser(),
         getHoraire(),
-      ]);
+      ]);   
 
       setUsers(usersRes?.data || []);
       setHoraires(horairesRes?.data || []);
