@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   CheckOutlined,
   ClockCircleOutlined,
@@ -14,7 +13,6 @@ const DashboardStats = ({ kpi }) => {
   return (
     <div className="dashboard-stats">
       
-      {/* Présents */}
       <div className="stat-item">
         <div className="stat-value">
           {presents ?? 0}<span>/{total}</span>
@@ -25,7 +23,6 @@ const DashboardStats = ({ kpi }) => {
         </div>
       </div>
 
-      {/* Retards */}
       <div className="stat-item">
         <div className="stat-value">{retards ?? 0}</div>
         <div className="stat-label">

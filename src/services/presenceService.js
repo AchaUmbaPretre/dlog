@@ -91,6 +91,10 @@ export const postPresence = async (data) => {
   return axios.post(`${DOMAIN}/api/presence`, data);
 };
 
+export const getEventPresence = async () => {
+  return axios.get(`${DOMAIN}/api/presence/presenceEvent`);
+};
+
 //Dashboard
 export const getPresenceDashboard = async () => {
   return axios.get(`${DOMAIN}/api/presence/dashboard`);

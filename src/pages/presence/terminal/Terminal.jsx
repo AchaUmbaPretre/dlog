@@ -7,7 +7,7 @@ import {
   TeamOutlined
 } from '@ant-design/icons';
 
-import { getTerminal } from '../../../services/presenceService';
+import { getEventPresence, getTerminal } from '../../../services/presenceService';
 import TerminalForm from './terminalForm/TerminalForm';
 import UserTerminal from './userTerminal/UserTerminalContainer';
 
@@ -30,20 +30,34 @@ const Terminal = ({ id_terminal, closeModal }) => {
   /* ===========================
    * DATA FETCHING
    * =========================== */
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data } = await getTerminal();
-      setData(data || []);
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger la liste des terminaux.'
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+const fetchData = useCallback(async () => {
+  setLoading(true);
+
+  try {
+    // Récupération parallèle des terminaux et événements
+    const [dataTerminal, dataEvent] = await Promise.all([
+      getTerminal(),
+      getEventPresence()
+    ]);
+
+    // Vérification sécurisée des données
+    const terminals = dataTerminal?.data ?? [];
+    const events = dataEvent?.data ?? [];
+
+    setData(terminals);
+
+  } catch (error) {
+    console.error("Erreur fetchData:", error);
+
+    notification.error({
+      message: 'Erreur de chargement',
+      description: error?.message || 'Impossible de charger la liste des terminaux.'
+    });
+
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
   useEffect(() => {
     fetchData();
