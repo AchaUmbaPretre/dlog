@@ -7,7 +7,7 @@ import {
   TeamOutlined
 } from '@ant-design/icons';
 
-import { getEventPresence, getTerminal } from '../../../services/presenceService';
+import { getTerminal } from '../../../services/presenceService';
 import TerminalForm from './terminalForm/TerminalForm';
 import UserTerminal from './userTerminal/UserTerminalContainer';
 
@@ -34,15 +34,12 @@ const fetchData = useCallback(async () => {
   setLoading(true);
 
   try {
-    // Récupération parallèle des terminaux et événements
-    const [dataTerminal, dataEvent] = await Promise.all([
+    const [dataTerminal] = await Promise.all([
       getTerminal(),
-      getEventPresence()
     ]);
 
     // Vérification sécurisée des données
     const terminals = dataTerminal?.data ?? [];
-    const events = dataEvent?.data ?? [];
 
     setData(terminals);
 
