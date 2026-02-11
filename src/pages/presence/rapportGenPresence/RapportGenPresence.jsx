@@ -7,6 +7,7 @@ import {
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import PresenceRapportRP from '../presenceRapportRP/PresenceRapportRP';
 import PresenceReport from '../presenceReport/PresenceReport';
+import RapportPresenceSite from '../rapportPresenceSite/RapportPresenceSite';
 
 const tabConfig = [
   {
@@ -19,7 +20,7 @@ const tabConfig = [
     key: '2',
     label: 'Rapport par site',
     icon: <BarChartOutlined />,
-    component: <PresenceReport />
+    component: <RapportPresenceSite />
   },
   {
     key: '3',

@@ -38,6 +38,16 @@ export const getPresenceRapport = async ({ month, year, site }) => {
   });
 };
 
+export const getPresenceSite = async ({ month, year, site }) => {
+  return axios.get(`${DOMAIN}/api/presence/presence_site_month`, {
+    params: {
+      month,
+      year,
+      site
+    }
+  });
+};
+
 
 export const getPresenceRetardPonctualite = async (dateRange, site) => {
   if (!dateRange || dateRange.length !== 2) {
