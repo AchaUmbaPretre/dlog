@@ -17,6 +17,12 @@ const tabConfig = [
   },
   {
     key: '2',
+    label: 'Rapport par site',
+    icon: <BarChartOutlined />,
+    component: <PresenceReport />
+  },
+  {
+    key: '3',
     label: 'Rapport Retard & Ponctualité',
     icon: <ClockCircleOutlined />,
     component: <PresenceRapportRP />
