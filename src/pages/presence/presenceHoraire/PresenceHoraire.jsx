@@ -159,7 +159,7 @@ const filteredData = data?.filter(item =>
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={950}
+        width={1100}
         centered
       >
         <PresenceHoraireForm closeModal={setIsModalVisible} fetchData={fetchData} />

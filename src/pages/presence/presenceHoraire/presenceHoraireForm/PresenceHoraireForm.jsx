@@ -1,32 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Table, Button, Select, notification, Spin } from 'antd';
-import './presenceHoraireForm.scss'
-import { getUser } from '../../../../services/userService';
-import { getHoraire, postHoraire } from '../../../../services/presenceService';
+import React, { useCallback, useEffect, useState } from "react";
+import { Table, Button, TimePicker, notification, Spin } from "antd";
+import moment from "moment";
+import "./presenceHoraireForm.scss";
+import { getUser } from "../../../../services/userService";
+import { postHoraire } from "../../../../services/presenceService";
+import { joursSemaine } from "./../../../../utils/joursSemaine";
 
-const { Option } = Select;
-
-const PresenceHoraireForm = ({closeModa, fetchData}) => {
+const PresenceHoraireForm = ({ closeModa, fetchData }) => {
   const [users, setUsers] = useState([]);
-  const [horaires, setHoraires] = useState([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [selectedHoraires, setSelectedHoraires] = useState({});
-         
+
+  const [planningData, setPlanningData] = useState({});
+
   const fetchDatas = useCallback(async () => {
     setLoading(true);
     try {
-      const [usersRes, horairesRes] = await Promise.all([
-        getUser(),
-        getHoraire(),
-      ]);   
-
+      const usersRes = await getUser();
       setUsers(usersRes?.data || []);
-      setHoraires(horairesRes?.data || []);
     } catch (error) {
       notification.error({
-        message: 'Erreur',
-        description: 'Impossible de charger les données.',
+        message: "Erreur",
+        description: "Impossible de charger les employés.",
       });
     } finally {
       setLoading(false);
@@ -37,46 +32,68 @@ const PresenceHoraireForm = ({closeModa, fetchData}) => {
     fetchDatas();
   }, [fetchDatas]);
 
-  const handleHoraireChange = (userId, horaireId) => {
-    setSelectedHoraires((prev) => ({
-      ...prev,
-      [userId]: horaireId,
-    }));
+  const handleTimeChange = (userId, jour, type, value) => {
+    setPlanningData((prev) => {
+      const userPlanning = prev[userId] || {};
+
+      return {
+        ...prev,
+        [userId]: {
+          ...userPlanning,
+          [jour]: {
+            ...userPlanning[jour],
+            [type]: value ? value.format("HH:mm:ss") : null,
+          },
+        },
+      };
+    });
   };
 
   const handleSubmit = async () => {
-    const entries = Object.entries(selectedHoraires);
+    const entries = Object.entries(planningData);
 
     if (!entries.length) {
       notification.warning({
-        message: 'Aucune sélection',
-        description: 'Veuillez sélectionner au moins un horaire.',
+        message: "Aucune donnée",
+        description: "Veuillez configurer au moins un planning.",
       });
       return;
     }
 
     setSubmitting(true);
+
     try {
-      for (const [user_id, horaire_id] of entries) {
+      for (const [user_id, jours] of entries) {
+        const details = Object.entries(jours)
+          .filter(([_, value]) => value?.heure_debut && value?.heure_fin)
+          .map(([jour_semaine, value]) => ({
+            jour_semaine,
+            heure_debut: value.heure_debut,
+            heure_fin: value.heure_fin,
+          }));
+
+        if (!details.length) continue;
+
         await postHoraire({
           user_id,
-          horaire_id,
-          date_debut: new Date().toISOString().split('T')[0],
+          date_debut: moment().format("YYYY-MM-DD"),
+          details,
         });
       }
 
       notification.success({
-        message: 'Succès',
-        description: 'Horaires affectés avec succès.',
+        message: "Succès",
+        description: "Planning enregistré avec succès.",
       });
 
-      setSelectedHoraires({});
+      setPlanningData({});
       fetchData();
       closeModa();
+
     } catch (error) {
       notification.error({
-        message: 'Erreur',
-        description: 'Échec de l’affectation des horaires.',
+        message: "Erreur",
+        description: "Échec de l'enregistrement du planning.",
       });
     } finally {
       setSubmitting(false);
@@ -85,58 +102,70 @@ const PresenceHoraireForm = ({closeModa, fetchData}) => {
 
   const columns = [
     {
-      title: 'Employé',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (_, record) =>
-        `${record.nom} ${record.postnom ?? ''}`.trim(),
+      title: '#',
+      key: 'index',
+      width: 50,
+      align: 'center',
+      render: (_, __, index) => index + 1
     },
     {
-      title: 'Horaire',
-      key: 'horaire',
-      render: (_, record) => (
-        <Select
-          placeholder="Sélectionner un horaire"
-          style={{ width: '100%' }}
-          value={selectedHoraires[record.id_utilisateur]}
-          onChange={(value) =>
-            handleHoraireChange(record.id_utilisateur, value)
-          }
-        >
-          {horaires.map((h) => (
-            <Option key={h.id_horaire} value={h.id_horaire}>
-              {h.nom}
-            </Option>
-          ))}
-        </Select>
-      ),
+      title: "Employé",
+      dataIndex: "nom",
+      key: "nom",
+      render: (_, record) =>
+        `${record.prenom} ${record.nom ?? ""}`.trim(),
     },
+    ...joursSemaine.map((jour) => ({
+      title: jour,
+      key: jour,
+      render: (_, record) => (
+        <div style={{ display: "flex", gap: 5 }}>
+          <TimePicker
+            format="HH:mm"
+            placeholder="Début"
+            onChange={(value) =>
+              handleTimeChange(record.id_utilisateur, jour, "heure_debut", value)
+            }
+          />
+          <TimePicker
+            format="HH:mm"
+            placeholder="Fin"
+            onChange={(value) =>
+              handleTimeChange(record.id_utilisateur, jour, "heure_fin", value)
+            }
+          />
+        </div>
+      ),
+    })),
   ];
 
-return (
-  <Spin spinning={loading}>
-    <div className="presence-horaire-container">
-        <h2 className="presence-horaire-title">Affectation des horaires</h2>
-      <Table
-        columns={columns}
-        dataSource={users}
-        rowKey="id_user"
-        pagination={{ pageSize: 10 }}
-      />
+  return (
+    <Spin spinning={loading}>
+      <div className="presence-horaire-container">
+        <h2 className="presence-horaire-title">
+          Configuration Planning Employés
+        </h2>
 
-      <div className="horaire-submit">
-        <Button
-          type="primary"
-          loading={submitting}
-          onClick={handleSubmit}
-        >
-          Valider
-        </Button>
+        <Table
+          columns={columns}
+          dataSource={users}
+          rowKey="id_utilisateur"
+          pagination={{ pageSize: 6 }}
+          scroll={{ x: true }}
+        />
+
+        <div className="horaire-submit">
+          <Button
+            type="primary"
+            loading={submitting}
+            onClick={handleSubmit}
+          >
+            Enregistrer Planning
+          </Button>
+        </div>
       </div>
-    </div>
-  </Spin>
-);
-
+    </Spin>
+  );
 };
 
 export default PresenceHoraireForm;
