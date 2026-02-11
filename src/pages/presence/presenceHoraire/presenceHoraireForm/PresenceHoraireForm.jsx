@@ -123,17 +123,45 @@ const PresenceHoraireForm = ({ closeModa, fetchData }) => {
           <TimePicker
             format="HH:mm"
             placeholder="Début"
+            value={
+              planningData?.[record.id_utilisateur]?.[jour]?.heure_debut
+                ? moment(
+                    planningData[record.id_utilisateur][jour].heure_debut,
+                    "HH:mm:ss"
+                  )
+                : null
+            }
             onChange={(value) =>
-              handleTimeChange(record.id_utilisateur, jour, "heure_debut", value)
+              handleTimeChange(
+                record.id_utilisateur,
+                jour,
+                "heure_debut",
+                value
+              )
             }
           />
+
           <TimePicker
             format="HH:mm"
             placeholder="Fin"
+            value={
+              planningData?.[record.id_utilisateur]?.[jour]?.heure_fin
+                ? moment(
+                    planningData[record.id_utilisateur][jour].heure_fin,
+                    "HH:mm:ss"
+                  )
+                : null
+            }
             onChange={(value) =>
-              handleTimeChange(record.id_utilisateur, jour, "heure_fin", value)
+              handleTimeChange(
+                record.id_utilisateur,
+                jour,
+                "heure_fin",
+                value
+              )
             }
           />
+
         </div>
       ),
     })),
