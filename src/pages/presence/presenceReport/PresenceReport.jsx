@@ -22,13 +22,13 @@ const PresenceReport = () => {
     return [
       { title: "#", render: (_, __, idx) => idx + 1, width: 50, fixed: "left" },
       { title: "Nom", dataIndex: "nom", width: 180, fixed: "left" },
-      { title: "Jours travaillés", dataIndex: "joursTravailles", align: "center", width: 120 },
+      { title: "Jours prestés", dataIndex: "joursTravailles", align: "center", width: 120 },
       { title: "Absences", dataIndex: "absences", align: "center", width: 100 },
       { title: "Retards (min)", dataIndex: "retards", align: "center", width: 100, render:(v) => formatDuration(v)},
       { title: "Heures sup.", dataIndex: "heuresSupp", align: "center", width: 100,  render:(v) => formatDuration(v)},
       { title: "Congés payés", dataIndex: "congesPayes", align: "center", width: 120 },
       { title: "Jours fériés", dataIndex: "joursFerie", align: "center", width: 120 },
-      { title: "Non travaillés", dataIndex: "nonTravaille", align: "center", width: 120 }
+      { title: "Jours off", dataIndex: "nonTravaille", align: "center", width: 120 }
     ];
   }, [data]);
 
