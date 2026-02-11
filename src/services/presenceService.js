@@ -144,11 +144,11 @@ export const getHoraire = async () => {
 };
 
 export const getHoraireUser = async () => {
-  return axios.get(`${DOMAIN}/api/presence/horaire_user`);
+  return axios.get(`${DOMAIN}/api/presence/planning_employe`);
 };
 
 export const postHoraire = async (data) => {
-  return axios.post(`${DOMAIN}/api/presence/horaire_user`, data);
+  return axios.post(`${DOMAIN}/api/presence/planning_employe`, data);
 };
 
 //Terminal

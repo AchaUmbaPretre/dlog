@@ -1,9 +1,9 @@
 export const joursSemaine = [
-  { label: "Lundi", value: "lundi" },
-  { label: "Mardi", value: "mardi" },
-  { label: "Mercredi", value: "mercredi" },
-  { label: "Jeudi", value: "jeudi" },
-  { label: "Vendredi", value: "vendredi" },
-  { label: "Samedi", value: "samedi" },
-  { label: "Dimanche", value: "dimanche" },
+  { label: "Lundi", value: "LUNDI" },
+  { label: "Mardi", value: "MARDI" },
+  { label: "Mercredi", value: "MERCREDI" },
+  { label: "Jeudi", value: "JEUDI" },
+  { label: "Vendredi", value: "VENDREDI" },
+  { label: "Samedi", value: "SAMEDI" },
+  { label: "Dimanche", value: "DIMANCHE" },
 ];

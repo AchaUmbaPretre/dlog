@@ -77,7 +77,7 @@ const PresenceHoraireForm = ({ closeModa, fetchData }) => {
         await postHoraire({
           user_id,
           date_debut: moment().format("YYYY-MM-DD"),
-          details,
+          jours : details,
         });
       }
 
@@ -116,17 +116,17 @@ const PresenceHoraireForm = ({ closeModa, fetchData }) => {
         `${record.prenom} ${record.nom ?? ""}`.trim(),
     },
     ...joursSemaine.map((jour) => ({
-      title: jour,
-      key: jour,
+      title: jour.label,
+      key: jour.value,
       render: (_, record) => (
         <div style={{ display: "flex", gap: 5 }}>
           <TimePicker
             format="HH:mm"
-            placeholder="Début"
+            style={{ width: 90 }}
             value={
-              planningData?.[record.id_utilisateur]?.[jour]?.heure_debut
+              planningData?.[record.id_utilisateur]?.[jour.value]?.heure_debut
                 ? moment(
-                    planningData[record.id_utilisateur][jour].heure_debut,
+                    planningData[record.id_utilisateur][jour.value].heure_debut,
                     "HH:mm:ss"
                   )
                 : null
@@ -134,7 +134,7 @@ const PresenceHoraireForm = ({ closeModa, fetchData }) => {
             onChange={(value) =>
               handleTimeChange(
                 record.id_utilisateur,
-                jour,
+                jour.value,
                 "heure_debut",
                 value
               )
@@ -143,11 +143,11 @@ const PresenceHoraireForm = ({ closeModa, fetchData }) => {
 
           <TimePicker
             format="HH:mm"
-            placeholder="Fin"
+            style={{ width: 90 }}
             value={
-              planningData?.[record.id_utilisateur]?.[jour]?.heure_fin
+              planningData?.[record.id_utilisateur]?.[jour.value]?.heure_fin
                 ? moment(
-                    planningData[record.id_utilisateur][jour].heure_fin,
+                    planningData[record.id_utilisateur][jour.value].heure_fin,
                     "HH:mm:ss"
                   )
                 : null
@@ -155,16 +155,16 @@ const PresenceHoraireForm = ({ closeModa, fetchData }) => {
             onChange={(value) =>
               handleTimeChange(
                 record.id_utilisateur,
-                jour,
+                jour.value,
                 "heure_fin",
                 value
               )
             }
           />
-
         </div>
       ),
-    })),
+    }))
+
   ];
 
   return (
