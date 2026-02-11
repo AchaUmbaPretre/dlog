@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Input, Typography, notification, Modal, Tag } from 'antd';
+import { Table, Button, Input, Typography, notification, Modal } from 'antd';
 import {
   FileTextOutlined,
   PrinterOutlined,
   PlusOutlined,
   UserOutlined,
   CalendarOutlined,
-  LoginOutlined,
 } from '@ant-design/icons';
 import PresenceHoraireForm from './presenceHoraireForm/PresenceHoraireForm';
 import { getHoraireUser } from '../../../services/presenceService';
 import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import { joursSemaine } from './../../../utils/joursSemaine';
+import moment from 'moment';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -64,13 +64,17 @@ const PresenceHoraire = () => {
       ),
     },
     ...joursSemaine.map(jour => ({
-        title: jour.label, // Affiche "Lundi", "Mardi", etc.
-        key: jour.value,
-        render: (_, record) => {
-          const jourDetail = record.jours.find(j => j.jour === jour.value);
-          if (!jourDetail) return <Text type="secondary">—</Text>;
-          return <Text>{`${jourDetail.heure_debut} → ${jourDetail.heure_fin}`}</Text>;
-        },
+      title: jour.label,
+      key: jour.value,
+      render: (_, record) => {
+        const jourDetail = record.jours.find(j => j.jour === jour.value);
+        if (!jourDetail) return <Text type="secondary">—</Text>;
+
+        const debut = moment(jourDetail.heure_debut, "HH:mm:ss").format("HH:mm");
+        const fin = moment(jourDetail.heure_fin, "HH:mm:ss").format("HH:mm");
+
+        return <Text>{`${debut} → ${fin}`}</Text>;
+      },
     })),
     {
       title: (<><CalendarOutlined /> Date début</>),
@@ -138,7 +142,7 @@ const PresenceHoraire = () => {
       </div>
 
       <Modal
-        title="Affectation des horaires"
+        title=""
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
