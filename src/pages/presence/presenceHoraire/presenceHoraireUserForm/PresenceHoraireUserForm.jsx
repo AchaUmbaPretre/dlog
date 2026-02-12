@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select, Button, notification, Spin, Card } from "antd";
 import { getUser } from "../../../../services/userService";
 import { getHoraire, postHoraireUser } from "../../../../services/presenceService";
@@ -13,6 +13,7 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  // 🔹 Charger les utilisateurs et horaires
   const fetchAllData = async () => {
     setLoading(true);
     try {
@@ -33,6 +34,7 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
     fetchAllData();
   }, []);
 
+  // 🔹 Soumettre la sélection
   const handleSubmit = async () => {
     if (!selectedUsers.length || !selectedHoraire) {
       notification.warning({
@@ -45,10 +47,7 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
     setSubmitting(true);
     try {
       for (const user_id of selectedUsers) {
-        await postHoraireUser({
-          user_id,
-          horaire_id: selectedHoraire,
-        });
+        await postHoraireUser({ user_id, horaire_id: selectedHoraire });
       }
 
       notification.success({
@@ -71,9 +70,18 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
 
   return (
     <Spin spinning={loading}>
-      <Card title="Attribuer un Horaire à un ou plusieurs Utilisateurs" style={{ maxWidth: 600, margin: "20px auto" }}>
+      <Card
+        title="Attribuer un Horaire à un ou plusieurs Utilisateurs"
+        style={{
+          maxWidth: 600,
+          margin: "20px auto",
+          borderRadius: 8,
+          boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+        }}
+      >
         <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
           
+          {/* 🔹 Sélection Utilisateurs */}
           <Select
             showSearch
             mode="multiple"
@@ -97,7 +105,7 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
             ))}
           </Select>
 
-          {/* Sélection Horaire */}
+          {/* 🔹 Sélection Horaire */}
           <Select
             placeholder="Sélectionner un horaire"
             value={selectedHoraire}
@@ -111,12 +119,17 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
             ))}
           </Select>
 
-          {/* Bouton Submit */}
+          {/* 🔹 Bouton Submit */}
           <Button
             type="primary"
             loading={submitting}
             onClick={handleSubmit}
-            style={{ alignSelf: "flex-end" }}
+            style={{
+              alignSelf: "flex-end",
+              borderRadius: 6,
+              padding: "0 20px",
+              fontWeight: 500,
+            }}
           >
             Attribuer Horaire
           </Button>
