@@ -5,7 +5,7 @@ import { getHoraire, postHoraireUser } from "../../../../services/presenceServic
 
 const { Option } = Select;
 
-const PresenceHoraireUserForm = ({ fetchData }) => {
+const PresenceHoraireUserForm = ({ closeModal, fetchData }) => {
   const [users, setUsers] = useState([]);
   const [horaire, setHoraire] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -46,9 +46,10 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
 
     setSubmitting(true);
     try {
-      for (const user_id of selectedUsers) {
-        await postHoraireUser({ user_id, horaire_id: selectedHoraire });
-      }
+        await postHoraireUser({
+          user_ids: selectedUsers,
+          horaire_id: selectedHoraire
+        });
 
       notification.success({
         message: "Succès",
@@ -57,7 +58,9 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
 
       setSelectedUsers([]);
       setSelectedHoraire(null);
-      if (fetchData) fetchData();
+      fetchData();
+      closeModal();
+      
     } catch (error) {
       notification.error({
         message: "Erreur",
@@ -73,8 +76,8 @@ const PresenceHoraireUserForm = ({ fetchData }) => {
       <Card
         title="Attribuer un Horaire à un ou plusieurs Utilisateurs"
         style={{
-          maxWidth: 600,
-          margin: "20px auto",
+          maxWidth: 800,
+          margin: "10px auto",
           borderRadius: 8,
           boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
         }}

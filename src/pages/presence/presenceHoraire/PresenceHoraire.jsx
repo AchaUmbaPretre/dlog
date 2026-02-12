@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Input, Typography, notification, Modal } from 'antd';
+import { Table, Button, Input, Tabs, Typography, notification, Modal } from 'antd';
 import {
   FileTextOutlined,
   PrinterOutlined,
@@ -13,6 +13,7 @@ import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import { joursSemaine } from './../../../utils/joursSemaine';
 import moment from 'moment';
 import PresenceHoraireUserForm from './presenceHoraireUserForm/PresenceHoraireUserForm';
+import PresenceHoraireGen from './presenceHoraireGen/PresenceHoraireGen';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -22,6 +23,7 @@ const PresenceHoraire = () => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [activeKey, setActiveKey] = useState(['1', '2']);
 
   // ✅ Fetch des données
   const fetchData = async () => {
@@ -76,14 +78,7 @@ const PresenceHoraire = () => {
 
         return <Text>{`${debut} → ${fin}`}</Text>;
       },
-    })),
-    {
-      title: (<><CalendarOutlined /> Date début</>),
-      dataIndex: 'date_debut',
-      key: 'date_debut',
-      align: 'center',
-      render: date => renderDate(date),
-    },
+    }))
   ];
 
   // ✅ Filtre de recherche
@@ -93,68 +88,89 @@ const PresenceHoraire = () => {
       .includes(searchValue.toLowerCase())
   );
 
+    const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
+
   return (
     <>
-      <div className="client">
-        <div className="client-wrapper">
-          <div className="client-row">
-            <div className="client-row-icon">
-              <FileTextOutlined className='client-icon' />
-            </div>
-            <h2 className="client-h2">Horaire des personnels</h2>
-          </div>
+      <Tabs
+        activeKey={activeKey[0]}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
+        renderTabBar={(props, DefaultTabBar) => <DefaultTabBar {...props} />}
+      >
+        <Tabs.TabPane
+          tab={
+            <span>
+              <FileTextOutlined style={{ color: '#1890ff' }} /> Horaire personnel
+            </span>
+          }
+          key="1"
+        >
+          <div className="client">
+            <div className="client-wrapper">
+              <div className="client-row">
+                <div className="client-row-icon">
+                  <FileTextOutlined className='client-icon' />
+                </div>
+                <h2 className="client-h2">Horaire des personnels</h2>
+              </div>
 
-          <div className="client-actions">
-            <div className="client-row-left">
-              <Search 
-                placeholder="Recherche..." 
-                onChange={(e) => setSearchValue(e.target.value)}
-                enterButton
+              <div className="client-actions">
+                <div className="client-row-left">
+                  <Search 
+                    placeholder="Recherche..." 
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
+                  />
+                </div>
+                <div className="client-rows-right">
+                  <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddClient}
+                  >
+                    Ajouter
+                  </Button>
+                  <Button
+                    icon={<PrinterOutlined />}
+                    onClick={handlePrint}
+                  >
+                    Print
+                  </Button>
+                </div>
+              </div>
+
+              <Table
+                columns={columns}
+                dataSource={filteredData}
+                loading={loading}
+                pagination={{ pageSize: 10 }}
+                rowKey="id_planning"
+                bordered
+                size="middle"
+                scroll={{ x: 1400 }} // Scroll horizontal suffisant pour tous les jours
               />
             </div>
-            <div className="client-rows-right">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleAddClient}
-              >
-                Ajouter
-              </Button>
-              <Button
-                icon={<PrinterOutlined />}
-                onClick={handlePrint}
-              >
-                Print
-              </Button>
-            </div>
           </div>
+        </Tabs.TabPane>
 
-          <Table
-            columns={columns}
-            dataSource={filteredData}
-            loading={loading}
-            pagination={{ pageSize: 10 }}
-            rowKey="id_planning"
-            bordered
-            size="middle"
-            scroll={{ x: 1400 }} // Scroll horizontal suffisant pour tous les jours
-          />
-        </div>
-      </div>
-
-{/*       <Modal
-        title=""
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-        width={800}
-        centered
-      >
-        <PresenceHoraireForm 
+        <Tabs.TabPane
+          tab={
+            <span>
+              <FileTextOutlined style={{ color: '#1890ff' }} /> Horaire du travail
+            </span>
+          }
+          key="2"
+        >
+        <PresenceHoraireGen
           closeModal={setIsModalVisible} 
           fetchData={fetchData} 
         />
-      </Modal> */}
+        </Tabs.TabPane>
+      </Tabs>
 
       <Modal
         title=""

@@ -3,19 +3,9 @@ import { Form, Input, Button, TimePicker, Table, notification } from "antd";
 import moment from "moment";
 import "./presenceHoraireForm.scss";
 import { postHoraire } from "../../../../services/presenceService";
+import { joursSemaine } from "../../../../utils/joursSemaine";
 
-// Jours de la semaine pour l'affichage
-const joursSemaine = [
-  { label: "Lundi", value: "LUNDI" },
-  { label: "Mardi", value: "MARDI" },
-  { label: "Mercredi", value: "MERCREDI" },
-  { label: "Jeudi", value: "JEUDI" },
-  { label: "Vendredi", value: "VENDREDI" },
-  { label: "Samedi", value: "SAMEDI" },
-  { label: "Dimanche", value: "DIMANCHE" },
-];
-
-const HoraireForm = ({ onSuccess }) => {
+const PresenceHoraireForm = ({ onSuccess }) => {
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
   const [joursData, setJoursData] = useState({});
@@ -142,4 +132,4 @@ const HoraireForm = ({ onSuccess }) => {
   );
 };
 
-export default HoraireForm;
+export default PresenceHoraireForm;
