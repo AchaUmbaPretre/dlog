@@ -49,19 +49,32 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
         if (!toSubmit) return cancel();
 
         const { payload } = toSubmit;
-        const res = await doSubmit({ payload });
 
-        if(res.ok) {
+        try {
+            const res = await doSubmit({ payload });
+
+            if (!res.ok) return;
+
+            const newAffectationId = res.id;
+            setAffectationId(newAffectationId);
+
             form.resetFields();
             fetchData();
-            closeModal();
-            setAffectationId(res.id);
+            closeModal()
+
             cancel();
+
+            if (createBS) {
+                setModalType('Bande');
+            } else {
+                closeModal();
+            }
+
+        } catch (error) {
+            console.error("Erreur lors de l'enregistrement de l'affectation :", error);
         }
-        if (createBS) {
-            setModalType('Bande');
-        }
-    }
+    };
+
 
   return (
     <>
@@ -328,7 +341,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
             width={1000}
             centered
         >
-            <BandeSortieForm closeModal={() => setModalType(null)} fetchData={reload} affectationId={affectationId} />
+            <BandeSortieForm closeModal={() => setModalType(null)} fetchData={reload || (() => {})} affectationId={affectationId} />
         </Modal>
 
         <Modal

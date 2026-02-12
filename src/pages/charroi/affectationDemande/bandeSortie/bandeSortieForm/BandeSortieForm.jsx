@@ -11,7 +11,6 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
     const [ modalType, setModalType ] = useState(null);
     const [createBS, setCreateBS] = useState(true);
     const [ bonId, setBonId ] = useState('');
-    const [fixedAffectationId] = useState(affectationId);
     const {     
         form,    
         loadingData,
@@ -26,9 +25,9 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
         submitting,
         handleFinish,
         doSubmit
-    } = useBandeSortieForm(fixedAffectationId);
+    } = useBandeSortieForm(affectationId)
     const { visible, message, pending, requestConfirm, confirm, cancel } = useConfirmAction();
-
+    
 
     const closeAllModals = () => {
         setModalType(null);
