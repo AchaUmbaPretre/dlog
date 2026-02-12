@@ -150,11 +150,11 @@ export const getHoraire = async () => {
   return axios.get(`${DOMAIN}/api/presence/horaire`);
 };
 
-export const getHoraireUser = async () => {
-  return axios.get(`${DOMAIN}/api/presence/planning_employe`);
+export const postHoraire = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/create_horaire`, data);
 };
 
-export const postHoraire = async (data) => {
+export const getHoraireUser = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/planning_employe`, data);
 };
 
