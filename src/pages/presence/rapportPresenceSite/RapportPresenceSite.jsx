@@ -1,9 +1,8 @@
-import React, { useMemo, useState } from "react";
-import { Card, Table, DatePicker, Button, Space, notification, Input, Select } from "antd";
+import React, { useState } from "react";
+import { Card, DatePicker, Button, Space, notification, Input, Select } from "antd";
 import { ExportOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import 'dayjs/locale/fr';
-import * as XLSX from "xlsx";
 import { useRapportPresenceSite } from "./hooks/useRapportPresenceSite";
 
 dayjs.locale('fr');
@@ -12,7 +11,7 @@ const { Search } = Input;
 
 const RapportPresenceSite = () => {
     const [searchValue, setSearchValue] = useState("");
-    const {  data, loading, monthRange, setMonthRange, reload: load } = useRapportPresenceSite();
+    const { data, loading, monthRange, setMonthRange, reload: load } = useRapportPresenceSite();
 
     const exportExcel = () => {
 

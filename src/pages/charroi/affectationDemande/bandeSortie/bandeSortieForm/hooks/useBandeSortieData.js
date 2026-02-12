@@ -27,9 +27,13 @@ export const useBandeSortieData = (affectationId) => {
     const [societe, setSociete] = useState([]);
     const userId = useSelector(state => state.user?.currentUser?.id_utilisateur);
 
+    // 🔹 Déplacer load ici pour le rendre accessible à reload
     const load = useCallback(async () => {
+        let active = true;
+
         try {
             setLoadingData(true);
+            form.resetFields();
 
             const [
                 vehiculeData,
@@ -51,6 +55,8 @@ export const useBandeSortieData = (affectationId) => {
                 getSociete()
             ]);
 
+            if (!active) return;
+
             setVehicule(vehiculeData.data?.data || []);
             setChauffeur(chauffeurData.data?.data || []);
             setService(serviceData.data || []);
@@ -62,6 +68,7 @@ export const useBandeSortieData = (affectationId) => {
 
             if (affectationId) {
                 const { data: d } = await getAffectationDemandeOne(affectationId);
+                if (!active) return;
                 if (d?.length) {
                     const affectation = d[0];
                     form.setFieldsValue({
@@ -79,13 +86,16 @@ export const useBandeSortieData = (affectationId) => {
                     });
                 }
             }
-
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
-            setLoadingData(false);
+            if (active) setLoadingData(false);
         }
-    }, [form, affectationId]);
+
+        return () => {
+            active = false;
+        };
+    }, [affectationId, form]);
 
     useEffect(() => {
         load();
@@ -106,3 +116,5 @@ export const useBandeSortieData = (affectationId) => {
         reload: load
     };
 };
+
+
