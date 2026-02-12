@@ -12,6 +12,7 @@ import { getHoraireUser } from '../../../services/presenceService';
 import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import { joursSemaine } from './../../../utils/joursSemaine';
 import moment from 'moment';
+import PresenceHoraireUserForm from './presenceHoraireUserForm/PresenceHoraireUserForm';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -141,7 +142,7 @@ const PresenceHoraire = () => {
         </div>
       </div>
 
-      <Modal
+{/*       <Modal
         title=""
         visible={isModalVisible}
         onCancel={handleCancel}
@@ -150,6 +151,20 @@ const PresenceHoraire = () => {
         centered
       >
         <PresenceHoraireForm 
+          closeModal={setIsModalVisible} 
+          fetchData={fetchData} 
+        />
+      </Modal> */}
+
+      <Modal
+        title=""
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={800}
+        centered
+      >
+        <PresenceHoraireUserForm
           closeModal={setIsModalVisible} 
           fetchData={fetchData} 
         />

@@ -151,7 +151,7 @@ export const getHoraire = async () => {
 };
 
 export const getHoraireUser = async () => {
-  return axios.get(`${DOMAIN}/api/presence/horaire`);
+  return axios.get(`${DOMAIN}/api/presence/horaire_user`);
 };
 
 
