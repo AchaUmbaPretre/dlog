@@ -5,7 +5,7 @@ import "./presenceHoraireForm.scss";
 import { postHoraire } from "../../../../services/presenceService";
 import { joursSemaine } from "../../../../utils/joursSemaine";
 
-const PresenceHoraireForm = ({ onSuccess }) => {
+const PresenceHoraireForm = ({closeModal, fetchData}) => {
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
   const [joursData, setJoursData] = useState({});
@@ -50,7 +50,8 @@ const PresenceHoraireForm = ({ onSuccess }) => {
       setNom("");
       setDescription("");
       setJoursData({});
-      onSuccess?.();
+      closeModal?.();
+      fetchData();
     } catch (error) {
       notification.error({
         message: "Erreur",

@@ -139,11 +139,11 @@ const PresenceHoraireGen = () => {
       </div>
 
       <Modal
-        title="Ajouter un horaire"
+        title=""
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={900}
+        width={850}
         centered
         destroyOnClose
       >

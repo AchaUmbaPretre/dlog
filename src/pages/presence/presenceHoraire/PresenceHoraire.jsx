@@ -5,11 +5,8 @@ import {
   PrinterOutlined,
   PlusOutlined,
   UserOutlined,
-  CalendarOutlined,
 } from '@ant-design/icons';
-import PresenceHoraireForm from './presenceHoraireForm/PresenceHoraireForm';
 import { getHoraireUser } from '../../../services/presenceService';
-import { renderDate } from '../absence/absenceForm/utils/renderStatusAbsence';
 import { joursSemaine } from './../../../utils/joursSemaine';
 import moment from 'moment';
 import PresenceHoraireUserForm from './presenceHoraireUserForm/PresenceHoraireUserForm';
