@@ -146,7 +146,7 @@ const PresenceHoraire = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={1100}
+        width={800}
         centered
       >
         <PresenceHoraireForm 
