@@ -26,9 +26,12 @@ const DashboardStats = ({ kpi }) => {
 
       <div className="stat-item">
         <div className="stat-value">{retards ?? 0}</div>
-        <div className="stat-label">
-          <ClockCircleOutlined style={{ color: '#faad14', marginRight: 6 }} />
-          Retards
+        <div className="stat_item_row">
+          <div className="stat-label">
+            <ClockCircleOutlined style={{ color: '#faad14', marginRight: 6 }} />
+            Retards
+          </div>
+          <InfoCircleOutlined  style={{ color: '#555', marginRight: 6 }} />
         </div>
       </div>
 
