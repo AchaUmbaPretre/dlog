@@ -90,7 +90,7 @@ const DashboardStats = ({ kpi }) => {
 
       <Modal
         title=""
-        visible={modalType === 'retard'}
+        visible={modalType === 'absent'}
         onCancel={closeAllModals}
         footer={null}
         width={1150}
