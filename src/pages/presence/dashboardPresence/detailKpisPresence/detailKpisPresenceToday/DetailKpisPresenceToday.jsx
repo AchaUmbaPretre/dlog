@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Card, Space, Typography, Input, Spin, Modal, Button } from "antd";
-import axios from 'axios';
 import { getPresenceDashboardParSiteById } from '../../../../../services/presenceService';
 
 const { Search } = Input;
@@ -34,7 +33,6 @@ const DetailKpisPresenceToday = ({ sites }) => {
     }
   }, [sites]);
 
-  // Ouvrir modal et fetch les détails
   const showSiteDetail = async (site) => {
     setSelectedSite(site);
     setModalVisible(true);
@@ -53,6 +51,12 @@ const DetailKpisPresenceToday = ({ sites }) => {
 
   const columns = [
     {
+      title: "#",
+      width: 60,
+      align: "center",
+      render: (_, __, index) => index + 1,
+    },
+    {
       title: "Site",
       dataIndex: "site_name",
       key: "site_name",
@@ -65,7 +69,7 @@ const DetailKpisPresenceToday = ({ sites }) => {
       )
     },
     {
-      title: "Employé",
+      title: "Nbre employé",
       dataIndex: "total_users",
       key: "total_users",
       align: "center"
@@ -95,7 +99,13 @@ const DetailKpisPresenceToday = ({ sites }) => {
   ];
 
   const modalColumns = [
-    { title: "Nom complet", dataIndex: "nom_complet", key: "nom_complet" },
+    {
+      title: "#",
+      width: 60,
+      align: "center",
+      render: (_, __, index) => index + 1,
+    },
+    { title: "Nom & prénom", dataIndex: "nom_complet", key: "nom_complet" },
     { title: "Statut", dataIndex: "statut", key: "statut" },
     { title: "Retard (min)", dataIndex: "retard_minutes", key: "retard_minutes", align: "center" },
     { title: "Présent", dataIndex: "is_present", key: "is_present", align: "center", render: val => val ? "✅" : "❌" }

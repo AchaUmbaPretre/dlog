@@ -14,10 +14,7 @@ const DashboardStats = ({ kpi, sites }) => {
   if (!kpi) return null;
   const { total, presents, absents, retards } = kpi;
 
-
-
-
-    const closeAllModals = () => {
+  const closeAllModals = () => {
     setModalType(null);
   };
 
