@@ -18,9 +18,12 @@ const DashboardStats = ({ kpi }) => {
         <div className="stat-value">
           {presents ?? 0}<span>/{total}</span>
         </div>
-        <div className="stat-label">
-          <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
-          Présents aujourd’hui
+        <div className="stat_item_row">
+          <div className="stat-label">
+            <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
+            Présents aujourd’hui
+          </div>
+          <InfoCircleOutlined style={{ color: '#555', marginRight: 6 }} />
         </div>
       </div>
 
@@ -31,7 +34,7 @@ const DashboardStats = ({ kpi }) => {
             <ClockCircleOutlined style={{ color: '#faad14', marginRight: 6 }} />
             Retards
           </div>
-          <InfoCircleOutlined  style={{ color: '#555', marginRight: 6 }} />
+          <InfoCircleOutlined style={{ color: '#555', marginRight: 6 }} />
         </div>
       </div>
 
