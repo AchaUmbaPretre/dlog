@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Card, Space, Typography, Input, Spin, Modal, Button } from "antd";
-import { getPresenceDashboardParSiteById } from '../../../../../services/presenceService';
+import { Table, Card, Tooltip, Space, Typography, Input, Spin, Modal, Button } from "antd";
+import { getPresenceDashboardParSiteById } from '../../../../services/presenceService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -63,9 +63,11 @@ const DetailKpisPresenceToday = ({ sites }) => {
       fixed: "left",
       width: 120,
       render: (text, record) => (
-        <Button type="link" onClick={() => showSiteDetail(record)}>
-          {text}
-        </Button>
+        <Tooltip title={`Voir le détail du site: ${record.site_name}`}>
+          <Button type="link" onClick={() => showSiteDetail(record)}>
+            {text}
+          </Button>
+        </Tooltip>
       )
     },
     {
@@ -78,14 +80,14 @@ const DetailKpisPresenceToday = ({ sites }) => {
       title: "Présents",
       children: [
         { title: "Nombre", dataIndex: "present_count", key: "present_count", align: "center" },
-        { title: "%", dataIndex: "present_pct", key: "present_pct", align: "center", render: pct => <Text>{pct}%</Text> }
+        { title: "%", dataIndex: "present_pct", key: "present_pct", align: "center",  width:'10%', render: pct => <Text>{pct}%</Text> }
       ]
     },
     {
       title: "Retards",
       children: [
         { title: "Nombre", dataIndex: "retard_count", key: "retard_count", align: "center" },
-        { title: "%", dataIndex: "retard_pct", key: "retard_pct", align: "center", render: pct => <Text type="warning">{pct}%</Text> }
+        { title: "%", dataIndex: "retard_pct", key: "retard_pct", align: "center", width:'10%', render: pct => <Text type="warning">{pct}%</Text> }
       ]
     },
     {
@@ -93,7 +95,7 @@ const DetailKpisPresenceToday = ({ sites }) => {
       children: [
         { title: "Absent", dataIndex: "absent_count", key: "absent_count", align: "center" },
         { title: "Justifiées", dataIndex: "justifie_count", key: "justifie_count", align: "center" },
-        { title: "%", dataIndex: "absence_pct", key: "absence_pct", align: "center", render: pct => <Text type="danger">{pct}%</Text> }
+        { title: "%", dataIndex: "absence_pct", key: "absence_pct", align: "center", width:'10%', render: pct => <Text type="danger">{pct}%</Text> }
       ]
     }
   ];

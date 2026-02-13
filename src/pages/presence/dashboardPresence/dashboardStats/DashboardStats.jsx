@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Modal } from 'antd';
 import './dashboardStats.scss';
-import DetailKpisPresenceToday from '../detailKpisPresence/detailKpisPresenceToday/DetailKpisPresenceToday';
+import DetailKpisPresenceToday from '../detailKpisPresence/DetailKpisPresenceToday';
 
 const DashboardStats = ({ kpi, sites }) => {
   const [modalType, setModalType] = useState(null);
@@ -46,7 +46,6 @@ const DashboardStats = ({ kpi, sites }) => {
             <ClockCircleOutlined style={{ color: '#faad14', marginRight: 6 }} />
             Retards
           </div>
-          <InfoCircleOutlined style={{ color: '#555', marginRight: 6, cursor:'pointer' }} onClick={()=>openModal('retard')} />
         </div>
       </div>
 
@@ -58,7 +57,6 @@ const DashboardStats = ({ kpi, sites }) => {
             <StopOutlined style={{ color: 'red', marginRight: 6 }} />
             Absences & justifications
           </div>
-          <InfoCircleOutlined style={{ color: '#555', marginRight: 6, cursor:'pointer' }} onClick={()=>openModal('absent')} />
         </div>
       </div>
       <Modal
