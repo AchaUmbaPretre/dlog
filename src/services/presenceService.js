@@ -185,6 +185,13 @@ export const getRapportPresenceSite = async (date_debut, date_fin) => {
   });
 };
 
+export const getRapportPresenceDepartement = async (params) => {
+  return axios.get(
+    `${DOMAIN}/api/presence/rapport_presense_departement`,
+    { params }
+  );
+};
+
 
 //Terminal
 export const getTerminal = async () => {

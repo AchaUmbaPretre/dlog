@@ -8,6 +8,7 @@ import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import PresenceRapportRP from '../presenceRapportRP/PresenceRapportRP';
 import PresenceReport from '../presenceReport/PresenceReport';
 import RapportPresenceSite from '../rapportPresenceSite/RapportPresenceSite';
+import RapportPresenceDepartement from '../rapportPresenceDepartement/RapportPresenceDepartement';
 
 const tabConfig = [
   {
@@ -24,6 +25,12 @@ const tabConfig = [
   },
   {
     key: '3',
+    label: 'Rapport par département',
+    icon: <BarChartOutlined />,
+    component: <RapportPresenceDepartement />
+  },
+  {
+    key: '4',
     label: 'Rapport Retard & Ponctualité',
     icon: <ClockCircleOutlined />,
     component: <PresenceRapportRP />

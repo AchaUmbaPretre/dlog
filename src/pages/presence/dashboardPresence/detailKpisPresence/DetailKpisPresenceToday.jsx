@@ -105,7 +105,7 @@ const DetailKpisPresenceToday = ({ sites }) => {
   return (
     <>
       <Card
-        title="KPI Présence Aujourd'hui par Site"
+        title="Présence Aujourd'hui par Site"
         bordered={false}
         bodyStyle={{ padding: 10 }}
         extra={
@@ -140,9 +140,9 @@ const DetailKpisPresenceToday = ({ sites }) => {
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
-        width={1100}
+        width={1150}
       >
-        <DetailPresenceTodayById modalLoading={modalLoading} modalData={modalData} nameSite={selectedSite.site_name} />
+        <DetailPresenceTodayById modalLoading={modalLoading} modalData={modalData} nameSite={selectedSite?.site_name} />
       </Modal>
     </>
   );
