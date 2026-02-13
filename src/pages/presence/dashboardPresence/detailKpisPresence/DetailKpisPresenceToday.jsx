@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Card, Tooltip, Space, Typography, Input, Spin, Modal, Button } from "antd";
 import { getPresenceDashboardParSiteById } from '../../../../services/presenceService';
+import DetailPresenceTodayById from './detailPresenceTodayById/DetailPresenceTodayById';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -100,18 +101,6 @@ const DetailKpisPresenceToday = ({ sites }) => {
     }
   ];
 
-  const modalColumns = [
-    {
-      title: "#",
-      width: 60,
-      align: "center",
-      render: (_, __, index) => index + 1,
-    },
-    { title: "Nom & prénom", dataIndex: "nom_complet", key: "nom_complet" },
-    { title: "Statut", dataIndex: "statut", key: "statut" },
-    { title: "Retard (min)", dataIndex: "retard_minutes", key: "retard_minutes", align: "center" },
-    { title: "Présent", dataIndex: "is_present", key: "is_present", align: "center", render: val => val ? "✅" : "❌" }
-  ];
 
   return (
     <>
@@ -147,22 +136,13 @@ const DetailKpisPresenceToday = ({ sites }) => {
       </Card>
 
       <Modal
-        title={selectedSite ? `Détails du site: ${selectedSite.site_name}` : 'Détails du site'}
+        title={""}
         visible={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
         width={1100}
       >
-        {modalLoading ? <Spin tip="Chargement des détails..." /> : (
-          <Table
-            columns={modalColumns}
-            dataSource={modalData}
-            rowKey="id_utilisateur"
-            pagination={{ pageSize: 10 }}
-            size="middle"
-            bordered
-          />
-        )}
+        <DetailPresenceTodayById modalLoading={modalLoading} modalData={modalData} nameSite={selectedSite.site_name} />
       </Modal>
     </>
   );
