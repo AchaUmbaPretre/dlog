@@ -143,7 +143,7 @@ const PresenceHoraireGen = () => {
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
-        width={850}
+        width={750}
         centered
         destroyOnClose
       >

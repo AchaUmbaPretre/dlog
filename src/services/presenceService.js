@@ -38,7 +38,7 @@ export const getPresenceRapport = async ({ month, year, site }) => {
   });
 };
 
-export const getPresenceSite = async ({ month, year, site }) => {
+/* export const getPresenceSite = async ({ month, year, site }) => {
   return axios.get(`${DOMAIN}/api/presence/presence_site_month`, {
     params: {
       month,
@@ -47,7 +47,7 @@ export const getPresenceSite = async ({ month, year, site }) => {
     }
   });
 };
-
+ */
 
 export const getPresenceRetardPonctualite = async (dateRange, site) => {
   if (!dateRange || dateRange.length !== 2) {
@@ -162,6 +162,17 @@ export const postHoraire = async (data) => {
 export const postHoraireUser = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/planning_employe`, data);
 };
+
+//Rapport par site
+export const getRapportPresenceSite = async (date_debut, date_fin) => {
+  return axios.get(`${DOMAIN}/api/presence/rapport_presense_site`, {
+    params: {
+      date_debut,
+      date_fin
+    }
+  });
+};
+
 
 //Terminal
 export const getTerminal = async () => {

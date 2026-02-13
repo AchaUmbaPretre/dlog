@@ -1,42 +1,35 @@
 import { useEffect, useState, useCallback } from "react";
-import dayjs from "dayjs";
 import { notification } from "antd";
-import { getPresenceSite } from "../../../../services/presenceService";
+import { getRapportPresenceSite } from "../../../../services/presenceService";
 
-export const useRapportPresenceSite = () => {
-    const today = dayjs();
-    
-      // Période par défaut = mois courant
-    const defaultPeriod = { month: today.month() + 1, year: today.year() };
-    
-    const [monthRange, setMonthRange] = useState(defaultPeriod);
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+export const useRapportPresenceSite = (dateRange) => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const load = useCallback(async () => {
-        if (!monthRange?.month || !monthRange?.year) return;
-        setLoading(true);
+  const load = useCallback(async () => {
+    if (!dateRange || !dateRange[0] || !dateRange[1]) return;
 
-        try {
-            const res = await getPresenceSite({
-                month: monthRange.month,
-                year: monthRange.year,
-            })
-            setData(res.data);
-        } catch (error) {
-            notification.error({
-                message: 'Erreur',
-                description: 'Chargement des données impossible.',
-            });
-        } finally {
-            setLoading(false);
-        }
-    }, [monthRange]);
+    setLoading(true);
 
-    useEffect(() => {
-        load();
-    }, [load]);
-    
-    return { data, loading, monthRange, setMonthRange, reload: load };
+    try {
+      const date_debut = dateRange[0].format("YYYY-MM-DD");
+      const date_fin = dateRange[1].format("YYYY-MM-DD");
 
-}
+      const res = await getRapportPresenceSite(date_debut, date_fin);
+      setData(res.data);
+    } catch (error) {
+      notification.error({
+        message: "Erreur",
+        description: "Chargement des données impossible.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [dateRange]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  return { data, loading, reload: load };
+};
