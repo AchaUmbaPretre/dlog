@@ -23,7 +23,7 @@ const DashboardStats = ({ kpi }) => {
             <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
             Présents aujourd’hui
           </div>
-          <InfoCircleOutlined style={{ color: '#555', marginRight: 6 }} />
+          <InfoCircleOutlined style={{ color: '#555', marginRight: 6, cursor:'pointer' }} />
         </div>
       </div>
 
@@ -34,7 +34,7 @@ const DashboardStats = ({ kpi }) => {
             <ClockCircleOutlined style={{ color: '#faad14', marginRight: 6 }} />
             Retards
           </div>
-          <InfoCircleOutlined style={{ color: '#555', marginRight: 6 }} />
+          <InfoCircleOutlined style={{ color: '#555', marginRight: 6, cursor:'pointer' }} />
         </div>
       </div>
 
@@ -46,7 +46,7 @@ const DashboardStats = ({ kpi }) => {
             <StopOutlined style={{ color: 'red', marginRight: 6 }} />
             Absences & justifications
           </div>
-          <InfoCircleOutlined  style={{ color: '#555', marginRight: 6 }} />
+          <InfoCircleOutlined style={{ color: '#555', marginRight: 6, cursor:'pointer' }} />
         </div>
       </div>
     </div>
