@@ -21,7 +21,7 @@ const DetailKpisPresenceToday = () => {
         dataIndex: "nom_site",
         key: "nom_site",
         render: (text) => <Text>{text ?? "N/A"}</Text>,
-      },
+      }
     ]
 
   return (
