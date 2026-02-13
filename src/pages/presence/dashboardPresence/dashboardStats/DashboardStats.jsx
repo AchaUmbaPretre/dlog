@@ -5,7 +5,7 @@ import {
   StopOutlined,
   InfoCircleOutlined
 } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Modal, Tooltip } from 'antd';
 import './dashboardStats.scss';
 import DetailKpisPresenceToday from '../detailKpisPresence/DetailKpisPresenceToday';
 
@@ -35,7 +35,12 @@ const DashboardStats = ({ kpi, sites }) => {
             <CheckOutlined style={{ color: 'green', marginRight: 6 }} />
             Présents aujourd’hui
           </div>
-          <InfoCircleOutlined style={{ color: '#555', marginRight: 6, cursor:'pointer' }} onClick={()=>openModal('present')} />
+          <Tooltip title="Cliquez ici pour voir le détail des Présents, Retards, Absences & Justifications">
+            <InfoCircleOutlined
+              style={{ color: '#555', marginRight: 6, cursor: 'pointer' }}
+              onClick={() => openModal('present')}
+            />
+          </Tooltip>
         </div>
       </div>
 
