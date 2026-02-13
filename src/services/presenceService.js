@@ -107,6 +107,10 @@ export const getPresenceDashboard = async () => {
   return axios.get(`${DOMAIN}/api/presence/dashboard`);
 };
 
+export const getPresenceDashboardParSite = async () => {
+  return axios.get(`${DOMAIN}/api/presence/dashboardParSite`);
+};
+
 //Congé
 export const getConge = async () => {
   return userRequest.get(`${DOMAIN}/api/presence/conge`);

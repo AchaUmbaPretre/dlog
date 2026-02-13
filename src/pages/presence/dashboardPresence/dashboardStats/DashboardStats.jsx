@@ -11,7 +11,7 @@ import DetailKpisPresenceToday from '../detailKpisPresence/detailKpisPresenceTod
 import DetailKpisPresenceRetard from '../detailKpisPresence/detailKpisPresenceRetard/DetailKpisPresenceRetard';
 import DetailKpisPresenceAbsent from '../detailKpisPresence/detailKpisPresenceAbsent/DetailKpisPresenceAbsent';
 
-const DashboardStats = ({ kpi }) => {
+const DashboardStats = ({ kpi, sites }) => {
   const [modalType, setModalType] = useState(null);
   if (!kpi) return null;
   const { total, presents, absents, retards } = kpi;
@@ -71,10 +71,10 @@ const DashboardStats = ({ kpi }) => {
         visible={modalType === 'present'}
         onCancel={closeAllModals}
         footer={null}
-        width={1150}
+        width={1210}
         centered
       >
-        <DetailKpisPresenceToday />
+        <DetailKpisPresenceToday sites={sites} />
       </Modal>
 
       <Modal

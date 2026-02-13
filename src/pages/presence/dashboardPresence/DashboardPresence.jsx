@@ -3,7 +3,7 @@ import DashlistePresence from './dashlistePresence/DashlistePresence'
 import DashPresenceChart from './dashPresenceChart/DashPresenceChart'
 import DashboardStats from './dashboardStats/DashboardStats'
 import './dashboardPresence.scss';
-import { getPresenceDashboard } from '../../../services/presenceService';
+import { getPresenceDashboard, getPresenceDashboardParSite } from '../../../services/presenceService';
 import { notification } from 'antd';
 import TopAbsences from './topAbsences/TopAbsences';
 
@@ -15,11 +15,17 @@ const DashboardPresence = () => {
         employes: null,
         topAbsences: null
     });
+    const [sites, setSites] = useState([])
 
     const fetchData = async() => {
         try {
-            const res = await getPresenceDashboard();
-            setData(res?.data?.data)
+            const [ presentData, allData ] = await Promise.all([
+                getPresenceDashboard(),
+                getPresenceDashboardParSite()
+            ])
+            setData(presentData?.data?.data);
+            setSites(allData?.data?.data)
+
         } catch (error) {
             notification.error({
                 message : "Erreur de changement",
@@ -36,7 +42,7 @@ const DashboardPresence = () => {
   return (
     <>
         <div className="dashboardPresence">
-            <DashboardStats kpi={data.kpi} />
+            <DashboardStats kpi={data.kpi} sites={sites} />
             <div className="dashboard_wrapper">
                 <div style={{flex:1}}>
                     <DashPresenceChart evolution={data?.evolution} statuts={data.statuts} kpi={data.kpi} />
