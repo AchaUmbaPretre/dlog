@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Card, Space, Typography, Input, Spin } from "antd";
+import { Table, Card, Space, Typography, Input, Spin, Modal, Button } from "antd";
+import axios from 'axios';
+import { getPresenceDashboardParSiteById } from '../../../../../services/presenceService';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -9,10 +11,13 @@ const DetailKpisPresenceToday = ({ sites }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  // Charger les données depuis props ou API
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [modalData, setModalData] = useState([]);
+  const [selectedSite, setSelectedSite] = useState(null);
+
   useEffect(() => {
     if (sites?.length) {
-      // Formater le data pour Table
       setData(sites.map(site => ({
         key: site.site_id,
         site_name: site.site_name,
@@ -29,14 +34,35 @@ const DetailKpisPresenceToday = ({ sites }) => {
     }
   }, [sites]);
 
+  // Ouvrir modal et fetch les détails
+  const showSiteDetail = async (site) => {
+    setSelectedSite(site);
+    setModalVisible(true);
+    setModalLoading(true);
+    try {
+      const res = await getPresenceDashboardParSiteById(site.key);
+      if (res.data.success) {
+        setModalData(res.data.data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
   const columns = [
     {
       title: "Site",
       dataIndex: "site_name",
       key: "site_name",
       fixed: "left",
-      width: 100,
-      render: text => <Text strong>{text}</Text>
+      width: 120,
+      render: (text, record) => (
+        <Button type="link" onClick={() => showSiteDetail(record)}>
+          {text}
+        </Button>
+      )
     },
     {
       title: "Employé",
@@ -47,98 +73,86 @@ const DetailKpisPresenceToday = ({ sites }) => {
     {
       title: "Présents",
       children: [
-        {
-          title: "Nombre",
-          dataIndex: "present_count",
-          key: "present_count",
-          align: "center"
-        },
-        {
-          title: "%",
-          dataIndex: "present_pct",
-          key: "present_pct",
-          align: "center",
-          render: pct => <Text>{pct}%</Text>
-        }
+        { title: "Nombre", dataIndex: "present_count", key: "present_count", align: "center" },
+        { title: "%", dataIndex: "present_pct", key: "present_pct", align: "center", render: pct => <Text>{pct}%</Text> }
       ]
     },
     {
       title: "Retards",
       children: [
-        {
-          title: "Nombre",
-          dataIndex: "retard_count",
-          key: "retard_count",
-          align: "center"
-        },
-        {
-          title: "%",
-          dataIndex: "retard_pct",
-          key: "retard_pct",
-          align: "center",
-          render: pct => <Text type="warning">{pct}%</Text>
-        }
+        { title: "Nombre", dataIndex: "retard_count", key: "retard_count", align: "center" },
+        { title: "%", dataIndex: "retard_pct", key: "retard_pct", align: "center", render: pct => <Text type="warning">{pct}%</Text> }
       ]
     },
     {
       title: "Absences & Justifiées",
       children: [
-        {
-          title: "Absent",
-          dataIndex: "absent_count",
-          key: "absent_count",
-          align: "center"
-        },
-        {
-          title: "Justifiées",
-          dataIndex: "justifie_count",
-          key: "justifie_count",
-          align: "center"
-        },
-        {
-          title: "%",
-          dataIndex: "absence_pct",
-          key: "absence_pct",
-          align: "center",
-          render: pct => <Text type="danger">{pct}%</Text>
-        }
+        { title: "Absent", dataIndex: "absent_count", key: "absent_count", align: "center" },
+        { title: "Justifiées", dataIndex: "justifie_count", key: "justifie_count", align: "center" },
+        { title: "%", dataIndex: "absence_pct", key: "absence_pct", align: "center", render: pct => <Text type="danger">{pct}%</Text> }
       ]
     }
   ];
 
+  const modalColumns = [
+    { title: "Nom complet", dataIndex: "nom_complet", key: "nom_complet" },
+    { title: "Statut", dataIndex: "statut", key: "statut" },
+    { title: "Retard (min)", dataIndex: "retard_minutes", key: "retard_minutes", align: "center" },
+    { title: "Présent", dataIndex: "is_present", key: "is_present", align: "center", render: val => val ? "✅" : "❌" }
+  ];
+
   return (
-    <Card
-      title="KPI Présence Aujourd'hui par Site"
-      bordered={false}
-      bodyStyle={{ padding: 10 }}
-      extra={
-        <Space wrap size="middle">
-          <Search
-            placeholder="Recherche site"
-            allowClear
-            onChange={e => setSearchValue(e.target.value)}
-            style={{ width: 280 }}
+    <>
+      <Card
+        title="KPI Présence Aujourd'hui par Site"
+        bordered={false}
+        bodyStyle={{ padding: 10 }}
+        extra={
+          <Space wrap size="middle">
+            <Search
+              placeholder="Recherche site"
+              allowClear
+              onChange={e => setSearchValue(e.target.value)}
+              style={{ width: 280 }}
+            />
+          </Space>
+        }
+      >
+        {loading ? (
+          <Spin tip="Chargement des données..." />
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={data.filter(d => d.site_name.toLowerCase().includes(searchValue.toLowerCase()))}
+            pagination={false}
+            rowKey="key"
+            scroll={{ x: "max-content", y: 700 }}
+            size="middle"
+            sticky
+            bordered
           />
-        </Space>
-      }
-    >
-      {loading ? (
-        <Spin tip="Chargement des données..." />
-      ) : (
-        <Table
-          columns={columns}
-          dataSource={data.filter(d =>
-            d.site_name.toLowerCase().includes(searchValue.toLowerCase())
-          )}
-          pagination={false}
-          rowKey="key"
-          scroll={{ x: "max-content", y: 700 }}
-          size="middle"
-          sticky
-          bordered
-        />
-      )}
-    </Card>
+        )}
+      </Card>
+
+      <Modal
+        title={selectedSite ? `Détails du site: ${selectedSite.site_name}` : 'Détails du site'}
+        visible={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={null}
+        width={1100}
+      >
+        {modalLoading ? <Spin tip="Chargement des détails..." /> : (
+          <Table
+            columns={modalColumns}
+            dataSource={modalData}
+            rowKey="id_utilisateur"
+            pagination={{ pageSize: 10 }}
+            size="middle"
+            bordered
+          />
+        )}
+      </Modal>
+    </>
   );
 };
 

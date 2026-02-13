@@ -8,8 +8,6 @@ import {
 import { Modal } from 'antd';
 import './dashboardStats.scss';
 import DetailKpisPresenceToday from '../detailKpisPresence/detailKpisPresenceToday/DetailKpisPresenceToday';
-import DetailKpisPresenceRetard from '../detailKpisPresence/detailKpisPresenceRetard/DetailKpisPresenceRetard';
-import DetailKpisPresenceAbsent from '../detailKpisPresence/detailKpisPresenceAbsent/DetailKpisPresenceAbsent';
 
 const DashboardStats = ({ kpi, sites }) => {
   const [modalType, setModalType] = useState(null);
@@ -75,28 +73,6 @@ const DashboardStats = ({ kpi, sites }) => {
         centered
       >
         <DetailKpisPresenceToday sites={sites} />
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'retard'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1150}
-        centered
-      >
-        <DetailKpisPresenceRetard />
-      </Modal>
-
-      <Modal
-        title=""
-        visible={modalType === 'absent'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1150}
-        centered
-      >
-        <DetailKpisPresenceAbsent />
       </Modal>
     </div>
   );
