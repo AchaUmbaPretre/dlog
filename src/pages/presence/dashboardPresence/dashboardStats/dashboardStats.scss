@@ -27,17 +27,22 @@
       margin-left: 4px;
     }
   }
-
-  .stat-label {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #4b5563;
+  .stat_item_row {
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
 
-    svg {
-      font-size: 14px;
+    .stat-label {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #4b5563;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      svg {
+        font-size: 14px;
+      }
     }
   }
 }
