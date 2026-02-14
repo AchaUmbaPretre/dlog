@@ -110,7 +110,7 @@ const RapportPresenceSite = () => {
       ),
       dataIndex: "total_employes_distincts",
     },
-    {
+/*     {
       title: (
         <>
           <CheckCircleOutlined style={{ marginRight: 6, color: "#1890ff" }} />
@@ -127,7 +127,7 @@ const RapportPresenceSite = () => {
         );
         return <Progress percent={percent} size="small" status="active" />;
       },
-    },
+    }, */
   ];
 
   return (

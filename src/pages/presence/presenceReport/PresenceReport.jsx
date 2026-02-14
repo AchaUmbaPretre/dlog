@@ -21,7 +21,9 @@ const PresenceReport = () => {
 
     return [
       { title: "#", render: (_, __, idx) => idx + 1, width: 50, fixed: "left" },
-      { title: "Nom", dataIndex: "nom", width: 180, fixed: "left" },
+      { title: "Nom", dataIndex: "nom", width: 180, fixed: "left", render: (text, record) => (
+        <>{record.nom} - {record.prenom}</>
+      ) },
       { title: "Jours prestés", dataIndex: "joursTravailles", align: "center", width: 120 },
       { title: "Absences", dataIndex: "absences", align: "center", width: 100 },
       { title: "Retards (min)", dataIndex: "retards", align: "center", width: 100, render:(v) => formatDuration(v)},
