@@ -6,7 +6,8 @@ const STATUTS = {
   ABSENT: { label: "Absent", color: "#f5222d" },
   CONGE: { label: "Congé", color: "#1890ff" },
   FERIE: { label: "Férié", color: "#722ed1" },
-  NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" }
+  NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" },
+  TRAVAIL: { label: "Jour off", color: "#bfbfbf" }
 };
 
 export const PresenceCell = ({ cell, onClick, onRightClick, disabled }) => {

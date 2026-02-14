@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from "react";
 import { Table, Card, Space, DatePicker, Input, Button, notification } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined, UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { usePresenceData } from "../hooks/usePresenceData";
 import { postAttendanceAdjustment, postPresence } from "../../../services/presenceService";
@@ -24,137 +24,175 @@ const PresenceList = () => {
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
 
-  const handleClickCell = useCallback(
-    async (userId, date, cell) => {
-      const isFuture = isFutureDate(date);
-      if (isFuture)
-        return notification.warning({
-          message: "Action impossible",
-          description: "Impossible de pointer une date future"
-        });
+const handleClickCell = useCallback(
+  async (userId, date, cell) => {
+    const isFuture = isFutureDate(date);
+    if (isFuture)
+      return notification.warning({
+        message: "Action impossible",
+        description: "Impossible de pointer une date future"
+      });
 
-      const isNew = !cell || !cell.id_presence;
-      const isAbsent = cell?.statut === "ABSENT";
-      const isPresent = cell?.statut === "PRESENT";
+    const isNew = !cell || !cell.id_presence;
+    const isAbsent = cell?.statut === "ABSENT";
+    const isPresent = cell?.statut === "PRESENT";
 
-      // ✅ autoriser ABSENT et PRESENT
-      if (!isNew && !isAbsent && !isPresent) {
-        return notification.info({
-          message: "Cellule non modifiable",
-          description: `Impossible de modifier ce statut : ${cell?.statut}`
-        });
-      }
+    // ✅ autoriser ABSENT et PRESENT
+    if (!isNew && !isAbsent && !isPresent) {
+      return notification.info({
+        message: "Cellule non modifiable",
+        description: `Impossible de modifier ce statut : ${cell?.statut}`
+      });
+    }
 
-      const payload = {
-        id_utilisateur: userId,
-        date_presence: date,
-        source: 1,
-        permissions,
-        heure_entree: undefined,
-        heure_sortie: undefined,
-        update_absent: false
-      };
+    const payload = {
+      id_utilisateur: userId,
+      date_presence: date,
+      source: 1,
+      permissions,
+      heure_entree: undefined,
+      heure_sortie: undefined,
+      update_absent: false
+    };
 
-      // ABSENT → PRESENT (correction tardive)
-      if (isAbsent) {
-        payload.update_absent = true; // important pour corriger l'absence
-        payload.heure_entree = new Date().toISOString();
-      } 
-      // Nouvelle cellule
-      else if (isNew) {
-        payload.heure_entree = new Date().toISOString();
-      } 
-      // PRESENT mais pas encore sortie
-      else if (isPresent && !cell.heure_sortie) {
-        payload.heure_sortie = new Date().toISOString();
-      } 
-      else {
-        return notification.info({
-          message: "Déjà pointé",
-          description: "Les deux pointages sont déjà effectués"
-        });
-      }
+    // ABSENT → PRESENT (correction tardive)
+    if (isAbsent) {
+      payload.update_absent = true; // important pour corriger l'absence
+      payload.heure_entree = new Date().toISOString();
+    } 
+    // Nouvelle cellule
+    else if (isNew) {
+      payload.heure_entree = new Date().toISOString();
+    } 
+    // PRESENT mais pas encore sortie
+    else if (isPresent && !cell.heure_sortie) {
+      payload.heure_sortie = new Date().toISOString();
+    } 
+    else {
+      return notification.info({
+        message: "Déjà pointé",
+        description: "Les deux pointages sont déjà effectués"
+      });
+    }
 
-      try {
-        await postPresence(payload);
-        notification.success({ message: "Présence enregistrée" });
-        reload();
-      } catch (err) {
-        notification.error({
-          message: "Erreur",
-          description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
-        });
-      }
-    },
-    [reload, permissions]
-  );
+    try {
+      await postPresence(payload);
+      notification.success({ message: "Présence enregistrée" });
+      reload();
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
+      });
+    }
+  },
+  [reload, permissions]
+);
 
 
 
-  const dataSource = useMemo(() => {
-    if (!data) return [];
-    return data?.utilisateurs
-      .filter((u) => u.nom.toLowerCase().includes(searchValue.toLowerCase()))
-      .map((u) => ({
-        key: u.id_utilisateur,
-        id_utilisateur: u.id_utilisateur,
-        nom: u.nom,
-        prenom: u.prenom,
-        ...u.presences
-      }));
-  }, [data, searchValue]);
-
-  const columns = useMemo(() => {
-    if (!data) return [];
-
-    const dynamicColumns = data.dates.map((d) => ({
-      title: d.label,
-      dataIndex: d.date,
-      align: "center",
-      width: 100,
-      render: (cell, record) => {
-        const disabled = isFutureDate(d.date) || cell?.adjustment_statut === "VALIDE";
-
-        return (
-          <PresenceCell
-            cell={cell || {}}
-            disabled={disabled}
-            onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)}
-            onRightClick={() => {
-              if (!cell?.id_presence) return;
-              setSelectedPresence({
-                id_presence: cell.id_presence,
-                date: d.date,
-                nom: record.nom
-              });
-              setAdjustmentOpen(true);
-            }}
-          />
-        );
-      }
+const dataSource = useMemo(() => {
+  if (!data) return [];
+  return data?.utilisateurs
+    .filter((u) => u.nom.toLowerCase().includes(searchValue.toLowerCase()))
+    .map((u) => ({
+      key: u.id_utilisateur,
+      id_utilisateur: u.id_utilisateur,
+      nom: u.nom,
+      prenom: u.prenom,
+      ...u.presences
     }));
+}, [data, searchValue]);
 
-    // Colonne total
-    dynamicColumns.push({
-      title: "Total",
-      dataIndex: "total",
-      fixed: "right",
-      width: 80,
-      align: "center",
-      render: (_, record) => {
-        const total = Object.values(record).filter(
-          (v) => v?.statut === "PRESENT" || (v?.heure_entree || v?.heure_sortie)
-        ).length;
-        return <strong>{total}</strong>;
-      }
-    });
+const columns = useMemo(() => {
+  if (!data) return [];
 
-    return [
-      { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
-      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 150, render: (text, record) => <strong>{`${record.nom} - ${record.prenom}`}</strong> },
-      ...dynamicColumns
-    ];
-  }, [data, handleClickCell]);
+/*   const dynamicColumns = data.dates.map((d) => ({
+    title: d.label,
+    dataIndex: d.date,
+    align: "center",
+    width: 100,
+    render: (cell, record) => {
+      const disabled = isFutureDate(d.date) || cell?.adjustment_statut === "VALIDE";
+
+      return (
+        <PresenceCell
+          cell={cell || {}}
+          disabled={disabled}
+          onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)}
+          onRightClick={() => {
+            if (!cell?.id_presence) return;
+            setSelectedPresence({
+              id_presence: cell.id_presence,
+              date: d.date,
+              nom: record.nom
+            });
+            setAdjustmentOpen(true);
+          }}
+        />
+      );
+    }
+  })); */
+
+  const dynamicColumns = data.dates.map((d) => ({
+  title: d.label,
+  dataIndex: d.date,
+  align: "center",
+  width: 100,
+  render: (cell = {}, record) => {
+    const today = dayjs().startOf("day");
+    const dateCell = dayjs(d.date);
+
+    const isPast = dateCell.isBefore(today, "day"); // jour passé
+    const isValidated = cell.adjustment_statut === "VALIDE"; // déjà validé
+    const isLocked = cell.is_locked === 1; // verrouillé
+    const isNonModifiable =
+      isPast || isValidated || isLocked || ["JOUR_FERIE", "JOUR_NON_TRAVAILLE"].includes(cell.statut_jour);
+
+    return (
+      <PresenceCell
+        cell={cell}
+        disabled={isNonModifiable}
+        onClick={() => {
+          if (isNonModifiable) return;
+          handleClickCell(record.id_utilisateur, d.date, cell);
+        }}
+        onRightClick={() => {
+          if (isNonModifiable || !cell.id_presence) return;
+          setSelectedPresence({
+            id_presence: cell.id_presence,
+            date: d.date,
+            nom: record.nom
+          });
+          setAdjustmentOpen(true);
+        }}
+      />
+    );
+  }
+}));
+
+
+  // Colonne total
+  dynamicColumns.push({
+    title: "Total",
+    dataIndex: "total",
+    fixed: "right",
+    width: 80,
+    align: "center",
+    render: (_, record) => {
+      const total = Object.values(record).filter(
+        (v) => v?.statut === "PRESENT" || (v?.heure_entree || v?.heure_sortie)
+      ).length;
+      return <strong>{total}</strong>;
+    }
+  });
+
+  return [
+    { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
+    { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 160, render: (text, record) => <strong><UserOutlined /> {`${record.nom} - ${record.prenom}`}</strong> },
+    ...dynamicColumns
+  ];
+}, [data, handleClickCell]);
 
 
   const changeMonth = (offset) => {
@@ -191,43 +229,43 @@ const PresenceList = () => {
         loading={loading}
         pagination={false}
         rowKey="id_utilisateur"
-        scroll={{ x: "max-content", y: 600 }}
+        scroll={{ x: "max-content", y: 500 }}
         size="middle"
         sticky
         bordered
       />
 
       {adjustmentOpen && selectedPresence && (
-  <AttendanceAdjustmentModal
-    open={adjustmentOpen}
-    presence={selectedPresence}
-    onClose={() => setAdjustmentOpen(false)}
-    onSubmit={async (values) => {
-      try {
-        await postAttendanceAdjustment({
-          id_presence: selectedPresence.id_presence,
-          created_by: userId,
-          ...values
-        });
+        <AttendanceAdjustmentModal
+          open={adjustmentOpen}
+          presence={selectedPresence}
+          onClose={() => setAdjustmentOpen(false)}
+          onSubmit={async (values) => {
+            try {
+              await postAttendanceAdjustment({
+                id_presence: selectedPresence.id_presence,
+                created_by: userId,
+                ...values
+              });
 
-        notification.success({
-          message: "Demande envoyée",
-          description: "La demande sera traitée par les RH"
-        });
+              notification.success({
+                message: "Demande envoyée",
+                description: "La demande sera traitée par les RH"
+              });
 
-        setAdjustmentOpen(false);
-        reload();
-      } catch (err) {
-        notification.error({
-          message: "Erreur",
-          description:
-            err?.response?.data?.message ||
-            "Impossible de soumettre la demande"
-        });
-      }
-    }}
-  />
-)}
+              setAdjustmentOpen(false);
+              reload();
+            } catch (err) {
+              notification.error({
+                message: "Erreur",
+                description:
+                  err?.response?.data?.message ||
+                  "Impossible de soumettre la demande"
+              });
+            }
+          }}
+        />
+      )}
 
     </Card>
   );
