@@ -21,16 +21,37 @@ const PresenceReport = () => {
 
     return [
       { title: "#", render: (_, __, idx) => idx + 1, width: 50, fixed: "left" },
-      { title: "Nom", dataIndex: "nom", width: 180, fixed: "left", render: (text, record) => (
+      { title: "Nom", dataIndex: "nom", width: 160, fixed: "left", render: (text, record) => (
         <>{record.nom} - {record.prenom}</>
       ) },
-      { title: "Jours prestés", dataIndex: "joursTravailles", align: "center", width: 120 },
+      { 
+        title: "Jours prévus", 
+        dataIndex: "joursPrestation", 
+        align: "center", 
+        width: 120 
+      },
+      { 
+        title: "Jours prestés", 
+        dataIndex: "joursTravailles", 
+        align: "center", 
+        width: 130 
+      },
       { title: "Absences", dataIndex: "absences", align: "center", width: 100 },
       { title: "Retards (min)", dataIndex: "retards", align: "center", width: 100, render:(v) => formatDuration(v)},
       { title: "Heures sup.", dataIndex: "heuresSupp", align: "center", width: 100,  render:(v) => formatDuration(v)},
       { title: "Congés payés", dataIndex: "congesPayes", align: "center", width: 120 },
       { title: "Jours fériés", dataIndex: "joursFerie", align: "center", width: 120 },
-      { title: "Jours off", dataIndex: "nonTravaille", align: "center", width: 120 }
+      { title: "Jours off", dataIndex: "nonTravaille", align: "center", width: 120 },
+      {
+        title: "Taux présence",
+        align: "center",
+        width: 130,
+        render: (_, record) => {
+          if (!record.joursPrestation) return "0%";
+          const taux = ((record.joursTravailles / record.joursPrestation) * 100).toFixed(1);
+          return `${taux}%`;
+        }
+      },
     ];
   }, [data]);
 
@@ -51,16 +72,18 @@ const PresenceReport = () => {
     try {
       const ws = XLSX.utils.json_to_sheet(
         dataSource.map(row => ({
-          Nom: row.nom,
+          Nom: `${row.nom} ${row.prenom}`,
+          "Jours prévus": row.joursPrestation,
           "Jours travaillés": row.joursTravailles,
           Absences: row.absences,
           "Retards (min)": row.retards,
           "Heures sup.": row.heuresSupp,
           "Congés payés": row.congesPayes,
           "Jours fériés": row.joursFerie,
-          "Non travaillés": row.nonTravaille
+          "Jours off": row.nonTravaille
         }))
       );
+
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Rapport Mensuel");
       XLSX.writeFile(wb, `rapport_mensuel_${dayjs().format("YYYYMM")}.xlsx`);
