@@ -47,7 +47,7 @@ const PresenceList = () => {
       const payload = {
         id_utilisateur: userId,
         date_presence: date,
-        source: 1,
+        source: 'MANUEL',
         permissions,
         heure_entree: undefined,
         heure_sortie: undefined,
@@ -57,15 +57,15 @@ const PresenceList = () => {
       // ABSENT → PRESENT (correction tardive)
       if (isAbsent) {
         payload.update_absent = true; // important pour corriger l'absence
-        payload.heure_entree = new Date().toISOString();
+        payload.heure_entree = dayjs().format("YYYY-MM-DD HH:mm:ss");
       } 
       // Nouvelle cellule
       else if (isNew) {
-        payload.heure_entree = new Date().toISOString();
+        payload.heure_entree = dayjs().format("YYYY-MM-DD HH:mm:ss")
       } 
       // PRESENT mais pas encore sortie
       else if (isPresent && !cell.heure_sortie) {
-        payload.heure_sortie = new Date().toISOString();
+        payload.heure_sortie = dayjs().format("YYYY-MM-DD HH:mm:ss");
       } 
       else {
         return notification.info({
@@ -103,33 +103,6 @@ const PresenceList = () => {
 
   const columns = useMemo(() => {
     if (!data) return [];
-
-  /*   const dynamicColumns = data.dates.map((d) => ({
-      title: d.label,
-      dataIndex: d.date,
-      align: "center",
-      width: 100,
-      render: (cell, record) => {
-        const disabled = isFutureDate(d.date) || cell?.adjustment_statut === "VALIDE";
-
-        return (
-          <PresenceCell
-            cell={cell || {}}
-            disabled={disabled}
-            onClick={() => handleClickCell(record.id_utilisateur, d.date, cell)}
-            onRightClick={() => {
-              if (!cell?.id_presence) return;
-              setSelectedPresence({
-                id_presence: cell.id_presence,
-                date: d.date,
-                nom: record.nom
-              });
-              setAdjustmentOpen(true);
-            }}
-          />
-        );
-      }
-    })); */
 
     const dynamicColumns = data.dates.map((d) => ({
       title: d.label,
