@@ -1,27 +1,38 @@
+// presenceCell.js
 import { Tooltip, Tag } from "antd";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const STATUTS = {
   PRESENT: { label: "Présent", color: "#52c41a" },
   ABSENT: { label: "Absent", color: "#f5222d" },
-  CONGE: { label: "Congé", color: "#1890ff" },
-  FERIE: { label: "Férié", color: "#722ed1" },
+  ABSENCE_JUSTIFIEE: { label: "Absence justifiée", color: "#faad14" },
+  JOUR_FERIE: { label: "Jour férié", color: "#722ed1" },
+  JOUR_NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" },
+  SUPPLEMENTAIRE: { label: "Supplémentaire", color: "#13c2c2" },
   NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" },
 };
 
-export const PresenceCell = ({ cell, onClick, onRightClick, disabled }) => {
-  const isAutoAbsent = cell?.auto_generated;
-  const statut = isAutoAbsent
-    ? "ABSENT"
-    : cell?.statut || (cell?.heure_entree || cell?.heure_sortie ? "PRESENT" : "ABSENT");
+const DEFAULT_STATUT = { label: "--", color: "#d9d9d9" };
 
-  const info = STATUTS[statut];
+export const PresenceCell = ({ cell = {}, onClick, onRightClick, disabled }) => {
+
+  const statut = cell?.statut || "ABSENT";
+
+  const info = STATUTS[statut] || DEFAULT_STATUT;
+
+  const formatHeure = (heure) => {
+    if (!heure) return "--";
+    return dayjs.utc(heure).utcOffset(1).format("HH:mm");
+  };
 
   return (
     <Tooltip
       title={
         cell?.heure_entree || cell?.heure_sortie
-          ? `Entrée: ${cell.heure_entree ? dayjs(cell.heure_entree).format("HH:mm") : "--"} | Sortie: ${cell.heure_sortie ? dayjs(cell.heure_sortie).format("HH:mm") : "--"}`
+          ? `Entrée: ${formatHeure(cell.heure_entree)} | Sortie: ${formatHeure(cell.heure_sortie)}`
           : info.label
       }
     >
@@ -42,11 +53,20 @@ export const PresenceCell = ({ cell, onClick, onRightClick, disabled }) => {
           userSelect: "none"
         }}
       >
-        <Tag color={info.color} style={{ fontWeight: 600, fontSize: 12, width: "100%", textAlign: "center" }}>
+        <Tag
+          color={info.color}
+          style={{
+            fontWeight: 600,
+            fontSize: 12,
+            width: "100%",
+            textAlign: "center"
+          }}
+        >
           {info.label}
         </Tag>
+
         <div style={{ fontSize: 10, color: "#555" }}>
-          {cell?.heure_entree ? dayjs(cell.heure_entree).format("HH:mm") : "--"} / {cell?.heure_sortie ? dayjs(cell.heure_sortie).format("HH:mm") : "--"}
+          {formatHeure(cell?.heure_entree)} / {formatHeure(cell?.heure_sortie)}
         </div>
       </div>
     </Tooltip>

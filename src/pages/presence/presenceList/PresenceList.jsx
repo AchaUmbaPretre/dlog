@@ -7,6 +7,7 @@ import { postAttendanceAdjustment, postPresence } from "../../../services/presen
 import { useSelector } from "react-redux";
 import AttendanceAdjustmentModal from "../autorisationSortie/attendanceAdjustmentModal/AttendanceAdjustmentModal";
 import { PresenceCell } from "./utils/presenceCell";
+import moment from "moment";
 
 const { MonthPicker } = DatePicker;
 const { Search } = Input;
@@ -23,70 +24,68 @@ const PresenceList = () => {
 
   const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
 
-  const handleClickCell = useCallback(
-    async (userId, date, cell) => {
-      const isFuture = isFutureDate(date);
-      if (isFuture)
-        return notification.warning({
-          message: "Action impossible",
-          description: "Impossible de pointer une date future"
-        });
+const handleClickCell = useCallback(
+  async (userId, date, cell) => {
+    const isFuture = isFutureDate(date);
+    if (isFuture)
+      return notification.warning({
+        message: "Action impossible",
+        description: "Impossible de pointer une date future"
+      });
 
-      const isNew = !cell || !cell.id_presence;
-      const isAbsent = cell?.statut === "ABSENT";
-      const isPresent = cell?.statut === "PRESENT";
+    const isNew = !cell || !cell.id_presence;
+    const isAbsent = cell?.statut === "ABSENT";
+    const isPresent = cell?.statut === "PRESENT";
 
-      // ✅ autoriser ABSENT et PRESENT
-      if (!isNew && !isAbsent && !isPresent) {
-        return notification.info({
-          message: "Cellule non modifiable",
-          description: `Impossible de modifier ce statut : ${cell?.statut}`
-        });
-      }
+    if (!isNew && !isAbsent && !isPresent) {
+      return notification.info({
+        message: "Cellule non modifiable",
+        description: `Impossible de modifier ce statut : ${cell?.statut}`
+      });
+    }
 
-      const payload = {
-        id_utilisateur: userId,
-        date_presence: date,
-        source: 'MANUEL',
-        permissions,
-        heure_entree: undefined,
-        heure_sortie: undefined,
-        update_absent: false
-      };
+    const now = moment().utcOffset(1); // UTC+1
 
-      // ABSENT → PRESENT (correction tardive)
-      if (isAbsent) {
-        payload.update_absent = true; // important pour corriger l'absence
-        payload.heure_entree = dayjs().format("YYYY-MM-DD HH:mm:ss");
-      } 
-      // Nouvelle cellule
-      else if (isNew) {
-        payload.heure_entree = dayjs().format("YYYY-MM-DD HH:mm:ss")
-      } 
-      // PRESENT mais pas encore sortie
-      else if (isPresent && !cell.heure_sortie) {
-        payload.heure_sortie = dayjs().format("YYYY-MM-DD HH:mm:ss");
-      } 
-      else {
-        return notification.info({
-          message: "Déjà pointé",
-          description: "Les deux pointages sont déjà effectués"
-        });
-      }
+    const payload = {
+      id_utilisateur: userId,
+      date_presence: date,
+      source: 'MANUEL',
+      permissions,
+      heure_entree: undefined,
+      heure_sortie: undefined,
+      update_absent: false
+    };
 
-      try {
-        await postPresence(payload);
-        notification.success({ message: "Présence enregistrée" });
-        reload();
-      } catch (err) {
-        notification.error({
-          message: "Erreur",
-          description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
-        });
-      }
-    },
-    [reload, permissions]
-  );
+    if (isAbsent) {
+      payload.update_absent = true;
+      payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
+    } 
+    else if (isNew) {
+      payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
+    } 
+    else if (isPresent && !cell.heure_sortie) {
+      payload.heure_sortie = now.format("YYYY-MM-DD HH:mm:ss");
+    } 
+    else {
+      return notification.info({
+        message: "Déjà pointé",
+        description: "Les deux pointages sont déjà effectués"
+      });
+    }
+
+    try {
+      await postPresence(payload);
+      notification.success({ message: "Présence enregistrée" });
+      reload();
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
+      });
+    }
+  },
+  [reload, permissions]
+);
 
   const dataSource = useMemo(() => {
     if (!data) return [];
@@ -114,10 +113,9 @@ const PresenceList = () => {
         const dateCell = dayjs(d.date);
 
         const isPast = dateCell.isBefore(today, "day"); // jour passé
-        const isValidated = cell.adjustment_statut === "VALIDE"; // déjà validé
         const isLocked = cell.is_locked === 1; // verrouillé
         const isNonModifiable =
-          isPast || isValidated || isLocked || ["JOUR_FERIE", "JOUR_NON_TRAVAILLE"].includes(cell.statut_jour);
+          isPast || isLocked || ["JOUR_FERIE"].includes(cell.statut_jour);
 
         return (
           <PresenceCell
@@ -147,15 +145,30 @@ const PresenceList = () => {
       title: "Total",
       dataIndex: "total",
       fixed: "right",
-      width: 80,
+      width: 100,
       align: "center",
-      render: (_, record) => {
-        const total = Object.values(record).filter(
-          (v) => v?.statut === "PRESENT" || (v?.heure_entree || v?.heure_sortie)
-        ).length;
-        return <strong>{total}</strong>;
-      }
-    });
+    render: (_, record) => {
+      // On ne compte que les statuts comptables pour présence
+      const presenceCols = Object.values(record).filter(
+        (v) => v && v.statut && ["PRESENT", "ABSENT", "CONGE", "RETARD_JUSTIFIE", "AUTORISATION_SORTIE"].includes(v.statut)
+      );
+
+      const joursTravailles = presenceCols.filter(v => v.statut !== "CONGE").length;
+      const joursPresents = presenceCols.filter(v => v.statut === "PRESENT").length;
+
+      const pourcentage = joursTravailles > 0 ? Math.round((joursPresents / joursTravailles) * 100) : 0;
+
+      return (
+        <div>
+          <strong>
+            {joursPresents} / {joursTravailles}
+          </strong>
+          <div style={{ fontSize: 10, color: "#555" }}>{pourcentage}%</div>
+        </div>
+      );
+    },
+  });
+
 
     return [
       { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
