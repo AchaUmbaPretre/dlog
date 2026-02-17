@@ -12,7 +12,6 @@ const STATUTS = {
   JOUR_FERIE: { label: "Jour férié", color: "#722ed1" },
   JOUR_NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" },
   SUPPLEMENTAIRE: { label: "Supplémentaire", color: "#13c2c2" },
-  NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" },
 };
 
 const DEFAULT_STATUT = { label: "--", color: "#d9d9d9" };

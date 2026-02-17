@@ -22,70 +22,81 @@ const PresenceList = () => {
   const [selectedPresence, setSelectedPresence] = useState(null);
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
-  const isFutureDate = (date) => dayjs(date).isAfter(today, "day");
+  const isFutureDate = (date) => {
+    return dayjs(date).isAfter(dayjs(), "day"); // si date > aujourd'hui
+  };
 
-const handleClickCell = useCallback(
-  async (userId, date, cell) => {
-    const isFuture = isFutureDate(date);
-    if (isFuture)
-      return notification.warning({
-        message: "Action impossible",
-        description: "Impossible de pointer une date future"
-      });
+  const isTooOldDate = (date, maxDays = 7) => {
+    // Vérifie si la date est trop ancienne (par ex. plus de 7 jours avant aujourd'hui)
+    return dayjs(date).isBefore(dayjs().subtract(maxDays, "day"), "day");
+  };
 
-    const isNew = !cell || !cell.id_presence;
-    const isAbsent = cell?.statut === "ABSENT";
-    const isPresent = cell?.statut === "PRESENT";
+  const handleClickCell = useCallback(
+    async (userId, date, cell) => {
+      if (isFutureDate(date)) {
+        return notification.warning({
+          message: "Action impossible",
+          description: "Impossible de pointer une date future"
+        });
+      }
 
-    if (!isNew && !isAbsent && !isPresent) {
-      return notification.info({
-        message: "Cellule non modifiable",
-        description: `Impossible de modifier ce statut : ${cell?.statut}`
-      });
-    }
+      if (isTooOldDate(date, 7)) {
+        return notification.warning({
+          message: "Date expirée",
+          description: "Impossible de pointer une date trop ancienne"
+        });
+      }
 
-    const now = moment().utcOffset(1); // UTC+1
+      const isNew = !cell || !cell.id_presence;
+      const isAbsent = cell?.statut === "ABSENT";
+      const isPresent = cell?.statut === "PRESENT";
 
-    const payload = {
-      id_utilisateur: userId,
-      date_presence: date,
-      source: 'MANUEL',
-      permissions,
-      heure_entree: undefined,
-      heure_sortie: undefined,
-      update_absent: false
-    };
+      if (!isNew && !isAbsent && !isPresent) {
+        return notification.info({
+          message: "Cellule non modifiable",
+          description: `Impossible de modifier ce statut : ${cell?.statut}`
+        });
+      }
 
-    if (isAbsent) {
-      payload.update_absent = true;
-      payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
-    } 
-    else if (isNew) {
-      payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
-    } 
-    else if (isPresent && !cell.heure_sortie) {
-      payload.heure_sortie = now.format("YYYY-MM-DD HH:mm:ss");
-    } 
-    else {
-      return notification.info({
-        message: "Déjà pointé",
-        description: "Les deux pointages sont déjà effectués"
-      });
-    }
+      const now = moment().utcOffset(1); // UTC+1
 
-    try {
-      await postPresence(payload);
-      notification.success({ message: "Présence enregistrée" });
-      reload();
-    } catch (err) {
-      notification.error({
-        message: "Erreur",
-        description: err?.response?.data?.message || "Impossible d'enregistrer la présence"
-      });
-    }
-  },
-  [reload, permissions]
-);
+      const payload = {
+        id_utilisateur: userId,
+        date_presence: date,
+        source: "MANUEL",
+        permissions,
+        heure_entree: undefined,
+        heure_sortie: undefined,
+        update_absent: false,
+      };
+
+      if (isAbsent) {
+        payload.update_absent = true;
+        payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
+      } else if (isNew) {
+        payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
+      } else if (isPresent && !cell.heure_sortie) {
+        payload.heure_sortie = now.format("YYYY-MM-DD HH:mm:ss");
+      } else {
+        return notification.info({
+          message: "Déjà pointé",
+          description: "Les deux pointages sont déjà effectués",
+        });
+      }
+
+      try {
+        await postPresence(payload);
+        notification.success({ message: "Présence enregistrée" });
+        reload();
+      } catch (err) {
+        notification.error({
+          message: "Erreur",
+          description: err?.response?.data?.message || "Impossible d'enregistrer la présence",
+        });
+      }
+    },
+    [reload, permissions]
+  );
 
   const dataSource = useMemo(() => {
     if (!data) return [];
@@ -145,7 +156,7 @@ const handleClickCell = useCallback(
       title: "Total",
       dataIndex: "total",
       fixed: "right",
-      width: 100,
+      width: 80,
       align: "center",
     render: (_, record) => {
       // On ne compte que les statuts comptables pour présence
