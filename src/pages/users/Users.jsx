@@ -5,6 +5,7 @@ import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
 import ForgotUserAdmin from './forgotUserAdmin/ForgotUserAdmin';
+import { putIsActive } from '../../services/userService'
 
 const { Search } = Input;
 
@@ -79,6 +80,29 @@ const Users = () => {
     }
   };
 
+  const handleToggleActive = async (record) => {
+    try {
+      const newStatus = record.is_active ? 0 : 1;
+
+      await putIsActive({
+        id_utilisateur: record.id_utilisateur,
+        is_active: newStatus
+      });
+
+      message.success(
+        newStatus ? "Utilisateur activé avec succès" : "Utilisateur désactivé avec succès"
+      );
+
+      fetchData(); // recharge proprement les données
+    } catch (error) {
+      notification.error({
+        message: "Erreur",
+        description: "Impossible de modifier le statut."
+      });
+    }
+  };
+
+
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={handleExportExcel}>
@@ -146,7 +170,17 @@ const Users = () => {
         </Space>
       ),
     },
-     {
+    {
+      title: 'Statut',
+      dataIndex: 'is_active',
+      key: 'is_active',
+      render: (value, record) => (
+        <Tag color={value ? 'green' : 'red'}>
+          {value ? 'Actif' : 'Inactif'}
+        </Tag>
+      ),
+    },
+    {
       title: 'Action',
       key: 'action',
       width: '10%',
@@ -160,6 +194,23 @@ const Users = () => {
               aria-label="Edit client"
             />
           </Tooltip>
+          
+          <Tooltip title={record.is_active ? "Désactiver" : "Activer"}>
+            <Popconfirm
+              title={`Êtes-vous sûr de vouloir ${
+                record.is_active ? "désactiver" : "activer"
+              } cet utilisateur ?`}
+              onConfirm={() => handleToggleActive(record)}
+              okText="Oui"
+              cancelText="Non"
+            >
+              <Button
+                icon={<SafetyOutlined />}
+                style={{ color: record.is_active ? 'red' : 'green' }}
+              />
+            </Popconfirm>
+          </Tooltip>
+
           <Tooltip title="Changer le mot de passe">
             <Button
               icon={<LockOutlined />}
