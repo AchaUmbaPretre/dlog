@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DashlistePresence from './dashlistePresence/DashlistePresence'
 import DashPresenceChart from './dashPresenceChart/DashPresenceChart'
 import DashboardStats from './dashboardStats/DashboardStats'
@@ -24,7 +24,7 @@ const DashboardPresence = () => {
                 getPresenceDashboardParSite()
             ])
             setData(presentData?.data?.data);
-            setSites(allData?.data?.data)
+            setSites(allData?.data?.data);
 
         } catch (error) {
             notification.error({
