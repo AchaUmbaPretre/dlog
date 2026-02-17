@@ -23,10 +23,10 @@ export const PresenceCell = ({ cell = {}, onClick, onRightClick, disabled }) => 
 
   const info = STATUTS[statut] || DEFAULT_STATUT;
 
-  const formatHeure = (heure) => {
-    if (!heure) return "--";
-    return dayjs.utc(heure).utcOffset(1).format("HH:mm");
-  };
+const formatHeure = (heure) => {
+  if (!heure) return "--";
+  return dayjs(heure).format("HH:mm");
+};
 
   return (
     <Tooltip

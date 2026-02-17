@@ -30,13 +30,23 @@ const DashlistePresence = ({ employes }) => {
       title: 'Heure entrée',
       dataIndex: 'heure_entree',
       key: 'heure_entree',
-      render: (text) => text ? moment(text).format('HH:mm') : '-'
+      render: (text) => {
+        if (!text || text === '-') return '-';
+        return moment(text, 'HH:mm:ss', true).isValid()
+          ? moment(text, 'HH:mm:ss').format('HH:mm')
+          : '-';
+      }
     },
     {
       title: 'Heure sortie',
       dataIndex: 'heure_sortie',
       key: 'heure_sortie',
-      render: (text) => text ? moment(text).format('HH:mm') : '-'
+      render: (text) => {
+        if (!text || text === '-') return '-';
+        return moment(text, 'HH:mm:ss', true).isValid()
+          ? moment(text, 'HH:mm:ss').format('HH:mm')
+          : '-';
+      }
     },
     {
       title: 'Statut affiché',
