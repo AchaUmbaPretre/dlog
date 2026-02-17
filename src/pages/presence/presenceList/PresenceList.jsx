@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { Table, Card, Space, DatePicker, Tooltip, Input, Button, notification } from "antd";
 import { LeftOutlined, RightOutlined, FileExcelOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -115,7 +115,7 @@ const PresenceList = () => {
   const columns = useMemo(() => {
     if (!data) return [];
 
-    const dynamicColumns = data.dates.map((d) => ({
+  const dynamicColumns = data.dates.map((d) => ({
       title: (
         <div style={{ color: '#1890ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <CalendarOutlined /> {d.label}
@@ -153,7 +153,7 @@ const PresenceList = () => {
           />
         );
       }
-    }));
+  }));
 
 
     // Colonne total
@@ -161,30 +161,29 @@ const PresenceList = () => {
       title: "Total",
       dataIndex: "total",
       fixed: "right",
-      width: 75,
+      width: 70,
       align: "center",
-    render: (_, record) => {
-      // On ne compte que les statuts comptables pour présence
-      const presenceCols = Object.values(record).filter(
-        (v) => v && v.statut && ["PRESENT", "ABSENT", "CONGE", "RETARD_JUSTIFIE", "AUTORISATION_SORTIE"].includes(v.statut)
-      );
+      render: (_, record) => {
+        // On ne compte que les statuts comptables pour présence
+        const presenceCols = Object.values(record).filter(
+          (v) => v && v.statut && ["PRESENT", "ABSENT", "CONGE", "RETARD_JUSTIFIE", "AUTORISATION_SORTIE"].includes(v.statut)
+        );
 
-      const joursTravailles = presenceCols.filter(v => v.statut !== "CONGE").length;
-      const joursPresents = presenceCols.filter(v => v.statut === "PRESENT").length;
+        const joursTravailles = presenceCols.filter(v => v.statut !== "CONGE").length;
+        const joursPresents = presenceCols.filter(v => v.statut === "PRESENT").length;
 
-      const pourcentage = joursTravailles > 0 ? Math.round((joursPresents / joursTravailles) * 100) : 0;
+        const pourcentage = joursTravailles > 0 ? Math.round((joursPresents / joursTravailles) * 100) : 0;
 
-      return (
-        <div>
-          <strong>
-            {joursPresents} / {joursTravailles}
-          </strong>
-          <div style={{ fontSize: 10, color: "#555" }}>{pourcentage}%</div>
-        </div>
-      );
-    },
-  });
-
+        return (
+          <div>
+            <strong>
+              {joursPresents} / {joursTravailles}
+            </strong>
+            <div style={{ fontSize: 10, color: "#555" }}>{pourcentage}%</div>
+          </div>
+        );
+      },
+    });
 
     return [
       { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
