@@ -7,6 +7,12 @@ const DashlistePresence = ({ employes }) => {
 
   const columns = [
     {
+      title: "#",
+      width: 50,
+      align: "center",
+      render: (_, __, index) => index + 1,
+    },
+    {
       title: 'Nom & Prénom',
       dataIndex: 'nom',
       key: 'nom',

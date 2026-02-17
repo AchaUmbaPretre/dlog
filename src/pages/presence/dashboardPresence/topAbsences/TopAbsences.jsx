@@ -6,7 +6,7 @@ const TopAbsences = ({ topAbsences }) => {
   const columns = [
     {
       title: "#",
-      width: 60,
+      width: 50,
       align: "center",
       render: (_, __, index) => index + 1,
     },
