@@ -1,4 +1,11 @@
-import { Table, Tag } from 'antd';
+import { Table, Tag, Tooltip } from 'antd';
+import {
+  UserOutlined,
+  WarningOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  TrophyOutlined
+} from '@ant-design/icons';
 import './../dashboardSection.scss';
 
 const TopAbsences = ({ topAbsences }) => {
@@ -14,27 +21,48 @@ const TopAbsences = ({ topAbsences }) => {
       title: 'Nom & Prénom',
       dataIndex: 'nom',
       key: 'nom',
-      render: (text, record) => (
-        <div>{record.nom} - {record.prenom}</div>
+      render: (_, record) => (
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <UserOutlined />
+          {record.nom} - {record.prenom}
+        </div>
       )
     },
     {
-      title: 'Nombre de jour',
+      title: 'Absences',
       dataIndex: 'total_absences',
       key: 'total_absences',
-      render: (text) => {
-        let color = 'default';
-        if (text === 'PRESENT') color = 'green';
-        else if (text === 'ABSENT') color = 'red';
-        else if (text === 'ABSENCE_JUSTIFIEE') color = 'orange';
-        return <Tag color={color}>{text} jour(s)</Tag>;
+      align: "center",
+      render: (value) => {
+
+        let color = "green";
+        let icon = <CheckCircleOutlined />;
+        let label = `${value} j`;
+
+        if (value >= 10) {
+          color = "red";
+          icon = <CloseCircleOutlined />;
+        } 
+        else if (value >= 5) {
+          color = "orange";
+          icon = <WarningOutlined />;
+        }
+
+        return (
+          <Tooltip title={`${value} jour(s) d'absence`}>
+            <Tag color={color} icon={icon}>
+              {label}
+            </Tag>
+          </Tooltip>
+        );
       }
     }
   ];
 
   return (
     <div className="dashboard-section">
-      <div className="section-header">
+      <div className="section-header" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <TrophyOutlined />
         Top Absences
       </div>
 
@@ -47,7 +75,6 @@ const TopAbsences = ({ topAbsences }) => {
           bordered
         />
       </div>
-      
     </div>
   );
 };

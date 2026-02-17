@@ -1,9 +1,57 @@
-import { Table, Tag } from 'antd';
+import { Table, Tag, Tooltip } from 'antd';
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
+  CalendarOutlined,
+  StopOutlined,
+  ClockCircleOutlined,
+  UserOutlined
+} from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
 
 const DashlistePresence = ({ employes }) => {
+
+  const statutConfig = {
+    PRESENT: {
+      label: "Présent",
+      full: "Présent",
+      color: "green",
+      icon: <CheckCircleOutlined />,
+    },
+    ABSENT: {
+      label: "Absent",
+      full: "Absent",
+      color: "red",
+      icon: <CloseCircleOutlined />,
+    },
+    ABSENCE_JUSTIFIEE: {
+      label: "AJ",
+      full: "Absence justifiée",
+      color: "orange",
+      icon: <ExclamationCircleOutlined />,
+    },
+    JOUR_FERIE: {
+      label: "JF",
+      full: "Jour férié",
+      color: "purple",
+      icon: <CalendarOutlined />,
+    },
+    JOUR_NON_TRAVAILLE: {
+      label: "JNT",
+      full: "Jour non travaillé",
+      color: "default",
+      icon: <StopOutlined />,
+    },
+    SUPPLEMENTAIRE: {
+      label: "SUP",
+      full: "Heure supplémentaire",
+      color: "blue",
+      icon: <ClockCircleOutlined />,
+    },
+  };
 
   const columns = [
     {
@@ -13,63 +61,91 @@ const DashlistePresence = ({ employes }) => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: 'Nom & Prénom',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (text, record) => (
+      title: "Nom & Prénom",
+      dataIndex: "nom",
+      key: "nom",
+      render: (_, record) => (
         <div>{record.nom} - {record.prenom}</div>
-      )
+      ),
     },
     {
-      title: 'Statut',
-      dataIndex: 'statut_jour',
-      key: 'statut_jour',
+      title: "Statut",
+      dataIndex: "statut_jour",
+      key: "statut_jour",
+      align: "center",
       render: (text) => {
-        let color = 'default';
-        if (text === 'PRESENT') color = 'green';
-        else if (text === 'ABSENT') color = 'red';
-        else if (text === 'ABSENCE_JUSTIFIEE') color = 'orange';
-        return <Tag color={color}>{text}</Tag>;
-      }
+        const config = statutConfig[text];
+        if (!config) return <Tag>{text}</Tag>;
+
+        return (
+          <Tooltip title={config.full}>
+            <Tag color={config.color} icon={config.icon}>
+              {config.label}
+            </Tag>
+          </Tooltip>
+        );
+      },
     },
     {
-      title: 'Heure entrée',
-      dataIndex: 'heure_entree',
-      key: 'heure_entree',
+      title: "Entrée",
+      dataIndex: "heure_entree",
+      key: "heure_entree",
+      align: "center",
       render: (text) => {
-        if (!text || text === '-') return '-';
-        return moment(text, 'HH:mm:ss', true).isValid()
-          ? moment(text, 'HH:mm:ss').format('HH:mm')
-          : '-';
-      }
+        if (!text || text === "-") return "-";
+        return moment(text, "HH:mm:ss", true).isValid()
+          ? moment(text, "HH:mm:ss").format("HH:mm")
+          : "-";
+      },
     },
     {
-      title: 'Heure sortie',
-      dataIndex: 'heure_sortie',
-      key: 'heure_sortie',
+      title: "Sortie",
+      dataIndex: "heure_sortie",
+      key: "heure_sortie",
+      align: "center",
       render: (text) => {
-        if (!text || text === '-') return '-';
-        return moment(text, 'HH:mm:ss', true).isValid()
-          ? moment(text, 'HH:mm:ss').format('HH:mm')
-          : '-';
-      }
+        if (!text || text === "-") return "-";
+        return moment(text, "HH:mm:ss", true).isValid()
+          ? moment(text, "HH:mm:ss").format("HH:mm")
+          : "-";
+      },
     },
     {
-      title: 'Statut affiché',
-      dataIndex: 'statut_affiche',
-      key: 'statut_affiche',
+      title: "Ponctualité",
+      dataIndex: "statut_affiche",
+      key: "statut_affiche",
+      align: "center",
       render: (text) => {
-        let color = 'blue';
-        if (text === 'RETARD') color = 'red';
-        else if (text === 'A L_HEURE') color = 'green';
-        return <Tag color={color}>{text}</Tag>;
-      }
+      if (!text) return "-";
+
+      const config = {
+        RETARD: {
+          color: "red",
+          icon: <ExclamationCircleOutlined />,
+          label: "RET"
+        },
+        A_L_HEURE: {
+          color: "green",
+          icon: <CheckCircleOutlined />,
+          label: "OK"
+        }
+      };
+
+      const current = config[text];
+
+      return (
+        <Tag color={current?.color || "default"} icon={current?.icon}>
+          {current?.label || text}
+        </Tag>
+      );
     }
+    },
   ];
 
   return (
     <div className="dashboard-section">
-      <div className="section-header">
+      <div className="section-header"  style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <UserOutlined />
         Liste des employés
       </div>
 
