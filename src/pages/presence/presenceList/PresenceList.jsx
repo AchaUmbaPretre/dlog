@@ -7,6 +7,7 @@ import { postAttendanceAdjustment, postPresence } from "../../../services/presen
 import { useSelector } from "react-redux";
 import AttendanceAdjustmentModal from "../autorisationSortie/attendanceAdjustmentModal/AttendanceAdjustmentModal";
 import { PresenceCell } from "./utils/presenceCell";
+import { exportPresenceToExcel } from "./utils/exportPresenceExcel";
 import moment from "moment";
 
 const { MonthPicker } = DatePicker;
