@@ -19,6 +19,13 @@ const PresenceRapportRP = () => {
 
   const columns = [
     {
+      title: '#',
+      key: 'index',
+      width: 50,
+      align: 'center',
+      render: (_, __, index) => index + 1,
+    },
+    {
       title: "Employé",
       dataIndex: "nom",
       key: "nom",
