@@ -1,31 +1,35 @@
-// presenceCell.js
 import { Tooltip, Tag } from "antd";
+import { 
+  CheckCircleOutlined, 
+  CloseCircleOutlined, 
+  ExclamationCircleOutlined, 
+  ClockCircleOutlined, 
+  StarOutlined 
+} from "@ant-design/icons";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 
 const STATUTS = {
-  PRESENT: { label: "Présent", color: "#52c41a" },
-  ABSENT: { label: "Absent", color: "#f5222d" },
-  ABSENCE_JUSTIFIEE: { label: "Absence justifiée", color: "#faad14" },
-  JOUR_FERIE: { label: "Jour férié", color: "#722ed1" },
-  JOUR_NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf" },
-  SUPPLEMENTAIRE: { label: "Supplémentaire", color: "#13c2c2" },
+  PRESENT: { label: "Présent", color: "#52c41a", icon: <CheckCircleOutlined /> },
+  ABSENT: { label: "Absent", color: "#f5222d", icon: <CloseCircleOutlined /> },
+  ABSENCE_JUSTIFIEE: { label: "Absence justifiée", color: "#faad14", icon: <ExclamationCircleOutlined /> },
+  JOUR_FERIE: { label: "Jour férié", color: "#722ed1", icon: <ClockCircleOutlined /> },
+  JOUR_NON_TRAVAILLE: { label: "Jour off", color: "#bfbfbf", icon: <ClockCircleOutlined /> },
+  SUPPLEMENTAIRE: { label: "Supplémentaire", color: "#13c2c2", icon: <StarOutlined /> },
 };
 
-const DEFAULT_STATUT = { label: "--", color: "#d9d9d9" };
+const DEFAULT_STATUT = { label: "--", color: "#d9d9d9", icon: null };
 
 export const PresenceCell = ({ cell = {}, onClick, onRightClick, disabled }) => {
-
   const statut = cell?.statut || "ABSENT";
-
   const info = STATUTS[statut] || DEFAULT_STATUT;
 
-const formatHeure = (heure) => {
-  if (!heure) return "--";
-  return dayjs(heure).format("HH:mm");
-};
+  const formatHeure = (heure) => {
+    if (!heure) return "--";
+    return dayjs(heure).format("HH:mm");
+  };
 
   return (
     <Tooltip
@@ -58,10 +62,14 @@ const formatHeure = (heure) => {
             fontWeight: 600,
             fontSize: 12,
             width: "100%",
-            textAlign: "center"
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 4
           }}
         >
-          {info.label}
+          {info.icon} {info.label}
         </Tag>
 
         <div style={{ fontSize: 10, color: "#555" }}>

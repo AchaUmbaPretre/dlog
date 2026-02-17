@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from "react";
 import { Table, Card, Space, DatePicker, Input, Button, notification } from "antd";
-import { LeftOutlined, RightOutlined, UserOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { usePresenceData } from "../hooks/usePresenceData";
 import { postAttendanceAdjustment, postPresence } from "../../../services/presenceService";
@@ -115,7 +115,11 @@ const PresenceList = () => {
     if (!data) return [];
 
     const dynamicColumns = data.dates.map((d) => ({
-      title: d.label,
+      title: (
+        <div style={{ color: '#1890ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <CalendarOutlined /> {d.label}
+        </div>
+      ),
       dataIndex: d.date,
       align: "center",
       width: 100,
@@ -123,7 +127,7 @@ const PresenceList = () => {
         const today = dayjs().startOf("day");
         const dateCell = dayjs(d.date);
 
-        const isPast = dateCell.isBefore(today, "day"); // jour passé
+        const isPast = dateCell.isBefore(today, "day"); 
         const isLocked = cell.is_locked === 1; // verrouillé
         const isNonModifiable =
           isPast || isLocked || ["JOUR_FERIE"].includes(cell.statut_jour);
@@ -156,7 +160,7 @@ const PresenceList = () => {
       title: "Total",
       dataIndex: "total",
       fixed: "right",
-      width: 80,
+      width: 75,
       align: "center",
     render: (_, record) => {
       // On ne compte que les statuts comptables pour présence
@@ -183,7 +187,7 @@ const PresenceList = () => {
 
     return [
       { title: "#", fixed: "left", width: 50, render: (_, __, index) => index + 1 },
-      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 160, render: (text, record) => <strong><UserOutlined /> {`${record.nom} - ${record.prenom}`}</strong> },
+      { title: "Utilisateur", dataIndex: "nom", fixed: "left", width: 165, render: (text, record) => <strong><UserOutlined /> {`${record.nom} - ${record.prenom}`}</strong> },
       ...dynamicColumns
     ];
   }, [data, handleClickCell]);
