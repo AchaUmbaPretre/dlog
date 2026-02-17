@@ -1,37 +1,39 @@
+// src/components/presence/utils/exportPresenceExcel.js
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 /**
  * Exporte les données de présence au format Excel
- * @param {Array} data Utilisateurs avec leurs présences
- * @param {Array} dates Liste des dates (labels)
- * @param {String} monthLabel Label du mois (ex: "Janvier 2026")
+ * @param {Array} utilisateurs Liste des utilisateurs avec leurs présences
+ * @param {Array} dates Liste des dates (ex: [{ date: '2026-02-01', label: '01/02' }, ...])
+ * @param {String} monthLabel Label du mois (ex: "02-2026")
  */
-export const exportPresenceToExcel = (data, dates, monthLabel) => {
-  if (!data || data.length === 0) return;
+export const exportPresenceToExcel = (utilisateurs, dates, monthLabel) => {
+  if (!utilisateurs || utilisateurs.length === 0) return;
 
-  // Construction des en-têtes
+  // En-têtes
   const headers = ["Nom", "Prénom", ...dates.map(d => d.label), "Total"];
 
-  // Construction des lignes
-  const rows = data.map(u => {
+  // Lignes
+  const rows = utilisateurs.map(u => {
     const presenceValues = dates.map(d => {
       const cell = u.presences?.[d.date] || {};
       return cell.statut || "-";
     });
 
-    // Total présent
-    const joursTravailles = presenceValues.filter(v => ["PRESENT", "ABSENT", "CONGE", "AUTORISATION_SORTIE"].includes(v)).length;
+    const joursTravailles = presenceValues.filter(v =>
+      ["PRESENT", "ABSENT", "CONGE", "AUTORISATION_SORTIE"].includes(v)
+    ).length;
+
     const joursPresents = presenceValues.filter(v => v === "PRESENT").length;
+
     const total = `${joursPresents}/${joursTravailles}`;
 
     return [u.nom, u.prenom, ...presenceValues, total];
   });
 
-  // Création de la feuille de calcul
+  // Création de la feuille Excel
   const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
-
-  // Création du classeur
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Présences");
 

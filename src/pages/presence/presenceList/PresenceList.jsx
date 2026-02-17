@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from "react";
-import { Table, Card, Space, DatePicker, Input, Button, notification } from "antd";
-import { LeftOutlined, RightOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons";
+import { Table, Card, Space, DatePicker, Tooltip, Input, Button, notification } from "antd";
+import { LeftOutlined, RightOutlined, FileExcelOutlined, CalendarOutlined, UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { usePresenceData } from "../hooks/usePresenceData";
 import { postAttendanceAdjustment, postPresence } from "../../../services/presenceService";
@@ -218,6 +218,20 @@ const PresenceList = () => {
             onChange={(e) => setSearchValue(e.target.value)}
             style={{ width: 280 }}
           />
+          <Tooltip title="Exporter Excel">
+            <Button
+              type="primary"
+              icon={<FileExcelOutlined />}
+              onClick={() =>
+                exportPresenceToExcel(
+                  data?.utilisateurs || [], // <-- on passe directement les utilisateurs
+                  data?.dates || [],
+                  `${dateRange.month}-${dateRange.year}`
+                )
+              }
+            />
+          </Tooltip>
+
         </Space>
       }
     >
