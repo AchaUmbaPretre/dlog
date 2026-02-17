@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input,Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
-import { ExportOutlined,SafetyOutlined, LockOutlined, EnvironmentOutlined, ApartmentOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Input, Switch, Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
+import { ExportOutlined,SafetyOutlined, CloseOutlined, CheckOutlined, LockOutlined, EnvironmentOutlined, ApartmentOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
@@ -81,19 +81,28 @@ const Users = () => {
   };
 
   const handleToggleActive = async (record) => {
-    try {
-      const newStatus = record.is_active ? 0 : 1;
+    const newStatus = record.is_active ? 0 : 1;
 
+    try {
       await putIsActive({
         id_utilisateur: record.id_utilisateur,
         is_active: newStatus
       });
 
-      message.success(
-        newStatus ? "Utilisateur activé avec succès" : "Utilisateur désactivé avec succès"
+      // ✅ Update local sans re-fetch
+      setData(prev =>
+        prev.map(user =>
+          user.id_utilisateur === record.id_utilisateur
+            ? { ...user, is_active: newStatus }
+            : user
+        )
       );
 
-      fetchData(); // recharge proprement les données
+      message.success(
+        newStatus
+          ? "Utilisateur activé avec succès"
+          : "Utilisateur désactivé avec succès"
+      );
     } catch (error) {
       notification.error({
         message: "Erreur",
@@ -101,7 +110,6 @@ const Users = () => {
       });
     }
   };
-
 
   const menu = (
     <Menu>
@@ -175,9 +183,23 @@ const Users = () => {
       dataIndex: 'is_active',
       key: 'is_active',
       render: (value, record) => (
-        <Tag color={value ? 'green' : 'red'}>
-          {value ? 'Actif' : 'Inactif'}
-        </Tag>
+        <Popconfirm
+          title={`Confirmer ${
+            value ? "la désactivation" : "l'activation"
+          } de cet utilisateur ?`}
+          onConfirm={() => handleToggleActive(record)}
+          okText="Oui"
+          cancelText="Non"
+        >
+          <Switch
+            checked={value === 1}
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            style={{
+              backgroundColor: value ? '#52c41a' : '#ff4d4f'
+            }}
+          />
+        </Popconfirm>
       ),
     },
     {
@@ -193,22 +215,6 @@ const Users = () => {
               onClick={() => handleEdit(record.id_utilisateur)}
               aria-label="Edit client"
             />
-          </Tooltip>
-          
-          <Tooltip title={record.is_active ? "Désactiver" : "Activer"}>
-            <Popconfirm
-              title={`Êtes-vous sûr de vouloir ${
-                record.is_active ? "désactiver" : "activer"
-              } cet utilisateur ?`}
-              onConfirm={() => handleToggleActive(record)}
-              okText="Oui"
-              cancelText="Non"
-            >
-              <Button
-                icon={<SafetyOutlined />}
-                style={{ color: record.is_active ? 'red' : 'green' }}
-              />
-            </Popconfirm>
           </Tooltip>
 
           <Tooltip title="Changer le mot de passe">
