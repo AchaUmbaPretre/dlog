@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Tabs } from 'antd';
 import { ResponsiveLine } from '@nivo/line';
 import { ResponsivePie } from '@nivo/pie';
-import { LineChartOutlined, UserDeleteOutlined, CheckCircleOutlined, ClockCircleOutlined, PieChartOutlined } from '@ant-design/icons';
+import { LineChartOutlined, UserDeleteOutlined, BarChartOutlined, CheckCircleOutlined, ClockCircleOutlined, PieChartOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
@@ -40,7 +40,8 @@ const DashPresenceChart = ({ evolution, statuts, kpi }) => {
   return (
     <div className="dashboard-section">
       
-      <div className="section-header">
+      <div className="section-header" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <BarChartOutlined />
         Statistiques de présence
       </div>
 
