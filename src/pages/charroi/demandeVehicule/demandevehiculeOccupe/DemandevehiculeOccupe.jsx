@@ -35,9 +35,6 @@ const DemandevehiculeOccupe = () => {
     return () => clearInterval(interval);
   }, []);
 
-  /* ======================================================
-     🔹 RENDRE UN VÉHICULE DISPONIBLE
-  ====================================================== */
   const handleRendreDisponible = async (idVehicule) => {
     try {
       setLoading(true);
@@ -94,8 +91,8 @@ const DemandevehiculeOccupe = () => {
           <Text strong>Modèle</Text>
         </Space>
       ),
-      dataIndex: 'nom_modele',
-      key: 'nom_modele',
+      dataIndex: 'modele',
+      key: 'modele',
       ellipsis: { showTitle: false },
       render: (text) => <Tooltip title={text}><Text>{text}</Text></Tooltip>,
     },
