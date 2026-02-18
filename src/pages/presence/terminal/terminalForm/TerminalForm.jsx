@@ -103,6 +103,7 @@ const TerminalForm = ({ closeModal, fetchData }) => {
       setSubmitting(false);
     }
   }, [form, start, finish, reset, closeModal, fetchData]);
+  
 
   return (
     <Card bordered={false} className="vehicule-card pro shine-card">
