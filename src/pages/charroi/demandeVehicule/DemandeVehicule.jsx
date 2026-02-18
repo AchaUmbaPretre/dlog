@@ -22,6 +22,7 @@ import { getRapportCharroiVehicule } from '../../../services/rapportService';
 import RapportVehiculeCourses from '../rapportCharroi/rapportVehiculeCourses/RapportVehiculeCourses';
 import RapportVehiculeValide from '../rapportCharroi/rapportVehiculeValide/RapportVehiculeValide';
 import RapportVehiculeUtilitaire from '../rapportCharroi/rapportVehiculeUtilitaire/RapportVehiculeUtilitaire';
+import DemandevehiculeOccupe from './demandevehiculeOccupe/DemandevehiculeOccupe';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -640,6 +641,16 @@ const DemandeVehicule = () => {
                             key="7"
                         >
                             <RapportVehiculeUtilitaire utilitaire={utilitaire} />
+                        </TabPane>
+                        <TabPane
+                            tab={
+                                <span>
+                                🚗 Liste des occupés
+                                </span>
+                            }
+                            key="8"
+                        >
+                            <DemandevehiculeOccupe utilitaire={utilitaire} />
                         </TabPane>
                     </Tabs>
                 </TabPane>

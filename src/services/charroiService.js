@@ -64,6 +64,14 @@ export const getVehiculeOccupe = async () => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule_occupe`);
 }
 
+export const rendreVehiculeDispo = async (id) => {
+    return axios.put(`${DOMAIN}/api/charroi/vehicule/rend_dispo`, null, {
+        params: {
+            id_vehicule: id
+        }
+    });
+};
+
 export const getVehiculeOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/vehicule/one?id_vehicule=${id}`);
 }
