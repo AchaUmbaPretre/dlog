@@ -5,7 +5,7 @@ import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
 import ForgotUserAdmin from './forgotUserAdmin/ForgotUserAdmin';
-import { putIsActive } from '../../services/userService'
+import { putIsActive, putShowInpresence } from '../../services/userService'
 
 const { Search } = Input;
 
@@ -68,8 +68,6 @@ const Users = () => {
 
   const handleDelete = async (id) => {
     try {
-      // Uncomment when delete function is available
-      // await deleteClient(id);
       setData(data.filter((item) => item.id !== id));
       message.success("L'utilisateur a été supprimé avec succès");
     } catch (error) {
@@ -110,6 +108,38 @@ const Users = () => {
       });
     }
   };
+
+  const handleToggleShowInPresence = async (record) => {
+  const newStatus = record.show_in_presence ? 0 : 1;
+
+  try {
+    await putShowInpresence({
+      id_utilisateur: record.id_utilisateur,
+      show_in_presence: newStatus
+    });
+
+    // Mise à jour locale sans refetch complet
+    setData(prev =>
+      prev.map(user =>
+        user.id_utilisateur === record.id_utilisateur
+          ? { ...user, show_in_presence: newStatus }
+          : user
+      )
+    );
+
+    message.success(
+      newStatus
+        ? "Utilisateur activé pour la présence"
+        : "Utilisateur désactivé pour la présence"
+    );
+  } catch (error) {
+    notification.error({
+      message: "Erreur",
+      description: "Impossible de modifier le statut de présence."
+    });
+  }
+};
+
 
   const menu = (
     <Menu>
@@ -197,6 +227,30 @@ const Users = () => {
             unCheckedChildren={<CloseOutlined />}
             style={{
               backgroundColor: value ? '#52c41a' : '#ff4d4f'
+            }}
+          />
+        </Popconfirm>
+      ),
+    },
+    {
+      title: 'Présence',
+      dataIndex: 'show_in_presence',
+      key: 'show_in_presence',
+      render: (value, record) => (
+        <Popconfirm
+          title={`Confirmer ${
+            value ? "la désactivation" : "l'activation"
+          } de cet utilisateur pour la présence ?`}
+          onConfirm={() => handleToggleShowInPresence(record)}
+          okText="Oui"
+          cancelText="Non"
+        >
+          <Switch
+            checked={value === 1}
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            style={{
+              backgroundColor: value ? '#1890ff' : '#ff4d4f'
             }}
           />
         </Popconfirm>

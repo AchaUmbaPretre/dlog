@@ -28,6 +28,10 @@ export const putIsActive = async (data) => {
   return axios.put(`${DOMAIN}/api/user/IsActive`, data);
 };
 
+export const putShowInpresence = async (data) => {
+  return axios.put(`${DOMAIN}/api/user/ShowInpresence`, data);
+};
+
 //Signature
 export const getSignature = async (id) => {
   return axios.get(`${DOMAIN}/api/user/signature?userId=${id}`);
