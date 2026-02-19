@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { Typography } from "antd";
+import { Typography, Tag, Tooltip } from "antd";
 import moment from "moment";
+import { statutConfig } from "../../../../utils/presenceStatutConfig";
 
 const { Text } = Typography;
 
@@ -17,7 +18,7 @@ export const usePresenceAllColumns = () => {
         title: "Nom",
         dataIndex: "nom",
         key: "nom",
-        render: (text) => <Text strong>{text}</Text>,
+        render: (text, record) => <Text strong>{`${record.nom} - ${record.prenom}`}</Text>,
       },
       {
         title: "Site",
@@ -29,8 +30,20 @@ export const usePresenceAllColumns = () => {
         title: "Statut",
         dataIndex: "statut_jour",
         key: "statut_jour",
-        render: (text) => <Text>{text ?? "N/A"}</Text>,
-      },
+        align: "center",
+        render: (text) => {
+              const config = statutConfig[text];
+              if (!config) return <Tag>{text}</Tag>;
+      
+              return (
+                <Tooltip title={config.full}>
+                  <Tag color={config.color} icon={config.icon}>
+                    {config.label}
+                  </Tag>
+                </Tooltip>
+              );
+            },
+          },
       {
         title: "Date",
         dataIndex: "date_presence",
