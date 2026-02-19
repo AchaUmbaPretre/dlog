@@ -7,6 +7,7 @@ import {
   TrophyOutlined
 } from '@ant-design/icons';
 import './../dashboardSection.scss';
+import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
 
 const TopAbsences = ({ topAbsences }) => {
 
@@ -18,15 +19,15 @@ const TopAbsences = ({ topAbsences }) => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: 'Nom & Prénom',
-      dataIndex: 'nom',
-      key: 'nom',
-      render: (_, record) => (
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <UserOutlined />
-          {record.nom} - {record.prenom}
-        </div>
-      )
+        title: "Profil",
+        key: "profil",
+        render: (_, record) => (
+          <UserAvatarProfile
+            nom={record.nom}
+            prenom={record.prenom}
+            email={record.email}
+          />
+        ),
     },
     {
       title: 'Absences',

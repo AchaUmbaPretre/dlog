@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, Switch, Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
-import { ExportOutlined,SafetyOutlined, CloseOutlined, CheckOutlined, LockOutlined, EnvironmentOutlined, ApartmentOutlined, PrinterOutlined,DeleteOutlined,MailOutlined,EditOutlined, UserOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
+import { Table, Button, Modal, Typography, Input, Switch, Tooltip, Tag, message,Popconfirm, Dropdown, Menu, notification, Space } from 'antd';
+import { ExportOutlined, DesktopOutlined, SafetyOutlined, CloseOutlined, CheckOutlined, LockOutlined, PrinterOutlined,DeleteOutlined, EditOutlined, PlusOutlined, TeamOutlined } from '@ant-design/icons';
 import config from '../../config';
 import { getUser } from '../../services/userService';
 import FormUsers from './formUsers/FormUsers';
 import ForgotUserAdmin from './forgotUserAdmin/ForgotUserAdmin';
 import { putIsActive, putShowInpresence } from '../../services/userService'
+import UserAvatarProfile from '../../utils/UserAvatarProfile';
 
 const { Search } = Input;
+const { Text } = Typography;
 
 const Users = () => {
   const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
@@ -154,39 +156,23 @@ const Users = () => {
 
   const columns = [
     { title: '#', dataIndex: 'id', key: 'id', render: (text, record, index) => index + 1, width: "3%" },
-    { title: 'Nom', 
-      dataIndex: 'nom', 
-      key: 'nom',
-      render: text => (
-        <Space>
-          <Tag icon={<UserOutlined />} color='green'>{text}</Tag>
-        </Space>
-    )
-    },
-    { title: 'Prénom', 
-      dataIndex: 'prenom', 
-      key: 'prenom',
-      render: text => (
-        <Space>
-          <Tag icon={<UserOutlined />} color='green'>{text ?? 'N/A'}</Tag>
-        </Space>
-    )
-    },
-    { title: 'Email', 
-      dataIndex: 'email', 
-      key: 'email',
-      render: text => (
-        <Space>
-          <Tag icon={<MailOutlined />} color='blue'>{text}</Tag>
-        </Space>
-      ),
+    {
+        title: "Profil",
+        key: "profil",
+        render: (_, record) => (
+          <UserAvatarProfile
+            nom={record.nom}
+            prenom={record.prenom}
+            email={record.email}
+          />
+        ),
     },
     { title: 'Ville', 
-      dataIndex: 'name', 
+      dataIndex: 'name',    
       key: 'name',
       render: text => (
         <Space>
-          <Tag icon={<EnvironmentOutlined />} color='red'>{text ?? 'N/A'}</Tag>
+          <Text type="secondary">{text ?? 'N/A'}</Text>
         </Space>
       ),
     },
@@ -195,7 +181,7 @@ const Users = () => {
       key: 'nom_departement',
       render: text => (
         <Space>
-          <Tag icon={<ApartmentOutlined />} color='cyan'>{text ?? 'N/A'}</Tag>
+          <Text type="secondary">{text ?? 'N/A'}</Text>
         </Space>
       ),
     },
@@ -205,6 +191,18 @@ const Users = () => {
       render: text => (
         <Space>
           <Tag icon={<SafetyOutlined />} color='cyan'>{text}</Tag>
+        </Space>
+      ),
+    },
+    {
+      title: "Code terminal",
+      dataIndex: "matricule",
+      key: "matricule",
+      render: (text) => (
+        <Space>
+          <Tag icon={<DesktopOutlined />} color="geekblue">
+            {text ?? 'N/A'}
+          </Tag>
         </Space>
       ),
     },

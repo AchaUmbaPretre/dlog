@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
 import { statutConfig } from '../../../../utils/presenceStatutConfig';
+import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
 
 const DashlistePresence = ({ employes }) => {
 
@@ -19,13 +20,16 @@ const DashlistePresence = ({ employes }) => {
       render: (_, __, index) => index + 1,
     },
     {
-      title: "Nom & Prénom",
-      dataIndex: "nom",
-      key: "nom",
-      render: (_, record) => (
-        <div>{record.nom} - {record.prenom}</div>
-      ),
-    },
+        title: "Profil",
+        key: "profil",
+        render: (_, record) => (
+          <UserAvatarProfile
+            nom={record.nom}
+            prenom={record.prenom}
+            email={record.email}
+          />
+        ),
+    },    
     {
       title: "Statut",
       dataIndex: "statut_jour",

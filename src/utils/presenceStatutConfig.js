@@ -33,10 +33,10 @@ export  const statutConfig = {
       icon: <CalendarOutlined />,
     },
     JOUR_NON_TRAVAILLE: {
-      label: "JNT",
+      label: "Jour off",
       full: "Jour non travaillé",
       color: "default",
-      icon: <StopOutlined />,
+      icon: <StopOutlined style={{color:'red'}}/>,
     },
     SUPPLEMENTAIRE: {
       label: "SUP",
