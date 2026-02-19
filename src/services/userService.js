@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../config';
-import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -30,7 +29,7 @@ export const putIsActive = async (data) => {
 
 export const putShowInpresence = async (data) => {
   return axios.put(`${DOMAIN}/api/user/ShowInpresence`, data);
-};
+};       
 
 //Signature
 export const getSignature = async (id) => {
