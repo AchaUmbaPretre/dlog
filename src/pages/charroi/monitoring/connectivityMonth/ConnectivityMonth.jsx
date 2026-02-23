@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { Typography, DatePicker, Table, notification, Spin, Tag, Input, Button, Tooltip, Space } from 'antd';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -7,7 +7,6 @@ import { getConnectivityMonth } from '../../../../services/eventService';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import html2pdf from 'html2pdf.js';
-import { getSite, getVehicule } from '../../../../services/charroiService';
 
 const { Title } = Typography;
 
@@ -16,18 +15,8 @@ const ConnectivityMonth = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState('');
-  const [site, setSite] = useState([]);
-  const [vehicule, setVehicule] = useState([]);
   const tableRef = useRef();
 
-  const fetchDatas = async() => {
-    const [vehiculeData, siteData] = await Promise.all([
-      getVehicule(),
-      getSite()
-    ])
-    setVehicule(vehiculeData?.data?.data)
-    setSite(siteData.data)
-  }
 
   const fetchData = async () => {
     setLoading(true);
@@ -55,7 +44,7 @@ const ConnectivityMonth = () => {
   const formatDayWithMonth = (day) => {
     const monthYear = moment(month, 'YYYY-MM');
     const fullDate = monthYear.date(parseInt(day));
-    return fullDate.format('MMM D'); // ex: "oct 12"
+    return fullDate.format('MMM D');
   };
 
   const getScoreColor = (score) => {
@@ -91,7 +80,6 @@ const ConnectivityMonth = () => {
       return row;
     });
 
-  // 🔹 Colonnes
   const columns = [
     {
       title: '#',
