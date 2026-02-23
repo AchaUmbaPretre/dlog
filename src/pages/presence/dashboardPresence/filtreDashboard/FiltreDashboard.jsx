@@ -4,8 +4,10 @@ import './filtreDashboard.scss'
 const FiltreDashboard = () => {
   return (
     <>
-        <div className="filtre_dashboard">
-            aaaaaa
+        <div className="filtre__dashboard">
+            <div className="filtre__wrapper">
+aaaaaaaaaa
+            </div>
         </div>
     </>
   )
