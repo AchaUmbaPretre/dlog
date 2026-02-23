@@ -34,6 +34,18 @@ const tabConfig = [
     label: 'Rapport Retard & Ponctualité',
     icon: <ClockCircleOutlined />,
     component: <PresenceRapportRP />
+  },
+  {
+    key: '5',
+    label: 'Rapport Audit',
+    icon: <ClockCircleOutlined />,
+    component: <PresenceRapportRP />
+  },
+  {
+    key: '6',
+    label: 'Rapports de performance',
+    icon: <ClockCircleOutlined />,
+    component: <PresenceRapportRP />
   }
 ];
 

@@ -6,6 +6,7 @@ import './dashboardPresence.scss';
 import { getPresenceDashboard, getPresenceDashboardParSite } from '../../../services/presenceService';
 import { notification } from 'antd';
 import TopAbsences from './topAbsences/TopAbsences';
+import FiltreDashboard from './filtreDashboard/FiltreDashboard';
 
 const DashboardPresence = () => {
     const [data, setData] = useState({
@@ -41,16 +42,19 @@ const DashboardPresence = () => {
 
   return (
     <>
-        <div className="dashboardPresence">
-            <DashboardStats kpi={data.kpi} sites={sites} />
-            <div className="dashboard_wrapper">
-                <div style={{flex:1}}>
-                    <DashPresenceChart evolution={data?.evolution} statuts={data.statuts} kpi={data.kpi} />
-                </div>
+        <div className="dashboard_container">
+            <FiltreDashboard/>
+            <div className="dashboardPresence">
+                <DashboardStats kpi={data.kpi} sites={sites} />
+                <div className="dashboard_wrapper">
+                    <div style={{flex:1}}>
+                        <DashPresenceChart evolution={data?.evolution} statuts={data.statuts} kpi={data.kpi} />
+                    </div>
 
-                <div style={{flex:1}}>
-                    <DashlistePresence employes={data?.employes} />
-                    <TopAbsences topAbsences={data?.topAbsences} />
+                    <div style={{flex:1}}>
+                        <DashlistePresence employes={data?.employes} />
+                        <TopAbsences topAbsences={data?.topAbsences} />
+                    </div>
                 </div>
             </div>
         </div>
