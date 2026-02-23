@@ -268,10 +268,10 @@ const columns = [
 
             <Tabs.TabPane
               tab={
-                    <span style={getTabStyle('2')}>
-                        <DashboardOutlined style={iconStyle('2')} />
-                        Rapport Month
-                    </span>
+                <span style={getTabStyle('2')}>
+                  <DashboardOutlined style={iconStyle('2')} />
+                  Rapport Month
+                </span>
               }
               key="2"
             >
