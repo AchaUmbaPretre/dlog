@@ -275,7 +275,7 @@ const columns = [
               }
               key="2"
             >
-                <ConnectivityMonth/>
+              <ConnectivityMonth/>
             </Tabs.TabPane>
         </Tabs>
         <Modal

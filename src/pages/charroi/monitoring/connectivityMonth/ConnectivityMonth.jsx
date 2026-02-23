@@ -35,7 +35,6 @@ const ConnectivityMonth = () => {
 
   useEffect(() => {
     fetchData();
-    fetchDatas();
   }, [month]);
 
   const devices = useMemo(() => [...new Set(data.map(item => item.device_name))], [data]);
