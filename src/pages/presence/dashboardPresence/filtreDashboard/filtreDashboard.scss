@@ -1,9 +1,40 @@
-.filtre_dashboard {
-    width: 100%;
-    background: #fff;
-    border : 1px solid #e5e7eb;
-    border-radius: 8px;
-    margin-top: 16px;
-    margin-bottom: 20px;
-    padding: 10px;
+.filtre__dashboard {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+}
+
+.filtre__wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filtre__item {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+
+  label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+}
+
+.filtre__select {
+  width: 100%;
+}
+
+.filtre__loading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
 }
