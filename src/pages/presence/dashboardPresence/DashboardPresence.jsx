@@ -4,7 +4,7 @@ import DashPresenceChart from './dashPresenceChart/DashPresenceChart'
 import DashboardStats from './dashboardStats/DashboardStats'
 import './dashboardPresence.scss';
 import { getPresenceDashboard, getPresenceDashboardParSite } from '../../../services/presenceService';
-import { notification, Button } from 'antd';
+import { notification, Button, Tooltip } from 'antd';
 import TopAbsences from './topAbsences/TopAbsences';
 import FiltreDashboard from './filtreDashboard/FiltreDashboard';
 import {
@@ -51,12 +51,16 @@ return (
     <div className="dashboardPresence">
 
       <div className="dashboard_header">
-        <Button
-          icon={<FilterOutlined />}
-          type={showFilter ? "primary" : "default"}
-          onClick={() => setShowFilter(prev => !prev)}
+        <Tooltip
+            title={showFilter ? "Masquer les filtres" : "Afficher les filtres"}
+            placement="top"
         >
-        </Button>
+        <Button
+            icon={<FilterOutlined />}
+            type={showFilter ? "primary" : "default"}
+            onClick={() => setShowFilter(prev => !prev)}
+        />
+        </Tooltip>
       </div>
 
       <div className={`dashboard_filter ${showFilter ? "open" : "closed"}`}>
