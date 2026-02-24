@@ -2,7 +2,10 @@ import { Table, Tag, Tooltip } from 'antd';
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
-  UserOutlined
+  UserOutlined,
+  CloseCircleOutlined,
+  CalendarOutlined,
+  QuestionCircleOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -78,30 +81,43 @@ const DashlistePresence = ({ employes }) => {
       key: "statut_affiche",
       align: "center",
       render: (text) => {
-      if (!text) return "-";
+        if (!text) return "-";
 
-      const config = {
-        RETARD: {
-          color: "red",
-          icon: <ExclamationCircleOutlined />,
-          label: "RET"
-        },
-        A_L_HEURE: {
-          color: "green",
-          icon: <CheckCircleOutlined />,
-          label: "OK"
-        }
-      };
+        const statusConfig = {
+          RETARD: {
+            color: "red",
+            icon: <ExclamationCircleOutlined />,
+            label: "RET"
+          },
+          A_L_HEURE: {
+            color: "green",
+            icon: <CheckCircleOutlined />,
+            label: "OK"
+          },
+          ABSENT: {
+            color: "volcano",
+            icon: <CloseCircleOutlined />,
+            label: "ABS"
+          },
+          JOUR_NON_TRAVAILLE: {
+            color: "blue",
+            icon: <CalendarOutlined />,
+            label: "OFF"
+          }
+        };
 
-      const current = config[text];
+        const current = statusConfig[text];
 
-      return (
-        <Tag color={current?.color || "default"} icon={current?.icon}>
-          {current?.label || text}
-        </Tag>
-      );
+        return (
+          <Tag
+            color={current?.color || "default"}
+            icon={current?.icon || <QuestionCircleOutlined />}
+          >
+            {current?.label || text}
+          </Tag>
+        );
+      }
     }
-    },
   ];
 
   return (

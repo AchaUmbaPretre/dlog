@@ -20,7 +20,7 @@ export const useFiltreDashData = () => {
                 getUser(),
             ]);
 
-            setSites(Array.isArray(siteRes?.data) ? siteRes.data : []);
+            setSites(Array.isArray(siteRes?.data.data) ? siteRes.data.data : []);
             setDepartments(Array.isArray(deptRes?.data) ? deptRes.data : []);
             setData(Array.isArray(userRes?.data) ? userRes.data : []);
         } catch (error) {
