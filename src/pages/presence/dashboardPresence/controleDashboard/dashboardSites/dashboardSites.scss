@@ -23,6 +23,154 @@
         font-size: 18px;
       }
     }
+
+    // Nouveaux indicateurs de statut
+    .status-indicators {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+
+      .status-card {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 14px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        &.present {
+          background: linear-gradient(135deg, #e6f7ff 0%, #bae7ff 100%);
+          border-left: 4px solid #1890ff;
+        }
+
+        &.retard {
+          background: linear-gradient(135deg, #fff7e6 0%, #ffe7ba 100%);
+          border-left: 4px solid #fa8c16;
+        }
+
+        &.absent {
+          background: linear-gradient(135deg, #fff1f0 0%, #ffccc7 100%);
+          border-left: 4px solid #f5222d;
+        }
+
+        .status-icon {
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          background: white;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+          .present & {
+            color: #1890ff;
+          }
+
+          .retard & {
+            color: #fa8c16;
+          }
+
+          .absent & {
+            color: #f5222d;
+          }
+        }
+
+        .status-content {
+          flex: 1;
+
+          .status-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #595959;
+            display: block;
+            margin-bottom: 4px;
+          }
+
+          .status-value {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+            
+            .present & {
+              color: #1890ff;
+            }
+
+            .retard & {
+              color: #fa8c16;
+            }
+
+            .absent & {
+              color: #f5222d;
+            }
+          }
+        }
+
+        .status-badge {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          font-size: 10px;
+          font-weight: 600;
+          padding: 2px 8px;
+          border-radius: 12px;
+          background: white;
+          opacity: 0.8;
+        }
+      }
+    }
+
+    // Mini légende des couleurs
+    .color-hint {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #f0f2f5;
+
+      .hint-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        .hint-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 3px;
+
+          &.present-dot {
+            background: #1890ff;
+          }
+
+          &.retard-dot {
+            background: #fa8c16;
+          }
+
+          &.absent-dot {
+            background: #f5222d;
+          }
+        }
+
+        .hint-text {
+          font-size: 11px;
+          color: #8c8c8c;
+          font-weight: 500;
+        }
+      }
+    }
   }
 
   .sites-content {
@@ -176,16 +324,25 @@
   }
 }
 
-// Animation pour le graphique
-@keyframes fadeIn {
+// Animations
+@keyframes slideUp {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0);
   }
+}
+
+.status-card {
+  animation: slideUp 0.5s ease-out;
+  animation-fill-mode: both;
+  
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
 }
 
 .chart-wrapper {
@@ -196,6 +353,19 @@
 @media (max-width: 768px) {
   .dashboard-section {
     padding: 16px;
+
+    .status-indicators {
+      flex-direction: column;
+      gap: 10px;
+
+      .status-card {
+        .status-badge {
+          position: static;
+          background: transparent;
+          padding: 0;
+        }
+      }
+    }
 
     .sites-content {
       flex-direction: column;
@@ -229,6 +399,31 @@
       border-bottom-color: #303030;
     }
 
+    .status-indicators {
+      .status-card {
+        &.present {
+          background: linear-gradient(135deg, #112a3f 0%, #0a1f2e 100%);
+        }
+
+        &.retard {
+          background: linear-gradient(135deg, #2f1f0a 0%, #241a0a 100%);
+        }
+
+        &.absent {
+          background: linear-gradient(135deg, #2f1414 0%, #241212 100%);
+        }
+
+        .status-label {
+          color: #a6a6a6;
+        }
+
+        .status-badge {
+          background: #2d2d2d;
+          color: #fff;
+        }
+      }
+    }
+
     .chart-wrapper {
       .chart-center {
         background: #2d2d2d;
@@ -252,16 +447,12 @@
           background: #363636;
         }
 
-        .legend-info {
-          .site-name {
-            color: #e0e0e0;
-          }
+        .site-name {
+          color: #e0e0e0;
         }
 
-        .legend-values {
-          .site-value {
-            color: #fff;
-          }
+        .site-value {
+          color: #fff;
         }
       }
     }
@@ -279,6 +470,14 @@
         .stat-value {
           color: #fff;
         }
+      }
+    }
+
+    .color-hint {
+      border-bottom-color: #303030;
+
+      .hint-text {
+        color: #a6a6a6;
       }
     }
   }

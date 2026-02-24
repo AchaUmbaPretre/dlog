@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileTextOutlined } from '@ant-design/icons';
+import { FileTextOutlined, TeamOutlined, ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import './dashboardSites.scss';
@@ -32,7 +32,7 @@ const DashboardSites = () => {
     radius: '80%',
     plugins: {
       legend: {
-        display: false, // On utilise notre propre légende
+        display: false,
       },
       tooltip: {
         backgroundColor: '#1a1a1a',
@@ -57,7 +57,6 @@ const DashboardSites = () => {
     }
   };
 
-  // Calcul du total pour les pourcentages
   const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
   
   const sites = [
@@ -67,11 +66,71 @@ const DashboardSites = () => {
     { name: 'Matadi', value: 32, color: '#F44336', percentage: Math.round((32 / total) * 100) }
   ];
 
+  // Statistiques globales
+  const globalStats = {
+    presents: 145,
+    retards: 23,
+    absents: 18,
+    total: 186
+  };
+
   return (
     <div className="dashboard-section sites-section">
       <div className="section-header">
         <FileTextOutlined />
         <span>Présence par Site</span>
+      </div>
+
+      {/* Indicateurs Présents/Retards/Absents */}
+      <div className="status-indicators">
+        <div className="status-card present">
+          <div className="status-icon">
+            <TeamOutlined />
+          </div>
+          <div className="status-content">
+            <span className="status-label">Présents</span>
+            <span className="status-value">{globalStats.presents}</span>
+          </div>
+          <div className="status-badge">Bleu</div>
+        </div>
+
+        <div className="status-card retard">
+          <div className="status-icon">
+            <ClockCircleOutlined />
+          </div>
+          <div className="status-content">
+            <span className="status-label">Retards</span>
+            <span className="status-value">{globalStats.retards}</span>
+          </div>
+          <div className="status-badge">Orange</div>
+        </div>
+
+        <div className="status-card absent">
+          <div className="status-icon">
+            <CloseCircleOutlined />
+          </div>
+          <div className="status-content">
+            <span className="status-label">Absents</span>
+            <span className="status-value">{globalStats.absents}</span>
+          </div>
+          <div className="status-badge">Rouge</div>
+        </div>
+      </div>
+
+      {/* Mini légende des couleurs */}
+      <div className="color-hint">
+        <div className="hint-item">
+          <span className="hint-dot present-dot"></span>
+          <span className="hint-text">Présent</span>
+        </div>
+        <div className="hint-item">
+          <span className="hint-dot retard-dot"></span>
+          <span className="hint-text">Retard</span>
+        </div>
+        <div className="hint-item">
+          <span className="hint-dot absent-dot"></span>
+          <span className="hint-text">Absent</span>
+        </div>
       </div>
       
       <div className="sites-content">
@@ -112,6 +171,13 @@ const DashboardSites = () => {
           <span className="stat-label">Présence moyenne</span>
           <span className="stat-value">57</span>
           <span className="stat-detail">par site</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-label">Taux de présence</span>
+          <span className="stat-value" style={{ color: '#52c41a' }}>
+            {Math.round((globalStats.presents / globalStats.total) * 100)}%
+          </span>
+          <span className="stat-detail">global</span>
         </div>
       </div>
     </div>
