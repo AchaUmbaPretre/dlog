@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Select, Spin, Button } from "antd";
-import { ReloadOutlined } from "@ant-design/icons";
+import {
+  ReloadOutlined,
+  CalendarOutlined,
+  UserOutlined,
+  EnvironmentOutlined,
+  ApartmentOutlined,
+} from "@ant-design/icons";
 import "./filtreDashboard.scss";
 import { useFiltreDashData } from "./hooks/useFiltreDashData";
 
@@ -11,23 +17,31 @@ const FiltreDashboard = () => {
     useFiltreDashData();
 
   const [filters, setFilters] = useState({
-    userId: null,
-    siteId: null,
-    departementId: null,
+    userIds: [],
+    siteIds: [],
+    departementIds: [],
   });
 
   const handleChange = (key, value) => {
     setFilters((prev) => ({
       ...prev,
-      [key]: value || null,
+      [key]: value || [],
+    }));
+  };
+
+  const handleSelectAll = (key, list, idField) => {
+    const allIds = list.map((item) => item[idField]);
+    setFilters((prev) => ({
+      ...prev,
+      [key]: allIds,
     }));
   };
 
   const handleReset = () => {
     setFilters({
-      userId: null,
-      siteId: null,
-      departementId: null,
+      userIds: [],
+      siteIds: [],
+      departementIds: [],
     });
     setPeriod("TODAY");
   };
@@ -43,7 +57,9 @@ const FiltreDashboard = () => {
           <>
             {/* Période */}
             <div className="filtre__item">
-              <label>Période</label>
+              <label>
+                <CalendarOutlined /> Période
+              </label>
               <Select
                 value={period}
                 onChange={setPeriod}
@@ -58,14 +74,27 @@ const FiltreDashboard = () => {
 
             {/* Employé */}
             <div className="filtre__item">
-              <label>Employé</label>
+              <label>
+                <UserOutlined /> Employé
+              </label>
               <Select
-                value={filters.userId}
-                onChange={(v) => handleChange("userId", v)}
+                mode="multiple"
+                value={filters.userIds}
+                onChange={(v) => handleChange("userIds", v)}
                 placeholder="Tous les utilisateurs"
                 allowClear
                 className="filtre__select"
               >
+                <Option
+                  key="all_users"
+                  value="__all__"
+                  onClick={() =>
+                    handleSelectAll("userIds", data, "id_utilisateur")
+                  }
+                >
+                  🔹 Tout sélectionner
+                </Option>
+
                 {data?.map((d) => (
                   <Option key={d.id_utilisateur} value={d.id_utilisateur}>
                     {d.nom}
@@ -76,14 +105,27 @@ const FiltreDashboard = () => {
 
             {/* Site */}
             <div className="filtre__item">
-              <label>Site</label>
+              <label>
+                <EnvironmentOutlined /> Site
+              </label>
               <Select
-                value={filters.siteId}
-                onChange={(v) => handleChange("siteId", v)}
+                mode="multiple"
+                value={filters.siteIds}
+                onChange={(v) => handleChange("siteIds", v)}
                 placeholder="Tous les sites"
                 allowClear
                 className="filtre__select"
               >
+                <Option
+                  key="all_sites"
+                  value="__all__"
+                  onClick={() =>
+                    handleSelectAll("siteIds", sites, "id_site")
+                  }
+                >
+                  🔹 Tout sélectionner
+                </Option>
+
                 {sites?.map((site) => (
                   <Option key={site.id_site} value={site.id_site}>
                     {site.nom_site}
@@ -94,16 +136,36 @@ const FiltreDashboard = () => {
 
             {/* Département */}
             <div className="filtre__item">
-              <label>Département</label>
+              <label>
+                <ApartmentOutlined /> Département
+              </label>
               <Select
-                value={filters.departementId}
-                onChange={(v) => handleChange("departementId", v)}
+                mode="multiple"
+                value={filters.departementIds}
+                onChange={(v) => handleChange("departementIds", v)}
                 placeholder="Tous les départements"
                 allowClear
                 className="filtre__select"
               >
+                <Option
+                  key="all_departments"
+                  value="__all__"
+                  onClick={() =>
+                    handleSelectAll(
+                      "departementIds",
+                      departm,
+                      "id_departement"
+                    )
+                  }
+                >
+                  🔹 Tout sélectionner
+                </Option>
+
                 {departm?.map((dep) => (
-                  <Option key={dep.id_departement} value={dep.id_departement}>
+                  <Option
+                    key={dep.id_departement}
+                    value={dep.id_departement}
+                  >
                     {dep.nom_departement}
                   </Option>
                 ))}
