@@ -2,58 +2,64 @@ import React from 'react';
 import { AlertOutlined, EnvironmentOutlined, UserOutlined, WifiOutlined } from '@ant-design/icons';
 import './dashboardAlerts.scss';
 
-const DashboardAlerts = () => {
-  const alerts = [
+const DashboardAlerts = ({ data = [] }) => {
+  // Données par défaut si aucune donnée
+  const alerts = data.length > 0 ? data : [
     {
       id: 1,
-      title: "Pointage hors géofence",
+      titre: "Pointage hors géofence",
       location: "Cobra",
-      time: "08:12",
+      heure: "08:12",
       description: "GPS hors zone",
       action: "Ouvrir",
-      icon: <EnvironmentOutlined />,
       type: "critical"
     },
     {
       id: 2,
-      title: "Absence non signalée",
+      titre: "Absence non signalée",
       location: "Lubumbashi",
-      time: "08:20",
+      heure: "08:20",
       description: "Non notifié",
       action: "Examiner",
-      icon: <UserOutlined />,
       type: "warning"
     },
     {
       id: 3,
-      title: "Queue offline détectée",
+      titre: "Queue offline détectée",
       location: "Goma",
-      time: "07:58",
+      heure: "07:58",
       description: "12 événements en attente",
       action: "Voir",
-      icon: <WifiOutlined />,
       type: "info"
     }
   ];
+
+  const getIcon = (type) => {
+    switch(type) {
+      case 'critical': return <EnvironmentOutlined />;
+      case 'warning': return <UserOutlined />;
+      default: return <WifiOutlined />;
+    }
+  };
 
   return (
     <div className="dashboard-section alerts-section">
       <div className="section-header">
         <AlertOutlined />
-        <span>Alerte</span>
+        <span>Alertes ({alerts.length})</span>
       </div>
       
       <div className="alerts-container">
-        {alerts.map((alert) => (
-          <div key={alert.id} className={`alert-item ${alert.type}`}>
+        {alerts.map((alert, index) => (
+          <div key={index} className={`alert-item ${alert.type}`}>
             <div className="alert-icon">
-              {alert.icon}
+              {getIcon(alert.type)}
             </div>
             
             <div className="alert-content">
               <div className="alert-header">
-                <span className="alert-title">{alert.title}</span>
-                <span className="alert-time">{alert.time}</span>
+                <span className="alert-title">{alert.titre}</span>
+                <span className="alert-time">{alert.heure}</span>
               </div>
               
               <div className="alert-details">

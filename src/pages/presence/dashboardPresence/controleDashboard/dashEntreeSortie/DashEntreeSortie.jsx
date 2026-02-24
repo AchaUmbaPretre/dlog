@@ -1,69 +1,60 @@
 import React from 'react';
 import './dashEntreeSortie.scss';
 import { BarChartOutlined } from '@ant-design/icons';
-import { ResponsiveBar } from '@nivo/bar';
+import { Bar } from 'react-chartjs-2';
 
-const DashEntreeSortie = () => {
-  const data = [
-    { time: '06:00', Entrées: 2, Sorties: 1 },
-    { time: '07:00', Entrées: 6, Sorties: 4 },
-    { time: '08:00', Entrées: 14, Sorties: 8 },
-    { time: '10:00', Entrées: 16, Sorties: 12 },
-    { time: '11:00', Entrées: 12, Sorties: 14 },
-    { time: '12:00', Entrées: 8, Sorties: 10 }
-  ];
+const DashEntreeSortie = ({ data = [] }) => {
+  // Données par défaut si aucune donnée
+  const chartData = {
+    labels: data.map(item => item.heure) || ['06:00', '07:00', '08:00', '10:00', '11:00', '12:00'],
+    datasets: [
+      {
+        label: 'Entrées',
+        data: data.map(item => item.entrees) || [2, 6, 14, 16, 12, 8],
+        backgroundColor: '#4CAF50',
+        borderRadius: 6,
+        barPercentage: 0.6,
+      },
+      {
+        label: 'Sorties',
+        data: data.map(item => item.sorties) || [1, 4, 8, 12, 14, 10],
+        backgroundColor: '#F44336',
+        borderRadius: 6,
+        barPercentage: 0.6,
+      }
+    ]
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.dataset.label}: ${context.raw} personnes`
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 2 }
+      }
+    }
+  };
 
   return (
     <div className="dashboard-section">
-      <div className="section-header" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <BarChartOutlined  style={{color:'blue'}}/>
+      <div className="section-header">
+        <BarChartOutlined />
         Entrées / Sorties dernières heures
       </div>
       
       <div className="chart-wrapper" style={{ height: '250px' }}>
-        <ResponsiveBar
-          data={data}
-          keys={['Entrées', 'Sorties']}
-          indexBy="time"
-          margin={{ top: 20, right: 20, bottom: 30, left: 40 }}
-          padding={0.3}
-          groupMode="grouped"
-          valueScale={{ type: 'linear' }}
-          colors={['#4CAF50', '#F44336']}
-          borderRadius={6}
-          borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: '',
-            legendPosition: 'middle',
-            legendOffset: 32
-          }}
-          axisLeft={{
-            tickSize: 5,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: '',
-            legendPosition: 'middle',
-            legendOffset: -40,
-            tickValues: [0, 2, 4, 6, 8, 10, 12, 14, 16]
-          }}
-          enableGridY={true}
-          gridYValues={[0, 2, 4, 6, 8, 10, 12, 14, 16]}
-          labelSkipWidth={12}
-          labelSkipHeight={12}
-          labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
-          legends={[]}
-          animate={true}
-          motionStiffness={90}
-          motionDamping={15}
-        />
+        <Bar data={chartData} options={options} />
       </div>
 
-      {/* Légende personnalisée */}
       <div className="chart-legend">
         <div className="legend-item">
           <span className="legend-color entries-color"></span>
