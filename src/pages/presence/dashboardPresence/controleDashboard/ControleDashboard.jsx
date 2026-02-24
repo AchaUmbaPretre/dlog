@@ -1,9 +1,20 @@
-import React from 'react'
 import './controleDashboard.scss'
+import DashEntreeSortie from './dashEntreeSortie/DashEntreeSortie'
+import DashboardAlerts from './dashboardAlerts/DashboardAlerts'
+import DashboardSites from './dashboardSites/DashboardSites'
 
 const ControleDashboard = () => {
   return (
-    <div>ControleDashboard</div>
+    <>
+        <div className="dashboard-section_control">
+            <div className="dashboard_control_wrapper">
+                <DashEntreeSortie/>
+                <DashboardAlerts/>
+            </div>
+
+            <DashboardSites/>
+        </div>
+    </>
   )
 }
 

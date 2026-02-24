@@ -1,0 +1,203 @@
+.dashboard-section {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  border: 1px solid #f0f2f5;
+
+  &.alerts-section {
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      font-size: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f0f2f5;
+
+      .anticon {
+        color: #faad14;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .alerts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .alert-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px;
+      background: #fafafa;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      border-left: 4px solid transparent;
+
+      &:hover {
+        background: #f5f5f5;
+        transform: translateX(2px);
+      }
+
+      &.critical {
+        border-left-color: #f5222d;
+        background: linear-gradient(90deg, rgba(245, 34, 45, 0.04) 0%, rgba(245, 34, 45, 0) 100%);
+      }
+
+      &.warning {
+        border-left-color: #faad14;
+        background: linear-gradient(90deg, rgba(250, 173, 20, 0.04) 0%, rgba(250, 173, 20, 0) 100%);
+      }
+
+      &.info {
+        border-left-color: #1890ff;
+        background: linear-gradient(90deg, rgba(24, 144, 255, 0.04) 0%, rgba(24, 144, 255, 0) 100%);
+      }
+
+      .alert-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+        .anticon {
+          font-size: 18px;
+          
+          &.critical & {
+            color: #f5222d;
+          }
+        }
+      }
+
+      .alert-content {
+        flex: 1;
+
+        .alert-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 4px;
+
+          .alert-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #262626;
+          }
+
+          .alert-time {
+            font-size: 12px;
+            color: #8c8c8c;
+            font-weight: 500;
+          }
+        }
+
+        .alert-details {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 13px;
+
+          .alert-location {
+            color: #595959;
+            font-weight: 500;
+          }
+
+          .alert-description {
+            color: #8c8c8c;
+          }
+        }
+      }
+
+      .alert-action {
+        padding: 6px 14px;
+        border: none;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+
+        &.critical {
+          color: #f5222d;
+          border: 1px solid #ffa39e;
+
+          &:hover {
+            background: #fff1f0;
+            border-color: #f5222d;
+          }
+        }
+
+        &.warning {
+          color: #fa8c16;
+          border: 1px solid #ffd591;
+
+          &:hover {
+            background: #fff7e6;
+            border-color: #fa8c16;
+          }
+        }
+
+        &.info {
+          color: #1890ff;
+          border: 1px solid #91d5ff;
+
+          &:hover {
+            background: #e6f7ff;
+            border-color: #1890ff;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .dashboard-section {
+    padding: 16px;
+
+    .alerts-container {
+      .alert-item {
+        flex-wrap: wrap;
+
+        .alert-content {
+          min-width: 200px;
+        }
+
+        .alert-action {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+}
+
+// Animation pour les nouvelles alertes
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(245, 34, 45, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(245, 34, 45, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 34, 45, 0);
+  }
+}
+
+.alert-item.critical:first-child {
+  animation: pulse 2s infinite;
+}

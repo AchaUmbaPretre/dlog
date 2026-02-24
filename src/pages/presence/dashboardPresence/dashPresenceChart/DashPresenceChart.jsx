@@ -45,7 +45,7 @@ const DashPresenceChart = ({ evolution, statuts, kpi }) => {
         Statistiques de présence
       </div>
 
-            <div className="dashboard-stats" style={{ margin: '10px' }}>
+      <div className="dashboard-stats" style={{ margin: '10px' }}>
         <div className="stat-item">
           <div className="stat-value">
             {kpi?.tauxPresence} %
