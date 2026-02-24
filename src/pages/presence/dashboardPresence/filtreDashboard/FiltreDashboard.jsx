@@ -13,8 +13,7 @@ import { useFiltreDashData } from "./hooks/useFiltreDashData";
 const { Option } = Select;
 
 const FiltreDashboard = () => {
-  const { data, sites, departm, loading, period, setPeriod } =
-    useFiltreDashData();
+  const { data, sites, departments, loading, period, setPeriod } = useFiltreDashData();
 
   const [filters, setFilters] = useState({
     userIds: [],
@@ -153,7 +152,7 @@ const FiltreDashboard = () => {
                   onClick={() =>
                     handleSelectAll(
                       "departementIds",
-                      departm,
+                      departments,
                       "id_departement"
                     )
                   }
@@ -161,7 +160,7 @@ const FiltreDashboard = () => {
                   🔹 Tout sélectionner
                 </Option>
 
-                {departm?.map((dep) => (
+                {departments?.map((dep) => (
                   <Option
                     key={dep.id_departement}
                     value={dep.id_departement}
