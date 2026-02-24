@@ -23,10 +23,10 @@ const DashlistePresence = ({ employes }) => {
       render: (_, __, index) => index + 1,
     },
     {
-        title: "Profil",
-        key: "profil",
-        render: (_, record) => (
-          <UserAvatarProfile
+      title: "Profil",
+      key: "profil",
+      render: (_, record) => (
+        <UserAvatarProfile
             nom={record.nom}
             prenom={record.prenom}
             email={record.email}
