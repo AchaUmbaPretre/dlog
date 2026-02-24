@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, message, Dropdown, Menu, notification, Tag, Select } from 'antd';
-import { ExportOutlined, ShoppingOutlined, DollarOutlined, UserOutlined, PrinterOutlined, PlusOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Table, Button, Modal, message, Dropdown, Menu, notification, Tag, Select } from 'antd';
+import { ExportOutlined, ShoppingOutlined, DollarOutlined, UserOutlined, PrinterOutlined } from '@ant-design/icons';
 import { getOffreArticle } from '../../services/offreService';
 
-const { Search } = Input;
 const { Option } = Select;
 
 const ListePrix = () => {
