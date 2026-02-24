@@ -5,15 +5,12 @@ import {
   CalendarOutlined,
   UnorderedListOutlined,
   BarChartOutlined,
-  ClockCircleOutlined,
   EditOutlined,
   CalendarTwoTone,
   DesktopOutlined,
 } from '@ant-design/icons';
 import PresenceList from './presenceList/PresenceList';
-import PresenceReport from './presenceReport/PresenceReport';
 import { getTabStyle, iconStyle } from '../../utils/tabStyles';
-import PresenceRapportRP from './presenceRapportRP/PresenceRapportRP';
 import AutorisationSortie from './autorisationSortie/AutorisationSortie';
 import JourFerie from './jourFerie/JourFerie';
 import Terminal from './terminal/Terminal';
