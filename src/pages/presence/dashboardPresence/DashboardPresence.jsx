@@ -74,7 +74,13 @@ return (
 
             <DashboardStats kpi={data.kpi} sites={sites} />
 
-            <Tabs>
+            <Tabs
+                type="card"
+                tabPosition="top"
+                destroyInactiveTabPane
+                animated
+                style={{marginTop:'10px'}}
+            >
                 <Tabs.TabPane
                     key="1"
                     tab={

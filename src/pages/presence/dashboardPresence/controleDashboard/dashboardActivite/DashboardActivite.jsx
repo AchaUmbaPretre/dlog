@@ -156,10 +156,9 @@ const DashboardActivite = () => {
     <div className="dashboard-section activite-section">
       <div className="section-header">
         <LineChartOutlined />
-        <span>Heimat d'Activité - Événements par Heure</span>
+        <span>Événements par Heure</span>
       </div>
 
-      {/* Mini cartes récapitulatives */}
       <div className="activity-summary">
         <div className="summary-card retards">
           <div className="summary-icon">

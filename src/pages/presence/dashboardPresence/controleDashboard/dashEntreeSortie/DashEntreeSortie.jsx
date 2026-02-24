@@ -16,7 +16,7 @@ const DashEntreeSortie = () => {
   return (
     <div className="dashboard-section">
       <div className="section-header" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <BarChartOutlined />
+        <BarChartOutlined  style={{color:'blue'}}/>
         Entrées / Sorties dernières heures
       </div>
       
