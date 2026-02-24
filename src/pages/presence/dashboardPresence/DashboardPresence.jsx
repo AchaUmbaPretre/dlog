@@ -47,44 +47,46 @@ const DashboardPresence = () => {
   }, []);
 
 return (
-  <div className="dashboard_container">
-    <div className="dashboardPresence">
+    <>
+        <div className="dashboard_container">
+        <div className="dashboardPresence">
 
-      <div className="dashboard_header">
-        <Tooltip
-            title={showFilter ? "Masquer les filtres" : "Afficher les filtres"}
-            placement="top"
-        >
-        <Button
-            icon={<FilterOutlined />}
-            type={showFilter ? "primary" : "default"}
-            onClick={() => setShowFilter(prev => !prev)}
-        />
-        </Tooltip>
-      </div>
-
-      <div className={`dashboard_filter ${showFilter ? "open" : "closed"}`}>
-        <FiltreDashboard />
-      </div>
-
-      <DashboardStats kpi={data.kpi} sites={sites} />
-
-      <div className="dashboard_wrapper">
-          <div style={{ flex: 1 }}>
-            <DashPresenceChart
-              evolution={data?.evolution}
-              statuts={data?.statuts}
-              kpi={data?.kpi}
+        <div className="dashboard_header">
+            <Tooltip
+                title={showFilter ? "Masquer les filtres" : "Afficher les filtres"}
+                placement="top"
+            >
+            <Button
+                icon={<FilterOutlined />}
+                type={showFilter ? "primary" : "default"}
+                onClick={() => setShowFilter(prev => !prev)}
             />
-          </div>
-
-          <div style={{ flex: 1 }}>
-            <DashlistePresence employes={data?.employes} />
-            <TopAbsences topAbsences={data?.topAbsences} />
-          </div>
+            </Tooltip>
         </div>
-      </div>
-    </div>
+
+        <div className={`dashboard_filter ${showFilter ? "open" : "closed"}`}>
+            <FiltreDashboard />
+        </div>
+
+        <DashboardStats kpi={data.kpi} sites={sites} />
+
+        <div className="dashboard_wrapper">
+            <div style={{ flex: 1 }}>
+                <DashPresenceChart
+                evolution={data?.evolution}
+                statuts={data?.statuts}
+                kpi={data?.kpi}
+                />
+            </div>
+
+            <div style={{ flex: 1 }}>
+                <DashlistePresence employes={data?.employes} />
+                <TopAbsences topAbsences={data?.topAbsences} />
+            </div>
+            </div>
+        </div>
+        </div>
+    </>
   );
 };
 
