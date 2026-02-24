@@ -81,42 +81,6 @@ const DashboardSites = () => {
         <span>Présence par Site</span>
       </div>
 
-      {/* Indicateurs Présents/Retards/Absents */}
-      <div className="status-indicators">
-        <div className="status-card present">
-          <div className="status-icon">
-            <TeamOutlined />
-          </div>
-          <div className="status-content">
-            <span className="status-label">Présents</span>
-            <span className="status-value">{globalStats.presents}</span>
-          </div>
-          <div className="status-badge">Bleu</div>
-        </div>
-
-        <div className="status-card retard">
-          <div className="status-icon">
-            <ClockCircleOutlined />
-          </div>
-          <div className="status-content">
-            <span className="status-label">Retards</span>
-            <span className="status-value">{globalStats.retards}</span>
-          </div>
-          <div className="status-badge">Orange</div>
-        </div>
-
-        <div className="status-card absent">
-          <div className="status-icon">
-            <CloseCircleOutlined />
-          </div>
-          <div className="status-content">
-            <span className="status-label">Absents</span>
-            <span className="status-value">{globalStats.absents}</span>
-          </div>
-          <div className="status-badge">Rouge</div>
-        </div>
-      </div>
-
       {/* Mini légende des couleurs */}
       <div className="color-hint">
         <div className="hint-item">

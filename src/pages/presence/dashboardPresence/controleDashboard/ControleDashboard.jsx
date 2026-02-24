@@ -1,5 +1,6 @@
 import './controleDashboard.scss'
 import DashEntreeSortie from './dashEntreeSortie/DashEntreeSortie'
+import DashboardActivite from './dashboardActivite/DashboardActivite'
 import DashboardAlerts from './dashboardAlerts/DashboardAlerts'
 import DashboardSites from './dashboardSites/DashboardSites'
 
@@ -11,8 +12,10 @@ const ControleDashboard = () => {
                 <DashEntreeSortie/>
                 <DashboardAlerts/>
             </div>
-
-            <DashboardSites/>
+            <div style={{display:'flex', gap:'10px'}}>
+                <DashboardSites/>
+                <DashboardActivite/>
+            </div>
         </div>
     </>
   )
