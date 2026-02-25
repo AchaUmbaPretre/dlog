@@ -1,12 +1,12 @@
 import React from 'react';
 import { 
   Space, 
-  Text, 
   Tag, 
   Avatar, 
   Tooltip, 
   Badge, 
-  Progress 
+  Progress,
+  Typography
 } from 'antd';
 import { 
   BuildOutlined, 
