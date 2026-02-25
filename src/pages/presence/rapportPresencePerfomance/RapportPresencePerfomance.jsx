@@ -62,6 +62,9 @@ const RapportPresencePerformance = () => {
 
   if (loading) return <PerformanceLoader />;
   if (error) return <PerformanceError error={error} onReload={reload} />;
+  
+  // ✅ Attendre que les données soient vraiment chargées
+  if (!data || !kpiGlobaux || !localStats) return <PerformanceLoader />;
 
   return (
     <div style={{ padding: '24px' }}>

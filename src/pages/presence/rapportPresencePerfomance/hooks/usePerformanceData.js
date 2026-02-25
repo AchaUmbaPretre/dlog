@@ -76,6 +76,7 @@ export const usePerformanceData = (data) => {
     sitesAvecProblemes: performancesSites.filter(s => (s.performance || 0) < 75).length
   }), [kpiGlobaux.employesAbsents, performancesSites]);
 
+
   return {
     kpiGlobaux,
     performancesSites,
