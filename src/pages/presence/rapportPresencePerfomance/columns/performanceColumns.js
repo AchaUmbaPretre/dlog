@@ -15,6 +15,7 @@ import {
   UserOutlined, 
   FieldTimeOutlined 
 } from '@ant-design/icons';
+import { formatDuration } from '../../../../utils/renderTooltip';
 
 const { Text } = Typography;
 
@@ -195,7 +196,7 @@ export const columnsProbleme = [
     render: (value, record) => (
       <Tooltip title={`Total: ${record?.total_minutes_retard || 0} min`}>
         <Badge 
-          count={value || 0} 
+          count={formatDuration(value) || 0} 
           style={{ backgroundColor: '#f5222d' }} 
           overflowCount={999}
         />
@@ -210,7 +211,7 @@ export const columnsProbleme = [
       const minutes = value || 0;
       return (
         <Text type="danger">
-          {Math.floor(minutes / 60)}h{minutes % 60}
+          {formatDuration(value)}
         </Text>
       );
     }
