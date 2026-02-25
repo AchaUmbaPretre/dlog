@@ -1,5 +1,4 @@
-import React from 'react';
-import { FileTextOutlined, TeamOutlined, ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { FileTextOutlined } from '@ant-design/icons';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import './dashboardSites.scss';
@@ -17,10 +16,10 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
       {
         data: hasData ? data.map(item => item.value) : [68, 45, 82, 32],
         backgroundColor: hasData ? data.map(item => item.color) : [
-          '#4CAF50', // Vert pour Cobra
-          '#2196F3', // Bleu pour Goma
-          '#FF9800', // Orange pour Lubumbashi
-          '#F44336'  // Rouge pour Matadi
+          '#4CAF50',
+          '#2196F3',
+          '#FF9800',
+          '#F44336'
         ],
         borderColor: 'white',
         borderWidth: 3,
