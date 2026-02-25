@@ -1,5 +1,4 @@
-import React from 'react';
-import { LineChartOutlined, DownloadOutlined, WarningOutlined } from '@ant-design/icons';
+import { LineChartOutlined } from '@ant-design/icons';
 import { Line } from 'react-chartjs-2';
 import './dashboardActivite.scss';
 
