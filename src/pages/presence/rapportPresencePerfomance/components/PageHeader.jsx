@@ -32,6 +32,23 @@ const PageHeader = ({
     }
   };
 
+  // Fonction pour formater le mois et l'année
+  const formatMonthYear = (dateString) => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toLocaleDateString('fr-FR', {
+        month: 'long',
+        year: 'numeric'
+      });
+    } catch (e) {
+      return '';
+    }
+  };
+
+  const moisDebut = formatMonthYear(periode?.debut);
+  const moisFin = formatMonthYear(periode?.fin);
+  const memeMois = moisDebut === moisFin;
+
   return (
     <div style={{ 
       marginBottom: '24px',
@@ -106,7 +123,13 @@ const PageHeader = ({
                   fontWeight: 500,
                   color: '#1f1f1f'
                 }}>
-                  {formatDate(periode?.debut)} — {formatDate(periode?.fin)}
+                  {memeMois ? (
+                    // Si même mois : "Janvier 2026"
+                    moisDebut
+                  ) : (
+                    // Si mois différents : "31 Jan - 27 Fév 2026"
+                    `${new Date(periode?.debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} - ${new Date(periode?.fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}`
+                  )}
                 </Text>
               </div>
               <Button 
@@ -133,7 +156,7 @@ const PageHeader = ({
                 fontWeight: 500,
                 color: '#1890ff'
               }}>
-                {periode?.jours_ouvrables || 0} jours ouvrés
+                {periode?.jours_ouvrables || 0} jours
               </Text>
             </div>
 
@@ -153,27 +176,47 @@ const PageHeader = ({
         </Col>
       </Row>
 
-      {/* Indicateurs supplémentaires optionnels */}
+      {/* Indicateurs supplémentaires */}
       {periode && (
         <div style={{ 
           marginTop: '12px',
           paddingTop: '12px',
           borderTop: '1px solid #f5f5f5',
           display: 'flex',
-          gap: '24px'
+          gap: '24px',
+          alignItems: 'center'
         }}>
           <Space size={8}>
-            <Text type="secondary" style={{ fontSize: '12px' }}>Début</Text>
-            <Text strong style={{ fontSize: '13px' }}>{formatDate(periode?.debut)}</Text>
+            <Text type="secondary" style={{ fontSize: '12px' }}>Du</Text>
+            <Text strong style={{ fontSize: '13px' }}>
+              {new Date(periode?.debut).toLocaleDateString('fr-FR', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+              })}
+            </Text>
           </Space>
           <Space size={8}>
-            <Text type="secondary" style={{ fontSize: '12px' }}>Fin</Text>
-            <Text strong style={{ fontSize: '13px' }}>{formatDate(periode?.fin)}</Text>
+            <Text type="secondary" style={{ fontSize: '12px' }}>au</Text>
+            <Text strong style={{ fontSize: '13px' }}>
+              {new Date(periode?.fin).toLocaleDateString('fr-FR', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+              })}
+            </Text>
           </Space>
           <Space size={8}>
-            <Text type="secondary" style={{ fontSize: '12px' }}>Jours analysés</Text>
-            <Text strong style={{ fontSize: '13px' }}>{periode?.jours_ouvrables || 0}</Text>
+            <Text type="secondary" style={{ fontSize: '12px' }}>Durée</Text>
+            <Text strong style={{ fontSize: '13px', color: '#1890ff' }}>
+              {periode?.jours_ouvrables} jours
+            </Text>
           </Space>
+          {periode?.jours_ouvrables === 28 && (
+            <Tag color="processing" style={{ marginLeft: '8px' }}>
+              Mois complet
+            </Tag>
+          )}
         </div>
       )}
     </div>
