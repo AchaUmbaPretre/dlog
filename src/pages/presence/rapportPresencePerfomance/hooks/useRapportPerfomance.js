@@ -25,8 +25,12 @@ export const useRapportPerformance = () => {
                 getUser()
             ]);
 
-            setSites(siteResponse?.data || []);
-            setUsers(userResponse?.data || []);
+            // Correction: siteResponse?.data.data ou siteResponse?.data selon la structure
+            const sitesData = siteResponse?.data?.data || siteResponse?.data || [];
+            const usersData = userResponse?.data || [];
+
+            setSites(sitesData);
+            setUsers(usersData);
             
         } catch (error) {
             console.error("Erreur chargement données référence", error);
@@ -106,7 +110,7 @@ export const useRapportPerformance = () => {
             ]);
 
             // Traitement des réponses
-            const sitesData = siteResponse?.data.data || [];
+            const sitesData = siteResponse?.data?.data || siteResponse?.data || [];
             const usersData = userResponse?.data || [];
             const presenceData = presenceResponse?.data || {};
 
@@ -169,6 +173,7 @@ export const useRapportPerformance = () => {
         setError(null);
         
         try {
+            // Fusionner les filtres existants avec les nouveaux
             const params = { ...filters, ...newFilters };
             const presenceResponse = await getPresenceDashboardPerformance(params);
             const presenceData = presenceResponse?.data || {};
@@ -201,7 +206,13 @@ export const useRapportPerformance = () => {
             date_debut: null,
             date_fin: null
         });
-    }, []);
+        // Recharger avec les filtres réinitialisés
+        reloadWithParams({
+            site_id: null,
+            date_debut: null,
+            date_fin: null
+        });
+    }, [reloadWithParams]);
 
     // Effet pour charger les données de référence au montage
     useEffect(() => {
@@ -238,10 +249,10 @@ export const useRapportPerformance = () => {
                 : 0,
             
             meilleurSite: sitesData.length > 0 
-                ? sitesData.sort((a, b) => (b.performance || 0) - (a.performance || 0))[0]
+                ? [...sitesData].sort((a, b) => (b.performance || 0) - (a.performance || 0))[0]
                 : null,
             pireSite: sitesData.length > 0 
-                ? sitesData.sort((a, b) => (a.performance || 0) - (b.performance || 0))[0]
+                ? [...sitesData].sort((a, b) => (a.performance || 0) - (b.performance || 0))[0]
                 : null,
             
             // Totaux
@@ -264,6 +275,8 @@ export const useRapportPerformance = () => {
             totalRetards: kpi.total_retards || 0,
             retardMoyen: kpi.retard_moyen || 0,
             evolutionPresence: kpi.evolution_presence || 0,
+            evolutionPonctualite: kpi.evolution_ponctualite || 0,
+            evolutionActivite: kpi.evolution_activite || 0,
             totalHeuresSup: kpi.total_heures_sup || 0,
             employesAbsents: kpi.employes_absents || 0,
             absencesJustifiees: kpi.absences_justifiees || 0,

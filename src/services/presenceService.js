@@ -123,8 +123,44 @@ export const getPresenceDashboardStatisque = async () => {
   return axios.get(`${DOMAIN}/api/presence/dashboardStatistique`);
 };
 
-export const getPresenceDashboardPerformance = async () => {
-  return axios.get(`${DOMAIN}/api/presence/dashboardPerformance`);
+/**
+ * Récupère les données de performance pour le dashboard
+ * @param {Object} params - Paramètres de filtrage optionnels
+ * @param {string} params.site_id - ID du site (optionnel)
+ * @param {string} params.date_debut - Date de début au format YYYY-MM-DD (optionnel)
+ * @param {string} params.date_fin - Date de fin au format YYYY-MM-DD (optionnel)
+ * @returns {Promise}
+ */
+export const getPresenceDashboardPerformance = async (params = {}) => {
+  try {
+    // Construction de l'URL avec les paramètres de requête
+    const queryParams = new URLSearchParams();
+    
+    // Ajout des paramètres s'ils existent
+    if (params.site_id) {
+      queryParams.append('site_id', params.site_id);
+    }
+    
+    if (params.date_debut) {
+      queryParams.append('date_debut', params.date_debut);
+    }
+    
+    if (params.date_fin) {
+      queryParams.append('date_fin', params.date_fin);
+    }
+    
+    // Construction de l'URL complète
+    const url = `${DOMAIN}/api/presence/dashboardPerformance${
+      queryParams.toString() ? `?${queryParams.toString()}` : ''
+    }`;
+    
+    const response = await axios.get(url);
+    return response.data;
+    
+  } catch (error) {
+    console.error("Erreur getPresenceDashboardPerformance:", error);
+    throw error;
+  }
 };
 
 //Congé

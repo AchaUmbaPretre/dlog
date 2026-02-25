@@ -1,7 +1,5 @@
 import { Card, Col, Row, Statistic, Tag, Space, Avatar, Progress, Typography } from 'antd';
 import { 
-  RiseOutlined, 
-  FallOutlined, 
   UserOutlined, 
   ClockCircleOutlined, 
   DashboardOutlined,

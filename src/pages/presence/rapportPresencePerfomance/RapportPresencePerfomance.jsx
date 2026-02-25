@@ -17,7 +17,10 @@ const RapportPresencePerformance = () => {
     users, 
     loading, 
     error,
-    reload
+    reload,
+    filters,
+    updateFilters,
+    reloadWithParams
   } = useRapportPerformance();
 
   const {
@@ -28,6 +31,27 @@ const RapportPresencePerformance = () => {
     globalColor,
     localStats
   } = usePerformanceData(data);
+
+  // Gestionnaires d'événements pour les filtres
+  const handleSiteChange = (siteId) => {
+    updateFilters({ site_id: siteId });
+    reloadWithParams({ site_id: siteId });
+  };
+
+  const handleDateRangeChange = (dates) => {
+    if (dates && dates.length === 2) {
+      const dateDebut = dates[0].format('YYYY-MM-DD');
+      const dateFin = dates[1].format('YYYY-MM-DD');
+      updateFilters({ 
+        date_debut: dateDebut,
+        date_fin: dateFin
+      });
+      reloadWithParams({ 
+        date_debut: dateDebut,
+        date_fin: dateFin
+      });
+    }
+  };
 
   // Définition du style des lignes du tableau
   const getRowClassName = (record, index) => {
@@ -41,15 +65,18 @@ const RapportPresencePerformance = () => {
 
   return (
     <div style={{ padding: '24px' }}>
-      {/* En-tête avec période */}
+      {/* En-tête avec période et filtres */}
       <PageHeader 
         title="Rapport de Performance - Direction"
         periode={metadata.periode}
         loading={loading}
         onReload={reload}
+        onSiteChange={handleSiteChange}
+        onDateRangeChange={handleDateRangeChange}
+        selectedSite={filters.site_id}
+        sites={sites}
         alertThreshold={50}
         currentValue={kpiGlobaux.tauxPresence}
-        sites={sites}
       />
       
       {/* Alertes de performance */}

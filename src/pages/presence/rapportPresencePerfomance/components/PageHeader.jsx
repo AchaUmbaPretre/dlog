@@ -18,9 +18,7 @@ const PageHeader = ({
   title, 
   periode, 
   loading, 
-  onReload, 
-  onPrevPeriod,
-  onNextPeriod,
+  onReload,
   onSiteChange,
   onDateRangeChange,
   selectedSite,
@@ -137,12 +135,23 @@ const PageHeader = ({
         </Col>
       </Row>
 
-      {/* Deuxième ligne : Filtres de date et navigation */}
+      {/* Deuxième ligne : Filtres de date */}
       <Row justify="space-between" align="middle" gutter={[16, 16]}>
         <Col xs={24} md={16}>
           <Space size={16} wrap>
             {/* Sélecteur de période */}
-            
+            <RangePicker
+              locale={locale}
+              format="DD/MM/YYYY"
+              value={[
+                periode?.debut ? dayjs(periode.debut) : null,
+                periode?.fin ? dayjs(periode.fin) : null
+              ]}
+              onChange={onDateRangeChange}
+              allowClear={false}
+              style={{ borderRadius: '30px' }}
+              placeholder={['Date début', 'Date fin']}
+            />
 
             {/* Badge jours ouvrés */}
             <div style={{
@@ -163,30 +172,30 @@ const PageHeader = ({
         </Col>
 
         <Col xs={24} md={8}>
-          {/* Navigation par mois */}
+          {/* Affichage de la période sélectionnée */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-end',
             background: '#fafafa',
             borderRadius: '30px',
-            padding: '2px',
+            padding: '8px 16px',
             border: '1px solid #f0f0f0',
             width: 'fit-content',
             marginLeft: 'auto'
           }}>
-            <RangePicker
-              locale={locale}
-              format="DD/MM/YYYY"
-              value={[
-                periode?.debut ? dayjs(periode.debut) : null,
-                periode?.fin ? dayjs(periode.fin) : null
-              ]}
-              onChange={onDateRangeChange}
-              allowClear={false}
-              style={{ borderRadius: '30px' }}
-              placeholder={['Date début', 'Date fin']}
-            />
+            <CalendarOutlined style={{ color: '#1890ff', fontSize: '14px', marginRight: '8px' }} />
+            <Text style={{ 
+              fontSize: '14px',
+              fontWeight: 500,
+              color: '#1f1f1f'
+            }}>
+              {memeMois ? (
+                moisDebut
+              ) : (
+                `${new Date(periode?.debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} - ${new Date(periode?.fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}`
+              )}
+            </Text>
           </div>
         </Col>
       </Row>
