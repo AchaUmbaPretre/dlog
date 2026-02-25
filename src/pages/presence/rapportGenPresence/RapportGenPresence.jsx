@@ -9,7 +9,7 @@ import PresenceRapportRP from '../presenceRapportRP/PresenceRapportRP';
 import PresenceReport from '../presenceReport/PresenceReport';
 import RapportPresenceSite from '../rapportPresenceSite/RapportPresenceSite';
 import RapportPresenceDepartement from '../rapportPresenceDepartement/RapportPresenceDepartement';
-import RapportPresencePerfomance from '../rapportPresencePerfomance/rapportPresencePerfomance';
+import RapportPresencePerfomance from '../rapportPresencePerfomance/RapportPresencePerfomance';
 
 const tabConfig = [
   {

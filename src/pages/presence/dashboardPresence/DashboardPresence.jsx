@@ -13,42 +13,12 @@ import {
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import ControleDashboard from './controleDashboard/ControleDashboard';
+import { useDashboardPresence } from './hooks/useDashboardPresence';
 
 const DashboardPresence = () => {
-  const [data, setData] = useState({
-    kpi: null,
-    statuts: null,
-    evolution: null,
-    employes: null,
-    topAbsences: null
-  });
-
-  const [sites, setSites] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [activeKey, setActiveKey] = useState('1');
-
-  const fetchData = async () => {
-    try {
-      const [presentData, allData] = await Promise.all([
-        getPresenceDashboard(),
-        getPresenceDashboardParSite()
-      ]);
-
-      setData(presentData?.data?.data);
-      setSites(allData?.data?.data);
-
-    } catch (error) {
-      notification.error({
-        message: "Erreur de chargement",
-        description: "Impossible de récupérer les données du dashboard.",
-        placement: "topRight"
-      });
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const { data, sites, reload } = useDashboardPresence()
 
 return (
     <>
@@ -69,7 +39,7 @@ return (
             </div>
 
             <div className={`dashboard_filter ${showFilter ? "open" : "closed"}`}>
-                <FiltreDashboard />
+                <FiltreDashboard reload={reload} />
             </div>
 
             <DashboardStats kpi={data.kpi} sites={sites} />
