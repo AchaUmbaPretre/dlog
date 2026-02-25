@@ -13,6 +13,7 @@ import './rapportPresencePerfomance.scss';
 const RapportPresencePerformance = () => {
   const { 
     data, 
+    sites,
     users, 
     loading, 
     error,
@@ -48,6 +49,7 @@ const RapportPresencePerformance = () => {
         onReload={reload}
         alertThreshold={50}
         currentValue={kpiGlobaux.tauxPresence}
+        sites={sites}
       />
       
       {/* Alertes de performance */}

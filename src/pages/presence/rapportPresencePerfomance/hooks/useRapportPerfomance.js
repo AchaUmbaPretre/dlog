@@ -106,7 +106,7 @@ export const useRapportPerformance = () => {
             ]);
 
             // Traitement des réponses
-            const sitesData = siteResponse?.data || [];
+            const sitesData = siteResponse?.data.data || [];
             const usersData = userResponse?.data || [];
             const presenceData = presenceResponse?.data || {};
 

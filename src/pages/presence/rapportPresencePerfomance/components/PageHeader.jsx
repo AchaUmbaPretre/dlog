@@ -17,7 +17,8 @@ const PageHeader = ({
   onPrevPeriod,
   onNextPeriod,
   alertThreshold = 50,
-  currentValue 
+  currentValue,
+  sites
 }) => {
   const formatDate = (dateString) => {
     if (!dateString) return '—';
@@ -31,6 +32,8 @@ const PageHeader = ({
       return '—';
     }
   };
+
+  console.log(sites)
 
   // Fonction pour formater le mois et l'année
   const formatMonthYear = (dateString) => {
