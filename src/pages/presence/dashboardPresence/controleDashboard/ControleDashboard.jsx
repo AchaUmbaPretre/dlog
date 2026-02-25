@@ -65,13 +65,11 @@ const ControleDashboard = () => {
         <>
             <div className="dashboard-section_control">
 
-                {/* Première ligne */}
                 <div className="dashboard_control_wrapper">
                     <DashEntreeSortie data={data.entreeSortie} />
                     <DashboardAlerts data={data.alertes} />
                 </div>
 
-                {/* Deuxième ligne */}
                 <div style={{display:'flex', gap:'10px', marginTop:'10px'}}>
                     <DashboardSites 
                         data={data.presenceSite} 

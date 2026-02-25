@@ -1,10 +1,8 @@
-import React from 'react';
 import './dashEntreeSortie.scss';
 import { BarChartOutlined } from '@ant-design/icons';
 import { Bar } from 'react-chartjs-2';
 
 const DashEntreeSortie = ({ data = [] }) => {
-  // Données par défaut si aucune donnée
   const chartData = {
     labels: data.map(item => item.heure) || ['06:00', '07:00', '08:00', '10:00', '11:00', '12:00'],
     datasets: [
