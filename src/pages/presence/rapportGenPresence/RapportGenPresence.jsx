@@ -9,6 +9,7 @@ import PresenceRapportRP from '../presenceRapportRP/PresenceRapportRP';
 import PresenceReport from '../presenceReport/PresenceReport';
 import RapportPresenceSite from '../rapportPresenceSite/RapportPresenceSite';
 import RapportPresenceDepartement from '../rapportPresenceDepartement/RapportPresenceDepartement';
+import RapportPresencePerfomance from '../rapportPresencePerfomance/rapportPresencePerfomance';
 
 const tabConfig = [
   {
@@ -45,7 +46,7 @@ const tabConfig = [
     key: '6',
     label: 'Rapports de performance',
     icon: <ClockCircleOutlined />,
-    component: <PresenceRapportRP />
+    component: <RapportPresencePerfomance />
   }
 ];
 
