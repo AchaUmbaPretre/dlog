@@ -1,13 +1,18 @@
-import { Row, Col, Tag, Space, Typography, Button, Tooltip } from 'antd';
+import { Row, Col, Tag, Space, Typography, Button, Tooltip, Select, DatePicker } from 'antd';
 import { 
   CalendarOutlined, 
   ReloadOutlined,
   AlertOutlined,
   LeftOutlined,
-  RightOutlined
+  RightOutlined,
+  EnvironmentOutlined
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
+import locale from 'antd/es/date-picker/locale/fr_FR';
 
 const { Title, Text } = Typography;
+const { RangePicker } = DatePicker;
+const { Option } = Select;
 
 const PageHeader = ({ 
   title, 
@@ -16,9 +21,12 @@ const PageHeader = ({
   onReload, 
   onPrevPeriod,
   onNextPeriod,
+  onSiteChange,
+  onDateRangeChange,
+  selectedSite,
+  sites,
   alertThreshold = 50,
-  currentValue,
-  sites
+  currentValue
 }) => {
   const formatDate = (dateString) => {
     if (!dateString) return '—';
@@ -32,8 +40,6 @@ const PageHeader = ({
       return '—';
     }
   };
-
-  console.log(sites)
 
   // Fonction pour formater le mois et l'année
   const formatMonthYear = (dateString) => {
@@ -61,8 +67,8 @@ const PageHeader = ({
       boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
       border: '1px solid #f0f0f0'
     }}>
-      <Row justify="space-between" align="middle">
-        {/* Titre et alerte */}
+      {/* Première ligne : Titre et alertes */}
+      <Row justify="space-between" align="middle" style={{ marginBottom: '16px' }}>
         <Col>
           <Space size="middle" align="center">
             <Title level={3} style={{ 
@@ -92,76 +98,28 @@ const PageHeader = ({
           </Space>
         </Col>
 
-        {/* Contrôles de période */}
         <Col>
           <Space size={16}>
-            {/* Période avec navigation */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              background: '#fafafa',
-              borderRadius: '30px',
-              padding: '2px',
-              border: '1px solid #f0f0f0'
-            }}>
-              <Button 
-                type="text"
-                icon={<LeftOutlined />}
-                size="small"
-                onClick={onPrevPeriod}
-                style={{ 
-                  border: 'none',
-                  color: '#8c8c8c'
-                }}
-              />
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '0 12px'
-              }}>
-                <CalendarOutlined style={{ color: '#1890ff', fontSize: '14px' }} />
-                <Text style={{ 
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  color: '#1f1f1f'
-                }}>
-                  {memeMois ? (
-                    // Si même mois : "Janvier 2026"
-                    moisDebut
-                  ) : (
-                    // Si mois différents : "31 Jan - 27 Fév 2026"
-                    `${new Date(periode?.debut).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} - ${new Date(periode?.fin).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}`
-                  )}
-                </Text>
-              </div>
-              <Button 
-                type="text"
-                icon={<RightOutlined />}
-                size="small"
-                onClick={onNextPeriod}
-                style={{ 
-                  border: 'none',
-                  color: '#8c8c8c'
-                }}
-              />
-            </div>
-
-            {/* Badge jours ouvrés */}
-            <div style={{
-              background: '#f0f5ff',
-              padding: '4px 12px',
-              borderRadius: '30px',
-              border: '1px solid #d6e4ff'
-            }}>
-              <Text style={{ 
-                fontSize: '13px',
-                fontWeight: 500,
-                color: '#1890ff'
-              }}>
-                {periode?.jours_ouvrables || 0} jours
-              </Text>
-            </div>
+            {/* Filtre par site */}
+            <Space size={8}>
+              <EnvironmentOutlined style={{ color: '#8c8c8c' }} />
+              <Select
+                placeholder="Tous les sites"
+                style={{ width: 200 }}
+                onChange={onSiteChange}
+                value={selectedSite}
+                allowClear
+                size="middle"
+                dropdownStyle={{ borderRadius: '8px' }}
+              >
+                <Option value={null}>Tous les sites</Option>
+                {sites?.map(site => (
+                  <Option key={site.id_site || site.id} value={site.id_site || site.id}>
+                    {site.nom_site || site.nom}
+                  </Option>
+                ))}
+              </Select>
+            </Space>
 
             {/* Bouton rechargement */}
             <Tooltip title="Actualiser">
@@ -179,6 +137,60 @@ const PageHeader = ({
         </Col>
       </Row>
 
+      {/* Deuxième ligne : Filtres de date et navigation */}
+      <Row justify="space-between" align="middle" gutter={[16, 16]}>
+        <Col xs={24} md={16}>
+          <Space size={16} wrap>
+            {/* Sélecteur de période */}
+            
+
+            {/* Badge jours ouvrés */}
+            <div style={{
+              background: '#f0f5ff',
+              padding: '4px 12px',
+              borderRadius: '30px',
+              border: '1px solid #d6e4ff'
+            }}>
+              <Text style={{ 
+                fontSize: '13px',
+                fontWeight: 500,
+                color: '#1890ff'
+              }}>
+                {periode?.jours_ouvrables || 0} jours
+              </Text>
+            </div>
+          </Space>
+        </Col>
+
+        <Col xs={24} md={8}>
+          {/* Navigation par mois */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            background: '#fafafa',
+            borderRadius: '30px',
+            padding: '2px',
+            border: '1px solid #f0f0f0',
+            width: 'fit-content',
+            marginLeft: 'auto'
+          }}>
+            <RangePicker
+              locale={locale}
+              format="DD/MM/YYYY"
+              value={[
+                periode?.debut ? dayjs(periode.debut) : null,
+                periode?.fin ? dayjs(periode.fin) : null
+              ]}
+              onChange={onDateRangeChange}
+              allowClear={false}
+              style={{ borderRadius: '30px' }}
+              placeholder={['Date début', 'Date fin']}
+            />
+          </div>
+        </Col>
+      </Row>
+
       {/* Indicateurs supplémentaires */}
       {periode && (
         <div style={{ 
@@ -187,7 +199,8 @@ const PageHeader = ({
           borderTop: '1px solid #f5f5f5',
           display: 'flex',
           gap: '24px',
-          alignItems: 'center'
+          alignItems: 'center',
+          flexWrap: 'wrap'
         }}>
           <Space size={8}>
             <Text type="secondary" style={{ fontSize: '12px' }}>Du</Text>
