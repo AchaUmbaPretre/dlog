@@ -19,7 +19,7 @@ const accentColors = {
 };
 
 export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
-  // Configuration des cartes
+
   const cards = [
     {
       id: 'presence',
