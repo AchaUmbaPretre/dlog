@@ -5,389 +5,190 @@ import { getUser } from "../../../../services/userService";
 import { notifySuccess, notifyWarning } from "../../../../utils/notifyWarning";
 
 export const useRapportPerformance = () => {
-    const [presences, setPresences] = useState([]);
-    const [sites, setSites] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [filters, setFilters] = useState({
-        site_id: null,
-        date_debut: null,
-        date_fin: null
-    });
+  const [sites, setSites] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-    // Chargement des données de référence (sites et users)
-    const loadReferenceData = useCallback(async () => {
-        try {
-            const [siteResponse, userResponse] = await Promise.all([
-                getSite(),
-                getUser()
-            ]);
+  const [filters, setFilters] = useState({
+    site_id: null,
+    date_debut: null,
+    date_fin: null,
+  });
 
-            // Correction: siteResponse?.data.data ou siteResponse?.data selon la structure
-            const sitesData = siteResponse?.data?.data || siteResponse?.data || [];
-            const usersData = userResponse?.data || [];
+  /* =========================
+     CHARGEMENT RÉFÉRENCES
+  ========================== */
+  const loadReferenceData = useCallback(async () => {
+    try {
+      const [siteResponse, userResponse] = await Promise.all([getSite(), getUser()]);
 
-            setSites(sitesData);
-            setUsers(usersData);
-            
-        } catch (error) {
-            console.error("Erreur chargement données référence", error);
-            notifyWarning('Erreur chargement sites/utilisateurs');
-        }
-    }, []);
+      setSites(siteResponse?.data?.data || siteResponse?.data || []);
+      setUsers(userResponse?.data || []);
+    } catch (err) {
+      console.error("Erreur chargement références", err);
+      notifyWarning("Erreur chargement sites/utilisateurs");
+    }
+  }, []);
 
-    // Chargement des données de performance
-    const loadPerformanceData = useCallback(async (params = {}) => {
-        setLoading(true);
-        setError(null);
-        
-        try {
-            const presenceResponse = await getPresenceDashboardPerformance(params);
-            
-            // Vérifier la structure de la réponse
-            if (presenceResponse?.success === false) {
-                throw new Error(presenceResponse.message || "Erreur lors du chargement");
-            }
-            
-            const presenceData = presenceResponse?.data || {};
-            
-            setData(presenceData);
-            setPresences(presenceData.presences || []);
-            
-            return presenceData;
-            
-        } catch (error) {
-            console.error("Erreur chargement performance", error);
-            setError(error.message || "Erreur de chargement");
-            notifyWarning('Erreur chargement Performance', 'Chargement depuis le cache local…');
-            
-            // Données par défaut en cas d'erreur
-            const defaultData = {
-                metadata: {
-                    periode: {
-                        debut: new Date().toISOString().split('T')[0],
-                        fin: new Date().toISOString().split('T')[0],
-                        jours_ouvrables: 0
-                    }
-                },
-                kpi_globaux: {
-                    taux_presence: 0,
-                    taux_ponctualite: 0,
-                    taux_activite: 0,
-                    total_retards: 0,
-                    retard_moyen: 0,
-                    evolution_presence: 0,
-                    total_heures_sup: 0,
-                    employes_absents: 0,
-                    absences_justifiees: 0
-                },
-                performances_sites: [],
-                top_performeurs: [],
-                agents_probleme: []
-            };
-            
-            setData(defaultData);
-            return defaultData;
-            
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+  /* =========================
+     CHARGEMENT PERFORMANCE
+  ========================== */
+  const loadPerformanceData = useCallback(async (params = {}) => {
+    setLoading(true);
+    setError(null);
 
-    // Chargement initial complet
-    const load = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-        
-        try {
-            // Appels parallèles aux APIs
-            const [siteResponse, userResponse, presenceResponse] = await Promise.all([
-                getSite(),
-                getUser(),
-                getPresenceDashboardPerformance(filters)
-            ]);
+    try {
+      const presenceData = await getPresenceDashboardPerformance(params);
+      // Si ton API retourne { success, data }, prendre data
+      const payload = presenceData?.data || presenceData;
 
-            // Traitement des réponses
-            const sitesData = siteResponse?.data?.data || siteResponse?.data || [];
-            const usersData = userResponse?.data || [];
-            const presenceData = presenceResponse?.data || {};
+      setData(payload || {});
+      return payload;
+    } catch (err) {
+      console.error("Erreur chargement performance", err);
+      setError(err.message || "Erreur de chargement");
+      notifyWarning("Erreur chargement Performance");
 
-            setSites(sitesData);
-            setUsers(usersData);
-            
-            setData(presenceData);
-            setPresences(presenceData.presences || []);
-            
-            notifySuccess('Données chargées avec succès');
-            
-        } catch (error) {
-            console.error("Erreur chargement performance", error);
-            setError(error.message || "Erreur de chargement");
-            notifyWarning('Erreur chargement Performance', 'Chargement depuis le cache local…');
-            
-            // Données par défaut en cas d'erreur
-            const defaultData = {
-                metadata: {
-                    periode: {
-                        debut: new Date().toISOString().split('T')[0],
-                        fin: new Date().toISOString().split('T')[0],
-                        jours_ouvrables: 0
-                    }
-                },
-                kpi_globaux: {
-                    taux_presence: 0,
-                    taux_ponctualite: 0,
-                    taux_activite: 0,
-                    total_retards: 0,
-                    retard_moyen: 0,
-                    evolution_presence: 0,
-                    total_heures_sup: 0,
-                    employes_absents: 0,
-                    absences_justifiees: 0
-                },
-                performances_sites: [],
-                top_performeurs: [],
-                agents_probleme: []
-            };
-            
-            setData(defaultData);
-            setPresences([]);
-            
-        } finally {
-            setLoading(false);
-        }
-    }, [filters]);
+      const fallback = {
+        metadata: { periode: { debut: null, fin: null, jours_ouvrables: 0 } },
+        kpi_globaux: {},
+        performances_sites: [],
+        top_performeurs: [],
+        agents_probleme: [],
+      };
 
-    // Rechargement avec nouveaux filtres
-    const reloadWithParams = useCallback(async (newFilters = {}) => {
-        // Mettre à jour les filtres
-        setFilters(prev => {
-            const updated = { ...prev, ...newFilters };
-            return updated;
-        });
-        
-        // Charger les données avec les nouveaux filtres
-        setLoading(true);
-        setError(null);
-        
-        try {
-            // Fusionner les filtres existants avec les nouveaux
-            const params = { ...filters, ...newFilters };
-            const presenceResponse = await getPresenceDashboardPerformance(params);
-            const presenceData = presenceResponse?.data || {};
-            
-            setData(presenceData);
-            setPresences(presenceData.presences || []);
-            
-            notifySuccess('Données mises à jour');
-            return presenceData;
-            
-        } catch (error) {
-            console.error("Erreur rechargement performance", error);
-            setError(error.message || "Erreur de rechargement");
-            notifyWarning('Erreur rechargement Performance');
-            return null;
-        } finally {
-            setLoading(false);
-        }
-    }, [filters]);
+      setData(fallback);
+      return fallback;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-    // Mise à jour des filtres sans rechargement
-    const updateFilters = useCallback((newFilters) => {
-        setFilters(prev => ({ ...prev, ...newFilters }));
-    }, []);
+  /* =========================
+     LOAD GLOBAL (avec filtres)
+  ========================== */
+  const load = useCallback(async () => {
+    await loadPerformanceData(filters);
+  }, [filters, loadPerformanceData]);
 
-    // Réinitialiser les filtres
-    const resetFilters = useCallback(() => {
-        setFilters({
-            site_id: null,
-            date_debut: null,
-            date_fin: null
-        });
-        // Recharger avec les filtres réinitialisés
-        reloadWithParams({
-            site_id: null,
-            date_debut: null,
-            date_fin: null
-        });
-    }, [reloadWithParams]);
+  /* =========================
+     RELOAD AVEC NOUVEAUX FILTRES
+  ========================== */
+  const reloadWithParams = useCallback(
+    async (newFilters = {}) => {
+      const updated = { ...filters, ...newFilters };
+      setFilters(updated);
+      return loadPerformanceData(updated);
+    },
+    [filters, loadPerformanceData]
+  );
 
-    // Effet pour charger les données de référence au montage
-    useEffect(() => {
-        loadReferenceData();
-    }, [loadReferenceData]);
+  /* =========================
+     RESET FILTRES
+  ========================== */
+  const resetFilters = useCallback(() => {
+    const initial = { site_id: null, date_debut: null, date_fin: null };
+    setFilters(initial);
+    loadPerformanceData(initial);
+  }, [loadPerformanceData]);
 
-    // Effet pour charger les données quand les filtres changent
-    useEffect(() => {
-        load();
-    }, [filters.site_id, filters.date_debut, filters.date_fin]);
+  /* =========================
+     EFFECTS
+  ========================== */
+  useEffect(() => {
+    loadReferenceData();
+  }, [loadReferenceData]);
 
-    // Données calculées pour faciliter l'utilisation dans les composants
-    const computedData = useMemo(() => {
-        if (!data) return null;
+  useEffect(() => {
+    load();
+  }, [filters.site_id, filters.date_debut, filters.date_fin]);
 
-        // S'assurer que les données ont la bonne structure
-        const kpi = data.kpi_globaux || {};
-        const sitesData = data.performances_sites || [];
-        const top = data.top_performeurs || [];
-        const probleme = data.agents_probleme || [];
-        const metadata = data.metadata || {};
+  /* =========================
+     COMPUTED DATA
+  ========================== */
+  const computedData = useMemo(() => {
+    if (!data) return null;
 
-        // Statistiques supplémentaires
-        const stats = {
-            totalEmployes: users.length,
-            totalSites: sites.length,
-            sitesAvecProblemes: sitesData.filter(s => (s.performance || 0) < 75).length,
-            topPerformeursCount: top.length,
-            agentsProblemeCount: probleme.length,
-            
-            // Moyennes globales
-            moyennePresenceParSite: sitesData.length > 0 
-                ? sitesData.reduce((acc, site) => acc + (site.taux_presence || 0), 0) / sitesData.length
-                : 0,
-            
-            meilleurSite: sitesData.length > 0 
-                ? [...sitesData].sort((a, b) => (b.performance || 0) - (a.performance || 0))[0]
-                : null,
-            pireSite: sitesData.length > 0 
-                ? [...sitesData].sort((a, b) => (a.performance || 0) - (b.performance || 0))[0]
-                : null,
-            
-            // Totaux
-            totalPresences: presences.length,
-            totalRetards: kpi.total_retards || 0,
-            totalHeuresSup: kpi.total_heures_sup || 0,
-            employesAbsents: kpi.employes_absents || 0,
-            absencesJustifiees: kpi.absences_justifiees || 0,
-            
-            // Alertes
-            niveauAlerte: kpi.taux_presence < 50 ? 'critique' : 
-                          kpi.taux_presence < 75 ? 'alerte' : 'normal'
-        };
+    const kpi = data.kpi_globaux || {};
+    const sitesData = data.performances_sites || [];
+    const top = data.top_performeurs || [];
+    const probleme = data.agents_probleme || [];
 
-        // Formater les KPIs pour le frontend
-        const formattedKpi = {
-            tauxPresence: kpi.taux_presence || 0,
-            tauxPonctualite: kpi.taux_ponctualite || 0,
-            tauxActivite: kpi.taux_activite || 0,
-            totalRetards: kpi.total_retards || 0,
-            retardMoyen: kpi.retard_moyen || 0,
-            evolutionPresence: kpi.evolution_presence || 0,
-            evolutionPonctualite: kpi.evolution_ponctualite || 0,
-            evolutionActivite: kpi.evolution_activite || 0,
-            totalHeuresSup: kpi.total_heures_sup || 0,
-            employesAbsents: kpi.employes_absents || 0,
-            absencesJustifiees: kpi.absences_justifiees || 0,
-            
-            // Indicateurs dérivés
-            retardMoyenFormat: `${Math.floor((kpi.retard_moyen || 0) / 60)}h${(kpi.retard_moyen || 0) % 60}`,
-            tauxPresenceColor: (kpi.taux_presence || 0) >= 75 ? 'success' : 
-                              (kpi.taux_presence || 0) >= 50 ? 'warning' : 'danger'
-        };
+    const formattedKpi = {
+      tauxPresence: kpi.taux_presence ?? 0,
+      tauxPonctualite: kpi.taux_ponctualite ?? 0,
+      tauxActivite: kpi.taux_activite ?? 0,
+      totalRetards: kpi.total_retards ?? 0,
+      retardMoyen: kpi.retard_moyen ?? 0,
+      evolutionPresence: kpi.evolution_presence ?? 0,
+      evolutionPonctualite: kpi.evolution_ponctualite ?? 0,
+      evolutionActivite: kpi.evolution_activite ?? 0,
+      totalHeuresSup: kpi.total_heures_sup ?? 0,
+      employesAbsents: kpi.employes_absents ?? 0,
+      absencesJustifiees: kpi.absences_justifiees ?? 0,
+      retardMoyenFormat: `${Math.floor(kpi.retard_moyen / 60) || 0}h${
+        Math.round(kpi.retard_moyen % 60) || 0
+      }`,
+      tauxPresenceColor:
+        kpi.taux_presence >= 75
+          ? "success"
+          : kpi.taux_presence >= 50
+          ? "warning"
+          : "danger",
+    };
 
-        return {
-            ...data,
-            metadata,
-            kpi_globaux: formattedKpi,
-            performances_sites: sitesData.map(site => ({
-                ...site,
-                key: site.site_id || Math.random(),
-                performanceColor: site.performance >= 75 ? 'green' : 
-                                site.performance >= 50 ? 'orange' : 'red',
-                tauxPresenceColor: site.taux_presence >= 75 ? 'green' : 
-                                  site.taux_presence >= 50 ? 'orange' : 'red'
-            })),
-            top_performeurs: top.map((emp, index) => ({
-                ...emp,
-                key: emp.id || index,
-                nom: emp.nom || '',
-                prenom: emp.prenom || '',
-                fullName: `${emp.prenom || ''} ${emp.nom || ''}`.trim()
-            })),
-            agents_probleme: probleme.map((emp, index) => ({
-                ...emp,
-                key: emp.id || index,
-                nom: emp.nom || '',
-                prenom: emp.prenom || '',
-                fullName: `${emp.prenom || ''} ${emp.nom || ''}`.trim(),
-                retardMoyenFormat: `${Math.floor((emp.retard_moyen || 0) / 60)}h${(emp.retard_moyen || 0) % 60}`
-            })),
-            stats
-        };
-    }, [data, users.length, sites.length, presences.length]);
+    // Calcul total presences depuis performances_sites
+    const totalPresences = sitesData.reduce(
+      (acc, site) => acc + (site.employes_presents ?? 0),
+      0
+    );
 
-    // Fonction pour exporter les données
-    const exportData = useCallback((format = 'json') => {
-        if (!data) return null;
-        
-        if (format === 'json') {
-            return JSON.stringify({
-                metadata: data.metadata,
-                kpi_globaux: data.kpi_globaux,
-                performances_sites: data.performances_sites,
-                top_performeurs: data.top_performeurs,
-                agents_probleme: data.agents_probleme,
-                date_export: new Date().toISOString(),
-                stats: computedData?.stats
-            }, null, 2);
-        } else if (format === 'csv') {
-            // Exporter les performances des sites en CSV
-            if (data.performances_sites?.length > 0) {
-                const headers = ['Site', 'Taux Présence (%)', 'Total Retards', 'Retard Moyen (min)', 'Performance (%)'];
-                const rows = data.performances_sites.map(site => [
-                    site.site_nom,
-                    site.taux_presence,
-                    site.total_retards,
-                    site.retard_moyen,
-                    site.performance
-                ]);
-                
-                return [headers, ...rows].map(row => row.join(',')).join('\n');
-            }
-        }
-        return null;
-    }, [data, computedData]);
-
-    // Rafraîchir les données
-    const refresh = useCallback(() => {
-        return load();
-    }, [load]);
+    const stats = {
+      totalEmployes: users.length,
+      totalSites: sites.length,
+      totalPresences,
+      totalRetards: formattedKpi.totalRetards,
+      totalHeuresSup: formattedKpi.totalHeuresSup,
+      employesAbsents: formattedKpi.employesAbsents,
+      absencesJustifiees: formattedKpi.absencesJustifiees,
+    };
 
     return {
-        // Données
-        data: computedData,
-        presences,
-        sites,
-        users,
-        
-        // États
-        loading,
-        error,
-        filters,
-        
-        // Statistiques calculées
-        stats: computedData?.stats || {},
-        
-        // Fonctions principales
-        load,
-        reload: refresh,
-        reloadWithParams,
-        updateFilters,
-        resetFilters,
-        exportData,
-        
-        // Utilitaires
-        hasData: !!computedData && computedData.performances_sites?.length > 0,
-        isEmpty: !computedData || computedData.performances_sites?.length === 0,
-        hasError: !!error,
-        
-        // Informations sur la période
-        periode: computedData?.metadata?.periode || {
-            debut: null,
-            fin: null,
-            jours_ouvrables: 0
-        }
+      ...data,
+      kpi_globaux: formattedKpi,
+      performances_sites: sitesData,
+      top_performeurs: top,
+      agents_probleme: probleme,
+      stats,
     };
+  }, [data, users.length, sites.length]);
+
+  /* =========================
+     EXPORT
+  ========================== */
+  const exportData = useCallback(() => {
+    if (!computedData) return null;
+    return JSON.stringify(computedData, null, 2);
+  }, [computedData]);
+
+  return {
+    data: computedData,
+    sites,
+    users,
+    loading,
+    error,
+    filters,
+    stats: computedData?.stats || {},
+    load,
+    reload: load,
+    reloadWithParams,
+    resetFilters,
+    exportData,
+    hasData: !!computedData,
+    isEmpty: !computedData,
+    hasError: !!error,
+    periode: computedData?.metadata?.periode || {},
+  };
 };

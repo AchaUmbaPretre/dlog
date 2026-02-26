@@ -123,10 +123,14 @@ export const getPresenceDashboardStatisque = async () => {
   return axios.get(`${DOMAIN}/api/presence/dashboardStatistique`);
 };
 
-export const getPresenceDashboardPerformance = async () => {
-  return axios.get(`${DOMAIN}/api/presence/dashboardPerformance`);
-};
+export const getPresenceDashboardPerformance = async (params) => {
+  const response = await axios.get(
+    `${DOMAIN}/api/presence/dashboardPerformance`,
+    { params }
+  );
 
+  return response.data.data; 
+};
 //Congé
 export const getConge = async () => {
   return userRequest.get(`${DOMAIN}/api/presence/conge`);
