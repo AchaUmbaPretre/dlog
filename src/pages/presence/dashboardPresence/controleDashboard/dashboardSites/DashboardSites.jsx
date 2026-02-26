@@ -9,12 +9,14 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
   // Vérifier si nous avons des données
   const hasData = data && data.length > 0;
 
+  console.log(topSites)
+
   // Données pour le graphique (soit depuis les props, soit fallback)
   const chartData = {
     labels: hasData ? data.map(item => item.site) : ['Cobra', 'Goma', 'Lubumbashi', 'Matadi'],
     datasets: [
       {
-        data: hasData ? data.map(item => item.value) : [68, 45, 82, 32],
+        data:  data.map(item => item.value),
         backgroundColor: hasData ? data.map(item => item.color) : [
           '#4CAF50',
           '#2196F3',
@@ -34,17 +36,12 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
   const total = chartData.datasets[0].data.reduce((a, b) => a + b, 0);
 
   // Sites avec pourcentages calculés
-  const sites = hasData ? data.map(item => ({
+  const sites =  data.map(item => ({
     name: item.site,
     value: item.value,
     color: item.color,
     percentage: item.percentage || Math.round((item.value / total) * 100)
-  })) : [
-    { name: 'Cobra', value: 68, color: '#4CAF50', percentage: Math.round((68 / total) * 100) },
-    { name: 'Goma', value: 45, color: '#2196F3', percentage: Math.round((45 / total) * 100) },
-    { name: 'Lubumbashi', value: 82, color: '#FF9800', percentage: Math.round((82 / total) * 100) },
-    { name: 'Matadi', value: 32, color: '#F44336', percentage: Math.round((32 / total) * 100) }
-  ];
+  }))
 
   // Site le plus actif
   const mostActiveSite = topSites && topSites.length > 0 
@@ -56,9 +53,7 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
 
   // Taux de présence global
   const totalGlobal = globalStats?.total || (globalStats?.presents + globalStats?.retards + globalStats?.absents) || 186;
-  const presenceRate = globalStats?.presents 
-    ? Math.round((globalStats.presents / totalGlobal) * 100)
-    : Math.round((145 / 186) * 100);
+  const presenceRate = Math.round((globalStats.presents / totalGlobal) * 100);
 
   const options = {
     cutout: '65%',
@@ -133,7 +128,7 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
               </div>
               <div className="legend-values">
                 <span className="site-value">{site.value}</span>
-                <span className="site-percentage">({site.percentage}%)</span>
+                <span className="site-percentage">({site.percentage ?? 0}%)</span>
               </div>
             </div>
           ))}
@@ -159,7 +154,7 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
         <div className="stat-card">
           <span className="stat-label">Taux de présence</span>
           <span className="stat-value" style={{ color: '#52c41a' }}>
-            {presenceRate ?? 0}%
+            {presenceRate}%
           </span>
           <span className="stat-detail">global</span>
         </div>
