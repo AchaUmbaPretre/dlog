@@ -40,7 +40,6 @@ const EmployeeRanking = ({ topPerformeurs, agentsProbleme, columnsTop, columnsPr
             columns={columnsProbleme} 
             dataSource={agentsProbleme}
             pagination={false}
-            showHeader={false}
             size="small"
             locale={{ emptyText: 'Aucun agent à problème identifié' }}
           />

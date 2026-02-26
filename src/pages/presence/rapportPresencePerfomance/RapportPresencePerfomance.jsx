@@ -18,7 +18,7 @@ const RapportPresencePerformance = () => {
     loading, 
     error,
     filters,
-    setFilters,  // ← Add this (it's available from useState in the hook)
+    setFilters,
     reload,
     reloadWithParams,
     resetFilters,
@@ -47,17 +47,21 @@ const RapportPresencePerformance = () => {
 
   const handleDateRangeChange = (dates) => {
     if (dates && dates.length === 2) {
-      const dateDebut = dates[0].format('YYYY-MM-DD');
-      const dateFin = dates[1].format('YYYY-MM-DD');
+      const dateDebut = dates[0].startOf('day').format('YYYY-MM-DD');
+      const dateFin = dates[1].startOf('day').format('YYYY-MM-DD');
       
-      // Update filters locally
+      console.log('Dates sélectionnées:', {
+        originale: dates[0].format('DD/MM/YYYY'),
+        debut: dateDebut,
+        fin: dateFin
+      });
+      
       setFilters(prev => ({ 
         ...prev,
         date_debut: dateDebut,
         date_fin: dateFin
       }));
       
-      // Reload with new params
       reloadWithParams({ 
         date_debut: dateDebut,
         date_fin: dateFin
@@ -92,7 +96,7 @@ const RapportPresencePerformance = () => {
         onReload={reload}
         onSiteChange={handleSiteChange}
         onDateRangeChange={handleDateRangeChange}
-        onResetFilters={handleResetFilters} // Optional: add reset button
+        onResetFilters={handleResetFilters}
         selectedSite={filters.site_id}
         sites={sites}
         alertThreshold={50}

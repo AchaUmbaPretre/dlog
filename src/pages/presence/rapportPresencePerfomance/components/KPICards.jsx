@@ -18,8 +18,6 @@ const accentColors = {
 };
 
 export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
-
-  console.log('KPIS', kpiGlobaux);
   
   const cards = [
     {

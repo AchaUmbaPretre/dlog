@@ -182,7 +182,7 @@ export const columnsProbleme = [
     )
   },
   {
-    title: 'Présence',
+    title: 'Présence %',
     dataIndex: 'taux_presence',
     key: 'tauxPresence',
     render: (value) => (
@@ -190,13 +190,13 @@ export const columnsProbleme = [
     )
   },
   {
-    title: 'Retards',
+    title: 'Nbre retards',
     dataIndex: 'jours_retard',
     key: 'joursRetard',
     render: (value, record) => (
-      <Tooltip title={`Total: ${record?.total_minutes_retard || 0} min`}>
+      <Tooltip title={`Total: ${formatDuration(record?.total_minutes_retard) || 0}`}>
         <Badge 
-          count={formatDuration(value) || 0} 
+          count={value || 0} 
           style={{ backgroundColor: '#f5222d' }} 
           overflowCount={999}
         />

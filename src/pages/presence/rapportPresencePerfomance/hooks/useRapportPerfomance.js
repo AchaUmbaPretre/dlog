@@ -22,15 +22,16 @@ export const useRapportPerformance = () => {
   ========================== */
   const loadReferenceData = useCallback(async () => {
     try {
-      const [siteResponse, userResponse] = await Promise.all([getSite(), getUser()]);
+      const [siteResponse] = await Promise.all([getSite()]);
 
       setSites(siteResponse?.data?.data || siteResponse?.data || []);
-      setUsers(userResponse?.data || []);
     } catch (err) {
       console.error("Erreur chargement références", err);
       notifyWarning("Erreur chargement sites/utilisateurs");
     }
   }, []);
+
+  console.log(users)
 
   /* =========================
      CHARGEMENT PERFORMANCE
@@ -43,6 +44,7 @@ export const useRapportPerformance = () => {
       const presenceData = await getPresenceDashboardPerformance(params);
       // Si ton API retourne { success, data }, prendre data
       const payload = presenceData?.data || presenceData;
+      setUsers(payload?.userResults)
 
       setData(payload || {});
       return payload;
@@ -180,6 +182,7 @@ export const useRapportPerformance = () => {
     loading,
     error,
     filters,
+    setFilters,
     stats: computedData?.stats || {},
     load,
     reload: load,

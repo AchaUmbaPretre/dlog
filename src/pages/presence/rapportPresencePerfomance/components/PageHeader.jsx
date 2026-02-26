@@ -26,18 +26,7 @@ const PageHeader = ({
   alertThreshold = 50,
   currentValue
 }) => {
-  const formatDate = (dateString) => {
-    if (!dateString) return '—';
-    try {
-      return new Date(dateString).toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      });
-    } catch (e) {
-      return '—';
-    }
-  };
+
 
   // Fonction pour formater le mois et l'année
   const formatMonthYear = (dateString) => {
