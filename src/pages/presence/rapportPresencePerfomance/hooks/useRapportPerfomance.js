@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { getPresenceDashboardPerformance } from "../../../../services/presenceService";
 import { getSite } from "../../../../services/charroiService";
-import { getUser } from "../../../../services/userService";
 import { notifyWarning } from "../../../../utils/notifyWarning";
 
 export const useRapportPerformance = () => {
@@ -17,9 +16,6 @@ export const useRapportPerformance = () => {
     date_fin: null,
   });
 
-  /* =========================
-     CHARGEMENT RÉFÉRENCES
-  ========================== */
   const loadReferenceData = useCallback(async () => {
     try {
       const [siteResponse] = await Promise.all([getSite()]);
@@ -31,11 +27,6 @@ export const useRapportPerformance = () => {
     }
   }, []);
 
-  console.log(users)
-
-  /* =========================
-     CHARGEMENT PERFORMANCE
-  ========================== */
   const loadPerformanceData = useCallback(async (params = {}) => {
     setLoading(true);
     setError(null);
