@@ -32,8 +32,6 @@ const RapportPresencePerformance = () => {
     localStats
   } = usePerformanceData(data);
 
-  console.log(kpiGlobaux)
-
   // Gestionnaires d'événements pour les filtres
   const handleSiteChange = (siteId) => {
     updateFilters({ site_id: siteId });

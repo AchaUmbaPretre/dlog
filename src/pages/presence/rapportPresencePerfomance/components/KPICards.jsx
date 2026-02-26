@@ -11,36 +11,36 @@ import { formatDuration } from '../../../../utils/renderTooltip';
 
 const { Text } = Typography;
 
-// Palette de couleurs minimaliste (uniquement pour les accents)
 const accentColors = {
-  presence: '#1890ff',      // Bleu professionnel
-  ponctualite: '#52c41a',    // Vert
-  activite: '#722ed1'        // Violet
+  presence: '#1890ff',
+  ponctualite: '#52c41a',
+  activite: '#722ed1'
 };
 
 export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
 
-    console.log( 'KPIS', kpiGlobaux)
+  console.log('KPIS', kpiGlobaux);
+  
   const cards = [
     {
       id: 'presence',
       title: 'Présence',
       icon: <UserOutlined />,
-      value: kpiGlobaux.tauxPresence,
-      evolution: kpiGlobaux.evolutionPresence,
-      subtext: `${localStats.employesAbsents} absents • ${kpiGlobaux.absencesJustifiees} justifiés`,
+      value: kpiGlobaux?.tauxPresence ?? 0, // Add fallback
+      evolution: kpiGlobaux?.evolutionPresence ?? 0, // Add fallback
+      subtext: `${localStats?.employesAbsents ?? 0} absents • ${kpiGlobaux?.absencesJustifiees ?? 0} justifiés`,
       accentColor: accentColors.presence
     },
     {
       id: 'ponctualite',
       title: 'Ponctualité',
       icon: <ClockCircleOutlined />,
-      value: kpiGlobaux.tauxPonctualite,
-      evolution: kpiGlobaux.evolutionPonctualite,
+      value: kpiGlobaux?.tauxPonctualite ?? 0, // Add fallback
+      evolution: kpiGlobaux?.evolutionPonctualite ?? 0, // Add fallback
       subtext: (
         <>
           <FieldTimeOutlined style={{ marginRight: 4, fontSize: '12px' }} />
-          {formatDuration(kpiGlobaux.retardMoyen)} • {kpiGlobaux.totalRetards} retards
+          {formatDuration(kpiGlobaux?.retardMoyen)} • {kpiGlobaux?.totalRetards ?? 0} retards
         </>
       ),
       accentColor: accentColors.ponctualite
@@ -49,9 +49,9 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
       id: 'activite',
       title: 'Activité',
       icon: <DashboardOutlined />,
-      value: kpiGlobaux.tauxActivite,
-      evolution: kpiGlobaux.evolutionActivite,
-      subtext: `${kpiGlobaux.totalHeuresSup}h supplémentaires`,
+      value: kpiGlobaux?.tauxActivite ?? 0, // Add fallback
+      evolution: kpiGlobaux?.evolutionActivite ?? 0, // Add fallback
+      subtext: `${kpiGlobaux?.totalHeuresSup ?? 0}h supplémentaires`,
       accentColor: accentColors.activite
     }
   ];
@@ -117,7 +117,7 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
                     fontWeight: 500,
                     fontSize: '12px'
                   }}>
-                    {Math.abs(card.evolution)}%
+                    {Math.abs(card.evolution || 0)}% {/* Add fallback */}
                   </Text>
                 </div>
               </div>
@@ -130,7 +130,7 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
                   fontWeight: 600,
                   lineHeight: 1.2
                 }}>
-                  {card.value}%
+                  {card.value !== undefined && card.value !== null ? card.value : 0}% {/* Safer check */}
                 </Text>
               </div>
 
@@ -144,7 +144,7 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
                   overflow: 'hidden'
                 }}>
                   <div style={{
-                    width: `${Math.min(100, card.value)}%`,
+                    width: `${Math.min(100, card.value || 0)}%`, // Add fallback
                     height: '100%',
                     background: card.accentColor,
                     borderRadius: '2px',

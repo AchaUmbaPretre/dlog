@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, useMemo } from "react";
 import { getPresenceDashboardPerformance } from "../../../../services/presenceService";
 import { getSite } from "../../../../services/charroiService";
 import { getUser } from "../../../../services/userService";
-import { notifySuccess, notifyWarning } from "../../../../utils/notifyWarning";
+import { notifyWarning } from "../../../../utils/notifyWarning";
 
 export const useRapportPerformance = () => {
   const [sites, setSites] = useState([]);

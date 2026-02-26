@@ -1,27 +1,36 @@
 import { useMemo } from 'react';
 
 export const usePerformanceData = (data) => {
+
   // Données brutes de l'API
   const rawData = useMemo(() => data?.data || data, [data]);
+  
+  // Transform underscore to camelCase if needed
+  const transformedKpiGlobaux = useMemo(() => {
+    const kpi = rawData?.kpi_globaux || {};
+    return {
+      tauxPresence: kpi.tauxPresence || kpi.taux_presence || 0,
+      tauxPonctualite: kpi.tauxPonctualite || kpi.taux_ponctualite || 0,
+      tauxActivite: kpi.tauxActivite || kpi.taux_activite || 0,
+      totalRetards: kpi.totalRetards || kpi.total_retards || 0,
+      retardMoyen: kpi.retardMoyen || kpi.retard_moyen || 0,
+      evolutionPresence: kpi.evolutionPresence || kpi.evolution_presence || 0,
+      evolutionPonctualite: kpi.evolutionPonctualite || kpi.evolution_ponctualite || 0,
+      evolutionActivite: kpi.evolutionActivite || kpi.evolution_activite || 0,
+      totalHeuresSup: kpi.totalHeuresSup || kpi.total_heures_sup || 0,
+      employesAbsents: kpi.employesAbsents || kpi.employes_absents || 0,
+      absencesJustifiees: kpi.absencesJustifiees || kpi.absences_justifiees || 0,
+    };
+  }, [rawData]);
 
-  // KPIs formatés
+  // Use the transformed data
   const kpiGlobaux = useMemo(() => ({
-    tauxPresence: rawData?.kpi_globaux?.taux_presence || 0,
-    tauxPonctualite: rawData?.kpi_globaux?.taux_ponctualite || 0,
-    tauxActivite: rawData?.kpi_globaux?.taux_activite || 0,
-    totalRetards: rawData?.kpi_globaux?.total_retards || 0,
-    retardMoyen: rawData?.kpi_globaux?.retard_moyen || 0,
-    evolutionPresence: rawData?.kpi_globaux?.evolution_presence || 0,
-    evolutionPonctualite: rawData?.kpi_globaux?.evolution_ponctualite || 0, // ✅ Valeur par défaut
-    evolutionActivite: rawData?.kpi_globaux?.evolution_activite || 0, 
-    totalHeuresSup: rawData?.kpi_globaux?.total_heures_sup || 0,
-    employesAbsents: rawData?.kpi_globaux?.employes_absents || 0,
-    absencesJustifiees: rawData?.kpi_globaux?.absences_justifiees || 0,
-    retardMoyenFormat: rawData?.kpi_globaux?.retard_moyen ? 
-      `${Math.floor(rawData.kpi_globaux.retard_moyen / 60)}h${rawData.kpi_globaux.retard_moyen % 60}` : '0h0',
-    tauxPresenceColor: (rawData?.kpi_globaux?.taux_presence || 0) >= 75 ? 'success' : 
-                       (rawData?.kpi_globaux?.taux_presence || 0) >= 50 ? 'warning' : 'danger'
-  }), [rawData]);
+    ...transformedKpiGlobaux,
+    retardMoyenFormat: transformedKpiGlobaux.retardMoyen ? 
+      `${Math.floor(transformedKpiGlobaux.retardMoyen / 60)}h${transformedKpiGlobaux.retardMoyen % 60}` : '0h0',
+    tauxPresenceColor: transformedKpiGlobaux.tauxPresence >= 75 ? 'success' : 
+                       transformedKpiGlobaux.tauxPresence >= 50 ? 'warning' : 'danger'
+  }), [transformedKpiGlobaux]);
 
   // Performances par site
   const performancesSites = useMemo(() => 
@@ -75,7 +84,6 @@ export const usePerformanceData = (data) => {
       : null,
     sitesAvecProblemes: performancesSites.filter(s => (s.performance || 0) < 75).length
   }), [kpiGlobaux.employesAbsents, performancesSites]);
-
 
   return {
     kpiGlobaux,
