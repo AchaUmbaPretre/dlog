@@ -159,7 +159,7 @@ const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
         <div className="stat-card">
           <span className="stat-label">Taux de présence</span>
           <span className="stat-value" style={{ color: '#52c41a' }}>
-            {presenceRate}%
+            {presenceRate ?? 0}%
           </span>
           <span className="stat-detail">global</span>
         </div>

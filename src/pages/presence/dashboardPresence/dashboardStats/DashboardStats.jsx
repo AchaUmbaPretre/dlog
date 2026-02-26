@@ -12,7 +12,7 @@ import DetailKpisPresenceToday from '../detailKpisPresence/DetailKpisPresenceTod
 const DashboardStats = ({ kpi, sites }) => {
   const [modalType, setModalType] = useState(null);
   if (!kpi) return null;
-  const { total, presents, absents, retards } = kpi;
+  const { total, presents, absencesTotales, retards } = kpi;
 
   const closeAllModals = () => {
     setModalType(null);
@@ -56,7 +56,7 @@ const DashboardStats = ({ kpi, sites }) => {
 
       {/* Absences */}
       <div className="stat-item">
-        <div className="stat-value">{absents ?? 0}</div>
+        <div className="stat-value">{absencesTotales ?? 0}</div>
         <div className="stat_item_row">
           <div className="stat-label">
             <StopOutlined style={{ color: 'red', marginRight: 6 }} />
