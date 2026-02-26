@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import DashlistePresence from './dashlistePresence/DashlistePresence'
 import DashPresenceChart from './dashPresenceChart/DashPresenceChart'
 import DashboardStats from './dashboardStats/DashboardStats'
 import './dashboardPresence.scss';
-import { getPresenceDashboard, getPresenceDashboardParSite } from '../../../services/presenceService';
-import { notification, Button, Tooltip, Tabs } from 'antd';
+import { Button, Tooltip, Tabs } from 'antd';
 import TopAbsences from './topAbsences/TopAbsences';
 import FiltreDashboard from './filtreDashboard/FiltreDashboard';
 import {
