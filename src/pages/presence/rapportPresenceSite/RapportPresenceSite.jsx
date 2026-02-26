@@ -13,6 +13,7 @@ import {
 import dayjs from "dayjs";
 import "dayjs/locale/fr";
 import { useRapportPresenceSite } from "./hooks/useRapportPresenceSite";
+import { formatDuration } from "../../../utils/renderTooltip";
 
 dayjs.locale("fr");
 
@@ -87,10 +88,11 @@ const RapportPresenceSite = () => {
       title: (
         <>
           <ClockCircleOutlined style={{ marginRight: 6, color: "#faad14" }} />
-          Retards (min)
+          Retards
         </>
       ),
       dataIndex: "total_retard_minutes",
+      render :(text) => <>{formatDuration(text)}</>
     },
     {
       title: (
