@@ -236,6 +236,13 @@ export const getRapportPresenceDepartement = async (params) => {
   );
 };
 
+export const getRapportPresenceAuditLog = async (params) => {
+  return axios.get(
+    `${DOMAIN}/api/presence/rapport_audit_log`,
+    { params }
+  );
+};
+
 
 //Terminal
 export const getTerminal = async () => {

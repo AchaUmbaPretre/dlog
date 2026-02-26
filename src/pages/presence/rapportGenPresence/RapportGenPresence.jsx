@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { Tabs } from 'antd';
 import {
-  BarChartOutlined,
-  ClockCircleOutlined
+  CalendarOutlined,
+  ApartmentOutlined,
+  TrophyOutlined,
+  WarningOutlined,
+  GlobalOutlined
 } from '@ant-design/icons';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
 import PresenceRapportRP from '../presenceRapportRP/PresenceRapportRP';
@@ -15,39 +18,38 @@ const tabConfig = [
   {
     key: '1',
     label: 'Rapport Mensuel',
-    icon: <BarChartOutlined />,
+    icon: <CalendarOutlined />,
+    description: 'Vue d\'ensemble mensuelle',
     component: <PresenceReport />
   },
   {
     key: '2',
     label: 'Rapport par site',
-    icon: <BarChartOutlined />,
+    icon: <GlobalOutlined />, 
+    description: 'Statistiques par site',
     component: <RapportPresenceSite />
   },
   {
     key: '3',
     label: 'Rapport par département',
-    icon: <BarChartOutlined />,
+    icon: <ApartmentOutlined />,
+    description: 'Analyse par département',
     component: <RapportPresenceDepartement />
   },
   {
     key: '4',
     label: 'Rapport Retard & Ponctualité',
-    icon: <ClockCircleOutlined />,
+    icon: <WarningOutlined />,
+    description: 'Analyse des retards et de la ponctualité',
     component: <PresenceRapportRP />
   },
   {
     key: '5',
     label: 'Rapports de performance',
-    icon: <ClockCircleOutlined />,
+    icon: <TrophyOutlined />,
+    description: 'Indicateurs de performance',
     component: <RapportPresencePerfomance />
-  },
-/*   {
-    key: '6',
-    label: 'Rapport Audit',
-    icon: <ClockCircleOutlined />,
-    component: <PresenceRapportRP />
-  }, */
+  }
 ];
 
 
