@@ -17,10 +17,15 @@ const RapportPresencePerformance = () => {
     users, 
     loading, 
     error,
-    reload,
     filters,
-    updateFilters,
-    reloadWithParams
+    setFilters,  // ← Add this (it's available from useState in the hook)
+    reload,
+    reloadWithParams,
+    resetFilters,
+    hasData,
+    isEmpty,
+    hasError,
+    periode
   } = useRapportPerformance();
 
   const {
@@ -34,7 +39,9 @@ const RapportPresencePerformance = () => {
 
   // Gestionnaires d'événements pour les filtres
   const handleSiteChange = (siteId) => {
-    updateFilters({ site_id: siteId });
+    // Update filters locally
+    setFilters(prev => ({ ...prev, site_id: siteId }));
+    // Reload with new params
     reloadWithParams({ site_id: siteId });
   };
 
@@ -42,15 +49,24 @@ const RapportPresencePerformance = () => {
     if (dates && dates.length === 2) {
       const dateDebut = dates[0].format('YYYY-MM-DD');
       const dateFin = dates[1].format('YYYY-MM-DD');
-      updateFilters({ 
+      
+      // Update filters locally
+      setFilters(prev => ({ 
+        ...prev,
         date_debut: dateDebut,
         date_fin: dateFin
-      });
+      }));
+      
+      // Reload with new params
       reloadWithParams({ 
         date_debut: dateDebut,
         date_fin: dateFin
       });
     }
+  };
+
+  const handleResetFilters = () => {
+    resetFilters();
   };
 
   // Définition du style des lignes du tableau
@@ -76,6 +92,7 @@ const RapportPresencePerformance = () => {
         onReload={reload}
         onSiteChange={handleSiteChange}
         onDateRangeChange={handleDateRangeChange}
+        onResetFilters={handleResetFilters} // Optional: add reset button
         selectedSite={filters.site_id}
         sites={sites}
         alertThreshold={50}
