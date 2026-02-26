@@ -38,16 +38,16 @@ const tabConfig = [
   },
   {
     key: '5',
-    label: 'Rapport Audit',
-    icon: <ClockCircleOutlined />,
-    component: <PresenceRapportRP />
-  },
-  {
-    key: '6',
     label: 'Rapports de performance',
     icon: <ClockCircleOutlined />,
     component: <RapportPresencePerfomance />
-  }
+  },
+/*   {
+    key: '6',
+    label: 'Rapport Audit',
+    icon: <ClockCircleOutlined />,
+    component: <PresenceRapportRP />
+  }, */
 ];
 
 

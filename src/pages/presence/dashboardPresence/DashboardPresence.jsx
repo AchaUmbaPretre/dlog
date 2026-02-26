@@ -67,7 +67,7 @@ return (
                     tab={
                       <span style={getTabStyle('4', activeKey)}>
                         <BarChartOutlined style={iconStyle('4', activeKey)} />
-                        Dashboard
+                        Rapport global
                       </span>
                     }
                   >
