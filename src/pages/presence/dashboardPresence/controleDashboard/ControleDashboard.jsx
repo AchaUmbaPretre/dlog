@@ -64,7 +64,6 @@ const ControleDashboard = () => {
     return (
         <>
             <div className="dashboard-section_control">
-
                 <div className="dashboard_control_wrapper">
                     <DashEntreeSortie data={data.entreeSortie} />
                     <DashboardAlerts data={data.alertes} />
@@ -72,9 +71,11 @@ const ControleDashboard = () => {
 
                 <div style={{display:'flex', gap:'10px', marginTop:'10px'}}>
                     <DashboardSites 
-                        data={data.presenceSite} 
-                        globalStats={data.globalStats}
-                        statsParVille={data.statsParVille}
+                        data={data.presenceSite}
+                        globalStats={{
+                            ...data.globalStats,
+                            total: data.globalStats.totalPresences // Ajout du champ total pour le composant
+                        }}
                         topSites={data.topSites}
                     />
                     <DashboardActivite 
