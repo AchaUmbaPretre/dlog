@@ -39,9 +39,7 @@ const RapportPresencePerformance = () => {
 
   // Gestionnaires d'événements pour les filtres
   const handleSiteChange = (siteId) => {
-    // Update filters locally
     setFilters(prev => ({ ...prev, site_id: siteId }));
-    // Reload with new params
     reloadWithParams({ site_id: siteId });
   };
 

@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardSites = ({ data = [], globalStats = {}, topSites = [] }) => {
-  // État local pour les données formatées
   const [formattedData, setFormattedData] = useState({
     sites: [],
     total: 0,

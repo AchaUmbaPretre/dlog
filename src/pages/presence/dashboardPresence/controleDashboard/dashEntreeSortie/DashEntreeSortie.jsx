@@ -43,7 +43,7 @@ const DashEntreeSortie = ({ data = [] }) => {
   };
 
   return (
-    <div className="dashboard-section">
+    <div className="dashboard-section sites-section">
       <div className="section-header">
         <BarChartOutlined />
         Entrées / Sorties dernières heures
