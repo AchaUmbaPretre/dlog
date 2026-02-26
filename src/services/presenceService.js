@@ -103,12 +103,44 @@ export const postPresence = async (data) => {
 
 
 //Dashboard
-export const getPresenceDashboard = async () => {
-  return axios.get(`${DOMAIN}/api/presence/dashboard`);
+export const getPresenceDashboard = async (filters = null) => {
+  let url = `${DOMAIN}/api/presence/dashboard`;
+  
+  if (filters) {
+    const params = new URLSearchParams();
+    
+    if (filters.period) params.append('period', filters.period);
+    if (filters.userIds?.length) params.append('userIds', filters.userIds.join(','));
+    if (filters.siteIds?.length) params.append('siteIds', filters.siteIds.join(','));
+    if (filters.departementIds?.length) params.append('departementIds', filters.departementIds.join(','));
+    
+    const queryString = params.toString();
+    if (queryString) {
+      url += `?${queryString}`;
+    }
+  }
+  
+  return axios.get(url);
 };
 
-export const getPresenceDashboardParSite = async () => {
-  return axios.get(`${DOMAIN}/api/presence/dashboardParSite`);
+export const getPresenceDashboardParSite = async (filters = null) => {
+  let url = `${DOMAIN}/api/presence/dashboardParSite`;
+  
+  if (filters) {
+    const params = new URLSearchParams();
+    
+    if (filters.period) params.append('period', filters.period);
+    if (filters.userIds?.length) params.append('userIds', filters.userIds.join(','));
+    if (filters.siteIds?.length) params.append('siteIds', filters.siteIds.join(','));
+    if (filters.departementIds?.length) params.append('departementIds', filters.departementIds.join(','));
+    
+    const queryString = params.toString();
+    if (queryString) {
+      url += `?${queryString}`;
+    }
+  }
+  
+  return axios.get(url);
 };
 
 export const getPresenceDashboardParSiteById = async (id) => {

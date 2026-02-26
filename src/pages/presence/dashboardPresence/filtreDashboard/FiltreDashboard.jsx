@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, Spin, Button } from "antd";
 import {
   ReloadOutlined,
@@ -12,7 +12,7 @@ import { useFiltreDashData } from "./hooks/useFiltreDashData";
 
 const { Option } = Select;
 
-const FiltreDashboard = () => {
+const FiltreDashboard = ({ onFilterChange, reload }) => {
   const { data, sites, departments, loading, period, setPeriod } = useFiltreDashData();
 
   const [filters, setFilters] = useState({
@@ -20,6 +20,16 @@ const FiltreDashboard = () => {
     siteIds: [],
     departementIds: [],
   });
+
+  // Notifier le parent quand les filtres changent
+  useEffect(() => {
+    if (onFilterChange) {
+      onFilterChange({
+        ...filters,
+        period
+      });
+    }
+  }, [filters, period, onFilterChange]);
 
   const handleChange = (key, value) => {
     setFilters((prev) => ({
@@ -43,6 +53,9 @@ const FiltreDashboard = () => {
       departementIds: [],
     });
     setPeriod("TODAY");
+    if (reload) {
+      reload(); // Recharge les données sans filtres
+    }
   };
 
   return (

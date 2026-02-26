@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { getPresenceDashboard, getPresenceDashboardParSite } from "../../../../services/presenceService";
 import { notification } from "antd";
 
-
-export const useDashboardPresence = () => {
+export const useDashboardPresence = (filters = null) => {
     const [data, setData] = useState({
         kpi: null,
         statuts: null,
@@ -13,33 +12,39 @@ export const useDashboardPresence = () => {
     });
 
     const [sites, setSites] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    const load = useCallback(async () => {
-    try {
-      const [presentData, allData] = await Promise.all([
-        getPresenceDashboard(),
-        getPresenceDashboardParSite()
-      ]);
+    const load = useCallback(async (filtersData = null) => {
+        setLoading(true);
+        try {
+            // Passez les filtres aux services
+            const [presentData, allData] = await Promise.all([
+                getPresenceDashboard(filtersData), // Modifiez votre service pour accepter les filtres
+                getPresenceDashboardParSite(filtersData) // Modifiez votre service pour accepter les filtres
+            ]);
 
-      setData(presentData?.data?.data);
-      setSites(allData?.data?.data);
+            setData(presentData?.data?.data);
+            setSites(allData?.data?.data);
 
-    } catch (error) {
-      notification.error({
-        message: "Erreur de chargement",
-        description: "Impossible de récupérer les données du dashboard.",
-        placement: "topRight"
-      });
-    }
-    }, [])
+        } catch (error) {
+            notification.error({
+                message: "Erreur de chargement",
+                description: "Impossible de récupérer les données du dashboard.",
+                placement: "topRight"
+            });
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
-        load()
-    }, [])
+        load(filters);
+    }, [load, filters]); // Recharge quand les filtres changent
 
     return {
         data,
         sites,
-        reload : load
-    }
-}
+        loading,
+        reload: load
+    };
+};
