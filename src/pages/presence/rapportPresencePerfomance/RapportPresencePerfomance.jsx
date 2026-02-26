@@ -22,10 +22,6 @@ const RapportPresencePerformance = () => {
     reload,
     reloadWithParams,
     resetFilters,
-    hasData,
-    isEmpty,
-    hasError,
-    periode
   } = useRapportPerformance();
 
   const {
@@ -43,29 +39,30 @@ const RapportPresencePerformance = () => {
     reloadWithParams({ site_id: siteId });
   };
 
-  const handleDateRangeChange = (dates) => {
-    if (dates && dates.length === 2) {
-      const dateDebut = dates[0].startOf('day').format('YYYY-MM-DD');
-      const dateFin = dates[1].startOf('day').format('YYYY-MM-DD');
-      
-      console.log('Dates sélectionnées:', {
-        originale: dates[0].format('DD/MM/YYYY'),
-        debut: dateDebut,
-        fin: dateFin
-      });
-      
-      setFilters(prev => ({ 
-        ...prev,
-        date_debut: dateDebut,
-        date_fin: dateFin
-      }));
-      
-      reloadWithParams({ 
-        date_debut: dateDebut,
-        date_fin: dateFin
-      });
+const handleDateRangeChange = (dates) => {
+  if (dates && dates.length === 2) {
+    const dateDebut = dates[0].startOf('day').format('YYYY-MM-DD');
+    
+    let dateFin;
+    
+    if (dates[0].month() === dates[1].month()) {
+      dateFin = dates[0].endOf('month').format('YYYY-MM-DD');
+    } else {
+      dateFin = dates[1].endOf('day').format('YYYY-MM-DD');
     }
-  };
+    
+    setFilters(prev => ({ 
+      ...prev,
+      date_debut: dateDebut,
+      date_fin: dateFin
+    }));
+    
+    reloadWithParams({ 
+      date_debut: dateDebut,
+      date_fin: dateFin
+    });
+  }
+};
 
   const handleResetFilters = () => {
     resetFilters();
