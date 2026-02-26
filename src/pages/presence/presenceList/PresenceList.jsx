@@ -33,71 +33,75 @@ const PresenceList = () => {
   };
 
   const handleClickCell = useCallback(
-    async (userId, date, cell) => {
-      if (isFutureDate(date)) {
-        return notification.warning({
-          message: "Action impossible",
-          description: "Impossible de pointer une date future"
-        });
-      }
+  async (userId, date, cell) => {
+    if (isFutureDate(date)) {
+      return notification.warning({
+        message: "Action impossible",
+        description: "Impossible de pointer une date future"
+      });
+    }
 
-      if (isTooOldDate(date, 7)) {
-        return notification.warning({
-          message: "Date expirée",
-          description: "Impossible de pointer une date trop ancienne"
-        });
-      }
+    if (isTooOldDate(date, 7)) {
+      return notification.warning({
+        message: "Date expirée",
+        description: "Impossible de pointer une date trop ancienne"
+      });
+    }
 
-      const isNew = !cell || !cell.id_presence;
-      const isAbsent = cell?.statut === "ABSENT";
-      const isPresent = cell?.statut === "PRESENT";
+    const isNew = !cell || !cell.id_presence;
+    const isAbsent = cell?.statut === "ABSENT";
+    const isPresent = cell?.statut === "PRESENT";
+    const isNonWorkingDay = cell?.statut === "JOUR_NON_TRAVAILLE";
 
-      if (!isNew && !isAbsent && !isPresent) {
-        return notification.info({
-          message: "Cellule non modifiable",
-          description: `Impossible de modifier ce statut : ${cell?.statut}`
-        });
-      }
+    // Modifier la condition pour permettre la modification des JOUR_NON_TRAVAILLE
+    // Uniquement si c'est un jour non travaillé avec statut PRESENT ou ABSENT
+    if (!isNew && !isAbsent && !isPresent && !isNonWorkingDay) {
+      return notification.info({
+        message: "Cellule non modifiable",
+        description: `Impossible de modifier ce statut : ${cell?.statut}`
+      });
+    }
 
-      const now = moment().utcOffset(1); // UTC+1
+    const now = moment().utcOffset(1); // UTC+1
 
-      const payload = {
-        id_utilisateur: userId,
-        date_presence: date,
-        source: "MANUEL",
-        permissions,
-        heure_entree: undefined,
-        heure_sortie: undefined,
-        update_absent: false,
-      };
+    const payload = {
+      id_utilisateur: userId,
+      date_presence: date,
+      source: "MANUEL",
+      permissions,
+      heure_entree: undefined,
+      heure_sortie: undefined,
+      update_absent: false,
+    };
 
-      if (isAbsent) {
-        payload.update_absent = true;
-        payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
-      } else if (isNew) {
-        payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
-      } else if (isPresent && !cell.heure_sortie) {
-        payload.heure_sortie = now.format("YYYY-MM-DD HH:mm:ss");
-      } else {
-        return notification.info({
-          message: "Déjà pointé",
-          description: "Les deux pointages sont déjà effectués",
-        });
-      }
+    // Pour les jours non travaillés, on peut quand même pointer
+    if (isAbsent || (isNonWorkingDay && !isPresent)) {
+      payload.update_absent = true;
+      payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
+    } else if (isNew) {
+      payload.heure_entree = now.format("YYYY-MM-DD HH:mm:ss");
+    } else if (isPresent && !cell.heure_sortie) {
+      payload.heure_sortie = now.format("YYYY-MM-DD HH:mm:ss");
+    } else {
+      return notification.info({
+        message: "Déjà pointé",
+        description: "Les deux pointages sont déjà effectués",
+      });
+    }
 
-      try {
-        await postPresence(payload);
-        notification.success({ message: "Présence enregistrée" });
-        reload();
-      } catch (err) {
-        notification.error({
-          message: "Erreur",
-          description: err?.response?.data?.message || "Impossible d'enregistrer la présence",
-        });
-      }
-    },
-    [reload, permissions]
-  );
+    try {
+      await postPresence(payload);
+      notification.success({ message: "Présence enregistrée" });
+      reload();
+    } catch (err) {
+      notification.error({
+        message: "Erreur",
+        description: err?.response?.data?.message || "Impossible d'enregistrer la présence",
+      });
+    }
+  },
+  [reload, permissions]
+);
 
   const dataSource = useMemo(() => {
     if (!data) return [];

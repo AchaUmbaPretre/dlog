@@ -36,9 +36,29 @@ const PresenceReport = () => {
         align: "center", 
         width: 130 
       },
-      { title: "Absences", dataIndex: "absences", align: "center", width: 100 },
+      { 
+        title: "Absences", 
+        dataIndex: "absences", 
+        align: "center", 
+        width: 100,
+        render: (v) => (
+          <span style={{ 
+            color: v > 0 ? '#ff4d4f' : 'inherit', 
+            fontWeight: v > 0 ? 'bold' : 'normal' 
+          }}>
+            {v}
+          </span>
+        )
+      },
       { title: "Retards (min)", dataIndex: "retards", align: "center", width: 100, render:(v) => formatDuration(v)},
       { title: "Heures sup.", dataIndex: "heuresSupp", align: "center", width: 100,  render:(v) => formatDuration(v)},
+      { 
+        title: "Jours supp.", 
+        dataIndex: "joursSupplementaires", 
+        align: "center", 
+        width: 100,
+        render: (v) => <span style={{ color: '#52c41a', fontWeight: 'bold' }}>{v}</span>
+      },
       { title: "Congés payés", dataIndex: "congesPayes", align: "center", width: 120 },
       { title: "Jours fériés", dataIndex: "joursFerie", align: "center", width: 120 },
       { title: "Jours off", dataIndex: "nonTravaille", align: "center", width: 120 },
@@ -49,7 +69,8 @@ const PresenceReport = () => {
         render: (_, record) => {
           if (!record.joursPrestation) return "0%";
           const taux = ((record.joursTravailles / record.joursPrestation) * 100).toFixed(1);
-          return `${taux}%`;
+          const tauxColor = taux < 75 ? '#ff4d4f' : taux < 90 ? '#faad14' : '#52c41a';
+          return <span style={{ color: tauxColor, fontWeight: 'bold' }}>{taux}%</span>;
         }
       },
     ];
@@ -78,6 +99,7 @@ const PresenceReport = () => {
           Absences: row.absences,
           "Retards (min)": row.retards,
           "Heures sup.": row.heuresSupp,
+          "Jours supplémentaires": row.joursSupplementaires,
           "Congés payés": row.congesPayes,
           "Jours fériés": row.joursFerie,
           "Jours off": row.nonTravaille

@@ -73,7 +73,7 @@ export const columnsSites = [
           />
           <Tooltip title="Retard moyen">
             <Text type="secondary" style={{ fontSize: 12 }}>
-              ({(record?.retard_moyen || 0).toFixed(0)} min)
+              ({formatDuration(record?.retard_moyen)})
             </Text>
           </Tooltip>
         </Space>
