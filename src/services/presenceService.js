@@ -21,6 +21,10 @@ export const getPresence = async (dateRange, siteId) => {
   return axios.get(`${DOMAIN}/api/presence`, { params });
 };
 
+export const getAbsentToday = async () => {
+  return axios.get(`${DOMAIN}/api/presence/absence_today`);
+};
+
 
 export const getPresencePlanning = async (dateRange) => {
   return userRequest.get(`${DOMAIN}/api/presence/planning`, {

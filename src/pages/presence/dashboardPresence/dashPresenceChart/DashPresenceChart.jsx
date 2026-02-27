@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tabs } from 'antd';
+import { Tabs, Modal } from 'antd';
 import { ResponsiveLine } from '@nivo/line';
 import { ResponsivePie } from '@nivo/pie';
 import { LineChartOutlined, UserDeleteOutlined, BarChartOutlined, CheckCircleOutlined, ClockCircleOutlined, PieChartOutlined } from '@ant-design/icons';
@@ -7,11 +7,13 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
 import { formatDuration } from '../../../../utils/renderTooltip';
+import AbsentDashboard from '../absentDashboard/AbsentDashboard';
 
 const { TabPane } = Tabs;
 
 const DashPresenceChart = ({ evolution, statuts, kpi }) => {
   const [activeTab, setActiveTab] = useState('line');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const lineData = [
     {
@@ -67,7 +69,7 @@ const DashPresenceChart = ({ evolution, statuts, kpi }) => {
           </div>
         </div>
 
-        <div className="stat-item">
+        <div className="stat-item" >
           <div className="stat-value">
             {kpi?.absencesTotales}
           </div>
@@ -168,7 +170,6 @@ const DashPresenceChart = ({ evolution, statuts, kpi }) => {
           </TabPane>
         </Tabs>
       </div>
-
     </div>
   );
 };

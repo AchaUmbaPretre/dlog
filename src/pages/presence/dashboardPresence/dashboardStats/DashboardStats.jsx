@@ -8,6 +8,7 @@ import {
 import { Modal, Tooltip } from 'antd';
 import './dashboardStats.scss';
 import DetailKpisPresenceToday from '../detailKpisPresence/DetailKpisPresenceToday';
+import AbsentDashboard from '../absentDashboard/AbsentDashboard';
 
 const DashboardStats = ({ kpi, sites }) => {
   const [modalType, setModalType] = useState(null);
@@ -55,7 +56,7 @@ const DashboardStats = ({ kpi, sites }) => {
       </div>
 
       {/* Absences */}
-      <div className="stat-item">
+      <div className="stat-item" onClick={() => openModal('absence')}>
         <div className="stat-value">{absencesTotales ?? 0}</div>
         <div className="stat_item_row">
           <div className="stat-label">
@@ -73,6 +74,17 @@ const DashboardStats = ({ kpi, sites }) => {
         centered
       >
         <DetailKpisPresenceToday sites={sites} />
+      </Modal>
+
+      <Modal
+        title=""
+        visible={modalType === 'absence'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1010}
+        centered
+      >
+        <AbsentDashboard />
       </Modal>
     </div>
   );
