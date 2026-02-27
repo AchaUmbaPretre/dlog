@@ -91,7 +91,7 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
     setPeriod("TODAY");
     
     if (reload) {
-      reload(); // Recharge les données sans filtres
+      reload();
     }
   }, [reload, setPeriod]);
 
