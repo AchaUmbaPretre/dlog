@@ -66,9 +66,6 @@ export const useRapportPerformance = () => {
     await loadPerformanceData(filters);
   }, [filters, loadPerformanceData]);
 
-  /* =========================
-     RELOAD AVEC NOUVEAUX FILTRES
-  ========================== */
   const reloadWithParams = useCallback(
     async (newFilters = {}) => {
       const updated = { ...filters, ...newFilters };
@@ -87,9 +84,6 @@ export const useRapportPerformance = () => {
     loadPerformanceData(initial);
   }, [loadPerformanceData]);
 
-  /* =========================
-     EFFECTS
-  ========================== */
   useEffect(() => {
     loadReferenceData();
   }, [loadReferenceData]);
@@ -98,9 +92,6 @@ export const useRapportPerformance = () => {
     load();
   }, [filters.site_id, filters.date_debut, filters.date_fin]);
 
-  /* =========================
-     COMPUTED DATA
-  ========================== */
   const computedData = useMemo(() => {
     if (!data) return null;
 
@@ -158,9 +149,6 @@ export const useRapportPerformance = () => {
     };
   }, [data, users.length, sites.length]);
 
-  /* =========================
-     EXPORT
-  ========================== */
   const exportData = useCallback(() => {
     if (!computedData) return null;
     return JSON.stringify(computedData, null, 2);
