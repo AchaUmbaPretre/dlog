@@ -1,6 +1,5 @@
 import { Table, Tag, Tooltip } from 'antd';
 import {
-  UserOutlined,
   WarningOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
