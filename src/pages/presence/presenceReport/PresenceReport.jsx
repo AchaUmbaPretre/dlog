@@ -50,7 +50,7 @@ const PresenceReport = () => {
           </span>
         )
       },
-      { title: "Retards (min)", dataIndex: "retards", align: "center", width: 100, render:(v) => formatDuration(v)},
+      { title: "Retards", dataIndex: "retards", align: "center", width: 100, render:(v) => formatDuration(v)},
       { title: "Heures sup.", dataIndex: "heuresSupp", align: "center", width: 100,  render:(v) => formatDuration(v)},
       { 
         title: "Jours supp.", 

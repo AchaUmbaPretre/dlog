@@ -9,6 +9,7 @@ import './../dashboardSection.scss';
 import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
 
 const TopAbsences = ({ topAbsences }) => {
+    const scroll = { x: 'max-content' };
 
   const columns = [
     {
@@ -73,6 +74,7 @@ const TopAbsences = ({ topAbsences }) => {
           rowKey="nom"
           pagination={{ pageSize: 5 }}
           bordered
+          scroll={scroll}
         />
       </div>
     </div>
