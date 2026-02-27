@@ -8,6 +8,7 @@ const SiteComparison = ({
   stats, 
   onRowClass 
 }) => {
+      const scroll = { x: 'max-content' };
   return (
     <Card 
       title={
@@ -38,6 +39,7 @@ const SiteComparison = ({
         dataSource={sites}
         pagination={false}
         bordered
+        scroll={scroll}
         rowClassName={onRowClass}
         locale={{ emptyText: 'Aucune donnée de site disponible' }}
       />

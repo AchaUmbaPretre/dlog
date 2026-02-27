@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { Select, Spin, Button } from "antd";
 import {
   ReloadOutlined,
@@ -21,42 +21,131 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
     departementIds: [],
   });
 
-  // Notifier le parent quand les filtres changent
+  // Utiliser une ref pour stocker les filtres précédents
+  const previousFiltersRef = useRef(filters);
+  const previousPeriodRef = useRef(period);
+
+  // Fonction pour comparer les filtres
+  const haveFiltersChanged = useCallback((oldFilters, newFilters, oldPeriod, newPeriod) => {
+    if (oldPeriod !== newPeriod) return true;
+    
+    return (
+      JSON.stringify(oldFilters.userIds) !== JSON.stringify(newFilters.userIds) ||
+      JSON.stringify(oldFilters.siteIds) !== JSON.stringify(newFilters.siteIds) ||
+      JSON.stringify(oldFilters.departementIds) !== JSON.stringify(newFilters.departementIds)
+    );
+  }, []);
+
+  // Notifier le parent SEULEMENT quand les filtres changent vraiment
   useEffect(() => {
     if (onFilterChange) {
-      onFilterChange({
-        ...filters,
-        period
-      });
+      if (haveFiltersChanged(previousFiltersRef.current, filters, previousPeriodRef.current, period)) {
+        previousFiltersRef.current = { ...filters };
+        previousPeriodRef.current = period;
+        
+        onFilterChange({
+          ...filters,
+          period
+        });
+      }
     }
-  }, [filters, period, onFilterChange]);
+  }, [filters, period, onFilterChange, haveFiltersChanged]);
 
-  const handleChange = (key, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value || [],
-    }));
-  };
+  // Optimiser les handlers avec useCallback
+  const handleChange = useCallback((key, value) => {
+    setFilters((prev) => {
+      const newValue = value || [];
+      // Ne pas mettre à jour si c'est identique
+      if (JSON.stringify(prev[key]) === JSON.stringify(newValue)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        [key]: newValue,
+      };
+    });
+  }, []);
 
-  const handleSelectAll = (key, list, idField) => {
+  const handleSelectAll = useCallback((key, list, idField) => {
     const allIds = list.map((item) => item[idField]);
-    setFilters((prev) => ({
-      ...prev,
-      [key]: allIds,
-    }));
-  };
+    setFilters((prev) => {
+      // Ne pas mettre à jour si c'est identique
+      if (JSON.stringify(prev[key]) === JSON.stringify(allIds)) {
+        return prev;
+      }
+      return {
+        ...prev,
+        [key]: allIds,
+      };
+    });
+  }, []);
 
-  const handleReset = () => {
-    setFilters({
+  const handleReset = useCallback(() => {
+    const emptyFilters = {
       userIds: [],
       siteIds: [],
       departementIds: [],
-    });
+    };
+    
+    setFilters(emptyFilters);
     setPeriod("TODAY");
+    
     if (reload) {
       reload(); // Recharge les données sans filtres
     }
-  };
+  }, [reload, setPeriod]);
+
+  // Mémoriser les options pour éviter les re-rendus inutiles
+  const userOptions = useMemo(() => (
+    <>
+      <Option
+        key="all_users"
+        value="__all__"
+        onClick={() => handleSelectAll("userIds", data, "id_utilisateur")}
+      >
+        🔹 Tout sélectionner
+      </Option>
+      {data?.map((d) => (
+        <Option key={d.id_utilisateur} value={d.id_utilisateur}>
+          {d.nom}
+        </Option>
+      ))}
+    </>
+  ), [data, handleSelectAll]);
+
+  const siteOptions = useMemo(() => (
+    <>
+      <Option
+        key="all_sites"
+        value="__all__"
+        onClick={() => handleSelectAll("siteIds", sites, "id_site")}
+      >
+        🔹 Tout sélectionner
+      </Option>
+      {sites?.map((site) => (
+        <Option key={site.id_site} value={site.id_site}>
+          {site.nom_site}
+        </Option>
+      ))}
+    </>
+  ), [sites, handleSelectAll]);
+
+  const departmentOptions = useMemo(() => (
+    <>
+      <Option
+        key="all_departments"
+        value="__all__"
+        onClick={() => handleSelectAll("departementIds", departments, "id_departement")}
+      >
+        🔹 Tout sélectionner
+      </Option>
+      {departments?.map((dep) => (
+        <Option key={dep.id_departement} value={dep.id_departement}>
+          {dep.nom_departement}
+        </Option>
+      ))}
+    </>
+  ), [departments, handleSelectAll]);
 
   return (
     <div className="filtre__dashboard">
@@ -97,21 +186,7 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
                 allowClear
                 className="filtre__select"
               >
-                <Option
-                  key="all_users"
-                  value="__all__"
-                  onClick={() =>
-                    handleSelectAll("userIds", data, "id_utilisateur")
-                  }
-                >
-                  🔹 Tout sélectionner
-                </Option>
-
-                {data?.map((d) => (
-                  <Option key={d.id_utilisateur} value={d.id_utilisateur}>
-                    {d.nom}
-                  </Option>
-                ))}
+                {userOptions}
               </Select>
             </div>
 
@@ -128,21 +203,7 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
                 allowClear
                 className="filtre__select"
               >
-                <Option
-                  key="all_sites"
-                  value="__all__"
-                  onClick={() =>
-                    handleSelectAll("siteIds", sites, "id_site")
-                  }
-                >
-                  🔹 Tout sélectionner
-                </Option>
-
-                {sites?.map((site) => (
-                  <Option key={site.id_site} value={site.id_site}>
-                    {site.nom_site}
-                  </Option>
-                ))}
+                {siteOptions}
               </Select>
             </div>
 
@@ -159,28 +220,7 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
                 allowClear
                 className="filtre__select"
               >
-                <Option
-                  key="all_departments"
-                  value="__all__"
-                  onClick={() =>
-                    handleSelectAll(
-                      "departementIds",
-                      departments,
-                      "id_departement"
-                    )
-                  }
-                >
-                  🔹 Tout sélectionner
-                </Option>
-
-                {departments?.map((dep) => (
-                  <Option
-                    key={dep.id_departement}
-                    value={dep.id_departement}
-                  >
-                    {dep.nom_departement}
-                  </Option>
-                ))}
+                {departmentOptions}
               </Select>
             </div>
 
