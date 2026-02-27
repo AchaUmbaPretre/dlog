@@ -6,6 +6,7 @@ import { LineChartOutlined, UserDeleteOutlined, BarChartOutlined, CheckCircleOut
 import moment from 'moment';
 import 'moment/locale/fr';
 import './../dashboardSection.scss';
+import { formatDuration } from '../../../../utils/renderTooltip';
 
 const { TabPane } = Tabs;
 
@@ -58,7 +59,7 @@ const DashPresenceChart = ({ evolution, statuts, kpi }) => {
 
         <div className="stat-item">
           <div className="stat-value">
-            {kpi?.retardMoyen} min
+            {formatDuration(kpi?.retardMoyen)}
           </div>
           <div className="stat-label">
             <ClockCircleOutlined style={{ color: '#faad14', marginRight: 6 }} />
