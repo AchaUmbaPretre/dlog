@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Card, Tooltip, Space, Typography, Input } from "antd";
 import { ClockCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, WarningOutlined } from "@ant-design/icons";
+import { formatDuration } from '../../../../../utils/renderTooltip';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -67,7 +68,7 @@ const DetailPresenceTodayById = ({ modalLoading, modalData, nameSite }) => {
       key: "retard_minutes",
       align: "center",
       render: minutes => minutes > 0 
-        ? <Text type="warning">{minutes} min</Text> 
+        ? <Text type="warning">{formatDuration(minutes)}</Text> 
         : <CheckCircleOutlined style={{ color: 'green' }} />
     },
     {
