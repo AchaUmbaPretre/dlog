@@ -8,7 +8,7 @@ const SiteComparison = ({
   stats, 
   onRowClass 
 }) => {
-      const scroll = { x: 'max-content' };
+    const scroll = { x: 'max-content' };
   return (
     <Card 
       title={

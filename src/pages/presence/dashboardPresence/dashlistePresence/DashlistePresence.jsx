@@ -14,6 +14,7 @@ import { statutConfig } from '../../../../utils/presenceStatutConfig';
 import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
 
 const DashlistePresence = ({ employes }) => {
+  const scroll = { x: 'max-content' };
 
   const columns = [
     {
@@ -132,6 +133,7 @@ const DashlistePresence = ({ employes }) => {
           columns={columns}
           dataSource={employes}
           rowKey="nom"
+          scroll={scroll}
           pagination={{ pageSize: 5 }}
           bordered
         />
