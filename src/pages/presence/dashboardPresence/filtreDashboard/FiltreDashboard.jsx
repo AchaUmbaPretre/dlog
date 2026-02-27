@@ -190,7 +190,6 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
               </Select>
             </div>
 
-            {/* Site */}
             <div className="filtre__item">
               <label>
                 <EnvironmentOutlined /> Site
@@ -207,7 +206,6 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
               </Select>
             </div>
 
-            {/* Département */}
             <div className="filtre__item">
               <label>
                 <ApartmentOutlined /> Département
@@ -224,7 +222,6 @@ const FiltreDashboard = ({ onFilterChange, reload }) => {
               </Select>
             </div>
 
-            {/* Reset */}
             <div className="filtre__item">
               <Button
                 icon={<ReloadOutlined />}
