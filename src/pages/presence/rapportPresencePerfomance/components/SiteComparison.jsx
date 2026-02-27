@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, Table, Tag, Space } from 'antd';
 import { BuildOutlined } from '@ant-design/icons';
 
