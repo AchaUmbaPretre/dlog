@@ -15,6 +15,7 @@ const { Search } = Input;
 const PresenceReport = () => {
   const [searchValue, setSearchValue] = useState("");
   const { site, setSiteData, data, loading, monthRange, setMonthRange } = usePresenceReport();
+  const scroll = { x: 'max-content' };
 
   const columns = useMemo(() => {
     if (!data?.report) return [];
@@ -165,7 +166,7 @@ const PresenceReport = () => {
         dataSource={dataSource}
         loading={loading}
         rowKey="key"
-        scroll={{ x: "max-content", y: 600 }}
+        scroll={scroll}
         size="middle"
         sticky
         pagination={{ pageSize: 20 }}
