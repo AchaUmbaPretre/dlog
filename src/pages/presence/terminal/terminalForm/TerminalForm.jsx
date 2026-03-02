@@ -71,70 +71,93 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
     fetchDataById()
   }, [idTerminal]);
 
-  const handleSubmit = useCallback(async (values) => {
-    setSubmitting(true);
-    setSuccess(false);
-    start();
+const handleSubmit = useCallback(async (values) => {
+  setSubmitting(true);
+  setSuccess(false);
+  start();
 
-    try {
-      const payload = {
-        site_id: values.site_id,
-        name: values.name,
-        location_zone: values.location_zone,
-        device_model: values.device_model,
-        device_sn: values.device_sn,
-        ip_address: values.ip_address,
-        port: values.port,
-        usage_mode: values.usage_mode,
+  try {
+    const basePayload = {
+      site_id: values.site_id,
+      name: values.name,
+      location_zone: values.location_zone,
+      device_model: values.device_model,
+      device_sn: values.device_sn,
+      ip_address: values.ip_address,
+      port: values.port,
+      usage_mode: values.usage_mode,
+    };
+
+    let response;
+    
+    if (idTerminal) {
+      // Mode édition - mise à jour
+      response = await putTerminal({
+        id_terminal: idTerminal,
+        ...basePayload
+      });
+      
+      // Vérification de la réponse
+      if (response?.status === 404) {
+        throw new Error('Terminal non trouvé');
+      }
+    } else {
+      response = await postTerminal({
+        ...basePayload,
         credentials: {
           username: values.username,
           password: values.password,
         },
-      };
-
-      if(idTerminal) {
-        await putTerminal({
-          id_terminal: idTerminal,
-          site_id: values.site_id,
-          name: values.name,
-          location_zone: values.location_zone,
-          device_model: values.device_model,
-          device_sn: values.device_sn,
-          ip_address: values.ip_address,
-          port: values.port,
-          usage_mode: values.usage_mode,
-        })
-      } else {
-        await postTerminal(payload);
-      }
-
-      finish();
-      setSuccess(true);
-
-      notification.success({
-        message: 'Succès',
-        description: 'Le terminal a été enregistré avec succès.',
       });
-
-      setTimeout(() => {
-        form.resetFields();
-        setSuccess(false);
-        closeModal?.();
-        fetchData?.();
-      }, 800);
-
-    } catch (error) {
-      console.error(error);
-      reset();
-      notification.error({
-        message: 'Erreur',
-        description: "Erreur lors de l'enregistrement du terminal.",
-      });
-    } finally {
-      setSubmitting(false);
     }
-  }, [form, start, finish, reset, closeModal, fetchData]);
-  
+
+    finish();
+    setSuccess(true);
+
+    // Notification de succès
+    notification.success({
+      message: 'Succès',
+      description: idTerminal 
+        ? 'Le terminal a été mis à jour avec succès.' 
+        : 'Le terminal a été créé avec succès.',
+      duration: 3,
+    });
+
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    form.resetFields();
+    setSuccess(false);
+    
+    if (closeModal) {
+      closeModal();
+    }
+    
+    if (fetchData) {
+      await fetchData(); 
+    }
+
+  } catch (error) {
+    console.error('Erreur lors de la soumission:', error);
+    reset();
+    
+    let errorMessage = "Erreur lors de l'enregistrement du terminal.";
+    
+    if (error.response) {
+      errorMessage = error.response.data?.error || errorMessage;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    notification.error({
+      message: 'Erreur',
+      description: errorMessage,
+      duration: 4,
+    });
+  } finally {
+    setSubmitting(false);
+  }
+}, [form, start, finish, reset, closeModal, fetchData, idTerminal]);
+
   return (
     <Card bordered={false} className="vehicule-card pro shine-card">
       <Spin spinning={submitting} indicator={<LoadingOutlined spin />}>
