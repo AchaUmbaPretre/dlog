@@ -91,7 +91,6 @@ const handleSubmit = useCallback(async (values) => {
     let response;
     
     if (idTerminal) {
-      // Mode édition - mise à jour
       response = await putTerminal({
         id_terminal: idTerminal,
         ...basePayload
@@ -114,7 +113,6 @@ const handleSubmit = useCallback(async (values) => {
     finish();
     setSuccess(true);
 
-    // Notification de succès
     notification.success({
       message: 'Succès',
       description: idTerminal 
