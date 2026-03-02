@@ -132,12 +132,15 @@ const Terminal = () => {
         align: 'center',
         render: (_, record) => (
           <Space size="middle">
-            <Button
-              icon={<EditOutlined />}
-              style={{ color: 'green' }}
-              aria-label=""
-              onClick={() => openTerminalUpdatedModal(record.id_terminal)}
-            />
+            <Tooltip title="Modifier">
+              <Button
+                icon={<EditOutlined />}
+                style={{ color: 'green' }}
+                aria-label=""
+                onClick={() => openTerminalUpdatedModal(record.id_terminal)}
+              />
+            </Tooltip>
+
             <Tooltip title="Utilisateurs">
               <Button
                 type="primary"
