@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Input, Button, Table, Modal, Typography, notification } from 'antd';
+import { Input, Button, Space, Table, Modal, Typography, notification } from 'antd';
 import {
   FieldTimeOutlined,
   PrinterOutlined,
   PlusCircleOutlined,
-  TeamOutlined
+  TeamOutlined,
+  EditOutlined
 } from '@ant-design/icons';
 
 import { getTerminal } from '../../../services/presenceService';
@@ -113,13 +114,20 @@ const fetchData = useCallback(async () => {
         width: 160,
         align: 'center',
         render: (_, record) => (
-          <Button
-            type="primary"
-            icon={<TeamOutlined />}
-            onClick={() => openUserTerminalModal(record)}
-          >
-            Utilisateurs
-          </Button>
+          <Space size="middle">
+            <Button
+              type="primary"
+              icon={<TeamOutlined />}
+              onClick={() => openUserTerminalModal(record)}
+            >
+              Utilisateurs
+            </Button>
+            <Button
+              icon={<EditOutlined />}
+              style={{ color: 'green' }}
+              aria-label=""
+            />
+          </Space>
         )
       }
     ],
