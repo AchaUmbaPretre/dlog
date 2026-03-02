@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { Input, Button, Space, Table, Modal, Typography, notification } from 'antd';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { Input, Button, Space, Tooltip, Table, Modal, Typography, notification } from 'antd';
 import {
   FieldTimeOutlined,
   PrinterOutlined,
@@ -116,17 +116,17 @@ const fetchData = useCallback(async () => {
         render: (_, record) => (
           <Space size="middle">
             <Button
-              type="primary"
-              icon={<TeamOutlined />}
-              onClick={() => openUserTerminalModal(record)}
-            >
-              Utilisateurs
-            </Button>
-            <Button
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               aria-label=""
             />
+            <Tooltip title="Utilisateurs">
+              <Button
+                type="primary"
+                icon={<TeamOutlined />}
+                onClick={() => openUserTerminalModal(record)}
+              />
+            </Tooltip>
           </Space>
         )
       }
