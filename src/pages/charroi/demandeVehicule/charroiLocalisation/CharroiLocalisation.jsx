@@ -39,7 +39,9 @@ const CharroiLocalisation = () => {
     try {
         const falconData = await getFalcon();
         const items = falconData.data[0].items || [];
-        setFalcon(items);
+        const gtmItems = items.filter(item => item.name && item.name.startsWith('GTM'));
+
+        setFalcon(gtmItems);
         setLoading(false);
     } catch (error) {
         console.error("Erreur fetchData:", error);
