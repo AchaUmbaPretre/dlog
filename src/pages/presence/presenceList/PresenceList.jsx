@@ -24,7 +24,7 @@ const PresenceList = () => {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
 
   const isFutureDate = (date) => {
-    return dayjs(date).isAfter(dayjs(), "day"); // si date > aujourd'hui
+    return dayjs(date).isAfter(dayjs(), "day");
   };
 
   const isTooOldDate = (date, maxDays = 7) => {
@@ -121,7 +121,7 @@ const PresenceList = () => {
 
   const dynamicColumns = data.dates.map((d) => ({
       title: (
-        <div style={{ color: '#1890ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ color: '#1890ff', display: 'flex', alignItems: 'center', gap: '2px' }}>
           <CalendarOutlined /> {d.label}
         </div>
       ),
