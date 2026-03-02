@@ -57,7 +57,7 @@ const Terminal = () => {
     fetchData();
   }, [fetchData]);
 
-  const openTerminalModal = (id) => {
+  const openTerminalModal = () => {
     setIsTerminalModalVisible(true);
   };
 
