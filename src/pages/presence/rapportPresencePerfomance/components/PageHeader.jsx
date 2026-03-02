@@ -3,8 +3,6 @@ import {
   CalendarOutlined, 
   ReloadOutlined,
   AlertOutlined,
-  LeftOutlined,
-  RightOutlined,
   EnvironmentOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
