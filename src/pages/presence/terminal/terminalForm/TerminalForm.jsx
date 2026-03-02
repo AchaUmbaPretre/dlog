@@ -96,7 +96,6 @@ const handleSubmit = useCallback(async (values) => {
         ...basePayload
       });
       
-      // Vérification de la réponse
       if (response?.status === 404) {
         throw new Error('Terminal non trouvé');
       }
