@@ -30,7 +30,10 @@ const Monitoring = () => {
   const fetchFalcon = useCallback(async () => {
     try {
       const { data } = await getFalcon();
-      setFalcon(data[0]?.items || []);
+      
+      const gtmItems = data[0]?.items.filter(item => item.name && item.name.startsWith('GTM'));
+
+      setFalcon(gtmItems || []);
     } catch (error) {
       console.error('Erreur lors du chargement Falcon:', error);
     }

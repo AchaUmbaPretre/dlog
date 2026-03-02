@@ -71,7 +71,9 @@ const RapportEvent = () => {
     );
   }, [searchText, reportData]);
 
-    const closeAllModals = () => {
+  const gtmItems = filteredData.filter(item => item.device_name && item.device_name.startsWith('GTM'));
+
+  const closeAllModals = () => {
     setModalType(null);
   };
 
@@ -254,7 +256,7 @@ const columns = [
                 <Spin spinning={loading} tip="Chargement des données...">
                   <Table
                     columns={columns}
-                    dataSource={filteredData}
+                    dataSource={gtmItems}
                     rowKey="device_id"
                     pagination={{ pageSize: pagination.pageSize, current: pagination.current, showSizeChanger: true }}
                     onChange={pagination => setPagination(pagination)}
