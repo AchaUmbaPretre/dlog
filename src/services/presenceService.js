@@ -266,10 +266,14 @@ export const getTerminalById = async (id) => {
   });
 };
 
-
 export const postTerminal = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/terminal`, data);
 };
+
+export const putTerminal = async (data) => {
+  return axios.put(`${DOMAIN}/api/presence/terminal`, data);
+};
+
 
 //User Terminal
 export const getUserTerminal = async () => {

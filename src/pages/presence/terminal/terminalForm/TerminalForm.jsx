@@ -23,7 +23,7 @@ import {
   notification,
 } from 'antd';
 import { useProgress } from '../../absence/absenceForm/hooks/useProgress';
-import { getTerminalById, postTerminal } from '../../../../services/presenceService';
+import { getTerminalById, postTerminal, putTerminal } from '../../../../services/presenceService';
 import { getSite } from '../../../../services/charroiService';
 import { useEffect } from 'react';
 
@@ -92,7 +92,21 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
         },
       };
 
-      await postTerminal(payload);
+      if(idTerminal) {
+        await putTerminal({
+          id_terminal: idTerminal,
+          site_id: values.site_id,
+          name: values.name,
+          location_zone: values.location_zone,
+          device_model: values.device_model,
+          device_sn: values.device_sn,
+          ip_address: values.ip_address,
+          port: values.port,
+          usage_mode: values.usage_mode,
+        })
+      } else {
+        await postTerminal(payload);
+      }
 
       finish();
       setSuccess(true);
