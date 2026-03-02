@@ -1,4 +1,4 @@
-import { Card, Col, Row, Statistic, Tag, Space, Avatar, Progress, Typography } from 'antd';
+import { Card, Col, Row, Space, Avatar, Typography } from 'antd';
 import { 
   UserOutlined, 
   ClockCircleOutlined, 
@@ -24,8 +24,8 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
       id: 'presence',
       title: 'Présence',
       icon: <UserOutlined />,
-      value: kpiGlobaux?.tauxPresence ?? 0, // Add fallback
-      evolution: kpiGlobaux?.evolutionPresence ?? 0, // Add fallback
+      value: kpiGlobaux?.tauxPresence ?? 0,
+      evolution: kpiGlobaux?.evolutionPresence ?? 0,
       subtext: `${localStats?.employesAbsents ?? 0} absents • ${kpiGlobaux?.absencesJustifiees ?? 0} justifiés`,
       accentColor: accentColors.presence
     },
@@ -33,8 +33,8 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
       id: 'ponctualite',
       title: 'Ponctualité',
       icon: <ClockCircleOutlined />,
-      value: kpiGlobaux?.tauxPonctualite ?? 0, // Add fallback
-      evolution: kpiGlobaux?.evolutionPonctualite ?? 0, // Add fallback
+      value: kpiGlobaux?.tauxPonctualite ?? 0,
+      evolution: kpiGlobaux?.evolutionPonctualite ?? 0,
       subtext: (
         <>
           <FieldTimeOutlined style={{ marginRight: 4, fontSize: '12px' }} />
@@ -47,8 +47,8 @@ export const KPICards = ({ kpiGlobaux, globalColor, localStats }) => {
       id: 'activite',
       title: 'Activité',
       icon: <DashboardOutlined />,
-      value: kpiGlobaux?.tauxActivite ?? 0, // Add fallback
-      evolution: kpiGlobaux?.evolutionActivite ?? 0, // Add fallback
+      value: kpiGlobaux?.tauxActivite ?? 0,
+      evolution: kpiGlobaux?.evolutionActivite ?? 0,
       subtext: `${kpiGlobaux?.totalHeuresSup ?? 0}h supplémentaires`,
       accentColor: accentColors.activite
     }
