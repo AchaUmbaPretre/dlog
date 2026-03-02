@@ -121,8 +121,6 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
     }
   }, [form, start, finish, reset, closeModal, fetchData]);
   
-  console.log(idTerminal)
-
   return (
     <Card bordered={false} className="vehicule-card pro shine-card">
       <Spin spinning={submitting} indicator={<LoadingOutlined spin />}>
@@ -222,7 +220,8 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
                 </Select>
               </Form.Item>
             </Col>
-
+          { !idTerminal &&
+            <>
             <Col md={12} xs={24}>
               <Form.Item
                 label="Utilisateur terminal"
@@ -242,7 +241,8 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
                 <Input.Password size="large" />
               </Form.Item>
             </Col>
-
+            </>
+          }
             <Col span={24}>
               <Space>
                 <Button

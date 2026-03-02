@@ -66,7 +66,10 @@ const Terminal = () => {
     setIdTerminal(id)
   };
 
-  const closeTerminalModal = () => setIsTerminalModalVisible(false);
+  const closeTerminalModal = () => {
+    setIsTerminalModalVisible(false);
+    setIdTerminal('')
+  }
 
   const openUserTerminalModal = (id_terminal) => {
     setSelectedTerminal(id_terminal);
