@@ -258,6 +258,15 @@ export const getTerminal = async () => {
   return axios.get(`${DOMAIN}/api/presence/terminal`);
 };
 
+export const getTerminalById = async (id) => {
+  return axios.get(`${DOMAIN}/api/presence/terminalById`, {
+    params : {
+      id_terminal : id
+    }
+  });
+};
+
+
 export const postTerminal = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/terminal`, data);
 };

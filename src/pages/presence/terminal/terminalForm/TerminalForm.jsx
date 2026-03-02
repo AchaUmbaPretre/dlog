@@ -23,7 +23,7 @@ import {
   notification,
 } from 'antd';
 import { useProgress } from '../../absence/absenceForm/hooks/useProgress';
-import { postTerminal } from '../../../../services/presenceService';
+import { getTerminalById, postTerminal } from '../../../../services/presenceService';
 import { getSite } from '../../../../services/charroiService';
 import { useEffect } from 'react';
 
@@ -50,9 +50,26 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
     }
   }
 
+  const fetchDataById = async() => {
+    try {
+      const { data } = await getTerminalById(idTerminal);
+      form.setFieldsValue(data[0])
+
+    } catch (error) {
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Impossible de récupérer les données.',
+      });
+    }
+  }
+
   useEffect(() => {
     fetchDatas()
   }, []);
+
+  useEffect(() => {
+    fetchDataById()
+  }, [idTerminal]);
 
   const handleSubmit = useCallback(async (values) => {
     setSubmitting(true);
@@ -105,7 +122,7 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
   }, [form, start, finish, reset, closeModal, fetchData]);
   
   console.log(idTerminal)
-  
+
   return (
     <Card bordered={false} className="vehicule-card pro shine-card">
       <Spin spinning={submitting} indicator={<LoadingOutlined spin />}>

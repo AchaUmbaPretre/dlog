@@ -87,7 +87,7 @@ const TemplateForm = ({ closeModal, fetchData, idTemplate }) => {
 
     const handleTemplateChange = async () => {
         try {
-            const { data} = await getTemplateOne(idTemplate);
+            const { data } = await getTemplateOne(idTemplate);
         
             form.setFieldsValue({
                 ...data[0],
