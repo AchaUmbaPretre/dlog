@@ -36,12 +36,12 @@ const RapportEvent = () => {
     });
 
   const iconStyle = (key) => ({
-        marginRight: 8,
-        fontSize: 18,
-        color: activeKey === key ? '#1890ff' : 'rgba(0,0,0,0.45)',
-        transform: activeKey === key ? 'scale(1.2)' : 'scale(1)',
-        transition: 'transform 0.3s, color 0.3s',
-    });
+    marginRight: 8,
+    fontSize: 18,
+    color: activeKey === key ? '#1890ff' : 'rgba(0,0,0,0.45)',
+    transform: activeKey === key ? 'scale(1.2)' : 'scale(1)',
+    transition: 'transform 0.3s, color 0.3s',
+  });
 
   const fetchData = async () => {
     setLoading(true);
