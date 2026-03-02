@@ -30,7 +30,7 @@ import { useEffect } from 'react';
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const TerminalForm = ({ closeModal, fetchData }) => {
+const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -104,7 +104,8 @@ const TerminalForm = ({ closeModal, fetchData }) => {
     }
   }, [form, start, finish, reset, closeModal, fetchData]);
   
-
+  console.log(idTerminal)
+  
   return (
     <Card bordered={false} className="vehicule-card pro shine-card">
       <Spin spinning={submitting} indicator={<LoadingOutlined spin />}>

@@ -21,11 +21,11 @@ const Terminal = () => {
 
   const [isTerminalModalVisible, setIsTerminalModalVisible] = useState(false);
 
-  // Modal gestion utilisateurs par terminal
   const [isUserTerminalModalVisible, setIsUserTerminalModalVisible] = useState(false);
   const [selectedTerminal, setSelectedTerminal] = useState(null);
+  const scroll = { x: 'max-content' };
+  const [idTerminal, setIdTerminal] = useState('');
 
-  const scroll = { x: 700 };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -57,7 +57,15 @@ const Terminal = () => {
     fetchData();
   }, [fetchData]);
 
-  const openTerminalModal = () => setIsTerminalModalVisible(true);
+  const openTerminalModal = (id) => {
+    setIsTerminalModalVisible(true);
+  };
+
+  const openTerminalUpdatedModal = (id) => {
+    setIsTerminalModalVisible(true);
+    setIdTerminal(id)
+  };
+
   const closeTerminalModal = () => setIsTerminalModalVisible(false);
 
   const openUserTerminalModal = (id_terminal) => {
@@ -115,6 +123,7 @@ const Terminal = () => {
               icon={<EditOutlined />}
               style={{ color: 'green' }}
               aria-label=""
+              onClick={() => openTerminalUpdatedModal(record.id_terminal)}
             />
             <Tooltip title="Utilisateurs">
               <Button
@@ -202,6 +211,7 @@ const Terminal = () => {
         <TerminalForm
           closeModal={closeTerminalModal}
           fetchData={fetchData}
+          idTerminal={idTerminal}
         />
       </Modal>
 
