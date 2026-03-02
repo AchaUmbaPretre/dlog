@@ -5,9 +5,8 @@ import {
   PrinterOutlined,
   PlusCircleOutlined,
   TeamOutlined,
-  EditOutlined
+  EditOutlined      
 } from '@ant-design/icons';
-
 import { getTerminal } from '../../../services/presenceService';
 import TerminalForm from './terminalForm/TerminalForm';
 import UserTerminal from './userTerminal/UserTerminalContainer';
@@ -15,7 +14,7 @@ import UserTerminal from './userTerminal/UserTerminalContainer';
 const { Search } = Input;
 const { Text } = Typography;
 
-const Terminal = ({ id_terminal, closeModal }) => {
+const Terminal = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
