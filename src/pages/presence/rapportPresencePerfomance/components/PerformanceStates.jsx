@@ -1,5 +1,4 @@
-import React from 'react';
-import { Card, Alert, Button, Space } from 'antd';
+import { Card, Alert, Button } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
 
 export const PerformanceLoader = () => (
