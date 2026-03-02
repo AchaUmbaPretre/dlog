@@ -40,13 +40,13 @@ const TerminalForm = ({ closeModal, fetchData, idTerminal }) => {
 
   const fetchDatas = async() => {
     try {
-        const response = await getSite();
-        setSite(response?.data.data)
+      const response = await getSite();
+      setSite(response?.data.data)
     } catch (error) {
-        notification.error({
-            message: 'Erreur de chargement',
-            description: 'Impossible de récupérer les données.',
-        });
+      notification.error({
+        message: 'Erreur de chargement',
+        description: 'Impossible de récupérer les données.',
+      });
     }
   }
 
