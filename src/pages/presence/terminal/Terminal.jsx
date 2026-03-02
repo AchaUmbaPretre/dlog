@@ -116,6 +116,16 @@ const Terminal = () => {
         key: 'device_sn'
       },
       {
+        title: 'Adresse IP',
+        dataIndex: 'ip_address',
+        key: 'ip_address'
+      },
+      {
+        title: 'Port',
+        dataIndex: 'port',
+        key: 'port'
+      },
+      {
         title: 'Actions',
         key: 'actions',
         width: 160,
