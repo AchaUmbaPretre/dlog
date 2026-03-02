@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row, Col, Card, Table, Tag, Space } from 'antd';
 import { CrownOutlined, WarningOutlined } from '@ant-design/icons';
 
