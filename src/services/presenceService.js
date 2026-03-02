@@ -26,6 +26,11 @@ export const getAbsentToday = async () => {
 };
 
 
+export const getRetardToday = async () => {
+  return axios.get(`${DOMAIN}/api/presence/retard_today`);
+};
+
+
 export const getPresencePlanning = async (dateRange) => {
   return userRequest.get(`${DOMAIN}/api/presence/planning`, {
     params: dateRange ?? {}

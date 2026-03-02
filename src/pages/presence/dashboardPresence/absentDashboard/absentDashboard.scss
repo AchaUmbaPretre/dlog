@@ -1,5 +1,7 @@
 .client {
-  padding: 10px;
+   position: relative;
+    width: 100%;
+    max-width: 100%;
   
   &-wrapper {
     background: white;
@@ -109,19 +111,7 @@
   }
 }
 
-/* Style pour les icônes dans les cellules */
-.ant-table-tbody > tr > td {
-  .anticon {
-    font-size: 14px;
-  }
-}
 
-/* Style pour le bouton d'impression */
-.ant-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
 /* Responsive */
 @media (max-width: 768px) {

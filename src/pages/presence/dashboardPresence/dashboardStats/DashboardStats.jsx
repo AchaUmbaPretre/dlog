@@ -9,6 +9,7 @@ import { Modal, Tooltip } from 'antd';
 import './dashboardStats.scss';
 import DetailKpisPresenceToday from '../detailKpisPresence/DetailKpisPresenceToday';
 import AbsentDashboard from '../absentDashboard/AbsentDashboard';
+import RetardDashboard from '../retardDashboard/RetardDashboard';
 
 const DashboardStats = ({ kpi, sites }) => {
   const [modalType, setModalType] = useState(null);
@@ -45,7 +46,7 @@ const DashboardStats = ({ kpi, sites }) => {
         </div>
       </div>
 
-      <div className="stat-item">
+      <div className="stat-item" onClick={() => openModal('retard')}>
         <div className="stat-value">{retards ?? 0}</div>
         <div className="stat_item_row">
           <div className="stat-label">
@@ -85,6 +86,18 @@ const DashboardStats = ({ kpi, sites }) => {
         centered
       >
         <AbsentDashboard />
+      </Modal>
+
+
+      <Modal
+        title=""
+        visible={modalType === 'retard'}
+        onCancel={closeAllModals}
+        footer={null}
+        width={1010}
+        centered
+      >
+        <RetardDashboard />
       </Modal>
     </div>
   );
