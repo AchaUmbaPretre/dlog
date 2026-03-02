@@ -82,7 +82,7 @@ const DashboardStats = ({ kpi, sites }) => {
         visible={modalType === 'absence'}
         onCancel={closeAllModals}
         footer={null}
-        width={1010}
+        width={1020}
         centered
       >
         <AbsentDashboard />
@@ -94,7 +94,7 @@ const DashboardStats = ({ kpi, sites }) => {
         visible={modalType === 'retard'}
         onCancel={closeAllModals}
         footer={null}
-        width={1010}
+        width={1020}
         centered
       >
         <RetardDashboard />

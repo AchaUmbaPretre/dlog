@@ -8,9 +8,7 @@ import {
   CalendarOutlined,
   NumberOutlined,
   WarningOutlined,
-  ExclamationCircleOutlined,
-  QuestionCircleOutlined,
-  FileTextOutlined
+  ExclamationCircleOutlined
 } from '@ant-design/icons';
 import { getRetardToday } from '../../../../services/presenceService';
 import UserAvatarProfile from '../../../../utils/UserAvatarProfile';

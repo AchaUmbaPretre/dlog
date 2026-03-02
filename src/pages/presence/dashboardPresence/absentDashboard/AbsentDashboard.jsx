@@ -14,7 +14,6 @@ import {
 } from '@ant-design/icons';
 import { getAbsentToday } from '../../../../services/presenceService';
 import UserAvatarProfile from '../../../../utils/UserAvatarProfile';
-import './absentDashboard.scss'
 
 const { Search } = Input;
 

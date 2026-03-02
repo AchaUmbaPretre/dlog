@@ -28,34 +28,31 @@ const Terminal = ({ id_terminal, closeModal }) => {
 
   const scroll = { x: 700 };
 
-  /* ===========================
-   * DATA FETCHING
-   * =========================== */
-const fetchData = useCallback(async () => {
-  setLoading(true);
+  const fetchData = useCallback(async () => {
+    setLoading(true);
 
-  try {
-    const [dataTerminal] = await Promise.all([
-      getTerminal(),
-    ]);
+    try {
+      const [dataTerminal] = await Promise.all([
+        getTerminal(),
+      ]);
 
-    // Vérification sécurisée des données
-    const terminals = dataTerminal?.data ?? [];
+      // Vérification sécurisée des données
+      const terminals = dataTerminal?.data ?? [];
 
-    setData(terminals);
+      setData(terminals);
 
-  } catch (error) {
-    console.error("Erreur fetchData:", error);
+    } catch (error) {
+      console.error("Erreur fetchData:", error);
 
-    notification.error({
-      message: 'Erreur de chargement',
-      description: error?.message || 'Impossible de charger la liste des terminaux.'
-    });
+      notification.error({
+        message: 'Erreur de chargement',
+        description: error?.message || 'Impossible de charger la liste des terminaux.'
+      });
 
-  } finally {
-    setLoading(false);
-  }
-}, []);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchData();
