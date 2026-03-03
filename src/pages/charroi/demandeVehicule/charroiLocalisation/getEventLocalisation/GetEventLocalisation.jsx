@@ -206,7 +206,6 @@ const GetEventLocalisation = () => {
     saveAs(new Blob([buffer]), "evenements.xlsx");
   };
 
-  // 🔹 Export PDF
   const exportToPDF = () => {
     const element = tableRef.current;
     html2pdf().set({
