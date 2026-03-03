@@ -60,7 +60,6 @@ const CharroiLocalisation = () => {
         fetchData();
         }, 5000);
 
-        // Nettoyage à la destruction du composant
         return () => clearInterval(interval);
     }, []);
 

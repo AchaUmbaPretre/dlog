@@ -85,7 +85,7 @@ const GetEventLocalisation = () => {
       const to = dateRange[1]
         ? dateRange[1].format('YYYY-MM-DD HH:mm:ss')
         : dayjs().endOf('day').format('YYYY-MM-DD HH:mm:ss');
-      fetchData(from, to, true); // 👈 isRefresh = true
+      fetchData(from, to, true);
     }, 30 * 1000);
 
     return () => clearInterval(interval);
@@ -284,4 +284,4 @@ const GetEventLocalisation = () => {
   );
 };
 
-export default GetEventLocalisation;   
+export default GetEventLocalisation;
