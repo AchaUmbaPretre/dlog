@@ -184,7 +184,6 @@ const GetEventLocalisation = () => {
 
   const handleVehicleChange = value => setSelectedVehicle(value);
 
-  // 🔹 Export Excel
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Événements");
@@ -285,4 +284,4 @@ const GetEventLocalisation = () => {
   );
 };
 
-export default GetEventLocalisation;
+export default GetEventLocalisation;   
