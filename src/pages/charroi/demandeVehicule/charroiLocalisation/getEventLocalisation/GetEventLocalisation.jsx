@@ -66,7 +66,6 @@ const GetEventLocalisation = () => {
     }
   };
 
-  // Chargement initial (ou lors d’un changement de filtre)
   useEffect(() => {
     const from = dateRange[0]
       ? dateRange[0].format('YYYY-MM-DD HH:mm:ss')
@@ -92,14 +91,12 @@ const GetEventLocalisation = () => {
     return () => clearInterval(interval);
   }, [dateRange, selectedVehicle]);
 
-  //Modal détail
   const openModal = (type, id = '') => {
     setModalType(type);
     setIdDevice(id);
   };
   const closeAllModals = () => setModalType(null);
 
-  // 🔹 Colonnes
   const columns = [
     {
       title: 'Date & Heure',
@@ -179,15 +176,12 @@ const GetEventLocalisation = () => {
     }
   ];
 
-  // 🔹 Liste véhicules unique
   const vehicles = useMemo(() => [...new Set(events.map(e => e.device_name))], [events]);
 
-  // 🔹 Changement de plage de dates
   const handleDateChange = values => {
     setDateRange(values);
   };
 
-  // 🔹 Filtrage par véhicule
   const handleVehicleChange = value => setSelectedVehicle(value);
 
   // 🔹 Export Excel
