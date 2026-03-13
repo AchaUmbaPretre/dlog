@@ -170,8 +170,8 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                             allowClear
                                             showSearch
                                             options={sites?.map((item) => ({
-                                                value: item.id,
-                                                label: item.nom_site || item.NomSite || item.name,
+                                                value: item.id_site,
+                                                label: item.nom_site,
                                             }))}
                                             placeholder="Sélectionnez un site..."
                                             optionFilterProp="label"
@@ -217,18 +217,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 <Form.Item
                                     name="latitude"
                                     label="Latitude"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Veuillez fournir la latitude...',
-                                        },
-                                        {
-                                            type: 'number',
-                                            min: -90,
-                                            max: 90,
-                                            message: 'La latitude doit être comprise entre -90 et 90',
-                                        }
-                                    ]}
                                 >
                                     {loadingData ? 
                                         <Skeleton.Input active={true} /> : 
@@ -247,18 +235,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 <Form.Item
                                     name="longitude"
                                     label="Longitude"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Veuillez fournir la longitude...',
-                                        },
-                                        {
-                                            type: 'number',
-                                            min: -180,
-                                            max: 180,
-                                            message: 'La longitude doit être comprise entre -180 et 180',
-                                        }
-                                    ]}
                                 >
                                     {loadingData ? 
                                         <Skeleton.Input active={true} /> : 
