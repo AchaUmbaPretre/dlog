@@ -149,8 +149,14 @@ export const getZone = async () => {
     return axios.get(`${DOMAIN}/api/charroi/zone`);
 };
 
-export const getZoneById = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/zoneById`);
+export const getZoneById = async (id) => {
+    return axios.get(`${DOMAIN}/api/charroi/zoneById`,
+        {
+            params: {
+                id
+            }
+        }
+    );
 };
 
 export const postZone = async (data) => {

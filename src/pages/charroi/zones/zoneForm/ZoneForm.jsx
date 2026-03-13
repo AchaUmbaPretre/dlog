@@ -12,7 +12,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
         { id: 'normal', label: 'Normal' }
     ]);
 
-    console.log(idZone)
 
     const fetchDatas = async () => {        
         try {
@@ -62,7 +61,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
         try {
             message.loading({ content: 'En cours...', key: loadingKey });
     
-            // Adaptation des données pour correspondre au backend
             const zoneData = {
                 NomZone: values.NomZone,
                 site_id: values.site_id,
@@ -132,7 +130,7 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                         }}
                     >
                         <Row gutter={12}>
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="NomZone"
                                     label="Nom de la zone"
@@ -154,7 +152,7 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="site_id"
                                     label="Site"
@@ -186,7 +184,7 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={12}>
+                            <Col xs={24} md={8}>
                                 <Form.Item
                                     name="type_zone"
                                     label="Type de zone"
@@ -217,33 +215,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
 
                             <Col xs={24} md={12}>
                                 <Form.Item
-                                    name="state"
-                                    label="État"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Veuillez sélectionner un état...',
-                                        },
-                                    ]}
-                                >
-                                    {loadingData ? 
-                                        <Skeleton.Input active={true} /> :
-                                        <Select
-                                            size='large'
-                                            allowClear
-                                            options={[
-                                                { value: 1, label: 'Actif' },
-                                                { value: 0, label: 'Inactif' }
-                                            ]}
-                                            placeholder="Sélectionnez l'état..."
-                                            disabled={loading}
-                                        />
-                                    }
-                                </Form.Item>
-                            </Col>
-
-                            <Col xs={24} md={8}>
-                                <Form.Item
                                     name="latitude"
                                     label="Latitude"
                                     rules={[
@@ -272,7 +243,7 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     name="longitude"
                                     label="Longitude"
@@ -302,21 +273,10 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 </Form.Item>
                             </Col>
 
-                            <Col xs={24} md={8}>
+                            <Col xs={24} md={12}>
                                 <Form.Item
                                     name="rayon_metres"
                                     label="Rayon (mètres)"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: 'Veuillez fournir le rayon...',
-                                        },
-                                        {
-                                            type: 'number',
-                                            min: 0,
-                                            message: 'Le rayon doit être un nombre positif',
-                                        }
-                                    ]}
                                 >
                                     {loadingData ? 
                                         <Skeleton.Input active={true} /> : 
@@ -334,13 +294,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                                 <Form.Item
                                     name="precision_minimale"
                                     label="Précision minimale"
-                                    rules={[
-                                        {
-                                            type: 'number',
-                                            min: 0,
-                                            message: 'La précision doit être un nombre positif',
-                                        },
-                                    ]}
                                 >
                                     {loadingData ? 
                                         <Skeleton.Input active={true} /> : 
