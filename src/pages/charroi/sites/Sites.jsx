@@ -7,6 +7,7 @@ import { Tabs } from 'antd'
 import ListSites from './listSites/ListSites'
 import SiteUser from './siteUser/SiteUser'
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles'
+import Zones from '../zones/Zones'
 
 const tabConfig = [
   {
@@ -20,6 +21,12 @@ const tabConfig = [
     label: "Liste d'affectations",
     icon: <TeamOutlined />,
     component: <SiteUser />
+  },
+  {
+    key: '3',
+    label: "Liste des zones",
+    icon: <TeamOutlined />,
+    component: <Zones />
   }
 ]
 
