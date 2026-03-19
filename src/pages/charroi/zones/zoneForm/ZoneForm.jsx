@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Row, Form, Skeleton, notification, Col, Select, Button, Input, message, Space } from 'antd';
 import { postZone, getSite, getZoneById, putZone } from '../../../../services/charroiService';
 
@@ -26,7 +26,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                 const response = await getZoneById(idZone);
                 const zoneData = response.data?.[0] || response.data;
                 
-                // Formater les données pour le formulaire
                 form.setFieldsValue({
                     NomZone: zoneData.NomZone,
                     site_id: zoneData.site_id,
@@ -52,7 +51,7 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
 
     useEffect(()=> {
         fetchDatas();
-    }, [idZone]); // Ajout de idZone comme dépendance
+    }, [idZone]);
 
     const onFinish = async (values) => {
         setLoading(true);
@@ -82,7 +81,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
                     key: loadingKey,
                 });
             } else {
-                // Mode ajout
                 await postZone(zoneData);
                 message.success({
                     content: 'La zone a été ajoutée avec succès.',
