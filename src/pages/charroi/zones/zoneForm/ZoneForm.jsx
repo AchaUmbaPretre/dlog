@@ -73,7 +73,6 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
             };
     
             if (idZone) {
-                // Mode modification
                 await putZone({
                     id: idZone,
                     ...zoneData
