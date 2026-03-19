@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Table, Tag, Popconfirm, message, Dropdown, Space, Menu, Modal, Tooltip, Button, Typography, Input, notification } from 'antd';
-import { CarOutlined, StockOutlined, ExclamationCircleOutlined, DeleteOutlined, ApartmentOutlined, AppstoreOutlined, FieldTimeOutlined, EnvironmentOutlined, FileTextOutlined, CloseOutlined, MenuOutlined, DownOutlined, TrademarkOutlined, ExportOutlined, CheckCircleOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import { Table, Tag, message, Dropdown, Menu, Modal, Tooltip, Button, Input, notification } from 'antd';
+import { StockOutlined, ExclamationCircleOutlined, MenuOutlined, DownOutlined, ExportOutlined } from '@ant-design/icons';
 import { statusIcons } from '../../../../utils/prioriteIcons';
 import { getBandeSortie, putAnnulereBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
@@ -11,14 +10,12 @@ import { useSelector } from 'react-redux';
 import UpdateTime from './updateTime/UpdateTime';
 import RapportBs from './rapportBs/RapportBs';
 import { useBandeColumns } from './hooks/useBandeColumns';
+import { useBandeData } from './hooks/useBandeData';
 
 const { Search } = Input;
-const { Text } = Typography;
 const { confirm } = Modal;
 
 const BandeSortie = () => {
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const scroll = { x: 'max-content' };
     const [searchValue, setSearchValue] = useState('');
@@ -46,6 +43,11 @@ const BandeSortie = () => {
       "Agent" : false,
       "Créé par" : false
     });
+    const { data,
+            fetchData,
+            handleDelete,
+            handleAnnuler,
+             } = useBandeData(userId)
     const columnStyles = {
       title: {
         maxWidth: '160px',
@@ -73,19 +75,6 @@ const BandeSortie = () => {
       setModalType(null);
     };
 
-    const handleDelete = async(id, idVehicule) => {
-      try {
-        await putEstSupprimeBandeSortie(id, idVehicule, userId);
-        setData((prevData) => prevData.filter((item) => item.id_bande_sortie  !== id));
-        message.success("Le bon de sortie a été supprimée avec succès.");
-      } catch (error) {
-          notification.error({
-          message: 'Erreur de suppression',
-          description: 'Une erreur est survenue lors de la suppression du bon.',
-        });
-      }
-    }
-
     const openModal = (type, id = '') => {
       closeAllModals();
       setModalType(type);
@@ -99,27 +88,6 @@ const BandeSortie = () => {
     const handleExportPDF = () => {
       message.success('Exporting to PDF...');
     };
-
-    const fetchData = async() => {
-      try {
-        const { data } = await  getBandeSortie(userId)
-        setData(data)
-      } catch (error) {
-        notification.error({
-          message: 'Erreur de chargement',
-          escription: 'Une erreur est survenue lors du chargement des données.',
-        });
-                
-      } finally{
-        setLoading(false);
-      }
-    };
-
-    useEffect(() => {
-      fetchData();
-        const interval = setInterval(fetchData, 5000)
-        return () => clearInterval(interval)
-    }, [userId]);
 
     const menu = (
       <Menu>
@@ -151,49 +119,6 @@ const BandeSortie = () => {
         ...prev,
         [columnName]: !prev[columnName]
       }));
-    };
-
-    const handleAnnuler = (id_bande_sortie, id_vehicule) => {
-      confirm({
-        title: "Voulez-vous vraiment annuler ce bon ?",
-        icon: <ExclamationCircleOutlined style={{ color: "#faad14" }} />,
-        content: `Le bon de sortie n°${id_bande_sortie} sera définitivement annulé.`,
-        okText: "Oui, annuler",
-        cancelText: "Non, garder",
-        okType: "danger",
-        centered: true,
-        async onOk() {
-          const loadingKey = "loadingAnnuler";
-
-          message.loading({
-            content: "Traitement en cours, veuillez patienter...",
-            key: loadingKey,
-            duration: 0,
-          });
-
-          setLoading(true);
-
-          try {
-            await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
-
-            message.success({
-              content: `Le bon de sortie ${id_bande_sortie} a été annulé avec succès.`,
-              key: loadingKey,
-            });
-
-            fetchData();
-          } catch (error) {
-            console.error("Erreur lors de l'annulation :", error);
-
-            message.error({
-              content: "Une erreur est survenue lors de l'annulation.",
-              key: loadingKey,
-            });
-          } finally {
-            setLoading(false);
-          }
-        },
-      });
     };
 
     const columns = useBandeColumns({
@@ -269,7 +194,6 @@ const BandeSortie = () => {
             <Table
               columns={columns}
               dataSource={filteredData}
-              loading={loading}
               pagination={pagination}
               onChange={(pagination) => setPagination(pagination)}
               rowKey="id"
