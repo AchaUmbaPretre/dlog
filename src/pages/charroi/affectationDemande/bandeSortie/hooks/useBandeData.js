@@ -10,7 +10,6 @@ export const useBandeData = (userId, initialFilters = null) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔁 FETCH DATA
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
@@ -27,16 +26,21 @@ export const useBandeData = (userId, initialFilters = null) => {
     }
   }, [userId]);
 
+  const silentFetch = useCallback(async () => {
+    try {
+      const { data } = await getBandeSortie(userId);
+      setData(data);
+    } catch (error) {
+      console.error("Erreur refresh automatique :", error);
+    }
+  }, [userId]);
+
   // 🗑 DELETE
   const handleDelete = useCallback(
     async (id, idVehicule) => {
       try {
         await putEstSupprimeBandeSortie(id, idVehicule, userId);
-
-        setData((prev) =>
-          prev.filter((item) => item.id_bande_sortie !== id)
-        );
-
+        setData((prev) => prev.filter((item) => item.id_bande_sortie !== id));
         message.success("Suppression réussie");
       } catch (error) {
         notification.error({
@@ -49,7 +53,6 @@ export const useBandeData = (userId, initialFilters = null) => {
     [userId]
   );
 
-  // ❌ ANNULER
   const handleAnnuler = useCallback(
     async (id_bande_sortie, id_vehicule) => {
       const loadingKey = "loadingAnnuler";
@@ -61,18 +64,14 @@ export const useBandeData = (userId, initialFilters = null) => {
       });
 
       try {
-        await putAnnulereBandeSortie(
-          id_bande_sortie,
-          id_vehicule,
-          userId
-        );
+        await putAnnulereBandeSortie(id_bande_sortie, id_vehicule, userId);
 
         message.success({
           content: `Bon ${id_bande_sortie} annulé avec succès`,
           key: loadingKey,
         });
 
-        // refresh data
+        // refresh principal (avec loading pour feedback utilisateur)
         await fetchData();
 
       } catch (error) {
@@ -85,18 +84,21 @@ export const useBandeData = (userId, initialFilters = null) => {
     [userId, fetchData]
   );
 
-  // 🔄 AUTO REFRESH
   useEffect(() => {
     if (!userId) return;
 
     fetchData();
 
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(() => {
+      silentFetch();
+    }, 5000);
+
     return () => clearInterval(interval);
-  }, [fetchData, userId]);
+  }, [userId, fetchData, silentFetch]);
 
   return {
     data,
+    loading,
     fetchData,
     handleDelete,
     handleAnnuler,

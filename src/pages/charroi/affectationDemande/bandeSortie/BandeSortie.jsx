@@ -44,10 +44,12 @@ const BandeSortie = () => {
       "Créé par" : false
     });
     const { data,
+            loading,
             fetchData,
             handleDelete,
             handleAnnuler,
-             } = useBandeData(userId)
+          } = useBandeData(userId);
+          
     const columnStyles = {
       title: {
         maxWidth: '160px',
@@ -197,6 +199,7 @@ const BandeSortie = () => {
               pagination={pagination}
               onChange={(pagination) => setPagination(pagination)}
               rowKey="id"
+              loading={loading}
               bordered
               size="small"
               scroll={scroll}
