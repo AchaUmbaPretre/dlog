@@ -12,16 +12,13 @@ const ZoneForm = ({closeModal, fetchData, idZone}) => {
         { id: 'normal', label: 'Normal' }
     ]);
 
-
     const fetchDatas = async () => {        
         try {
             setLoadingData(true)
             
-            // Récupération des sites
             const siteData = await getSite();
             setSites(siteData?.data.data || []);
 
-            // Si c'est une modification, récupérer les données de la zone
             if(idZone) {
                 const response = await getZoneById(idZone);
                 const zoneData = response.data?.[0] || response.data;
