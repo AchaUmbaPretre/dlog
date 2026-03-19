@@ -102,7 +102,6 @@ const Carburant = () => {
     [setData]
   );
 
-  // columns hook
   const columns = useCarburantColumns({
     pagination,
     columnsVisibility,

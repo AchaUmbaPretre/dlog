@@ -1,6 +1,6 @@
 const config = {
     
-REACT_APP_SERVER_DOMAIN : 'https://apidlog.vps116834.serveur-vps.net',
+REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com',
 
 API_KEY : 'f7c5292b587d4fff9fb1d00f3b6f3f73',
 

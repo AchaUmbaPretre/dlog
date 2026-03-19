@@ -13,8 +13,8 @@ const SortieEntree = () => {
     const scroll = { x: 'max-content' };
     const [searchValue, setSearchValue] = useState('');
     const [pagination, setPagination] = useState({
-        current: 1,
-        pageSize: 15,
+      current: 1,
+      pageSize: 15,
     });
     const [columnsVisibility, setColumnsVisibility] = useState({
       "#" : true,
