@@ -44,7 +44,7 @@ const BandeSortie = () => {
       "Demandeur" : true,
       "Agent" : false,
       "Créé par" : false
-      });
+    });
     const columnStyles = {
       title: {
         maxWidth: '160px',
