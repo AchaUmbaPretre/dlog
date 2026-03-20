@@ -80,6 +80,7 @@ import SortieEamFmp from './pages/charroi/sortieEamFmp/SortieEamFmp';
 import Presence from './pages/presence/Presence';
 import Conge from './pages/presence/conge/Conge';
 import Absence from './pages/presence/absence/Absence';
+import Scan from './pages/presence/scan/Scan';
 
 function App() {
   const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
@@ -396,6 +397,10 @@ function App() {
         {
           path:'/absence',
           element: secure('/absence', <Absence/>)
+        },
+        {
+          path:'/scan',
+          element: secure('/absence', <Scan/>)
         }
       ]
     },

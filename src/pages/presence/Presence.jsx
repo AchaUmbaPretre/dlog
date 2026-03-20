@@ -18,6 +18,7 @@ import PresenceAll from './presenceAll/PresenceAll';
 import DashboardPresence from './dashboardPresence/DashboardPresence';
 import RapportGenPresence from './rapportGenPresence/RapportGenPresence';
 import PresenceHoraire from './presenceHoraire/PresenceHoraire';
+import CodeQRForm from './codeQR/codeQRForm/CodeQRForm';
 
 const tabConfig = [
   {
@@ -67,6 +68,12 @@ const tabConfig = [
     label: 'Horaire',
     icon: <CalendarTwoTone />,
     component: <PresenceHoraire />
+  },
+  {
+    key: '9',
+    label: 'Générer un code QR',
+    icon: <CalendarTwoTone />,
+    component: <CodeQRForm />
   },
 ];
 

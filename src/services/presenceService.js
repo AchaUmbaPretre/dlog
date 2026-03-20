@@ -302,10 +302,38 @@ export const deleteUserTerminal = (user_id, terminal_id) => {
 };
 
 //Code QR
-export const getGenerateQR = async () => {
-  return axios.get(`${DOMAIN}/api/presence/qr/generate`);
+export const getGenerateQR = async (data) => {
+  return axios.post(`${DOMAIN}/api/presence/qr/generate`, data);
 };
 
-export const getValidateQR = async () => {
-  return axios.get(`${DOMAIN}/api/presence/qr/validate`);
+// presenceService.js
+export const getValidateQR = async (data) => {
+  try {
+    const response = await userRequest.post(`${DOMAIN}/api/presence/qr/validate`, data);
+    return response.data; // Retourne les données en cas de succès
+  } catch (error) {
+    if (error.response) {
+      const errorData = error.response.data;
+      throw {
+        code: errorData.code || 'API_ERROR',
+        message: errorData.message || 'Erreur lors du pointage',
+        status: error.response.status,
+        data: errorData
+      };
+    } else if (error.request) {
+      // La requête a été faite mais pas de réponse
+      throw {
+        code: 'NETWORK_ERROR',
+        message: 'Impossible de contacter le serveur',
+        status: 0
+      };
+    } else {
+      // Erreur lors de la configuration de la requête
+      throw {
+        code: 'REQUEST_ERROR',
+        message: error.message || 'Erreur de requête',
+        status: 0
+      };
+    }
+  }
 };
