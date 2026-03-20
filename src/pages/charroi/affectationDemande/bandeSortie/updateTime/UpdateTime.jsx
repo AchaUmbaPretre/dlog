@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, DatePicker, Button, Row, Col, Card, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';

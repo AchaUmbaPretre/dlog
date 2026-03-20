@@ -12,7 +12,6 @@ import { useBandeColumns } from './hooks/useBandeColumns';
 import { useBandeData } from './hooks/useBandeData';
 
 const { Search } = Input;
-const { confirm } = Modal;
 
 const BandeSortie = () => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
