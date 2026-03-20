@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
-import { Table, Tag, message, Dropdown, Menu, Modal, Tooltip, Button, Input, notification } from 'antd';
-import { StockOutlined, ExclamationCircleOutlined, MenuOutlined, DownOutlined, ExportOutlined } from '@ant-design/icons';
+import { useState } from 'react'
+import { Table, Tag, message, Dropdown, Menu, Modal, Tooltip, Button, Input } from 'antd';
+import { StockOutlined, MenuOutlined, DownOutlined, ExportOutlined } from '@ant-design/icons';
 import { statusIcons } from '../../../../utils/prioriteIcons';
-import { getBandeSortie, putAnnulereBandeSortie, putEstSupprimeBandeSortie } from '../../../../services/charroiService';
 import ValidationDemandeForm from '../../demandeVehicule/validationDemande/validationDemandeForm/ValidationDemandeForm';
 import ReleveBonDeSortie from './releveBonDeSortie/ReleveBonDeSortie';
 import BandeSortieDetail from './bandeSortieDetail/BandeSortieDetail';
@@ -49,7 +48,7 @@ const BandeSortie = () => {
             handleDelete,
             handleAnnuler,
           } = useBandeData(userId);
-          
+
     const columnStyles = {
       title: {
         maxWidth: '160px',
