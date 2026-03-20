@@ -101,7 +101,6 @@ export const getHRGlobalReport = async (dateRange) => {
   });
 };
 
-
 export const getPresenceById = async () => {
   return axios.get(`${DOMAIN}/api/presence/presenceById`);
 };
@@ -109,7 +108,6 @@ export const getPresenceById = async () => {
 export const postPresence = async (data) => {
   return axios.post(`${DOMAIN}/api/presence`, data);
 };
-
 
 //Dashboard
 export const getPresenceDashboard = async (filters = null) => {
@@ -172,6 +170,7 @@ export const getPresenceDashboardPerformance = async (params) => {
 
   return response.data.data; 
 };
+
 //Congé
 export const getConge = async () => {
   return userRequest.get(`${DOMAIN}/api/presence/conge`);
@@ -218,7 +217,6 @@ export const getHoraire = async () => {
 export const getHoraireUser = async () => {
   return axios.get(`${DOMAIN}/api/presence/horaire_user`);
 };
-
 
 export const postHoraire = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/create_horaire`, data);
@@ -301,4 +299,13 @@ export const deleteUserTerminal = (user_id, terminal_id) => {
       }
     }
   );
+};
+
+//Code QR
+export const getGenerateQR = async () => {
+  return axios.get(`${DOMAIN}/api/presence/qr/generate`);
+};
+
+export const getValidateQR = async () => {
+  return axios.get(`${DOMAIN}/api/presence/qr/validate`);
 };
