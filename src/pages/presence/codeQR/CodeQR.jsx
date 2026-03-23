@@ -84,8 +84,8 @@ const CodeQR = () => {
         <div className="carburant-page">
             <Card
                 title={
-                    <Space>
-                        <ExpandOutlined style={{ color: "#fa541c", fontSize: 22 }} />
+                    <Space style={{display:'flex', alignItems:'center'}}>
+                        <ExpandOutlined />
                         <Title level={4} style={{ margin: 0 }}>
                             Liste des codes QR
                         </Title>
