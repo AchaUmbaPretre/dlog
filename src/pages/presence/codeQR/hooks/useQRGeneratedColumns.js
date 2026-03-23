@@ -1,11 +1,14 @@
 import { useMemo } from "react";
-import { Space, Tooltip, Button, Tag } from "antd";
-import { EyeOutlined, QrcodeOutlined } from "@ant-design/icons";
+import { Space, Tooltip, Button, Tag, Typography } from "antd";
+import { EyeOutlined, QrcodeOutlined, ExpandOutlined } from "@ant-design/icons";
+
+const { Text } = Typography;
 
 export const useQRGeneratedColumns = ({
     pagination,
     columnsVisibility,
-    onDetail
+    onDetail,
+    onQRCodeClick  // Nouvelle prop pour gérer le clic sur le QR code
 }) => {
     return useMemo(() => {
         const allColumns = [
@@ -20,12 +23,35 @@ export const useQRGeneratedColumns = ({
                 title: 'Code QR',
                 dataIndex: 'code',
                 key: 'code',
-                render: (text) => (
+                width: 200,
+                render: (text, record) => (
                     <Space>
-                        <QrcodeOutlined style={{ color: "#52c41a" }} />
-                        <span style={{ fontFamily: "monospace", fontSize: "12px" }}>
-                            {text}
-                        </span>
+                        <Button
+                            type="link"
+                            icon={<QrcodeOutlined style={{ fontSize: '20px', color: "#52c41a" }} />}
+                            onClick={() => onQRCodeClick(record)}
+                            style={{ padding: 0, height: 'auto' }}
+                        />
+                        <Text 
+                            style={{ 
+                                fontFamily: "monospace", 
+                                fontSize: "12px",
+                                cursor: 'pointer',
+                                color: '#1890ff'
+                            }}
+                            onClick={() => onQRCodeClick(record)}
+                        >
+                            {text?.substring(0, 20)}...
+                        </Text>
+                        <Tooltip title="Agrandir pour scanner">
+                            <Button
+                                type="link"
+                                icon={<ExpandOutlined />}
+                                onClick={() => onQRCodeClick(record)}
+                                size="small"
+                                style={{ color: "#52c41a" }}
+                            />
+                        </Tooltip>
                     </Space>
                 )
             },
@@ -97,5 +123,5 @@ export const useQRGeneratedColumns = ({
         ];
 
         return allColumns.filter((col) => columnsVisibility[col.title] !== false);
-    }, [pagination, columnsVisibility, onDetail]);
+    }, [pagination, columnsVisibility, onDetail, onQRCodeClick]);
 };

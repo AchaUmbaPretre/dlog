@@ -4,11 +4,13 @@ import {
     FireOutlined, 
     ReloadOutlined, 
     MenuOutlined, 
-    DownOutlined 
+    DownOutlined,
+    ExpandOutlined
 } from '@ant-design/icons';
 import { useQRGenerationAll } from './hooks/useQRGenerationAll';
 import { useQRGeneratedColumns } from './hooks/useQRGeneratedColumns';
 import CodeQRForm from './codeQRForm/CodeQRForm';
+import QRCodeModal from './qRCodeModal/QRCodeModal';
 
 const { Search } = Input;
 const { Title } = Typography;
@@ -28,15 +30,26 @@ const CodeQR = () => {
         'Date création': true,
         'Actions': true
     });
-    const [idSite, setIdSite] = useState('');
     const [modal, setModal] = useState({ type: null, id: null });
+    const [qrModalVisible, setQrModalVisible] = useState(false);
+    const [selectedQRCode, setSelectedQRCode] = useState(null);
 
     const closeAllModals = () => setModal({ type: null, id: null });
+    const closeQRModal = () => {
+        setQrModalVisible(false);
+        setSelectedQRCode(null);
+    };
+
+    const handleQRCodeClick = (record) => {
+        setSelectedQRCode(record);
+        setQrModalVisible(true);
+    };
 
     const columns = useQRGeneratedColumns({
         pagination,
         columnsVisibility,
-        onDetail: (id) => setModal('Detail', id)
+        onDetail: (id) => setModal({ type: 'Detail', id: id }),
+        onQRCodeClick: handleQRCodeClick // Passage de la fonction
     });
 
     const filteredData = data.filter(item => {
@@ -72,7 +85,7 @@ const CodeQR = () => {
             <Card
                 title={
                     <Space>
-                        <FireOutlined style={{ color: "#fa541c", fontSize: 22 }} />
+                        <ExpandOutlined style={{ color: "#fa541c", fontSize: 22 }} />
                         <Title level={4} style={{ margin: 0 }}>
                             Liste des codes QR
                         </Title>
@@ -119,9 +132,27 @@ const CodeQR = () => {
                 />
             </Card>
             
-            <Modal open={modal.type === "Detail"} onCancel={closeAllModals} footer={null} width={modal.id ? 800 : 1400} centered destroyOnClose>
-                <CodeQRForm closeModal={closeAllModals} fetchData={reload} idSite={modal.id} />
+            <Modal 
+                open={modal.type === "Detail"} 
+                onCancel={closeAllModals} 
+                footer={null} 
+                width={modal.id ? 800 : 1400} 
+                centered 
+                destroyOnClose
+            >
+                <CodeQRForm 
+                    closeModal={closeAllModals} 
+                    fetchData={reload} 
+                    idSite={modal.id} 
+                />
             </Modal>
+
+            <QRCodeModal
+                visible={qrModalVisible}
+                onClose={closeQRModal}
+                qrData={selectedQRCode?.code}
+                record={selectedQRCode}
+            />
         </div>
     );
 };
