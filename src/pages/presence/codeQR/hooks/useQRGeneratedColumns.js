@@ -17,12 +17,6 @@ export const useQRGeneratedColumns = ({
                 render: (_, __, index) => (pagination.current - 1) * pagination.pageSize + index + 1,
             },
             {
-                title: 'ID QR',
-                dataIndex: 'id_qr',
-                key: 'id_qr',
-                width: 100,
-            },
-            {
                 title: 'Code QR',
                 dataIndex: 'code',
                 key: 'code',
@@ -81,12 +75,6 @@ export const useQRGeneratedColumns = ({
                 title: 'Date création',
                 dataIndex: 'created_at',
                 key: 'created_at',
-                render: (date) => date ? new Date(date).toLocaleString() : '-'
-            },
-            {
-                title: 'Dernière modification',
-                dataIndex: 'updated_at',
-                key: 'updated_at',
                 render: (date) => date ? new Date(date).toLocaleString() : '-'
             },
             {

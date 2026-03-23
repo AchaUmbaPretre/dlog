@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Space, Table, Button, Dropdown, Checkbox, Input } from 'antd';
+import { Card, Space, Table, Button, Dropdown, Checkbox, Input, Modal, Typography } from 'antd';
 import { 
     FireOutlined, 
     ReloadOutlined, 
@@ -8,9 +8,10 @@ import {
 } from '@ant-design/icons';
 import { useQRGenerationAll } from './hooks/useQRGenerationAll';
 import { useQRGeneratedColumns } from './hooks/useQRGeneratedColumns';
+import CodeQRForm from './codeQRForm/CodeQRForm';
 
 const { Search } = Input;
-const { Title } = Typography; // Assurez-vous d'importer Typography
+const { Title } = Typography;
 
 const CodeQR = () => {
     const { loading, data, reload } = useQRGenerationAll();
@@ -18,7 +19,6 @@ const CodeQR = () => {
     const [searchValue, setSearchValue] = useState('');
     const [columnsVisibility, setColumnsVisibility] = useState({
         '#': true,
-        'ID QR': true,
         'Code QR': true,
         'Site': true,
         'Zone': true,
@@ -26,22 +26,19 @@ const CodeQR = () => {
         'Statut': true,
         'Créée par': true,
         'Date création': true,
-        'Dernière modification': true,
         'Actions': true
     });
+    const [idSite, setIdSite] = useState('');
+    const [modal, setModal] = useState({ type: null, id: null });
 
-    const openModal = (type, id) => {
-        console.log(`Opening ${type} modal for ID: ${id}`);
-        // Implémentez votre logique d'ouverture de modal ici
-    };
+    const closeAllModals = () => setModal({ type: null, id: null });
 
     const columns = useQRGeneratedColumns({
         pagination,
         columnsVisibility,
-        onDetail: (id) => openModal('Detail', id)
+        onDetail: (id) => setModal('Detail', id)
     });
 
-    // Filtrer les données en fonction de la recherche
     const filteredData = data.filter(item => {
         if (!searchValue) return true;
         const searchLower = searchValue.toLowerCase();
@@ -118,8 +115,13 @@ const CodeQR = () => {
                     }}
                     scroll={{ x: 'max-content' }}
                     rowKey="id_qr"
+                    bordered
                 />
             </Card>
+            
+            <Modal open={modal.type === "Detail"} onCancel={closeAllModals} footer={null} width={modal.id ? 800 : 1400} centered destroyOnClose>
+                <CodeQRForm closeModal={closeAllModals} fetchData={reload} idSite={modal.id} />
+            </Modal>
         </div>
     );
 };

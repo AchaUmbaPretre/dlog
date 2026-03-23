@@ -400,7 +400,7 @@ function App() {
         },
         {
           path:'/scan',
-          element: secure('/absence', <Scan/>)
+          element: secure('/scan', <Scan/>)
         }
       ]
     },

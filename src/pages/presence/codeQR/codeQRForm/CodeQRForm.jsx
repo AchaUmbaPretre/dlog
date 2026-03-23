@@ -5,7 +5,7 @@ import { getPrintHTML } from './QRPrintStyles';
 import { globalStyles } from './styles';
 import { useQRGeneration } from '../hooks/useQRGeneration';
 
-const CodeQRForm = () => {
+const CodeQRForm = ({closeModal, fetchData, idSite}) => {
   const hookValues = useQRGeneration();
   
   if (!hookValues) {
@@ -27,7 +27,6 @@ const CodeQRForm = () => {
     getSelectedSiteName
   } = hookValues;
 
-  console.log('Sites data:', sites);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
