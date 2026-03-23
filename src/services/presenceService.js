@@ -302,6 +302,10 @@ export const deleteUserTerminal = (user_id, terminal_id) => {
 };
 
 //Code QR
+export const getGenerateQRAll = async () => {
+  return axios.get(`${DOMAIN}/api/presence/qr/generateAll`);
+};
+
 export const getGenerateQR = async (data) => {
   return axios.post(`${DOMAIN}/api/presence/qr/generate`, data);
 };
@@ -310,7 +314,7 @@ export const getGenerateQR = async (data) => {
 export const getValidateQR = async (data) => {
   try {
     const response = await userRequest.post(`${DOMAIN}/api/presence/qr/validate`, data);
-    return response.data; // Retourne les données en cas de succès
+    return response.data;
   } catch (error) {
     if (error.response) {
       const errorData = error.response.data;

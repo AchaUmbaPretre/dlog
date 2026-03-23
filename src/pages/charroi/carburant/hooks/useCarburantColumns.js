@@ -178,7 +178,7 @@ export const useCarburantColumns = ({
           </Text>
         ),
       },
-      {
+      { 
         title: "Créé par",
         dataIndex: "createur",
         key: "createur",
