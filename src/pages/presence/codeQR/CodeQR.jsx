@@ -26,7 +26,7 @@ const CodeQR = () => {
         'Zone': true,
         'Type Pointage': true,
         'Statut': true,
-        'Créée par': true,
+        'Créée par': false,
         'Date création': true,
         'Actions': true
     });
