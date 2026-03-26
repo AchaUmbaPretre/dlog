@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
   CheckCircleOutlined,
-
   EnvironmentOutlined,
   CalendarOutlined,
   GlobalOutlined,
   HomeOutlined,
   ClockCircleOutlined
 } from '@ant-design/icons';
-import { Button, Card, Typography, Divider, Alert, Row, Col } from 'antd';
+import { Button, Card, Typography, Divider, Alert } from 'antd';
 
 const { Title, Text } = Typography;
 
