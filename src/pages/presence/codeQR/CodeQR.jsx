@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, Space, Table, Button, Dropdown, Checkbox, Input, Modal, Typography } from 'antd';
 import { 
     ReloadOutlined, 
     MenuOutlined, 
     DownOutlined,
-    ExpandOutlined
+    ExpandOutlined,
+    PlusCircleOutlined
 } from '@ant-design/icons';
 import { useQRGenerationAll } from './hooks/useQRGenerationAll';
 import { useQRGeneratedColumns } from './hooks/useQRGeneratedColumns';
@@ -47,7 +48,6 @@ const CodeQR = () => {
     const columns = useQRGeneratedColumns({
         pagination,
         columnsVisibility,
-        onDetail: (id) => setModal({ type: 'Detail', id: id }),
         onQRCodeClick: handleQRCodeClick
     });
 
@@ -100,6 +100,9 @@ const CodeQR = () => {
                             onChange={(e) => setSearchValue(e.target.value)}
                             style={{ width: 300 }}
                         />
+                        <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => setModal({ type: 'Add' })}>
+                            Nouveau
+                        </Button>
                         <Button icon={<ReloadOutlined />} onClick={reload} loading={loading}>
                             Actualiser
                         </Button>
@@ -132,10 +135,10 @@ const CodeQR = () => {
             </Card>
             
             <Modal 
-                open={modal.type === "Detail"} 
+                open={modal.type === "Add"} 
                 onCancel={closeAllModals} 
                 footer={null} 
-                width={modal.id ? 800 : 1400} 
+                width={800} 
                 centered 
                 destroyOnClose
             >

@@ -7,8 +7,7 @@ const { Text } = Typography;
 export const useQRGeneratedColumns = ({
     pagination,
     columnsVisibility,
-    onDetail,
-    onQRCodeClick  // Nouvelle prop pour gérer le clic sur le QR code
+    onQRCodeClick
 }) => {
     return useMemo(() => {
         const allColumns = [
@@ -102,26 +101,9 @@ export const useQRGeneratedColumns = ({
                 dataIndex: 'created_at',
                 key: 'created_at',
                 render: (date) => date ? new Date(date).toLocaleString() : '-'
-            },
-            {
-                title: 'Actions',
-                key: 'actions',
-                width: '10%',
-                fixed: 'right',
-                render: (_, record) => (
-                    <Tooltip title="Voir les détails">
-                        <Button
-                            type="link"
-                            icon={<EyeOutlined />}
-                            aria-label="Voir les détails"
-                            style={{ color: "blue" }}
-                            onClick={() => onDetail(record.id_qr)}
-                        />
-                    </Tooltip>
-                )
             }
         ];
 
         return allColumns.filter((col) => columnsVisibility[col.title] !== false);
-    }, [pagination, columnsVisibility, onDetail, onQRCodeClick]);
+    }, [pagination, columnsVisibility, onQRCodeClick]);
 };
