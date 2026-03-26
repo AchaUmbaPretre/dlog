@@ -1,51 +1,19 @@
-import React from 'react';
 import { scanStyles } from './styles';
+import { getErrorData } from './utils/errorUtils';
 
 const ScanError = ({ error, onRetry, onGoHome }) => {
-  const getErrorIcon = () => {
-    switch(error.type) {
-      case 'INVALID_CODE':
-        return '❌';
-      case 'UNAUTHENTICATED':
-        return '🔒';
-      case 'NO_ACCESS':
-        return '🚫';
-      case 'OUT_OF_ZONE':
-        return '📍';
-      case 'ALREADY_COMPLETE':
-        return '⏰';
-      default:
-        return '⚠️';
-    }
-  };
-  
-  const getErrorTitle = () => {
-    switch(error.type) {
-      case 'INVALID_CODE':
-        return 'QR Code Invalide';
-      case 'UNAUTHENTICATED':
-        return 'Non authentifié';
-      case 'NO_ACCESS':
-        return 'Accès refusé';
-      case 'OUT_OF_ZONE':
-        return 'Hors zone autorisée';
-      case 'ALREADY_COMPLETE':
-        return 'Pointage déjà effectué';
-      default:
-        return 'Erreur de scan';
-    }
-  };
+    const { icon, title } = getErrorData(error.type);
   
   return (
     <div style={scanStyles.container}>
       <style>{scanStyles.global}</style>
       <div style={scanStyles.card}>
         <div style={scanStyles.errorIcon}>
-          {getErrorIcon()}
+          {icon}
         </div>
         
         <h2 style={scanStyles.errorTitle}>
-          {getErrorTitle()}
+          {title}
         </h2>
         
         <p style={scanStyles.errorMessage}>
