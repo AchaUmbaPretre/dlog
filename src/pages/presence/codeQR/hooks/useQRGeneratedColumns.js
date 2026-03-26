@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Space, Tooltip, Button, Tag, Typography } from "antd";
-import { EyeOutlined, QrcodeOutlined, ExpandOutlined } from "@ant-design/icons";
+import { QrcodeOutlined, ExpandOutlined } from "@ant-design/icons";
 
 const { Text } = Typography;
 
