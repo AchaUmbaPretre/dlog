@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Space, Table, Button, Dropdown, Checkbox, Input, Modal, Typography } from 'antd';
 import { 
-    FireOutlined, 
     ReloadOutlined, 
     MenuOutlined, 
     DownOutlined,
@@ -49,7 +48,7 @@ const CodeQR = () => {
         pagination,
         columnsVisibility,
         onDetail: (id) => setModal({ type: 'Detail', id: id }),
-        onQRCodeClick: handleQRCodeClick // Passage de la fonction
+        onQRCodeClick: handleQRCodeClick
     });
 
     const filteredData = data.filter(item => {
