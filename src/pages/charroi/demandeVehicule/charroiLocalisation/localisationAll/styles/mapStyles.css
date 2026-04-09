@@ -361,3 +361,39 @@
     left: 16px;
   }
 }
+
+/* Animation pour le panneau */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Vehicle Info Panel Senior */
+.vehicle-info-panel-senior {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vehicle-info-panel-senior:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vehicle-info-panel-senior {
+    width: calc(100vw - 32px) !important;
+    max-width: none;
+  }
+  
+  div[style*="position: absolute"] {
+    bottom: 16px !important;
+    right: 16px !important;
+    left: 16px !important;
+  }
+}
