@@ -11,7 +11,10 @@ import {
 import { formatDate } from '../utils/helpers';
 
 const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails }) => {
-  if (!vehicle) return null;
+  if (!vehicle) {
+    console.log('Pas de véhicule, retour null');
+    return null;
+  }
 
   const ignition = vehicle.sensors?.find(s => s.type === 'acc');
   const odometer = vehicle.sensors?.find(s => s.type === 'odometer');
@@ -25,9 +28,11 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails }) => {
         bottom: 24,
         right: 24,
         width: 320,
-        zIndex: 10,
+        zIndex: 1000, // Augmentez le z-index
         boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        animation: 'slideUp 0.3s ease-out'
+        animation: 'slideUp 0.3s ease-out',
+        backgroundColor: 'white', // Assurez-vous que la couleur de fond est visible
+        display: 'block' // Force l'affichage
       }}
       bodyStyle={{ padding: 16 }}
     >

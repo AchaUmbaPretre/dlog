@@ -24,7 +24,6 @@ const VehicleDetailDrawer = ({ vehicle, visible, onClose }) => {
       label: 'Informations générales',
       children: (
         <Descriptions column={1} bordered size="small">
-          <Descriptions.Item label="ID">{vehicle.id}</Descriptions.Item>
           <Descriptions.Item label="Nom">{vehicle.name}</Descriptions.Item>
           <Descriptions.Item label="Statut">
             <Badge 
