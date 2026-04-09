@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CarOutlined, InfoCircleOutlined, MenuOutlined, DownOutlined } from '@ant-design/icons';
+import { CarOutlined, UnorderedListOutlined, InfoCircleOutlined, MenuOutlined, DownOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
-import { notification, Typography, Modal, Menu, Tooltip, Space, Tag, Input, Table, Button, Badge, Dropdown } from 'antd';
+import { notification, Tabs, Typography, Modal, Menu, Tooltip, Space, Tag, Input, Table, Button, Badge, Dropdown } from 'antd';
 import moment from 'moment';
 import { getEngineStatus, getOdometer } from '../../../../utils/geocodeService';
 import CharroiLocalisationDetail from './charroiLocalisationDetail/CharroiLocalisationDetail';
@@ -9,11 +9,14 @@ import { formatStopDuration } from '../../../../utils/renderTooltip';
 import { VehicleAddress } from '../../../../utils/vehicleAddress';
 import { getDirection, getEngineTag, statusDeviceMap } from '../../../../utils/prioriteIcons';
 import getColumnSearchProps from '../../../../utils/columnSearchUtils';
+import { getTabStyle, iconStyle } from '../../../../utils/tabStyles';
+import LocalisationAll from './localisationAll/LocalisationAll';
 
 const { Text } = Typography;
 const { Search } = Input;
 
 const CharroiLocalisation = () => {
+  const [activeKey, setActiveKey] = useState('1');
   const [falcon, setFalcon] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 20 });
@@ -223,60 +226,93 @@ const CharroiLocalisation = () => {
     const horsLigne = falcon.filter(f => f.online === "offline").length;
 
   return (
-    <div className="client">
-      <div className="client-wrapper">
-        <div className="client-row">
-          <CarOutlined className='client-icon' />
-          <h2 className="client-h2">Véhicules en Suivi</h2>
-        </div>
-
-        <Space style={{ marginBottom: 16 }}>
-          <Badge count={totalVehicules} showZero color="blue" />
-          <Tag color="green">En ligne: {enLigne}</Tag>
-          <Tag color="red">Hors ligne: {horsLigne}</Tag>
-        </Space>
-
-        <div className="client-actions">
-          <Search 
-            placeholder="Rechercher un véhicule..."
-            onChange={(e) => setSearchValue(e.target.value)}
-            style={{ width: 300 }}
-            enterButton 
-          />
-          <div className="client-rows-right">
-            <Dropdown overlay={menus} trigger={['click']}>
-              <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                Colonnes <DownOutlined />
-              </Button>
-            </Dropdown>
-          </div>
-        </div>
-
-        <Table
-          columns={columns}
-          dataSource={falcon.filter(item => item.name?.toLowerCase().includes(searchValue.toLowerCase()))}
-          loading={loading}
-          pagination={pagination}
-          onChange={(pagination) => setPagination(pagination)}
-          rowKey="id"
-          bordered
-          size="middle"
-          scroll={{ x: 1400 }}
-          rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-        />
-      </div>
-
-      <Modal
-        title=""
-        visible={modalType === 'detail'}
-        onCancel={closeAllModals}
-        footer={null}
-        width={1150}
-        centered
+    <>
+      <Tabs
+        activeKey={activeKey}
+        onChange={setActiveKey}
+        type="card"
+        tabPosition="top"
+        destroyInactiveTabPane
+        animated
       >
-        <CharroiLocalisationDetail id={id} />
-      </Modal>
-    </div>
+        <Tabs.TabPane
+          key="1"
+          tab={
+            <span style={getTabStyle('1', activeKey)}>
+              <UnorderedListOutlined style={iconStyle('1', activeKey)} />
+              Liste des véhicules en suivi
+            </span>
+          }
+        >
+          <div className="client">
+            <div className="client-wrapper">
+              <div className="client-row">
+                <CarOutlined className='client-icon' />
+                <h2 className="client-h2">Véhicules en Suivi</h2>
+              </div>
+
+              <Space style={{ marginBottom: 16 }}>
+                <Badge count={totalVehicules} showZero color="blue" />
+                <Tag color="green">En ligne: {enLigne}</Tag>
+                <Tag color="red">Hors ligne: {horsLigne}</Tag>
+              </Space>
+
+              <div className="client-actions">
+                <Search 
+                  placeholder="Rechercher un véhicule..."
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  style={{ width: 300 }}
+                  enterButton 
+                />
+                <div className="client-rows-right">
+                  <Dropdown overlay={menus} trigger={['click']}>
+                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
+                      Colonnes <DownOutlined />
+                    </Button>
+                  </Dropdown>
+                </div>
+              </div>
+
+              <Table
+                columns={columns}
+                dataSource={falcon.filter(item => item.name?.toLowerCase().includes(searchValue.toLowerCase()))}
+                loading={loading}
+                pagination={pagination}
+                onChange={(pagination) => setPagination(pagination)}
+                rowKey="id"
+                bordered
+                size="middle"
+                scroll={{ x: 1400 }}
+                rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
+              />
+            </div>
+
+            <Modal
+              title=""
+              visible={modalType === 'detail'}
+              onCancel={closeAllModals}
+              footer={null}
+              width={1150}
+              centered
+            >
+              <CharroiLocalisationDetail id={id} />
+            </Modal>
+          </div>
+        </Tabs.TabPane>
+
+        <Tabs.TabPane
+          key="2"
+          tab={
+            <span style={getTabStyle('2', activeKey)}>
+              <UnorderedListOutlined style={iconStyle('2', activeKey)} />
+              Carte
+            </span>
+          }
+        >
+          <LocalisationAll />
+        </Tabs.TabPane>
+      </Tabs>
+    </>
   );
 };
 
