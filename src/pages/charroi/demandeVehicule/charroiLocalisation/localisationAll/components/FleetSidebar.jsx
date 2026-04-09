@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Statistic, Row, Col, Button, Space, Segmented, Tooltip, Badge, Tag, List, Avatar } from 'antd';
+import { Card, Statistic, Row, Col, Button, Space, Segmented, Tooltip, Badge, Tag, List } from 'antd';
 import { 
   CarOutlined, 
   WifiOutlined, 
