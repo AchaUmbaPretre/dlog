@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { Card, Button, Space, Tag, Tooltip, Progress, Badge, Typography, Divider } from 'antd';
+import { Card, Button, Tag, Tooltip, Progress, Badge, Typography, Divider } from 'antd';
 import { 
   CarOutlined, 
   CloseOutlined, 
@@ -15,6 +15,7 @@ import {
 } from '@ant-design/icons';
 import { formatDate } from '../utils/helpers';
 import { getDirection } from '../../../../../../utils/prioriteIcons';
+import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
 const { Text, Title } = Typography;
 
@@ -22,7 +23,6 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
   const [copied, setCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Calcul des données mémorisées - déplacé avant le return
   const vehicleData = useMemo(() => {
     if (!vehicle) return null;
     
@@ -68,11 +68,10 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
   }
 
   const {
-    ignition, odometer, alarm, door, fuel, label, icon,
+    odometer, door, fuel, label, icon,
     isOnline, isMoving, hasAlarm, isEngineOn, riskLevel
   } = vehicleData;
 
-  // Calcul du pourcentage de batterie (simulation)
   const batteryLevel = vehicle.power !== '-' ? parseInt(vehicle.power) : 85;
   
   // Temps depuis la dernière mise à jour
@@ -103,7 +102,6 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
         }}
         bodyStyle={{ padding: 0 }}
       >
-        {/* Header avec gradient */}
         <div
           style={{
             background: `linear-gradient(135deg, ${isMoving ? '#1890ff' : hasAlarm ? '#faad14' : '#52c41a'} 0%, ${isMoving ? '#096dd9' : hasAlarm ? '#d48806' : '#389e0d'} 100%)`,
@@ -262,7 +260,7 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
                 <span style={{ fontSize: 20 }}>{icon}</span>
                 <Text style={{ fontSize: 14, fontWeight: 500 }}>{label}</Text>
               </div>
-              <Text style={{ fontSize: 10, color: '#8c8c8c', display: 'block', marginTop: 4 }}>
+              <Text style={{ fontSize: 10, display: 'block', marginTop: 4 }}>
                 {vehicle.course}°
               </Text>
             </div>
@@ -293,7 +291,7 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
                 </div>
                 <Tooltip title={`${vehicle.lat}, ${vehicle.lng}`}>
                   <Text style={{ fontSize: 11, fontFamily: 'monospace', color: '#666' }}>
-                    {vehicle.lat.toFixed(4)}°, {vehicle.lng.toFixed(4)}°
+                      <VehicleAddress record={vehicle} />
                   </Text>
                 </Tooltip>
               </div>
@@ -381,10 +379,6 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
                 </Text>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 12 }}>ID véhicule</Text>
-                    <Text style={{ fontSize: 12, fontFamily: 'monospace' }}>{vehicle.id}</Text>
-                  </div>
                   
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Text style={{ fontSize: 12 }}>Altitude</Text>

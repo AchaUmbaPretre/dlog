@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CarOutlined, UnorderedListOutlined, InfoCircleOutlined, MenuOutlined, DownOutlined } from '@ant-design/icons';
+import { CarOutlined, EnvironmentOutlined, UnorderedListOutlined, InfoCircleOutlined, MenuOutlined, DownOutlined } from '@ant-design/icons';
 import { getFalcon } from '../../../../services/rapportService';
 import { notification, Tabs, Typography, Modal, Menu, Tooltip, Space, Tag, Input, Table, Button, Badge, Dropdown } from 'antd';
 import moment from 'moment';
@@ -240,7 +240,7 @@ const CharroiLocalisation = () => {
           tab={
             <span style={getTabStyle('1', activeKey)}>
               <UnorderedListOutlined style={iconStyle('1', activeKey)} />
-              Liste des véhicules en suivi
+              Véhicules en suivi
             </span>
           }
         >
@@ -304,8 +304,8 @@ const CharroiLocalisation = () => {
           key="2"
           tab={
             <span style={getTabStyle('2', activeKey)}>
-              <UnorderedListOutlined style={iconStyle('2', activeKey)} />
-              Carte
+              <EnvironmentOutlined style={iconStyle('2', activeKey)} />
+              Gestionnaire de flotte
             </span>
           }
         >

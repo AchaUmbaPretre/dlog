@@ -44,7 +44,7 @@ const FleetSidebar = ({
           <div className="header-content">
             <h2>
               <CarOutlined className="header-icon" />
-              Fleet Manager
+              Gestionnaire de flotte
             </h2>
             <p>Suivi en temps réel</p>
           </div>
