@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Input, DatePicker, Select, Button, Row, Col, notification } from 'antd';
 import { getAdresseBinOne, getBinsOne, getEquipementOneV, getStatutEquipement,postEquipement, putEquipement } from '../../../../services/batimentService';
 import moment from 'moment';
-import { getArticle, getBatimentOne } from '../../../../services/typeService';
+import { getArticle } from '../../../../services/typeService';
 import { useNavigate } from 'react-router-dom';
 
-const { Option } = Select;
 
 const EquipementForm = ({ idBatiment, closeModal, fetchData, idEquipement }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [statutEquipement, setStatutEquipement] = useState([]);
   const [typeEquipement, setTypeEquipement] = useState([]);
-  const [batimentName, setBatimentName] = useState('');
   const [bins, setBins] = useState([]);
   const [idBin, setIdBin] = useState('');
   const [adresse, setAdresse] = useState([]);
