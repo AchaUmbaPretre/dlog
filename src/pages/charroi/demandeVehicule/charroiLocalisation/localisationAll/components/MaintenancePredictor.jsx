@@ -1,19 +1,11 @@
-// components/MaintenancePredictor.jsx
-import { Card, List, Progress, Tag, Button, Space, Badge, Statistic, Row, Col, Timeline, Modal, Alert, Divider, Tooltip, Avatar, Collapse, Table, Tabs } from 'antd';
+import { Card, Progress, Tag, Space, Badge, Statistic, Row, Col, Avatar, Table, Tabs } from 'antd';
 import { 
   ToolOutlined, 
   WarningOutlined, 
   CheckCircleOutlined,
   CarOutlined,
-  ClockCircleOutlined,
-  CalendarOutlined,
   AlertOutlined,
   HeartOutlined,
-  BulbOutlined,
-  LineChartOutlined,
-  BellOutlined,
-  SettingOutlined,
-  FileTextOutlined,
   TrophyOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
@@ -22,13 +14,11 @@ import { useState, useMemo } from 'react';
 const MaintenancePredictor = ({ vehicles }) => {
   const [activeTab, setActiveTab] = useState('urgent');
 
-  // Analyse complète des maintenances
   const maintenanceData = useMemo(() => {
     const data = vehicles.map(v => {
       const odometer = v.sensors?.find(s => s.type === 'odometer')?.val || 0;
       const engineHours = v.engine_hours || 0;
       
-      // Seuils de maintenance
       const nextOilChange = 5000 - (odometer % 5000);
       const nextGeneralService = 10000 - (odometer % 10000);
       const nextTireChange = 30000 - (odometer % 30000);

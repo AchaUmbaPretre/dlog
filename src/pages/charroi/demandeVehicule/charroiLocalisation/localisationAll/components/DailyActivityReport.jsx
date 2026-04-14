@@ -8,7 +8,6 @@ const DailyActivityReport = ({ vehicles }) => {
     const lastUpdate = new Date(v.timestamp * 1000);
     const isActiveToday = lastUpdate.toDateString() === today;
     
-    // Date complète formatée
     const fullDate = lastUpdate.toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: '2-digit',

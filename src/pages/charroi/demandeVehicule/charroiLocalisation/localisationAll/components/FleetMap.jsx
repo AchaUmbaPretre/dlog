@@ -31,8 +31,7 @@ const FleetMap = forwardRef(({
     changeStyle: (style) => changeTileLayer(style),
     getMap: () => getMap()
   }));
-
-  // Mise à jour des marqueurs
+                                         
   useEffect(() => {
     if (!markerServiceRef.current || !vehicles.length) return;
     markerServiceRef.current.updateMarkers(vehicles, onVehicleClick);

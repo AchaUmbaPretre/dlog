@@ -1,4 +1,3 @@
-import React from 'react';
 import { Drawer, Descriptions, Card, Tag, Badge, Tabs, Statistic, Row, Col, Timeline } from 'antd';
 import { 
   CarOutlined, 

@@ -1,9 +1,6 @@
-// components/DrivingBehaviorAnalysis.jsx
-import { Card, Progress, Table, Tag, Timeline } from 'antd';
-import { WarningOutlined, CheckCircleOutlined, CarOutlined } from '@ant-design/icons';
+import { Card, Progress, Table, Tag } from 'antd';
 
 const DrivingBehaviorAnalysis = ({ vehicles }) => {
-  // Analyser le comportement de conduite basé sur les données réelles
   const analysis = vehicles.map(v => {
     const overspeedAlerts = v.sensors?.filter(s => 
       s.type === 'textual' && s.value === 'overspeed'

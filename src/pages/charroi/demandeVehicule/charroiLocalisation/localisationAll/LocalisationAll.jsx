@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Spin } from 'antd';
 import { useFleetData } from './hooks/useFleetData';
 import './styles/mapStyles.css';
