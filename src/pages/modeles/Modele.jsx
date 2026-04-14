@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal, Input, notification, Space, Tooltip, Popconfirm, Tag, Form, Popover } from 'antd';
+import { useEffect, useState } from 'react';
+import { Table, Button, Modal, Input, notification } from 'antd';
 import { CarOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getMarque, getModeleAll } from '../../services/charroiService';
+import { getModeleAll } from '../../services/charroiService';
 import ModeleForm from './modeleForm/ModeleForm';
 
 const { Search } = Input;
-
 
 const Modele = () => {
     const [data, setData] = useState([])
@@ -19,24 +18,23 @@ const Modele = () => {
     const [modalType, setModalType] = useState(null);
     
     
-       const fetchData = async() => {
-            try {
-                const { data } = await getModeleAll();
-                setData(data);
-                setLoading(false);
-    
-            } catch (error) {
-                notification.error({
-                    message: 'Erreur de chargement',
-                    description: 'Une erreur est survenue lors du chargement des données.',
-                  });
-                  setLoading(false);
-            }
+    const fetchData = async() => {
+        try {
+            const { data } = await getModeleAll();
+            setData(data);
+            setLoading(false);
+        } catch (error) {
+            notification.error({
+                message: 'Erreur de chargement',
+                description: 'Une erreur est survenue lors du chargement des données.',
+            });
+            setLoading(false);
         }
+    }
     
-        useEffect(()=> {
-            fetchData()
-        }, [])
+    useEffect(()=> {
+        fetchData()
+    }, [])
     
     const columns = [
         { 
@@ -45,31 +43,22 @@ const Modele = () => {
             key: 'id', 
             render: (text, record, index) => index + 1, 
             width: "3%" 
-          },
-          {
+        },
+        {
             title: 'Modèle',
             dataIndex: 'modele',
-            } ,
-            {
-                title: 'Marque',
-                dataIndex: 'nom_marque',
-            } ,     
-/*         {
-            title: 'Actions',
-            dataIndex: 'actions',
-            render: (text, record) => (
-              <Dropdown overlay={getActionMenu(record, openModal)} trigger={['click']}>
-                <Button icon={<MoreOutlined />} style={{ color: 'blue' }} />
-              </Dropdown>
-            )
-          } */
-      ];
+        } ,
+        {
+            title: 'Marque',
+            dataIndex: 'nom_marque',
+        }
+    ];
 
-      const handleAddModele = () => openModal('Add')
+    const handleAddModele = () => openModal('Add')
 
-      const closeAllModals = () => {
+    const closeAllModals = () => {
         setModalType(null);
-      };
+    };
       
     const openModal = (type, id='') => {
         closeAllModals();
@@ -79,7 +68,7 @@ const Modele = () => {
     const filteredData = data.filter(item =>
         item.modele?.toLowerCase().includes(searchValue.toLowerCase()) || 
         item.nom_marque?.toLowerCase().includes(searchValue.toLowerCase())
-      );
+    );
 
   return (
     <>

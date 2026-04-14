@@ -10,7 +10,6 @@ const TopBarModelTv = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [tvMode, setTvMode] = useState(false);
 
-  // Mise à jour de l'heure
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
