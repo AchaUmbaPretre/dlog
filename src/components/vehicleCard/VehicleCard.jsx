@@ -16,7 +16,7 @@ import { calculateFuelConsumption } from "../../utils/coutCarburant";
 
 const { Text } = Typography;
 
-const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
+const VehicleCard = ({ vehicleData, tableData }) => {
   const getFuelStatus = (fuel) => {
     if (fuel > 50) return "success";
     if (fuel > 20) return "warning";
@@ -109,10 +109,10 @@ const VehicleCard = ({ vehicleData, tableData, totalDistance }) => {
               <Tooltip title="Distance totale parcourue">
                 <Text strong>
                   <DashboardOutlined style={{ color: "#52c41a", marginRight: 6 }} />
-                  Distance:
+                  Distance:    
                 </Text>{" "}
                 {result?.distance}
-                km
+                km  
               </Tooltip>
             </Col>
 
