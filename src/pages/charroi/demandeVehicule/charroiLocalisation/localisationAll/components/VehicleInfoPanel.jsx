@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { Card, Button, Space, Tag, Tooltip, Progress, Badge, Typography, Divider } from 'antd';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { Card, Button, Space, Tag, Tooltip, Progress, Badge, Typography, Divider, Skeleton } from 'antd';
 import { 
-  CarOutlined, 
   CloseOutlined, 
   EnvironmentOutlined,
   ClockCircleOutlined,
@@ -12,16 +11,18 @@ import {
   CopyOutlined,
   CheckOutlined,
   HistoryOutlined,
-  DashboardOutlined
+  WifiOutlined
 } from '@ant-design/icons';
 import { formatDate } from '../utils/helpers';
 import { getDirection } from '../../../../../../utils/prioriteIcons';
+import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
 const { Text, Title } = Typography;
 
 const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
   const [copied, setCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [addressLoaded, setAddressLoaded] = useState(false);
 
   const vehicleData = useMemo(() => {
     if (!vehicle) return null;
@@ -54,6 +55,23 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
     };
   }, [vehicle]);
 
+  // Préparer l'enregistrement pour VehicleAddress
+  const addressRecord = useMemo(() => {
+    if (!vehicle) return null;
+    return {
+      capteurInfo: {
+        address: vehicle.address,
+        lat: vehicle.lat,
+        lng: vehicle.lng,
+        time: vehicle.time
+      },
+      lat: vehicle.lat,
+      lng: vehicle.lng,
+      id: vehicle.id,
+      name: vehicle.name
+    };
+  }, [vehicle]);
+
   const copyCoordinates = useCallback(async () => {
     if (!vehicle) return;
     const coords = `${vehicle.lat}, ${vehicle.lng}`;
@@ -75,6 +93,9 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
   const minutesSinceUpdate = Math.floor((now - lastUpdateTime) / 60000);
   const isDataStale = minutesSinceUpdate > 5;
 
+  // Vérifier si le signal est perdu (plus de 2h sans mise à jour)
+  const isSignalLost = minutesSinceUpdate > 120;
+
   return (
     <div className={className} style={{ position: 'absolute', bottom: 24, right: 24, zIndex: 1000, animation: 'slideUp 0.3s ease-out' }}>
       <Card className="vehicle-info-panel-senior" style={{ width: isExpanded ? 400 : 360, boxShadow: '0 8px 24px rgba(0,0,0,0.12)', borderRadius: 16, overflow: 'hidden' }} bodyStyle={{ padding: 0 }}>
@@ -93,6 +114,7 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
                 <Space size={8} style={{ marginTop: 4 }}>
                   <Badge status={isOnline ? 'success' : 'error'} text={<span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12 }}>{isOnline ? 'En ligne' : 'Hors ligne'}</span>} />
                   {isMoving && <Badge status="processing" text={<span style={{ color: 'rgba(255,255,255,0.9)', fontSize: 12 }}>En mouvement • {direction.label}</span>} />}
+                  {isSignalLost && <WifiOutlined style={{ color: '#ff4d4f', fontSize: 12 }} />}
                 </Space>
               </div>
             </div>
@@ -132,11 +154,42 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
               <Button type="text" size="small" icon={copied ? <CheckOutlined style={{ color: '#52c41a' }} /> : <CopyOutlined />} onClick={copyCoordinates}>{copied ? 'Copié !' : 'Copier position'}</Button>
             </div>
             <Space direction="vertical" size={12} style={{ width: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><Space><EnvironmentOutlined />Position</Space><Text style={{ fontSize: 11, fontFamily: 'monospace' }}>{vehicle.lat.toFixed(4)}°, {vehicle.lng.toFixed(4)}°</Text></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><Space><ThunderboltOutlined />Contact</Space><Tag color={isEngineOn ? 'green' : 'default'}>{isEngineOn ? 'ON' : 'OFF'}</Tag></div>
-              {door && <div style={{ display: 'flex', justifyContent: 'space-between' }}><Space>{door.val ? '🚪' : '🔒'}Portière</Space><Tag color={door.val ? 'orange' : 'green'}>{door.value}</Tag></div>}
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}><Space><ClockCircleOutlined />Dernière mise à jour</Space><Text style={{ fontSize: 11, color: isDataStale ? '#faad14' : '#666' }}>{formatDate(vehicle.time)}</Text></div>
-              {odometer && <div style={{ display: 'flex', justifyContent: 'space-between' }}><Space><HistoryOutlined />Odomètre</Space><Text strong>{odometer.value}</Text></div>}
+              {/* Adresse avec le composant VehicleAddress */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <Space>
+                  <EnvironmentOutlined style={{ marginTop: 2 }} />
+                  <Text>Adresse</Text>
+                </Space>
+                <div style={{ maxWidth: 200, textAlign: 'right' }}>
+                  {addressRecord && (
+                    <VehicleAddress record={addressRecord} />
+                  )}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Space><ThunderboltOutlined />Contact</Space>
+                <Tag color={isEngineOn ? 'green' : 'default'}>{isEngineOn ? 'ON' : 'OFF'}</Tag>
+              </div>
+
+              {door && (
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Space>{door.val ? '🚪' : '🔒'}Portière</Space>
+                  <Tag color={door.val ? 'orange' : 'green'}>{door.value}</Tag>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Space><ClockCircleOutlined />Dernière mise à jour</Space>
+                <Text style={{ fontSize: 11, color: isDataStale ? '#faad14' : '#666' }}>{formatDate(vehicle.time)}</Text>
+              </div>
+
+              {odometer && (
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Space><HistoryOutlined />Odomètre</Space>
+                  <Text strong>{odometer.value}</Text>
+                </div>
+              )}
             </Space>
           </div>
 
@@ -144,15 +197,32 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
             <div style={{ marginTop: 16 }}>
               <Divider />
               <Space direction="vertical" size={10} style={{ width: '100%' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}><Text>ID véhicule</Text><Text style={{ fontFamily: 'monospace' }}>{vehicle.id}</Text></div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}><Text>Altitude</Text><Text>{vehicle.altitude} m</Text></div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><Text>Batterie</Text><Progress percent={batteryLevel} size="small" width={80} /></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Text>ID véhicule</Text>
+                  <Text style={{ fontFamily: 'monospace' }}>{vehicle.id}</Text>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Text>Altitude</Text>
+                  <Text>{vehicle.altitude} m</Text>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Text>Batterie</Text>
+                  <Progress percent={batteryLevel} size="small" width={80} />
+                </div>
+                {vehicle.device_data?.plate_number && (
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Text>Plaque</Text>
+                    <Text strong>{vehicle.device_data.plate_number}</Text>
+                  </div>
+                )}
               </Space>
             </div>
           )}
 
           <Divider />
-          <Button type="primary" block size="large" onClick={onShowDetails} style={{ height: 44, borderRadius: 12, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Voir le rapport détaillé</Button>
+          <Button type="primary" block size="large" onClick={onShowDetails} style={{ height: 44, borderRadius: 12, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+            Voir le rapport détaillé
+          </Button>
         </div>
       </Card>
     </div>

@@ -1,20 +1,45 @@
 import L from 'leaflet';
 import { getVehicleStatus, getStatusColor } from '../utils/helpers';
 import { MAP_CONFIG } from '../utils/constants';
-import { getDirection } from '../../../../../../utils/prioriteIcons';
+import { fetchAddress } from '../../../../../../utils/fetchAddress';
 
 export class MarkerService {
   constructor(map) {
     this.map = map;
     this.markers = new Map();
     this.popups = new Map();
+    this.addressCache = new Map();
+    this.pendingRequests = new Map();
+  }
+
+  // Fonction pour obtenir la direction corrigée
+  getCorrectDirection(course) {
+    // Si course est null, undefined, ou NaN
+    if (course == null || isNaN(course)) {
+      return { angle: 0, label: 'N', icon: null };
+    }
+    
+    // S'assurer que l'angle est en degrés et entre 0 et 360
+    let angle = parseFloat(course);
+    angle = ((angle % 360) + 360) % 360;
+    
+    // Directions cardinales
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+    const index = Math.round(angle / 45) % 8;
+    const label = directions[index];
+    
+    return { angle, label };
   }
 
   createMarkerElement(vehicle, status) {
     const color = getStatusColor(status);
     const isMoving = status === 'moving';
     const hasAlarm = status === 'alarm';
-    const direction = getDirection(vehicle.course);
+    
+    // Récupérer la direction corrigée
+    const direction = this.getCorrectDirection(vehicle.course);
+    
+    console.log(`Direction pour ${vehicle.name}: course=${vehicle.course}, angle=${direction.angle}°, label=${direction.label}`);
     
     const element = document.createElement('div');
     element.className = 'custom-marker';
@@ -38,16 +63,79 @@ export class MarkerService {
     return element;
   }
 
-  createPopupContent(vehicle) {
-    const direction = getDirection(vehicle.course);
+  // Récupérer l'adresse via l'API directement
+  async getVehicleAddress(vehicle) {
+    const cacheKey = `${vehicle.id}_${vehicle.lat}_${vehicle.lng}`;
+    
+    if (this.addressCache.has(cacheKey)) {
+      return this.addressCache.get(cacheKey);
+    }
+
+    if (this.pendingRequests.has(cacheKey)) {
+      return this.pendingRequests.get(cacheKey);
+    }
+
+    const requestPromise = (async () => {
+      try {
+        if (vehicle.address && vehicle.address !== '-') {
+          this.addressCache.set(cacheKey, vehicle.address);
+          return vehicle.address;
+        }
+
+        const address = await fetchAddress({
+          lat: vehicle.lat,
+          lng: vehicle.lng
+        });
+        
+        const formattedAddress = address && address !== "undefined, undefined" 
+          ? address 
+          : `${vehicle.lat.toFixed(6)}, ${vehicle.lng.toFixed(6)}`;
+        
+        this.addressCache.set(cacheKey, formattedAddress);
+        return formattedAddress;
+      } catch (error) {
+        console.warn('Erreur récupération adresse:', error);
+        const fallbackAddress = `${vehicle.lat.toFixed(6)}, ${vehicle.lng.toFixed(6)}`;
+        this.addressCache.set(cacheKey, fallbackAddress);
+        return fallbackAddress;
+      } finally {
+        this.pendingRequests.delete(cacheKey);
+      }
+    })();
+
+    this.pendingRequests.set(cacheKey, requestPromise);
+    return requestPromise;
+  }
+
+  getVehicleAddressSync(vehicle) {
+    if (vehicle.address && vehicle.address !== '-') {
+      return vehicle.address;
+    }
+    return `${vehicle.lat.toFixed(6)}, ${vehicle.lng.toFixed(6)}`;
+  }
+
+  createPopupContent(vehicle, address = null) {
+    const direction = this.getCorrectDirection(vehicle.course);
     const ignition = vehicle.sensors?.find(s => s.type === 'acc');
     const odometer = vehicle.sensors?.find(s => s.type === 'odometer');
     const alarm = vehicle.sensors?.find(s => s.type === 'textual');
     
+    const displayAddress = address || this.getVehicleAddressSync(vehicle);
+    
+    const escapeHtml = (str) => {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    };
+
     return `
       <div class="custom-popup-content">
         <div class="popup-header">
-          <strong>${vehicle.name}</strong>
+          <strong>${escapeHtml(vehicle.name)}</strong>
           <span class="popup-status ${vehicle.online}">
             ${vehicle.online === 'online' ? 'En ligne' : 'ACK'}
           </span>
@@ -65,8 +153,10 @@ export class MarkerService {
             </strong>
           </div>
           <div class="popup-row">
-            <span>📍 Position:</span>
-            <strong>${vehicle.lat.toFixed(6)}, ${vehicle.lng.toFixed(6)}</strong>
+            <span>📍 Adresse:</span>
+            <strong style="font-size: 11px; max-width: 200px; word-wrap: break-word;">
+              ${escapeHtml(displayAddress)}
+            </strong>
           </div>
           <div class="popup-row">
             <span>📊 Odomètre:</span>
@@ -80,12 +170,68 @@ export class MarkerService {
           </div>
           ${alarm?.value && alarm.value !== '-' ? `
             <div class="popup-alert">
-              ⚠️ ${alarm.value}
+              ⚠️ ${escapeHtml(alarm.value)}
             </div>
           ` : ''}
+          <div class="popup-row">
+            <span>🕐 Dernière mise à jour:</span>
+            <strong style="font-size: 10px;">${vehicle.time || '-'}</strong>
+          </div>
         </div>
       </div>
     `;
+  }
+
+  async updateMarkersAsync(vehicles, onVehicleClick) {
+    this.clearAll();
+
+    for (const vehicle of vehicles) {
+      const status = getVehicleStatus(vehicle);
+      const markerElement = this.createMarkerElement(vehicle, status);
+      
+      const icon = L.divIcon({
+        className: 'custom-marker',
+        html: markerElement.outerHTML,
+        iconSize: [MAP_CONFIG.markerSize, MAP_CONFIG.markerSize],
+        iconAnchor: [MAP_CONFIG.markerSize / 2, MAP_CONFIG.markerSize / 2],
+        popupAnchor: [0, -MAP_CONFIG.markerSize / 2]
+      });
+
+      const marker = L.marker([vehicle.lat, vehicle.lng], { icon })
+        .addTo(this.map);
+
+      const tempAddress = this.getVehicleAddressSync(vehicle);
+      const popupContent = this.createPopupContent(vehicle, tempAddress);
+      marker.bindPopup(popupContent, {
+        maxWidth: 320,
+        minWidth: 260,
+        className: 'custom-popup'
+      });
+
+      marker.bindTooltip(vehicle.name, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -20],
+        className: 'vehicle-tooltip'
+      });
+
+      marker.on('click', () => onVehicleClick(vehicle));
+      
+      this.markers.set(vehicle.id, marker);
+
+      this.getVehicleAddress(vehicle).then(address => {
+        if (address !== tempAddress) {
+          const updatedPopupContent = this.createPopupContent(vehicle, address);
+          marker.bindPopup(updatedPopupContent, {
+            maxWidth: 320,
+            minWidth: 260,
+            className: 'custom-popup'
+          });
+        }
+      }).catch(error => {
+        console.warn(`Erreur adresse pour ${vehicle.name}:`, error);
+      });
+    }
   }
 
   updateMarkers(vehicles, onVehicleClick) {
@@ -103,11 +249,12 @@ export class MarkerService {
         popupAnchor: [0, -MAP_CONFIG.markerSize / 2]
       });
 
+      const address = this.getVehicleAddressSync(vehicle);
       const marker = L.marker([vehicle.lat, vehicle.lng], { icon })
         .addTo(this.map)
-        .bindPopup(this.createPopupContent(vehicle), {
-          maxWidth: 300,
-          minWidth: 240,
+        .bindPopup(this.createPopupContent(vehicle, address), {
+          maxWidth: 320,
+          minWidth: 260,
           className: 'custom-popup'
         });
 
@@ -125,13 +272,60 @@ export class MarkerService {
   }
 
   clearAll() {
-    this.markers.forEach(marker => marker.remove());
+    this.markers.forEach(marker => {
+      try {
+        marker.remove();
+      } catch (e) {
+        console.warn('Erreur suppression marqueur:', e);
+      }
+    });
     this.markers.clear();
-    this.popups.forEach(popup => popup.remove());
     this.popups.clear();
+    this.addressCache.clear();
+    this.pendingRequests.clear();
   }
 
   getMarker(vehicleId) {
     return this.markers.get(vehicleId);
+  }
+
+  async updateMarker(vehicle, onVehicleClick) {
+    const existingMarker = this.markers.get(vehicle.id);
+    if (existingMarker) {
+      existingMarker.remove();
+    }
+
+    const status = getVehicleStatus(vehicle);
+    const markerElement = this.createMarkerElement(vehicle, status);
+    
+    const icon = L.divIcon({
+      className: 'custom-marker',
+      html: markerElement.outerHTML,
+      iconSize: [MAP_CONFIG.markerSize, MAP_CONFIG.markerSize],
+      iconAnchor: [MAP_CONFIG.markerSize / 2, MAP_CONFIG.markerSize / 2],
+      popupAnchor: [0, -MAP_CONFIG.markerSize / 2]
+    });
+
+    const marker = L.marker([vehicle.lat, vehicle.lng], { icon })
+      .addTo(this.map);
+    
+    const address = await this.getVehicleAddress(vehicle);
+    const popupContent = this.createPopupContent(vehicle, address);
+    marker.bindPopup(popupContent, {
+      maxWidth: 320,
+      minWidth: 260,
+      className: 'custom-popup'
+    });
+
+    marker.bindTooltip(vehicle.name, {
+      permanent: false,
+      direction: 'top',
+      offset: [0, -20],
+      className: 'vehicle-tooltip'
+    });
+
+    marker.on('click', () => onVehicleClick(vehicle));
+    
+    this.markers.set(vehicle.id, marker);
   }
 }

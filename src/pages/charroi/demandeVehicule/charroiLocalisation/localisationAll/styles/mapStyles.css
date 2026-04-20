@@ -337,6 +337,48 @@
   transition: transform 0.3s ease;
 }
 
+/* .marker-direction {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 12px;
+  white-space: nowrap;
+} */
+
+
+/* Dans mapStyles.css */
+.custom-popup .popup-row span:first-child {
+  min-width: 80px;
+}
+
+.custom-popup .popup-row strong {
+  max-width: 200px;
+  word-wrap: break-word;
+  text-align: right;
+}
+
+.vehicle-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.vehicle-tooltip::before {
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
 .marker-direction {
   position: absolute;
   bottom: -30px;
