@@ -4,11 +4,7 @@ import {
   EnvironmentOutlined, 
   CarOutlined, 
   ToolOutlined, 
-  BarChartOutlined,
-  DashboardOutlined,
-  ThunderboltOutlined,
-  HeatMapOutlined,
-  LineChartOutlined
+  BarChartOutlined
 } from '@ant-design/icons';
 import { useFleetData } from './hooks/useFleetData';
 import './styles/mapStyles.css';
