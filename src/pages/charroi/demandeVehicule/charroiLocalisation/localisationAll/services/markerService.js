@@ -1,6 +1,7 @@
 import L from 'leaflet';
 import { getVehicleStatus, getStatusColor } from '../utils/helpers';
 import { MAP_CONFIG } from '../utils/constants';
+import { getDirection } from '../../../../../../utils/prioriteIcons';
 
 export class MarkerService {
   constructor(map) {
@@ -13,18 +14,20 @@ export class MarkerService {
     const color = getStatusColor(status);
     const isMoving = status === 'moving';
     const hasAlarm = status === 'alarm';
+    const direction = getDirection(vehicle.course);
     
     const element = document.createElement('div');
     element.className = 'custom-marker';
     element.innerHTML = `
       <div class="marker-container">
         <div class="marker-pulse" style="background: ${color}40"></div>
-        <div class="marker-icon" style="background: ${color}; transform: rotate(${vehicle.course}deg)">
+        <div class="marker-icon" style="background: ${color}; transform: rotate(${direction.angle}deg)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
             <path d="M12 2L4 12l8 10 8-10-8-10z"/>
           </svg>
         </div>
         <div class="marker-speed">${vehicle.speed}</div>
+        <div class="marker-direction" style="display: ${isMoving ? 'block' : 'none'}">${direction.label}</div>
       </div>
     `;
 
@@ -36,6 +39,7 @@ export class MarkerService {
   }
 
   createPopupContent(vehicle) {
+    const direction = getDirection(vehicle.course);
     const ignition = vehicle.sensors?.find(s => s.type === 'acc');
     const odometer = vehicle.sensors?.find(s => s.type === 'odometer');
     const alarm = vehicle.sensors?.find(s => s.type === 'textual');
@@ -52,6 +56,13 @@ export class MarkerService {
           <div class="popup-row">
             <span>🚗 Vitesse:</span>
             <strong>${vehicle.speed} km/h</strong>
+          </div>
+          <div class="popup-row">
+            <span>🧭 Direction:</span>
+            <strong>
+              <span style="display: inline-block; transform: rotate(${direction.angle}deg); margin-right: 4px;">↑</span>
+              ${direction.label} (${vehicle.course}°)
+            </strong>
           </div>
           <div class="popup-row">
             <span>📍 Position:</span>
@@ -78,7 +89,6 @@ export class MarkerService {
   }
 
   updateMarkers(vehicles, onVehicleClick) {
-    // Nettoyer les anciens marqueurs
     this.clearAll();
 
     vehicles.forEach(vehicle => {
@@ -100,6 +110,13 @@ export class MarkerService {
           minWidth: 240,
           className: 'custom-popup'
         });
+
+      marker.bindTooltip(vehicle.name, {
+        permanent: false,
+        direction: 'top',
+        offset: [0, -20],
+        className: 'vehicle-tooltip'
+      });
 
       marker.on('click', () => onVehicleClick(vehicle));
       
