@@ -1,5 +1,15 @@
 import { useState, useRef, useCallback } from 'react';
 import { Spin } from 'antd';
+import { 
+  EnvironmentOutlined, 
+  CarOutlined, 
+  ToolOutlined, 
+  BarChartOutlined,
+  DashboardOutlined,
+  ThunderboltOutlined,
+  HeatMapOutlined,
+  LineChartOutlined
+} from '@ant-design/icons';
 import { useFleetData } from './hooks/useFleetData';
 import './styles/mapStyles.css';
 import FleetMap from './components/FleetMap';
@@ -48,10 +58,10 @@ const LocalisationAll = () => {
   }
 
   const sections = [
-    { id: 'map', label: 'Carte interactive', icon: '🗺️' },
-    { id: 'driving', label: 'Analyse conduite', icon: '🚗' },
-    { id: 'maintenance', label: 'Maintenance', icon: '🔧' },
-    { id: 'reports', label: 'Rapport activité', icon: '📊' }
+    { id: 'map', label: 'Carte interactive', icon: <EnvironmentOutlined /> },
+    { id: 'driving', label: 'Analyse conduite', icon: <CarOutlined /> },
+    { id: 'maintenance', label: 'Maintenance', icon: <ToolOutlined /> },
+    { id: 'reports', label: 'Rapport activité', icon: <BarChartOutlined /> }
   ];
 
   return (
@@ -70,7 +80,7 @@ const LocalisationAll = () => {
       />
       
       <div className="main-content">
-        {/* Navigation Flex */}
+        {/* Navigation Flex avec icônes Ant Design */}
         <div className="flex-nav">
           {sections.map(section => (
             <button
@@ -176,13 +186,23 @@ const LocalisationAll = () => {
           color: #1890ff;
         }
         
+        .nav-btn:hover .nav-icon {
+          color: #1890ff;
+        }
+        
         .nav-btn.active {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
         }
         
+        .nav-btn.active .nav-icon {
+          color: white;
+        }
+        
         .nav-icon {
           font-size: 18px;
+          display: flex;
+          align-items: center;
         }
         
         .nav-label {
@@ -232,6 +252,10 @@ const LocalisationAll = () => {
         .flex-content > div::-webkit-scrollbar-thumb {
           background: #c1c1c1;
           border-radius: 10px;
+        }
+        
+        .flex-content > div::-webkit-scrollbar-thumb:hover {
+          background: #a8a8a8;
         }
         
         /* Responsive */
