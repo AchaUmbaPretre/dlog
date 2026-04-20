@@ -17,6 +17,7 @@ const FleetMap = forwardRef(({
   const heatmapServiceRef = useRef(null);
   const mapReadyRef = useRef(false);
   const initTimeoutRef = useRef(null);
+  const heatmapTimeoutRef = useRef(null);
 
   const { initMap, changeTileLayer, flyTo, getMap } = useMap(containerRef, (map) => {
     if (!mapReadyRef.current && map) {
@@ -33,6 +34,7 @@ const FleetMap = forwardRef(({
           }
         } else {
           // Réessayer dans 100ms
+          if (initTimeoutRef.current) clearTimeout(initTimeoutRef.current);
           initTimeoutRef.current = setTimeout(initServices, 100);
         }
       };
@@ -69,17 +71,22 @@ const FleetMap = forwardRef(({
     }
   }, [vehicles, showTrails]);
 
-  // Mise à jour de la heatmap
+  // Mise à jour de la heatmap - Version corrigée
   useEffect(() => {
     if (!heatmapServiceRef.current || !mapReadyRef.current) return;
     
+    // Nettoyer le timeout précédent
+    if (heatmapTimeoutRef.current) {
+      clearTimeout(heatmapTimeoutRef.current);
+    }
+    
     if (showHeatmap && vehicles.length > 0) {
-      // Petit délai pour s'assurer que la carte est prête
-      setTimeout(() => {
-        if (heatmapServiceRef.current) {
+      // Attendre que la carte soit prête
+      heatmapTimeoutRef.current = setTimeout(() => {
+        if (heatmapServiceRef.current && mapReadyRef.current) {
           heatmapServiceRef.current.updateHeatmap(vehicles);
         }
-      }, 100);
+      }, 500);
     } else {
       heatmapServiceRef.current.clearHeatmap();
     }
@@ -90,6 +97,9 @@ const FleetMap = forwardRef(({
     return () => {
       if (initTimeoutRef.current) {
         clearTimeout(initTimeoutRef.current);
+      }
+      if (heatmapTimeoutRef.current) {
+        clearTimeout(heatmapTimeoutRef.current);
       }
     };
   }, []);
