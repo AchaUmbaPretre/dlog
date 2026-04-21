@@ -2,64 +2,88 @@ import React, { useState } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { VehicleMarker } from './VehicleMarker';
+import { VEHICLE_STATUS } from '../constants/map.constants';
 
 // Création de l'icône du cluster
-const createClusterIcon = (vehicles, isExpanded = false) => {
+const createClusterIcon = (vehicles) => {
   const count = vehicles.length;
-  const hasMoving = vehicles.some(v => v.status === 'moving');
-  const color = hasMoving ? '#22c55e' : '#eab308';
+  const hasMoving = vehicles.some(v => v.status === VEHICLE_STATUS.MOVING);
+  const hasStopped = vehicles.some(v => v.status === VEHICLE_STATUS.STOPPED);
   
-  if (isExpanded) return null;
+  // Déterminer la couleur en fonction des statuts
+  let color = '#6b7280'; // gris par défaut
+  let borderColor = '#ffffff';
+  
+  if (hasMoving && hasStopped) {
+    color = '#8b5cf6'; // violet pour mixte
+  } else if (hasMoving) {
+    color = '#10b981'; // vert pour en mouvement
+  } else if (hasStopped) {
+    color = '#f59e0b'; // orange pour arrêtés
+  }
+  
+  // Taille du cluster en fonction du nombre
+  let size = 46;
+  let fontSize = 18;
+  if (count > 10) {
+    size = 56;
+    fontSize = 22;
+  } else if (count > 5) {
+    size = 50;
+    fontSize = 20;
+  }
   
   return L.divIcon({
     html: `
       <div class="position-cluster" style="
         background: ${color};
-        width: 56px;
-        height: 56px;
+        width: ${size}px;
+        height: ${size}px;
         border-radius: 50%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        border: 3px solid white;
+        border: 3px solid ${borderColor};
         cursor: pointer;
         transition: all 0.3s;
-        animation: pulse 2s infinite;
       ">
-        <span style="font-size: 20px; font-weight: bold; color: white;">${count}</span>
-        <span style="font-size: 9px; color: white; opacity: 0.9;">véhicules</span>
+        <span style="font-size: ${fontSize}px; font-weight: bold; color: white;">${count}</span>
+        <span style="font-size: 9px; color: white; opacity: 0.9; margin-top: 2px;">
+          ${hasMoving ? '🚚' : ''}${hasStopped ? '🚛' : ''}
+        </span>
       </div>
     `,
     className: 'position-cluster-icon',
-    iconSize: [56, 56],
-    iconAnchor: [28, 28]
+    iconSize: [size, size],
+    iconAnchor: [size/2, size/2]
   });
 };
 
-// Composant pour afficher les véhicules en cercle
-const ExpandedVehicles = ({ vehicles, center, onClose }) => {
-  const radius = 0.0015; // Rayon du cercle (~150 mètres)
+// Composant pour afficher les véhicules du cluster en cercle
+const ExpandedVehicles = ({ vehicles, center, onCollapse }) => {
+  const radius = 0.0012; // Rayon du cercle (~120 mètres)
+  const [hoveredVehicle, setHoveredVehicle] = useState(null);
   
   return (
     <>
-      {/* Cercle de guidage */}
-      <div className="cluster-guide-circle" style={{
+      {/* Ligne de connexion visuelle */}
+      <div className="cluster-connections" style={{
         position: 'absolute',
         pointerEvents: 'none',
-        zIndex: 999
+        zIndex: 500
       }} />
       
+      {/* Afficher les véhicules en cercle */}
       {vehicles.map((vehicle, idx) => {
-        // Calculer la position sur le cercle
         const angle = (idx * 360 / vehicles.length) * Math.PI / 180;
         const lat = center[0] + Math.cos(angle) * radius;
         const lng = center[1] + Math.sin(angle) * radius;
         
-        // Ajouter un petit offset supplémentaire pour les véhicules très proches
-        const finalLat = lat + (Math.random() - 0.5) * 0.0001;
-        const finalLng = lng + (Math.random() - 0.5) * 0.0001;
+        // Petit offset supplémentaire pour éviter la superposition parfaite
+        const finalLat = lat + (Math.sin(angle) * 0.00005);
+        const finalLng = lng + (Math.cos(angle) * 0.00005);
         
         return (
           <VehicleMarker
@@ -68,12 +92,14 @@ const ExpandedVehicles = ({ vehicles, center, onClose }) => {
             rawData={vehicle.rawData}
             hasMultipleVehicles={true}
             vehicleCount={vehicles.length}
+            onHover={setHoveredVehicle}
+            isHovered={hoveredVehicle === vehicle.id}
           />
         );
       })}
       
-      {/* Bouton de regroupement */}
-      <div className="cluster-controls" style={{
+      {/* Bouton pour regrouper */}
+      <div style={{
         position: 'absolute',
         bottom: 30,
         left: '50%',
@@ -82,27 +108,31 @@ const ExpandedVehicles = ({ vehicles, center, onClose }) => {
         background: 'rgba(0,0,0,0.85)',
         backdropFilter: 'blur(10px)',
         padding: '8px 16px',
-        borderRadius: 20,
+        borderRadius: 24,
         display: 'flex',
         gap: 12,
-        pointerEvents: 'auto'
+        pointerEvents: 'auto',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
       }}>
         <button
-          onClick={onClose}
+          onClick={onCollapse}
           style={{
             background: '#3b82f6',
             border: 'none',
             color: 'white',
             padding: '6px 12px',
-            borderRadius: 16,
+            borderRadius: 20,
             cursor: 'pointer',
             fontSize: 12,
             display: 'flex',
             alignItems: 'center',
-            gap: 6
+            gap: 6,
+            fontWeight: 'bold'
           }}
+          onMouseEnter={(e) => e.target.style.background = '#2563eb'}
+          onMouseLeave={(e) => e.target.style.background = '#3b82f6'}
         >
-          📦 Tout regrouper
+          📦 Regrouper les {vehicles.length} véhicules
         </button>
       </div>
     </>
@@ -110,7 +140,7 @@ const ExpandedVehicles = ({ vehicles, center, onClose }) => {
 };
 
 // Composant principal PositionCluster
-export const PositionCluster = ({ vehicles, position, onExpand, onCollapse }) => {
+export const PositionCluster = ({ vehicles, position, onExpand }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   
   const handleExpand = () => {
@@ -120,7 +150,6 @@ export const PositionCluster = ({ vehicles, position, onExpand, onCollapse }) =>
   
   const handleCollapse = () => {
     setIsExpanded(false);
-    onCollapse?.();
   };
   
   if (isExpanded) {
@@ -128,7 +157,7 @@ export const PositionCluster = ({ vehicles, position, onExpand, onCollapse }) =>
       <ExpandedVehicles 
         vehicles={vehicles} 
         center={position} 
-        onClose={handleCollapse}
+        onCollapse={handleCollapse}
       />
     );
   }
@@ -136,72 +165,106 @@ export const PositionCluster = ({ vehicles, position, onExpand, onCollapse }) =>
   return (
     <Marker
       position={position}
-      icon={createClusterIcon(vehicles, isExpanded)}
+      icon={createClusterIcon(vehicles)}
       eventHandlers={{
         click: handleExpand
       }}
     >
-      <Popup>
+      <Popup className="cluster-popup">
         <div style={{ 
           textAlign: 'center', 
-          padding: 16,
-          minWidth: 200
+          padding: '8px 4px',
+          minWidth: 220
         }}>
+          {/* Icônes représentatives */}
           <div style={{ 
-            fontSize: 32, 
+            fontSize: 40, 
             marginBottom: 8,
             display: 'flex',
             justifyContent: 'center',
-            gap: 4
+            gap: 8
           }}>
-            {vehicles.slice(0, 3).map((v, i) => (
-              <span key={i}>{v.status === 'moving' ? '🚚' : '🚛'}</span>
+            {vehicles.slice(0, 4).map((v, i) => (
+              <span key={i} style={{ fontSize: 28 }}>
+                {v.status === VEHICLE_STATUS.MOVING ? '🚚' : '🚛'}
+              </span>
             ))}
-            {vehicles.length > 3 && <span>+{vehicles.length - 3}</span>}
+            {vehicles.length > 4 && (
+              <span style={{ fontSize: 20, alignSelf: 'center' }}>+{vehicles.length - 4}</span>
+            )}
           </div>
-          <div style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 4 }}>
-            {vehicles.length} véhicules à cet emplacement
+          
+          {/* Compteur */}
+          <div style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>
+            {vehicles.length} véhicule{vehicles.length > 1 ? 's' : ''}
           </div>
-          <div style={{ fontSize: 12, color: '#666', marginBottom: 12 }}>
-            {vehicles.filter(v => v.status === 'moving').length} en mouvement • {vehicles.filter(v => v.status === 'stopped').length} arrêtés
+          
+          {/* Statistiques rapides */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            gap: 16,
+            marginBottom: 12,
+            fontSize: 12
+          }}>
+            <div style={{ color: '#10b981' }}>
+              🚀 {vehicles.filter(v => v.status === VEHICLE_STATUS.MOVING).length}
+            </div>
+            <div style={{ color: '#f59e0b' }}>
+              ⏸️ {vehicles.filter(v => v.status === VEHICLE_STATUS.STOPPED).length}
+            </div>
           </div>
+          
+          {/* Liste des véhicules */}
           <div style={{ 
             maxHeight: 150, 
             overflowY: 'auto', 
             marginBottom: 12,
-            borderTop: '1px solid #eee',
-            borderBottom: '1px solid #eee'
+            borderTop: '1px solid #e5e7eb',
+            borderBottom: '1px solid #e5e7eb',
+            fontSize: 11
           }}>
             {vehicles.map(v => (
               <div key={v.id} style={{ 
                 padding: 6, 
-                fontSize: 11, 
-                borderBottom: '1px solid #f0f0f0',
+                borderBottom: '1px solid #f3f4f6',
                 display: 'flex',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}>
-                <span>{v.name}</span>
-                <span style={{ color: v.status === 'moving' ? '#22c55e' : '#eab308' }}>
-                  {v.status === 'moving' ? `${v.speed} km/h` : 'Arrêté'}
+                <span style={{ fontWeight: 500 }}>{v.name}</span>
+                <span style={{ 
+                  color: v.status === VEHICLE_STATUS.MOVING ? '#10b981' : '#f59e0b',
+                  fontSize: 10
+                }}>
+                  {v.status === VEHICLE_STATUS.MOVING ? `${v.speed} km/h` : 'Arrêté'}
                 </span>
               </div>
             ))}
           </div>
+          
+          {/* Bouton d'expansion */}
           <button
             onClick={handleExpand}
             style={{
               width: '100%',
               padding: '8px',
-              background: '#3b82f6',
+              background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
               color: 'white',
               border: 'none',
-              borderRadius: 6,
+              borderRadius: 8,
               cursor: 'pointer',
               fontSize: 12,
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6
             }}
+            onMouseEnter={(e) => e.target.style.opacity = '0.9'}
+            onMouseLeave={(e) => e.target.style.opacity = '1'}
           >
-            🔍 Voir les détails
+            🔍 Voir les {vehicles.length} véhicules
           </button>
         </div>
       </Popup>
