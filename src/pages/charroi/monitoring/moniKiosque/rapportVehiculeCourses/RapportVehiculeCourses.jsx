@@ -34,7 +34,6 @@ import { useState, useMemo } from "react";
 const { Text } = Typography;
 
 const RapportVehiculeCourses = ({ course }) => {
-  const hasPosition = course?.some((r) => !!r?.position || !!r?.capteurInfo?.address);
   const hasSpeed = course?.some((r) => r?.capteurInfo?.speed !== undefined);
   const [searchText, setSearchText] = useState("");
 
@@ -48,7 +47,7 @@ const RapportVehiculeCourses = ({ course }) => {
       width: 70,
       align: "center",
       fixed: "left",
-      alwaysVisible: true, // Toujours visible
+      alwaysVisible: true,
     },
     {
       title: (
@@ -164,7 +163,6 @@ const RapportVehiculeCourses = ({ course }) => {
     },
   ];
 
-  // Ajouter Position toujours
   baseColumns.splice(3, 0, {
     title: (
       <Space>

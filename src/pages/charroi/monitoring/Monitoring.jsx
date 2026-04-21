@@ -1,5 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
-import { notification, Tabs, Badge } from 'antd';
+import { Tabs, Badge } from 'antd';
 import {
   EnvironmentOutlined,
   CarOutlined,
@@ -16,79 +15,17 @@ import MoniRealTime from './monoRealTime/MoniRealTime';
 import RapportMoniUtilitaire from './rapportMoniUtilitaire/RapportMoniUtilitaire';
 import ModeTv from './moniKiosque/ModeTv';
 import RapportVehiculeCourses from './moniKiosque/rapportVehiculeCourses/RapportVehiculeCourses';
-import { getFalcon, getRapportCharroiVehicule } from '../../../services/rapportService';
 import { getTabStyle, iconStyle } from '../../../utils/tabStyles';
+import { useMonitoring } from './hooks/useMonitoring';
 
-const REFRESH_INTERVAL = 30000; // 30s pour les rapports
-const FALCON_INTERVAL = 5000; // 5s pour le temps réel
 
 const Monitoring = () => {
-  const [activeKey, setActiveKey] = useState('1');
-  const [courses, setCourses] = useState([]);
-  const [falcon, setFalcon] = useState([]);
-
-  const fetchFalcon = useCallback(async () => {
-    try {
-      const { data } = await getFalcon();
-      
-      const gtmItems = data[0]?.items.filter(item => item.name && item.name.startsWith('GTM'));
-
-      setFalcon(gtmItems || []);
-    } catch (error) {
-      console.error('Erreur lors du chargement Falcon:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchFalcon();
-
-    const interval = setInterval(fetchFalcon, FALCON_INTERVAL);
-    return () => {
-      controller.abort();
-      clearInterval(interval);
-    };
-  }, [fetchFalcon]);
-
-  const fetchCourses = useCallback(async () => {
-    try {
-      const { data } = await getRapportCharroiVehicule();
-      setCourses(data?.listeCourse || []);
-    } catch (error) {
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger les données des véhicules.',
-      });
-      console.error('Erreur lors du chargement des courses:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchCourses();
-
-    const interval = setInterval(fetchCourses, REFRESH_INTERVAL);
-    return () => {
-      controller.abort();
-      clearInterval(interval);
-    };
-  }, [fetchCourses]);
-
-  /** =====================
-   *   MERGE DATA
-   *  ===================== */
-  const mergedCourses = useMemo(() => {
-    return courses.map((c) => {
-      const capteur = falcon.find((f) => f.id === c.id_capteur);
-      return { ...c, capteurInfo: capteur || null };
-    });
-  }, [courses, falcon]);
-
-
-  /** =====================
-   *   BADGE COURSE COUNT
-   *  ===================== */
-  const activeCoursesCount = useMemo(() => mergedCourses.length, [mergedCourses]);
+  const {
+    activeKey,
+    setActiveKey,
+    mergedCourses,
+    activeCoursesCount,
+  } = useMonitoring();
 
   return (
     <Tabs
