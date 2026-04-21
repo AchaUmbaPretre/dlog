@@ -1,4 +1,3 @@
-import React from 'react';
 import { Polyline } from 'react-leaflet';
 
 export const VehicleTrajectory = ({ trajectory, status }) => {

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { MapContainer, TileLayer, ZoomControl, ScaleControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -136,7 +136,7 @@ const RapportVehiculeCoursesCarte = () => {
         .rapport-container-premium {
           position: relative;
           width: 100%;
-          height: 100vh;
+          height: 75vh;
           overflow: hidden;
           background: #0f172a;
         }

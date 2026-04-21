@@ -2,7 +2,6 @@ import React from 'react';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
 export const VehiclePopupContent = ({ vehicle, rawData }) => {
-  // Préparer l'enregistrement pour le composant VehicleAddress
   const addressRecord = {
     capteurInfo: {
       address: vehicle.address || rawData?.capteurInfo?.address,
