@@ -17,11 +17,9 @@ const FleetMap = forwardRef(({
   const heatmapServiceRef = useRef(null);
   const mapReadyRef = useRef(false);
   const initTimeoutRef = useRef(null);
-  const heatmapTimeoutRef = useRef(null);
 
   const { initMap, changeTileLayer, flyTo, getMap } = useMap(containerRef, (map) => {
     if (!mapReadyRef.current && map) {
-      // Attendre que la carte soit complètement initialisée
       const initServices = () => {
         if (map._panes && map._panes.overlayPane) {
           markerServiceRef.current = new MarkerService(map);
@@ -33,7 +31,6 @@ const FleetMap = forwardRef(({
             onMapReady({ flyTo, changeTileLayer });
           }
         } else {
-          // Réessayer dans 100ms
           if (initTimeoutRef.current) clearTimeout(initTimeoutRef.current);
           initTimeoutRef.current = setTimeout(initServices, 100);
         }
@@ -71,22 +68,17 @@ const FleetMap = forwardRef(({
     }
   }, [vehicles, showTrails]);
 
-  // Mise à jour de la heatmap - Version corrigée
+  // Mise à jour de la heatmap - SIMPLIFIÉE
   useEffect(() => {
     if (!heatmapServiceRef.current || !mapReadyRef.current) return;
     
-    // Nettoyer le timeout précédent
-    if (heatmapTimeoutRef.current) {
-      clearTimeout(heatmapTimeoutRef.current);
-    }
-    
     if (showHeatmap && vehicles.length > 0) {
-      // Attendre que la carte soit prête
-      heatmapTimeoutRef.current = setTimeout(() => {
+      // Utiliser setTimeout pour laisser la carte s'initialiser
+      setTimeout(() => {
         if (heatmapServiceRef.current && mapReadyRef.current) {
           heatmapServiceRef.current.updateHeatmap(vehicles);
         }
-      }, 500);
+      }, 1000);
     } else {
       heatmapServiceRef.current.clearHeatmap();
     }
@@ -98,9 +90,6 @@ const FleetMap = forwardRef(({
       if (initTimeoutRef.current) {
         clearTimeout(initTimeoutRef.current);
       }
-      if (heatmapTimeoutRef.current) {
-        clearTimeout(heatmapTimeoutRef.current);
-      }
     };
   }, []);
 
@@ -109,7 +98,7 @@ const FleetMap = forwardRef(({
   }, [initMap]);
 
   return <div ref={containerRef} style={{ height: '100%', width: '100%' }} />;
-});
+});    
 
 FleetMap.displayName = 'FleetMap';
 

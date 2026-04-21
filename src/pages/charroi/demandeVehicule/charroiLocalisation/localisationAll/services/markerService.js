@@ -2,6 +2,7 @@ import L from 'leaflet';
 import { getVehicleStatus, getStatusColor } from '../utils/helpers';
 import { MAP_CONFIG } from '../utils/constants';
 import { fetchAddress } from '../../../../../../utils/fetchAddress';
+import { getCorrectDirection } from '../../../../../../utils/prioriteIcons';
 
 export class MarkerService {
   constructor(map) {
@@ -12,47 +13,36 @@ export class MarkerService {
     this.pendingRequests = new Map();
   }
 
-  // Fonction pour obtenir la direction corrigée
-  getCorrectDirection(course) {
-    // Si course est null, undefined, ou NaN
-    if (course == null || isNaN(course)) {
-      return { angle: 0, label: 'N', icon: null };
-    }
-    
-    // S'assurer que l'angle est en degrés et entre 0 et 360
-    let angle = parseFloat(course);
-    angle = ((angle % 360) + 360) % 360;
-    
-    // Directions cardinales
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
-    const index = Math.round(angle / 45) % 8;
-    const label = directions[index];
-    
-    return { angle, label };
-  }
-
   createMarkerElement(vehicle, status) {
     const color = getStatusColor(status);
     const isMoving = status === 'moving';
     const hasAlarm = status === 'alarm';
+    // Utiliser la fonction importée directement, pas this.
+    const direction = getCorrectDirection(vehicle.course);
     
-    // Récupérer la direction corrigée
-    const direction = this.getCorrectDirection(vehicle.course);
+    let bgColor = color;
+    let borderColor = '#ffffff';
     
-    console.log(`Direction pour ${vehicle.name}: course=${vehicle.course}, angle=${direction.angle}°, label=${direction.label}`);
+    if (hasAlarm) {
+      borderColor = '#ff4d4f';
+    }
     
     const element = document.createElement('div');
     element.className = 'custom-marker';
     element.innerHTML = `
       <div class="marker-container">
         <div class="marker-pulse" style="background: ${color}40"></div>
-        <div class="marker-icon" style="background: ${color}; transform: rotate(${direction.angle}deg)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-            <path d="M12 2L4 12l8 10 8-10-8-10z"/>
-          </svg>
+        <div class="marker-icon" style="background: ${bgColor}; border: 2px solid ${borderColor}; width: 44px; height: 44px;">
+          <div style="transform: rotate(${direction.angle}deg); transition: transform 0.3s ease;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="display: block;">
+              <path d="M12 2L4 12l8 10 8-10-8-10z" stroke="white" stroke-width="1"/>
+            </svg>
+          </div>
         </div>
-        <div class="marker-speed">${vehicle.speed}</div>
-        <div class="marker-direction" style="display: ${isMoving ? 'block' : 'none'}">${direction.label}</div>
+        <div class="marker-speed" style="background: #1a1a1a; font-weight: bold;">
+          ${vehicle.speed}
+        </div>
+        ${isMoving ? `<div class="marker-direction">${direction.label}</div>` : ''}
       </div>
     `;
 
@@ -115,7 +105,8 @@ export class MarkerService {
   }
 
   createPopupContent(vehicle, address = null) {
-    const direction = this.getCorrectDirection(vehicle.course);
+    // Utiliser la fonction importée directement, pas this.
+    const direction = getCorrectDirection(vehicle.course);
     const ignition = vehicle.sensors?.find(s => s.type === 'acc');
     const odometer = vehicle.sensors?.find(s => s.type === 'odometer');
     const alarm = vehicle.sensors?.find(s => s.type === 'textual');

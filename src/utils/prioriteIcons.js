@@ -355,3 +355,21 @@ export const getDirection = (course) => {
     angle,
   };
 };
+
+export const getCorrectDirection = (course) => {
+    // Si course est null, undefined, ou NaN
+    if (course == null || isNaN(course)) {
+      return { angle: 0, label: 'N', icon: null };
+    }
+    
+    // S'assurer que l'angle est en degrés et entre 0 et 360
+    let angle = parseFloat(course);
+    angle = ((angle % 360) + 360) % 360;
+    
+    // Directions cardinales
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+    const index = Math.round(angle / 45) % 8;
+    const label = directions[index];
+    
+    return { angle, label };
+  }
