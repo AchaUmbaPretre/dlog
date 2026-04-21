@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Marker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
-import { VEHICLE_STATUS, STATUS_COLORS, STATUS_ICONS } from '../constants/map.constants';
+import { VEHICLE_STATUS, STATUS_COLORS } from '../constants/map.constants';
 import 'leaflet-rotatedmarker';
-import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
+import { PremiumVehiclePopup } from './PremiumVehiclePopup';
 
 // Fonction pour créer l'icône avancée
 const createAdvancedVehicleIcon = (status, speed, course, isHovered = false, hasMultipleVehicles = false, vehicleCount = 1) => {
@@ -90,112 +90,6 @@ const createAdvancedVehicleIcon = (status, speed, course, isHovered = false, has
     iconAnchor: [size/2, size/2],
     popupAnchor: [0, -size/2]
   });
-};
-
-// Composant Popup Premium
-const PremiumVehiclePopup = ({ vehicle, addressRecord }) => {
-  const [activeTab, setActiveTab] = useState('info');
-  
-  const tabs = [
-    { id: 'info', label: '📋 Infos' },
-    { id: 'stats', label: '📊 Stats' }
-  ];
-  
-  return (
-    <div className="premium-popup-content" style={{ minWidth: 280 }}>
-      <div style={{
-        padding: '12px',
-        borderBottom: `2px solid ${STATUS_COLORS[vehicle.status]}`,
-        marginBottom: 8
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ margin: 0, fontSize: 14 }}>{vehicle.name}</h3>
-          <span style={{
-            padding: '2px 8px',
-            borderRadius: 12,
-            fontSize: 10,
-            background: STATUS_COLORS[vehicle.status],
-            color: 'white'
-          }}>
-            {STATUS_ICONS[vehicle.status]} {vehicle.status === VEHICLE_STATUS.MOVING ? 'En route' : 'Stationné'}
-          </span>
-        </div>
-        <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>{vehicle.registration}</div>
-      </div>
-      
-      <div style={{ display: 'flex', gap: 4, padding: '0 12px' }}>
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            style={{
-              flex: 1,
-              padding: '6px',
-              background: activeTab === tab.id ? '#3b82f6' : 'transparent',
-              border: 'none',
-              borderRadius: 6,
-              cursor: 'pointer',
-              fontSize: 11,
-              color: activeTab === tab.id ? 'white' : '#6b7280'
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-      
-      <div style={{ padding: '12px' }}>
-        {activeTab === 'info' && (
-          <>
-            <div style={{ marginBottom: 8 }}>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>📍 Position</div>
-              <VehicleAddress record={addressRecord} />
-            </div>
-            <div style={{ marginBottom: 8 }}>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>👤 Chauffeur</div>
-              <div style={{ fontSize: 12 }}>{vehicle.driver}</div>
-            </div>
-            <div style={{ marginBottom: 8 }}>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>📍 Destination</div>
-              <div style={{ fontSize: 12 }}>{vehicle.destination || 'Non définie'}</div>
-            </div>
-            {vehicle.comment && (
-              <div>
-                <div style={{ fontSize: 10, color: '#6b7280' }}>💬 Commentaire</div>
-                <div style={{ fontSize: 11 }}>{vehicle.comment}</div>
-              </div>
-            )}
-          </>
-        )}
-        
-        {activeTab === 'stats' && (
-          <>
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>⚡ Vitesse</div>
-              <div style={{ fontSize: 18, fontWeight: 'bold' }}>{vehicle.speed} <span style={{ fontSize: 11 }}>km/h</span></div>
-            </div>
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>📊 Efficacité</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <div style={{ flex: 1, height: 6, background: '#e5e7eb', borderRadius: 3, overflow: 'hidden' }}>
-                  <div style={{ width: `${vehicle.efficiency}%`, height: '100%', background: '#10b981' }} />
-                </div>
-                <span style={{ fontSize: 12, fontWeight: 'bold' }}>{vehicle.efficiency}%</span>
-              </div>
-            </div>
-            <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>⏸️ Temps d'arrêt</div>
-              <div style={{ fontSize: 12 }}>{vehicle.stopDurationFormatted}</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 10, color: '#6b7280' }}>📏 Distance totale</div>
-              <div style={{ fontSize: 12 }}>{vehicle.totalDistance.toFixed(1)} km</div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
 };
 
 // Composant VehicleMarker principal
