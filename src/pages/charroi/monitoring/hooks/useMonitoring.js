@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { notification } from 'antd';
 import { getFalcon, getRapportCharroiVehicule } from '../../../../services/rapportService';
 
-
 const REFRESH_INTERVAL = 30000;
 const FALCON_INTERVAL = 5000;
 

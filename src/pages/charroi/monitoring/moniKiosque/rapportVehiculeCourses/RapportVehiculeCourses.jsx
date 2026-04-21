@@ -201,16 +201,16 @@ const RapportVehiculeCourses = ({ course }) => {
         />
       ),
       width: 150,
-      alwaysVisible: false, // masquée par défaut
+      alwaysVisible: false,
     });
   }
 
-  // Colonnes visibles par défaut (toutes celles avec alwaysVisible !== false)
+
   const [visibleKeys, setVisibleKeys] = useState(
     baseColumns.filter(c => c.alwaysVisible !== false).map(c => c.key)
   );
 
-    const filteredData = useMemo(() => {
+  const filteredData = useMemo(() => {
     if (!searchText) return course;
     const lowerSearch = searchText.toLowerCase();
     return course.filter((item) =>

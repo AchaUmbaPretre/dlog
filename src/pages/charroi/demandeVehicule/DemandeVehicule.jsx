@@ -98,7 +98,7 @@ const DemandeVehicule = () => {
         return () => clearInterval(interval)
     }, []);
 
-        const fetchDatas = async() => {
+    const fetchDatas = async() => {
             try {
                 const { data } = await getRapportCharroiVehicule();
     
@@ -116,14 +116,14 @@ const DemandeVehicule = () => {
                 description: 'Une erreur est survenue lors du chargement des données.',
                 });
             }
-        }
+    }
     
-      useEffect(() => {
+    useEffect(() => {
         fetchDatas()
         const interval = setInterval(fetchData, 5000);
     
         return () => clearInterval(interval);
-      }, []);
+    }, []);
 
     const getActionMenu = (record, openModal) => {
         const handleClick = ({ key }) => {
@@ -564,7 +564,7 @@ const DemandeVehicule = () => {
                                         rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
                                     />
                                 </div>
-                            </div>
+                        </div>
                     </TabPane>
 
                     <TabPane
