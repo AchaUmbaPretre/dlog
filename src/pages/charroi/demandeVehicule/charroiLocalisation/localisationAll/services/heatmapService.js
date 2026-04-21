@@ -1,4 +1,3 @@
-// services/heatmapService.js
 import L from 'leaflet';
 
 export class HeatmapService {
@@ -30,7 +29,6 @@ export class HeatmapService {
     if (heatPoints.length === 0) return;
     
     try {
-      // Créer une couche de cercles simple au lieu d'une heatmap complexe
       this.heatLayer = L.layerGroup().addTo(this.map);
       
       heatPoints.forEach(point => {
