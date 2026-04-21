@@ -1,49 +1,52 @@
 import { useMemo } from 'react';
 
-export const useGroupedVehicles = (vehicles) => {
+export const useGroupedVehicles = (vehicles, tolerance = 0.0001) => {
   return useMemo(() => {
-    // Grouper les véhicules par position (tolérance de 0.0001 degrés ~ 10m)
-    const groups = new Map();
+    if (!vehicles || !vehicles.length) return [];
     
-    vehicles.forEach(vehicle => {
-      let found = false;
+    const groups = [];
+    const used = new Set();
+    
+    // Grouper les véhicules par proximité
+    vehicles.forEach((vehicle, i) => {
+      if (used.has(i)) return;
       
-      // Chercher un groupe existant à proximité
-      for (const [key, group] of groups.entries()) {
-        const [lat, lng] = key.split(',').map(Number);
-        const distance = Math.hypot(lat - vehicle.lat, lng - vehicle.lng);
-        
-        if (distance < 0.0001) { // Moins de 10 mètres
-          group.vehicles.push(vehicle);
-          group.positions.push([vehicle.lat, vehicle.lng]);
-          found = true;
-          break;
+      const group = {
+        center: [vehicle.lat, vehicle.lng],
+        vehicles: [vehicle],
+        indices: [i]
+      };
+      
+      // Chercher les véhicules proches
+      vehicles.forEach((otherVehicle, j) => {
+        if (i !== j && !used.has(j)) {
+          const distance = Math.hypot(
+            vehicle.lat - otherVehicle.lat,
+            vehicle.lng - otherVehicle.lng
+          );
+          
+          if (distance < tolerance) {
+            group.vehicles.push(otherVehicle);
+            group.indices.push(j);
+            used.add(j);
+          }
         }
-      }
+      });
       
-      if (!found) {
-        groups.set(`${vehicle.lat},${vehicle.lng}`, {
-          center: [vehicle.lat, vehicle.lng],
-          vehicles: [vehicle],
-          positions: [[vehicle.lat, vehicle.lng]]
-        });
-      }
+      group.count = group.vehicles.length;
+      group.isCluster = group.count > 1;
+      
+      groups.push(group);
+      used.add(i);
     });
     
-    // Transformer en tableau
-    const grouped = Array.from(groups.values()).map(group => ({
-      ...group,
-      count: group.vehicles.length,
-      isCluster: group.vehicles.length > 1
-    }));
-    
-    console.log(`📊 Regroupement: ${vehicles.length} véhicules → ${grouped.length} positions`);
-    grouped.forEach(group => {
+    console.log(`📊 Regroupement: ${vehicles.length} véhicules → ${groups.length} groupes`);
+    groups.forEach(group => {
       if (group.isCluster) {
-        console.log(`   📍 ${group.count} véhicules au même endroit`);
+        console.log(`   📍 ${group.count} véhicules au même endroit: ${group.vehicles.map(v => v.name).join(', ')}`);
       }
     });
     
-    return grouped;
-  }, [vehicles]);
+    return groups;
+  }, [vehicles, tolerance]);
 };
