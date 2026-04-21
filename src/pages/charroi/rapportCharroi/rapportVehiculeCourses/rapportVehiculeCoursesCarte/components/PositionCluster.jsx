@@ -10,7 +10,6 @@ const createClusterIcon = (vehicles) => {
   const hasMoving = vehicles.some(v => v.status === VEHICLE_STATUS.MOVING);
   const hasStopped = vehicles.some(v => v.status === VEHICLE_STATUS.STOPPED);
   
-  // Déterminer la couleur en fonction des statuts
   let color = '#6b7280'; // gris par défaut
   let borderColor = '#ffffff';
   
@@ -68,13 +67,6 @@ const ExpandedVehicles = ({ vehicles, center, onCollapse }) => {
   
   return (
     <>
-      {/* Ligne de connexion visuelle */}
-      <div className="cluster-connections" style={{
-        position: 'absolute',
-        pointerEvents: 'none',
-        zIndex: 500
-      }} />
-      
       {/* Afficher les véhicules en cercle */}
       {vehicles.map((vehicle, idx) => {
         const angle = (idx * 360 / vehicles.length) * Math.PI / 180;
@@ -174,7 +166,7 @@ export const PositionCluster = ({ vehicles, position, onExpand }) => {
         <div style={{ 
           textAlign: 'center', 
           padding: '8px 4px',
-          minWidth: 220
+          minWidth: 240
         }}>
           {/* Icônes représentatives */}
           <div style={{ 
@@ -208,16 +200,16 @@ export const PositionCluster = ({ vehicles, position, onExpand }) => {
             fontSize: 12
           }}>
             <div style={{ color: '#10b981' }}>
-              🚀 {vehicles.filter(v => v.status === VEHICLE_STATUS.MOVING).length}
+              🚀 {vehicles.filter(v => v.status === VEHICLE_STATUS.MOVING).length} en route
             </div>
             <div style={{ color: '#f59e0b' }}>
-              ⏸️ {vehicles.filter(v => v.status === VEHICLE_STATUS.STOPPED).length}
+              ⏸️ {vehicles.filter(v => v.status === VEHICLE_STATUS.STOPPED).length} arrêtés
             </div>
           </div>
           
           {/* Liste des véhicules */}
           <div style={{ 
-            maxHeight: 150, 
+            maxHeight: 180, 
             overflowY: 'auto', 
             marginBottom: 12,
             borderTop: '1px solid #e5e7eb',
@@ -226,19 +218,23 @@ export const PositionCluster = ({ vehicles, position, onExpand }) => {
           }}>
             {vehicles.map(v => (
               <div key={v.id} style={{ 
-                padding: 6, 
+                padding: 8, 
                 borderBottom: '1px solid #f3f4f6',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
               }}>
-                <span style={{ fontWeight: 500 }}>{v.name}</span>
-                <span style={{ 
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 500 }}>{v.name}</div>
+                  <div style={{ fontSize: 9, color: '#6b7280' }}>{v.registration}</div>
+                </div>
+                <div style={{ 
                   color: v.status === VEHICLE_STATUS.MOVING ? '#10b981' : '#f59e0b',
-                  fontSize: 10
+                  fontSize: 11,
+                  fontWeight: 500
                 }}>
                   {v.status === VEHICLE_STATUS.MOVING ? `${v.speed} km/h` : 'Arrêté'}
-                </span>
+                </div>
               </div>
             ))}
           </div>
@@ -248,7 +244,7 @@ export const PositionCluster = ({ vehicles, position, onExpand }) => {
             onClick={handleExpand}
             style={{
               width: '100%',
-              padding: '8px',
+              padding: '10px',
               background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
               color: 'white',
               border: 'none',
@@ -259,7 +255,8 @@ export const PositionCluster = ({ vehicles, position, onExpand }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: 6
+              gap: 6,
+              transition: 'opacity 0.2s'
             }}
             onMouseEnter={(e) => e.target.style.opacity = '0.9'}
             onMouseLeave={(e) => e.target.style.opacity = '1'}
