@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Typography, Tabs } from "antd";
+import { Tabs } from "antd";
 import {
   CarOutlined,
-  AppstoreOutlined
+  GlobalOutlined
 } from "@ant-design/icons";
 import moment from "moment";
 import RapportVehiculeCoursesAll from "./rapportVehiculeCoursesAll/RapportVehiculeCoursesAll";
 import RapportVehiculeCoursesCarte from "./rapportVehiculeCoursesCarte/RapportVehiculeCoursesCarte";
-
-const { Text } = Typography;
 
 export const getDurationColor = (elapsedMinutes, datePrevue) => {
   if (!datePrevue) return "default";
@@ -21,9 +19,7 @@ export const getDurationColor = (elapsedMinutes, datePrevue) => {
   return "green";
 };
 
-
 const RapportVehiculeCourses = ({ course }) => {
-
   const [activeKey, setActiveKey] = useState("1");
   const handleTabChange = (key) => {
     setActiveKey(key);
@@ -35,7 +31,7 @@ const RapportVehiculeCourses = ({ course }) => {
       label: (
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <CarOutlined style={{ color: "#1890ff" }} />
-          Liste
+          Liste des courses
         </span>
       ),
       children: <RapportVehiculeCoursesAll course={course} />,
@@ -44,7 +40,7 @@ const RapportVehiculeCourses = ({ course }) => {
       key: "2",
       label: (
         <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <AppstoreOutlined style={{ color: "#faad14" }} />
+          <GlobalOutlined style={{ color: "green" }} />
           Localisation
         </span>
       ),
