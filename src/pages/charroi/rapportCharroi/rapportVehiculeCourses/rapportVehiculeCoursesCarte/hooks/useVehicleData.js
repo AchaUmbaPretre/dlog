@@ -2,9 +2,11 @@ import { useMemo } from 'react';
 import { transformToVehicle } from '../utils/vehicle.utils';
 
 export const useVehicleData = (mergedCourses) => {
+
   return useMemo(() => {
     if (!mergedCourses || !Array.isArray(mergedCourses)) {
       return [];
+
     }
 
     const vehicles = mergedCourses
@@ -20,7 +22,6 @@ export const useVehicleData = (mergedCourses) => {
       })
       .filter(vehicle => vehicle !== null);
 
-    console.log(`${vehicles.length} véhicules traités avec succès`);
     return vehicles;
   }, [mergedCourses]);
 };

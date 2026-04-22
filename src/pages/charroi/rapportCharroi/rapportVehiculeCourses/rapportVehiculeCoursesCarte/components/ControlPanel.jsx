@@ -18,7 +18,6 @@ import { Badge, Tag, Space } from 'antd';
 
 export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajectories, onToggleTrajectories }) => {
   const [isExpanded, setIsExpanded] = useState(true);
-  
   return (
     <div className={`premium-control-panel ${isExpanded ? 'expanded' : 'collapsed'}`}>
       <div className="panel-header-premium" onClick={() => setIsExpanded(!isExpanded)}>
