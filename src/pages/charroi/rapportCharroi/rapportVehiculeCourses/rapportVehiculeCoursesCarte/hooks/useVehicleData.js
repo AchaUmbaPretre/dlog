@@ -15,7 +15,6 @@ export const useVehicleData = (mergedCourses) => {
         if (vehicle) {
           // Garder les données brutes pour le composant d'adresse
           vehicle.rawData = item;
-          // Ajouter l'adresse si déjà disponible
           vehicle.address = item.capteurInfo?.address || item.address;
         }
         return vehicle;
