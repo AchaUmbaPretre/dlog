@@ -6,7 +6,8 @@ import {
   Button,
   Dropdown,
   Checkbox,
-  Input
+  Input,
+  Tabs
 } from "antd";
 import {
   CarOutlined,
@@ -17,6 +18,7 @@ import {
   EnvironmentFilled,
   FieldTimeOutlined,
   EyeOutlined,
+  GlobalOutlined
 } from "@ant-design/icons";
 import "./rapportVehiculeCourses.scss";
 import {
@@ -30,12 +32,17 @@ import {
 import VehicleSpeed from "../../../../../utils/vehicleSpeed";
 import { VehicleAddress } from "../../../../../utils/vehicleAddress";
 import { useState, useMemo } from "react";
+import RapportVehiculeCoursesCarte from "../../../rapportCharroi/rapportVehiculeCourses/rapportVehiculeCoursesCarte/RapportVehiculeCoursesCarte";
 
 const { Text } = Typography;
 
 const RapportVehiculeCourses = ({ course }) => {
   const hasSpeed = course?.some((r) => r?.capteurInfo?.speed !== undefined);
   const [searchText, setSearchText] = useState("");
+  const [activeKey, setActiveKey] = useState("1");
+  const handleTabChange = (key) => {
+    setActiveKey(key);
+  };
 
   const baseColumns = [
     {
@@ -241,42 +248,75 @@ const RapportVehiculeCourses = ({ course }) => {
     </div>
   );
 
+  
+
   return (
-    <div className="rapportVehiculeCourses">
-      <Card
-        bordered={false}
-        title={<Text style={{ fontSize: 18, fontWeight: 600, color: "#333" }}>Rapport des Courses</Text>}
-        extra={
-          <Space>
-            <Input.Search
-              placeholder="Rechercher..."
-              allowClear
-              onChange={(e) => setSearchText(e.target.value)}
-              style={{ width: 250 }}
-            />
-            <Dropdown
-              overlay={dropdownMenu}
-              trigger={["click"]}
-              placement="bottomRight"
-            >
-              <Button icon={<EyeOutlined />}>Colonnes</Button>
-            </Dropdown>
-          </Space>
-        }
+    <div>
+      <Tabs
+        activeKey={activeKey}
+        onChange={handleTabChange}
+        type="card"
+        tabPosition="top"
       >
-        <div className="table-scroll">
-          <Table
-            columns={filteredColumns}
-            dataSource={filteredData}
-            rowKey={(record) => record.id_vehicule}
-            pagination={{ pageSize: 18 }}
-            scroll={{ x: "max-content" }}
-            bordered={false}
-            size="middle"
-            rowClassName={(record) => (record.en_cours ? "row-en-cours" : "")}
-          />
-        </div>
-      </Card>
+        <Tabs.TabPane
+            tab={
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <CarOutlined style={{ color: "#1890ff" }} />
+              Liste des courses
+            </span>
+            }
+            key="1"
+        >
+          <div className="rapportVehiculeCourses">
+            <Card
+              bordered={false}
+              title={<Text style={{ fontSize: 18, fontWeight: 600, color: "#333" }}>Rapport des Courses</Text>}
+              extra={
+                <Space>
+                  <Input.Search
+                    placeholder="Rechercher..."
+                    allowClear
+                    onChange={(e) => setSearchText(e.target.value)}
+                    style={{ width: 250 }}
+                  />
+                  <Dropdown
+                    overlay={dropdownMenu}
+                    trigger={["click"]}
+                    placement="bottomRight"
+                  >
+                    <Button icon={<EyeOutlined />}>Colonnes</Button>
+                  </Dropdown>
+                </Space>
+              }
+            >
+              <div className="table-scroll">
+                <Table
+                  columns={filteredColumns}
+                  dataSource={filteredData}
+                  rowKey={(record) => record.id_vehicule}
+                  pagination={{ pageSize: 18 }}
+                  scroll={{ x: "max-content" }}
+                  bordered={false}
+                  size="middle"
+                  rowClassName={(record) => (record.en_cours ? "row-en-cours" : "")}
+                />
+              </div>
+            </Card>
+          </div>
+        </Tabs.TabPane>
+
+        <Tabs.TabPane
+            tab={
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <GlobalOutlined style={{ color: "green" }} />
+                Localisation
+              </span>
+            }
+            key="2"
+        >
+          <RapportVehiculeCoursesCarte />
+        </Tabs.TabPane>
+      </Tabs>    
     </div>
   );
 };

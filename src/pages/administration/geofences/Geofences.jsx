@@ -5,7 +5,7 @@ import {
   PrinterOutlined, 
   GlobalOutlined, 
   PlusCircleOutlined, 
-  DeleteOutlined,
+  RetweetOutlined,
   SearchOutlined
 } from '@ant-design/icons';
 import GeofencesForm from './geofencesForm/GeofencesForm';
@@ -25,27 +25,27 @@ const Geofences = () => {
   const [data, setData] = useState([]);
 
     const fetchData = async() => {
-        try {
-            const { data } = await getGeofenceDlog();
-            setData(data)
-        } catch (error) {
-            console.log(error)
-        }
+      try {
+        const { data } = await getGeofenceDlog();
+        setData(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     useEffect(() => {
-    fetchData()
-  },[]);
+      fetchData()
+    },[]);
 
-  const closeAllModals = () => {
-    setModalType(null);
-  };
-  
-  const openModal = (type, idGeofence = '') => {
-    closeAllModals();
-    setModalType(type);
-    setIdGeofence(idGeofence);
-  };
+    const closeAllModals = () => {
+      setModalType(null);
+    };
+    
+    const openModal = (type, idGeofence = '') => {
+      closeAllModals();
+      setModalType(type);
+      setIdGeofence(idGeofence);
+    };
 
   // Filtrage sécurisé
   const filteredData = data?.filter(item =>
@@ -77,7 +77,7 @@ const Geofences = () => {
       width: '100px',
       render: (_, record) => (
         <Space style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-          <Button type="link" danger icon={<DeleteOutlined />} onClick={() => console.log('Supprimer', record)}></Button>
+          <Button type="link" danger icon={<RetweetOutlined />} onClick={() => console.log('Supprimer', record)}></Button>
         </Space>
       ),
     },
@@ -85,14 +85,12 @@ const Geofences = () => {
 
 
   // Placeholder fonctions
-    const handleAddClient = (idGeofence) => {
-        openModal('Add', idGeofence);
-    };
+  const handleAddClient = (idGeofence) => {
+    openModal('Add', idGeofence);
+  };
 
-    const handleUpdate = (idGeofence) => {
-        openModal('Add', idGeofence);
-    }
   const handlePrint = () => console.log('Imprimer');
+      
   const menu = (
     <div style={{ padding: 10 }}>
       <Button type="text" icon={<ExportOutlined />}>Export Excel</Button>
