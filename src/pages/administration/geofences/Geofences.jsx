@@ -10,6 +10,7 @@ import {
 } from '@ant-design/icons';
 import GeofencesForm from './geofencesForm/GeofencesForm';
 import { getGeofenceDlog } from '../../../services/geofenceService';
+import GeofencesVehicule from './geofencesVehicule/GeofencesVehicule';
 
 const { Search } = Input;
 
@@ -77,16 +78,19 @@ const Geofences = () => {
       width: '100px',
       render: (_, record) => (
         <Space style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-          <Button type="link" danger icon={<RetweetOutlined />} onClick={() => console.log('Supprimer', record)}></Button>
+          <Button type="link" danger icon={<RetweetOutlined />} onClick={() => handleAff(record.id_geo_dlog)}></Button>
         </Space>
       ),
     },
   ];
 
 
-  // Placeholder fonctions
   const handleAddClient = (idGeofence) => {
     openModal('Add', idGeofence);
+  };
+
+  const handleAff = (id) => {
+    openModal('Aff', id);
   };
 
   const handlePrint = () => console.log('Imprimer');
@@ -110,23 +114,23 @@ const Geofences = () => {
                 </div>
 
                 <div className="client-actions" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
-                <Search
+                  <Search
                     placeholder="Recherche..."
-                    allowClear
-                    enterButton={<SearchOutlined />}
-                    onChange={(e) => setSearchValue(e.target.value)}
+                      allowClear
+                      enterButton={<SearchOutlined />}
+                      onChange={(e) => setSearchValue(e.target.value)}
                     style={{ width: 300 }}
-                />
+                  />
 
-                <Space>
-                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleAddClient}>
-                    Ajouter Geofence
-                    </Button>
-                    <Dropdown overlay={menu} trigger={['click']}>
-                    <Button icon={<ExportOutlined />}>Export</Button>
-                    </Dropdown>
-                    <Button icon={<PrinterOutlined />} onClick={handlePrint}>Imprimer</Button>
-                </Space>
+                  <Space>
+                      <Button type="primary" icon={<PlusCircleOutlined />} onClick={handleAddClient}>
+                        Ajouter Geofence
+                      </Button>
+                      <Dropdown overlay={menu} trigger={['click']}>
+                      <Button icon={<ExportOutlined />}>Export</Button>
+                      </Dropdown>
+                      <Button icon={<PrinterOutlined />} onClick={handlePrint}>Imprimer</Button>
+                  </Space>
                 </div>
 
                 <Table
@@ -152,6 +156,17 @@ const Geofences = () => {
           centered
         >
           <GeofencesForm closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'Aff'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1210}
+          centered
+        >
+          <GeofencesVehicule closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
         </Modal>
     </>
   );

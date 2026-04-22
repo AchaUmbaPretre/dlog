@@ -8,7 +8,6 @@ import {
   Popconfirm,
   Typography,
 } from "antd";
-
 import {
   CarOutlined,
   DeleteOutlined,

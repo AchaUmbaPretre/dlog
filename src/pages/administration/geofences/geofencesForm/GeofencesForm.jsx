@@ -15,7 +15,6 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
   const [editingRows, setEditingRows] = useState([]);
   const [saving, setSaving] = useState(false);
 
-  // Charger toutes les données et fusionner avec Dlog
   const loadData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -64,7 +63,6 @@ const GeofencesForm = ({ closeModal, fetchData }) => {
 
   useEffect(() => { loadData(); }, [loadData]);
 
-  // Double click pour éditer
   const handleDoubleClick = (record) => {
     if (!editingRows.includes(record.id_geofence)) {
       setEditingRows(prev => [...prev, record.id_geofence]);

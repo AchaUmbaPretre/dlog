@@ -18,7 +18,8 @@ import {
   EnvironmentFilled,
   FieldTimeOutlined,
   EyeOutlined,
-  GlobalOutlined
+  GlobalOutlined,
+  ExportOutlined
 } from "@ant-design/icons";
 import "./rapportVehiculeCourses.scss";
 import {
@@ -33,6 +34,7 @@ import VehicleSpeed from "../../../../../utils/vehicleSpeed";
 import { VehicleAddress } from "../../../../../utils/vehicleAddress";
 import { useState, useMemo } from "react";
 import RapportVehiculeCoursesCarte from "../../../rapportCharroi/rapportVehiculeCourses/rapportVehiculeCoursesCarte/RapportVehiculeCoursesCarte";
+import TrueBonDeSortie from "../../trueBonDeSortie/TrueBonDeSortie";
 
 const { Text } = Typography;
 
@@ -306,13 +308,25 @@ const RapportVehiculeCourses = ({ course }) => {
         </Tabs.TabPane>
 
         <Tabs.TabPane
+          tab={
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <ExportOutlined style={{ color: "blue" }} />
+              TRUE BON DE SORTIE
+            </span>
+          }
+          key="2"
+        >
+          <TrueBonDeSortie />
+        </Tabs.TabPane>
+
+        <Tabs.TabPane
             tab={
               <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <GlobalOutlined style={{ color: "green" }} />
                 Localisation
               </span>
             }
-            key="2"
+            key="3"
         >
           <RapportVehiculeCoursesCarte />
         </Tabs.TabPane>
