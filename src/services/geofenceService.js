@@ -28,10 +28,10 @@ export const putGeofenceDlog = async (data, idGeofence) => {
 };
 
 //Geofences véhicules
-export const getGeofenceVehiculeById = async (id) => {
+export const getGeofenceVehiculeById = async (idGeofence) => {
     return axios.get(`${DOMAIN}/api/geofences/geofence_vehicule`, {
         params: {
-            id_geo_dlog : id
+            id_geo_dlog : idGeofence
         }
     });
 };
@@ -39,3 +39,11 @@ export const getGeofenceVehiculeById = async (id) => {
 export const postGeofenceVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/geofences/geofence_vehicule`, data);
 };
+
+export const putGeofenceVehicule = async (data, id_vehicule_geofence) => {
+    return axios.put(`${DOMAIN}/api/geofences/geofence_vehicule?id_vehicule_geofence=${id_vehicule_geofence}`, data);
+};
+
+export const deleteGeofenceVehicule = async (id) => {
+    return axios.delete(`${DOMAIN}/api/geofences/geofence_vehicule?id=${id}`)
+}
