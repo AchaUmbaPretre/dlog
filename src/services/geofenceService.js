@@ -26,3 +26,16 @@ export const postGeofenceDlog = async (data) => {
 export const putGeofenceDlog = async (data, idGeofence) => {
     return axios.put(`${DOMAIN}/api/geofences?id_geo_dlog=${idGeofence}`, data);
 };
+
+//Geofences véhicules
+export const getGeofenceVehiculeById = async (id) => {
+    return axios.get(`${DOMAIN}/api/geofences/geofence_vehicule`, {
+        params: {
+            id_geo_dlog : id
+        }
+    });
+};
+
+export const postGeofenceVehicule = async (data) => {
+    return axios.post(`${DOMAIN}/api/geofences/geofence_vehicule`, data);
+};

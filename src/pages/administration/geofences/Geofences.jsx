@@ -166,7 +166,7 @@ const Geofences = () => {
           width={1210}
           centered
         >
-          <GeofencesVehicule closeModal={() => setModalType(null)} fetchData={fetchData} idGeofence={idGeofence} />
+          <GeofencesVehicule closeModal={() => setModalType(null)} fetchDatas={fetchData} idGeofence={idGeofence} />
         </Modal>
     </>
   );
