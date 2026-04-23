@@ -78,7 +78,6 @@ const GeofencesVehicule = ({ closeModal, fetchDatas, idGeofence }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
-      {/* HEADER PREMIUM */}
       <div style={{
         marginBottom: 12,
         padding: 12,
@@ -120,7 +119,6 @@ const GeofencesVehicule = ({ closeModal, fetchDatas, idGeofence }) => {
         }
       />
 
-      {/* FOOTER ACTIONS PREMIUM */}
       <div style={{
         marginTop: 15,
         padding: 12,
@@ -146,7 +144,6 @@ const GeofencesVehicule = ({ closeModal, fetchDatas, idGeofence }) => {
         </Button>
       </div>
 
-      {/* STYLE PREMIUM INLINE (tu peux le déplacer en SCSS) */}
       <style>{`
         .row-selected {
           background: #f6ffed !important;
