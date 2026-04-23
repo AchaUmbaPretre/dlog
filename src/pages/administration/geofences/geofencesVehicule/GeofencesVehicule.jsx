@@ -1,4 +1,3 @@
-import React from 'react';
 import { Table, Checkbox, Switch, Input, Button, Badge, Typography, Space } from 'antd';
 import { SearchOutlined, CarOutlined } from '@ant-design/icons';
 import { useGeofenceVehicule } from './hooks/useGeofenceVehicule';
@@ -22,6 +21,12 @@ const GeofencesVehicule = ({ closeModal, fetchDatas, idGeofence }) => {
   const selected = filteredData.filter(v => v.checked).length;
 
   const columns = [
+    {
+      title: '#',
+      align: 'center',
+      render: (_,record, index) => index + 1,
+      width: '50px'
+    },
     {
       title: 'Véhicule',
       render: (_, record) => (
@@ -101,7 +106,6 @@ const GeofencesVehicule = ({ closeModal, fetchDatas, idGeofence }) => {
         />
       </div>
 
-      {/* TABLE PREMIUM */}
       <Table
         columns={columns}
         dataSource={filteredData}
