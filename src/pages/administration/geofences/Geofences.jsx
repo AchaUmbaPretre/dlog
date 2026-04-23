@@ -163,7 +163,7 @@ const Geofences = () => {
           visible={modalType === 'Aff'}
           onCancel={closeAllModals}
           footer={null}
-          width={1210}
+          width={800}
           centered
         >
           <GeofencesVehicule closeModal={() => setModalType(null)} fetchDatas={fetchData} idGeofence={idGeofence} />

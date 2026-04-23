@@ -1,180 +1,47 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Table, Checkbox, Switch, Input, Button, notification } from 'antd';
-import {
-  getVehicule
-} from '../../../../services/charroiService';
+import React from 'react';
+import { Table, Checkbox, Switch, Input, Button, Badge, Typography, Space } from 'antd';
+import { SearchOutlined, CarOutlined } from '@ant-design/icons';
+import { useGeofenceVehicule } from './hooks/useGeofenceVehicule';
 
-import {
-  getGeofenceVehiculeById,
-  postGeofenceVehicule,
-  putGeofenceVehicule,
-  deleteGeofenceVehicule // ⚠️ à créer si pas encore
-} from '../../../../services/geofenceService';
+const { Title, Text } = Typography;
 
 const GeofencesVehicule = ({ closeModal, fetchDatas, idGeofence }) => {
 
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [search, setSearch] = useState('');
+  const {
+    filteredData,
+    loading,
+    saving,
+    search,
+    setSearch,
+    handleCheck,
+    handleSwitch,
+    handleSave
+  } = useGeofenceVehicule(idGeofence);
 
-  // 🔥 Merge vehicules + relations
-  const mergeData = (vehicules, relations) => {
-    return vehicules.map(v => {
-      const exist = relations.find(r => r.id_vehicule === v.id_vehicule);
+  const total = filteredData.length;
+  const selected = filteredData.filter(v => v.checked).length;
 
-      return {
-        ...v,
-        checked: !!exist,
-        autorise_sans_bs: exist?.autorise_sans_bs || 0,
-        id_vehicule_geofence: exist?.id_vehicule_geofence || null
-      };
-    });
-  };
-
-const fetchAll = useCallback(async () => {
-  try {
-    setLoading(true);
-
-    const vehiculesRes = await getVehicule();
-
-    let relations = [];
-
-    if (idGeofence) {
-      const relationsRes = await getGeofenceVehiculeById(idGeofence);
-
-      console.log("relationsRes FULL:", relationsRes);
-
-      relations = relationsRes?.data?.data || [];
-    }
-
-    const vehicules = vehiculesRes?.data?.data || [];
-
-    const merged = mergeData(vehicules, relations);
-
-    setData(merged);
-
-  } catch (error) {
-    console.error("ERROR:", error);
-    notification.error({
-      message: "Erreur",
-      description: "Chargement échoué"
-    });
-
-  } finally {
-    setLoading(false);
-  }
-}, [idGeofence]);
-
-  useEffect(() => {
-    if (idGeofence) fetchAll();
-  }, [idGeofence]);
-
-  // ✅ Checkbox
-  const handleCheck = (id) => {
-    setData(prev =>
-      prev.map(v =>
-        v.id_vehicule === id
-          ? { ...v, checked: !v.checked }
-          : v
-      )
-    );
-  };
-
-  console.log('donnees', data)
-
-  // ✅ Switch
-  const handleSwitch = (id) => {
-    setData(prev =>
-      prev.map(v =>
-        v.id_vehicule === id
-          ? { ...v, autorise_sans_bs: v.autorise_sans_bs ? 0 : 1 }
-          : v
-      )
-    );
-  };
-
-  // 🔍 Recherche
-  const filteredData = data.filter(v =>
-    `${v.nom_marque} ${v.modele} ${v.immatriculation}`
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
-
-  // 💾 Sauvegarde
-  const handleSave = async () => {
-    try {
-      setSaving(true);
-
-      const toInsert = [];
-      const toUpdate = [];
-      const toDelete = [];
-
-      data.forEach(v => {
-        if (v.checked && !v.id_vehicule_geofence) {
-          toInsert.push({
-            id_vehicule: v.id_vehicule,
-            id_geo_dlog: idGeofence,
-            autorise_sans_bs: v.autorise_sans_bs
-          });
-        }
-
-        if (v.checked && v.id_vehicule_geofence) {
-          toUpdate.push({
-            id: v.id_vehicule_geofence,
-            autorise_sans_bs: v.autorise_sans_bs
-          });
-        }
-
-        if (!v.checked && v.id_vehicule_geofence) {
-          toDelete.push(v.id_vehicule_geofence);
-        }
-      });
-
-      await Promise.all([
-        ...toInsert.map(postGeofenceVehicule),
-        ...toUpdate.map(item =>
-          putGeofenceVehicule(item, item.id)
-        ),
-        ...toDelete.map(id =>
-          deleteGeofenceVehicule(id)
-        )
-      ]);
-
-      notification.success({
-        message: "Sauvegarde réussie"
-      });
-
-      fetchDatas();
-      closeModal();
-
-    } catch (error) {
-      notification.error({
-        message: "Erreur",
-        description: error.message
-      });
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // 📊 Colonnes
   const columns = [
     {
       title: 'Véhicule',
       render: (_, record) => (
-        <span>
-          {record.nom_marque} {record.modele} - {record.immatriculation}
-        </span>
+        <Space direction="vertical" size={0}>
+          <Text strong>
+            {record.nom_marque} {record.modele}
+          </Text>
+          <Text type="secondary" style={{ fontSize: 12 }}>
+            {record.immatriculation}
+          </Text>
+        </Space>
       )
     },
     {
-      title: 'Affecté',
+      title: 'Statut',
       align: 'center',
       render: (_, record) => (
-        <Checkbox
-          checked={record.checked}
-          onChange={() => handleCheck(record.id_vehicule)}
+        <Badge
+          status={record.checked ? 'success' : 'default'}
+          text={record.checked ? 'Affecté' : 'Non affecté'}
         />
       )
     },
@@ -186,52 +53,106 @@ const fetchAll = useCallback(async () => {
           checked={record.autorise_sans_bs === 1}
           onChange={() => handleSwitch(record.id_vehicule)}
           disabled={!record.checked}
+          checkedChildren="OK"
+          unCheckedChildren="BS"
+        />
+      )
+    },
+    {
+      title: '',
+      width: 60,
+      render: (_, record) => (
+        <Checkbox
+          checked={record.checked}
+          onChange={() => handleCheck(record.id_vehicule)}
         />
       )
     }
   ];
 
-  const totalSelected = data.filter(v => v.checked).length;
-
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
-      {/* 🔍 Recherche */}
-      <Input
-        placeholder="Rechercher un véhicule..."
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ marginBottom: 10 }}
-      />
+      {/* HEADER PREMIUM */}
+      <div style={{
+        marginBottom: 12,
+        padding: 12,
+        borderRadius: 10,
+        background: '#fafafa',
+        border: '1px solid #f0f0f0'
+      }}>
 
-      {/* 📊 Compteur */}
-      <div style={{ marginBottom: 10 }}>
-        Véhicules affectés : <strong>{totalSelected}</strong>
+        <Title level={5} style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CarOutlined />
+          Affectation des véhicules
+        </Title>
+
+        <Text type="secondary">
+          {selected} / {total} véhicules sélectionnés
+        </Text>
+
+        <Input
+          prefix={<SearchOutlined />}
+          placeholder="Rechercher un véhicule..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ marginTop: 10, borderRadius: 8 }}
+          allowClear
+        />
       </div>
 
-      {/* 📋 Table */}
+      {/* TABLE PREMIUM */}
       <Table
         columns={columns}
         dataSource={filteredData}
         rowKey="id_vehicule"
         loading={loading}
-        pagination={{ pageSize: 10 }}
-        scroll={{ y: 400 }}
+        pagination={{ pageSize: 8 }}
+        scroll={{ y: 420 }}
+        size="middle"
+        bordered={false}
+        rowClassName={(record) =>
+          record.checked ? 'row-selected' : 'row-default'
+        }
       />
 
-      {/* 💾 Actions */}
-      <div style={{ marginTop: 15, textAlign: 'right' }}>
-        <Button onClick={closeModal} style={{ marginRight: 10 }}>
+      {/* FOOTER ACTIONS PREMIUM */}
+      <div style={{
+        marginTop: 15,
+        padding: 12,
+        borderTop: '1px solid #f0f0f0',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        gap: 10,
+        background: '#fff',
+        position: 'sticky',
+        bottom: 0
+      }}>
+
+        <Button onClick={closeModal}>
           Annuler
         </Button>
 
         <Button
           type="primary"
           loading={saving}
-          onClick={handleSave}
+          onClick={() => handleSave(closeModal, fetchDatas)}
         >
-          Enregistrer
+          Enregistrer les modifications
         </Button>
       </div>
+
+      {/* STYLE PREMIUM INLINE (tu peux le déplacer en SCSS) */}
+      <style>{`
+        .row-selected {
+          background: #f6ffed !important;
+          transition: all 0.2s ease;
+        }
+
+        .row-default:hover {
+          background: #fafafa !important;
+        }
+      `}</style>
 
     </div>
   );
