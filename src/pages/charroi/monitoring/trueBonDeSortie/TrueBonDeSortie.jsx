@@ -1,133 +1,212 @@
-import React, { useState } from 'react'
-import { ExportOutlined, MenuOutlined, DownOutlined } from '@ant-design/icons';
-import { Input, Table, Dropdown, Menu, Button } from 'antd';
-import { useBonTrueColumns } from './hooks/useBonTrueColumns';
-import { useBonTrueData } from './hooks/useBonTrueData';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { 
+  Card, Row, Col, Statistic, DatePicker, Button, Space, Select, 
+  Typography, Alert, Segmented, Progress, Badge
+} from 'antd';
+import { 
+  CarOutlined, 
+  CheckCircleOutlined, 
+  CloseCircleOutlined, 
+  WarningOutlined, 
+  ReloadOutlined,
+  FileExcelOutlined,
+  ClockCircleOutlined,
+  DashboardOutlined,
+  FilterOutlined,
+  CalendarOutlined,
+  TrophyOutlined
+} from '@ant-design/icons';
+import moment from 'moment';
+import './trueBonDeSortie.scss';
+import { getStatistiques } from '../../../../services/controleGpsService';
+import { useBonTrueData } from '../trueBonDeSortie/hooks/useBonTrueData';
+import ControleTable from './components/ControleTable';
 
-const { Search } = Input;
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 const TrueBonDeSortie = () => {
-    const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
-    const scroll = { x: 'max-content' };
-    const [searchValue, setSearchValue] = useState('');
-    const [pagination, setPagination] = useState({
-      current: 1,
-      pageSize: 15,
-    });
-    const [columnsVisibility, setColumnsVisibility] = useState({
-        "#" : true,
-        "Service" : false,
-        "Chauffeur" : true,
-        "Destination" : true,
-        "Retour effectif" : true,
-        "Depart" : true,
-        "Véhicule" : true,
-        "Immatriculation": true,
-        "Marque" : false,
-        "Preuve" : false,
-        "Retour" : false,
-        "Statut" : true,
-        "Client" : false,
-        "Demandeur" : true,
-        "Agent" : false,
-        "Créé par" : false
-    });
-    const { data,
-            loading,
-            fetchData } = useBonTrueData(userId)
+  const { data, loading, fetchData } = useBonTrueData();
+  const [stats, setStats] = useState({});
+  const [date, setDate] = useState(moment());
+  const [statutFilter, setStatutFilter] = useState('tous');
 
-    const columnStyles = {
-      title: {
-        maxWidth: '160px',
-        whiteSpace: 'nowrap',
-        overflowX: 'scroll', 
-        overflowY: 'hidden',
-        textOverflow: 'ellipsis',
-        scrollbarWidth: 'none',
-        '-ms-overflow-style': 'none', 
-      },
-      hideScroll: {
-        '&::-webkit-scrollbar': {
-          display: 'none',
-        },
-      },
-    };
+  const fetchStats = async () => {
+    try {
+      const response = await getStatistiques(date.format('YYYY-MM-DD'));
+      setStats(response.data || {});
+    } catch (error) {
+      console.error('Erreur chargement stats:', error);
+    }
+  };
 
-    const menus = (
-        <Menu>
-            {Object.keys(columnsVisibility).map(columnName => (
-              <Menu.Item key={columnName}>
-                <span onClick={(e) => toggleColumnVisibility(columnName,e)}>
-                  <input type="checkbox" checked={columnsVisibility[columnName]} readOnly />
-                  <span style={{ marginLeft: 8 }}>{columnName}</span>
-                </span>
-              </Menu.Item>
-            ))}
-        </Menu>
-    ); 
+  useEffect(() => {
+    fetchStats();
+  }, [date, data]);
 
-    const toggleColumnVisibility = (columnName, e) => {
-      e.stopPropagation();
-      setColumnsVisibility(prev => ({
-        ...prev,
-        [columnName]: !prev[columnName]
-      }));
-    };
+  const filteredData = statutFilter === 'tous' 
+    ? data 
+    : data.filter(item => item.statut === statutFilter);
 
-    const columns =  useBonTrueColumns({
-        pagination, 
-        columnsVisibility, 
-        columnStyles
-    });
+  const tauxConformite = stats.total > 0 
+    ? ((stats.conformes / stats.total) * 100).toFixed(0) 
+    : 0;
 
-    const filteredData = data.filter(item =>
-      item.nom?.toLowerCase().includes(searchValue.toLowerCase()) || 
-      item.nom_cat?.toLowerCase().includes(searchValue.toLowerCase()) || 
-      item.nom_destination?.toLowerCase().includes(searchValue.toLowerCase()) || 
-      item.immatriculation?.toLowerCase().includes(searchValue.toLowerCase())
-    );
   return (
-    <div className="client">
-        <div className="client-wrapper">
-            <div className="client-row">
-              <div className="client-row-icon">
-                <ExportOutlined className='client-icon' style={{color:'blue'}} />
-              </div>
-              <h2 className="client-h2"> Tableau des bons de sortie</h2>
-            </div>
-
-            <div className="client-actions">
-                <div className="client-row-left">
-                    <Search 
-                    placeholder="Recherche..." 
-                    enterButton 
-                    onChange={(e) => setSearchValue(e.target.value)}
-                    />
-              </div>
-
-                <Dropdown overlay={menus} trigger={['click']}>
-                    <Button icon={<MenuOutlined />} className="ant-dropdown-link">
-                        Colonnes <DownOutlined />
-                    </Button>
-                </Dropdown>
-            </div>
-
-            <Table
-              columns={columns}
-              dataSource={filteredData}
-              pagination={pagination}
-              onChange={(pagination) => setPagination(pagination)}
-              rowKey="id"
-              loading={loading}
-              bordered
-              size="small"
-              scroll={scroll}
-              rowClassName={(record, index) => (index % 2 === 0 ? 'odd-row' : 'even-row')}
-            />
+    <div className="controle-sorties-container">
+      {/* Header */}
+      <div className="page-header">
+        <div className="header-left">
+          <DashboardOutlined className="header-icon" />
+          <div>
+            <Title level={4} className="header-title">Contrôle des sorties</Title>
+            <Text type="secondary" className="header-subtitle">
+              Bons de sortie • Pointages tablette
+            </Text>
+          </div>
         </div>
-    </div>
-  )
-}
+        <Badge count={stats.sans_bon} offset={[10, -5]}>
+          <Button icon={<WarningOutlined />}>Alertes</Button>
+        </Badge>
+      </div>
 
-export default TrueBonDeSortie
+      {/* Statistiques */}
+      <Row gutter={[16, 16]} className="stats-row">
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="stat-card">
+            <Statistic 
+              title="Total sorties" 
+              value={stats.total || 0} 
+              prefix={<CarOutlined />}
+            />
+          </Card>
+        </Col>
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="stat-card stat-card-success">
+            <Statistic 
+              title="Conformes" 
+              value={stats.conformes || 0} 
+              prefix={<CheckCircleOutlined />}
+            />
+          </Card>
+        </Col>
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="stat-card stat-card-danger">
+            <Statistic 
+              title="Sorties sans bon" 
+              value={stats.sans_bon || 0} 
+              prefix={<CloseCircleOutlined />}
+            />
+          </Card>
+        </Col>
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="stat-card">
+            <Statistic 
+              title="Non pointées" 
+              value={stats.non_pointees || 0} 
+              prefix={<WarningOutlined />}
+            />
+          </Card>
+        </Col>
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="stat-card">
+            <Statistic 
+              title="Bons non exécutés" 
+              value={stats.bon_non_execute || 0} 
+              prefix={<ClockCircleOutlined />}
+            />
+          </Card>
+        </Col>
+        <Col xs={12} sm={8} md={6} lg={4}>
+          <Card className="stat-card stat-card-score">
+            <div className="score-content">
+              <Progress 
+                type="circle" 
+                percent={tauxConformite} 
+                width={50}
+                strokeColor="#1890ff"
+              />
+              <Statistic 
+                title="Conformité" 
+                value={tauxConformite} 
+                suffix="%" 
+              />
+            </div>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Alerte */}
+      {stats.sans_bon > 0 && (
+        <Alert
+          message={`${stats.sans_bon} sortie(s) sans bon détectée(s)`}
+          description="Ces véhicules ont quitté leur zone sans bon de sortie valide."
+          type="warning"
+          showIcon
+          closable
+          className="alert-premium"
+          action={
+            <Button size="small" type="link" onClick={() => setStatutFilter('SORTIE_SANS_BON')}>
+              Voir
+            </Button>
+          }
+        />
+      )}
+
+      {/* Filtres */}
+      <Card className="filters-card">
+        <Space size="middle" wrap>
+          <div className="filter-group">
+            <CalendarOutlined />
+            <DatePicker 
+              value={date} 
+              onChange={setDate}
+              format="DD/MM/YYYY"
+              allowClear={false}
+              size="middle"
+            />
+          </div>
+          
+          <div className="filter-group">
+            <FilterOutlined />
+            <Select 
+              style={{ width: 180 }}
+              value={statutFilter}
+              onChange={setStatutFilter}
+            >
+              <Option value="tous">Tous les statuts</Option>
+              <Option value="CONFORME">Conforme</Option>
+              <Option value="SORTIE_SANS_BON">Sortie sans bon</Option>
+              <Option value="SORTIE_NON_POINTEE">Non pointée</Option>
+              <Option value="BON_NON_EXECUTE">Bon non exécuté</Option>
+            </Select>
+          </div>
+
+          <Button 
+            type="primary" 
+            onClick={fetchData} 
+            icon={<ReloadOutlined />} 
+            loading={loading}
+          >
+            Rafraîchir
+          </Button>
+
+          <Button icon={<FileExcelOutlined />}>
+            Exporter
+          </Button>
+        </Space>
+      </Card>
+
+      {/* Tableau */}
+      <Card className="table-cards">
+        <ControleTable
+          data={filteredData} 
+          loading={loading} 
+          onRefresh={fetchData}
+        />
+      </Card>
+    </div>
+  );
+};
+
+export default TrueBonDeSortie;

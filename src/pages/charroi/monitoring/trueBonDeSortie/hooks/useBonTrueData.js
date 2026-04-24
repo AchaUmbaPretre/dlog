@@ -1,51 +1,50 @@
+// hooks/useBonTrueData.js
 import { useEffect, useState, useCallback } from "react";
-import { message, notification } from "antd";
-import { getBandeSortie } from "../../../../../services/charroiService";
+import { notification } from "antd";
+import { getControles } from "../../../../../services/controleGpsService";
 
-export const useBonTrueData = (userId, initialFilters = null) => {
+export const useBonTrueData = (autoRefresh = true, refreshInterval = 5000) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [lastUpdate, setLastUpdate] = useState(null);
 
-    const fetchData = useCallback(async() => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const { data } = await getBandeSortie(userId);
-            setData(data);
+            // ✅ CORRIGER : getControles retourne déjà les données directement
+            const response = await getControles();
+            setData(response.data.data || []);
+            setLastUpdate(new Date());
         } catch (error) {
+            console.error("Erreur chargement:", error);
             notification.error({
                 message: "Erreur de chargement",
-                description:
-                "Une erreur est survenue lors du chargement des données.",
+                description: "Une erreur est survenue lors du chargement des données.",
             });
         } finally {
             setLoading(false);
         }
-    }, [userId]);
+    }, []);
 
-    const silentFetch = useCallback(async () => {
-        try {
-        const { data } = await getBandeSortie(userId);
-        setData(data);
-        } catch (error) {
-        console.error("Erreur refresh automatique :", error);
+    useEffect(() => {
+        fetchData();
+
+        let interval;
+        if (autoRefresh) {
+            interval = setInterval(() => {
+                fetchData();
+            }, refreshInterval);
         }
-    }, [userId]);
 
-      useEffect(() => {
-    if (!userId) return;
-
-    fetchData();
-
-    const interval = setInterval(() => {
-      silentFetch();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [userId, fetchData, silentFetch]);
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [fetchData, autoRefresh, refreshInterval]);
 
     return {
         data,
         loading,
+        lastUpdate,
         fetchData,
-    }
-}
+    };
+};
