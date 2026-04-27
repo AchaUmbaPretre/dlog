@@ -98,7 +98,9 @@ export const useGeofenceVehicule = (idGeofence) => {
 
         if (v.checked && v.id_vehicule_geofence) {
           toUpdate.push({
-            id: v.id_vehicule_geofence,
+            id_vehicule: v.id_vehicule,
+            id_geo_dlog: idGeofence,
+            id_vehicule_geofence: v.id_vehicule_geofence,
             autorise_sans_bs: v.autorise_sans_bs
           });
         }
@@ -111,7 +113,7 @@ export const useGeofenceVehicule = (idGeofence) => {
       await Promise.all([
         ...toInsert.map(postGeofenceVehicule),
         ...toUpdate.map(item =>
-          putGeofenceVehicule(item, item.id)
+          putGeofenceVehicule(item, item.id_vehicule_geofence)
         ),
         ...toDelete.map(id =>
           deleteGeofenceVehicule(id)
