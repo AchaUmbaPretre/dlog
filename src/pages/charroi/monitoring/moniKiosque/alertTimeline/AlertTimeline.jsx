@@ -13,15 +13,19 @@ const AlertTimeline = () => {
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchAlerts = async () => {
-    try {
-      const { data } = await getAlertVehicule();
-      setAlerts(data);
-    } catch (error) {
-      console.error(error);
-      message.error("Erreur lors du chargement des alertes");
-    }
-  };
+const fetchAlerts = async () => {
+  try {
+    const { data } = await getAlertVehicule();
+    // Trier les alertes par date décroissante (plus récentes d'abord)
+    const sortedAlerts = [...data].sort((a, b) => 
+      new Date(b.alert_time) - new Date(a.alert_time)
+    );
+    setAlerts(sortedAlerts);
+  } catch (error) {
+    console.error(error);
+    message.error("Erreur lors du chargement des alertes");
+  }
+};
 
   const handleMarkAsRead = async (id) => {
     try {
