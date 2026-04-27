@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Tag, Badge, Button, Space, Tooltip, Modal, Form, Select, Input, message, Typography, Divider } from 'antd';
-import { EyeOutlined, CheckCircleOutlined, CloseCircleOutlined, WarningOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { EyeOutlined, CheckCircleOutlined, ThunderboltOutlined, AlertOutlined, SafetyOutlined, CloseCircleOutlined, WarningOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { regulariserSortie } from '../../../../../services/controleGpsService';
 
@@ -121,7 +121,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
       title: 'Statut',
       dataIndex: 'statut',
       key: 'statut',
-      width: 110,
+      width: 130,
       render: (statut) => {
         const config = getStatutConfig(statut);
         return (
@@ -130,9 +130,54 @@ const ControleTable = ({ data, loading, onRefresh }) => {
       }
     },
     {
+    title: 'Niveau',
+    dataIndex: 'niveau_risque',
+    key: 'niveau',
+    width: 90,
+    align: 'center',
+    render: (niveau) => {
+        // Vérifier si niveau existe
+        if (!niveau) {
+        return (
+            <Tag style={{ background: '#fafafa', border: 'none', color: '#8c8c8c', borderRadius: 20 }}>
+            <AlertOutlined style={{ marginRight: 6 }} />
+            Non défini
+            </Tag>
+        );
+        }
+        
+        const map = {
+        'FAIBLE': { color: '#52c41a', bg: '#f6ffed', text: 'Faible', icon: <SafetyOutlined /> },
+        'MOYEN': { color: '#faad14', bg: '#fffbe6', text: 'Moyen', icon: <WarningOutlined /> },
+        'ELEVE': { color: '#ff4d4f', bg: '#fff2f0', text: 'Élevé', icon: <ThunderboltOutlined /> }
+        };
+        
+        const config = map[niveau] || { color: '#8c8c8c', bg: '#fafafa', text: niveau || 'Inconnu', icon: <AlertOutlined /> };
+        
+        return (
+        <Tag 
+            color={config.color} 
+            style={{ 
+            background: config.bg, 
+            border: 'none',
+            fontWeight: 500,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '4px 12px',
+            borderRadius: 20
+            }}
+        >
+            {config.icon}
+            {config.text}
+        </Tag>
+        );
+    }
+    },
+    {
       title: 'Action',
       key: 'action',
-      width: 60,
+      width: 80,
       fixed: 'right',
       render: (_, record) => (
         <Tooltip title="Régulariser">

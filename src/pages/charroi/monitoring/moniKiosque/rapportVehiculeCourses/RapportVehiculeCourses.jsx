@@ -311,7 +311,7 @@ const RapportVehiculeCourses = ({ course }) => {
           tab={
             <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <ExportOutlined style={{ color: "blue" }} />
-              TRUE BON DE SORTIE
+              Contrôle des sorties
             </span>
           }
           key="2"
