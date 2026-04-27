@@ -16,7 +16,8 @@ import {
   CalendarOutlined,
   ExportOutlined,
   DownloadOutlined,
-  PrinterOutlined
+  PrinterOutlined,
+  ThunderboltOutlined
 } from '@ant-design/icons';
 import moment from 'moment';
 import './trueBonDeSortie.scss';
@@ -77,8 +78,8 @@ const TrueBonDeSortie = () => {
           </div>
         </div>
         <div className="header-right">
-          <Badge count={stats.sans_bon} offset={[10, -5]}>
-            <Button icon={<WarningOutlined />} className="alert-btn">
+          <Badge count={stats.non_autorisees || 0} offset={[10, -5]}>
+            <Button icon={<ThunderboltOutlined />} className="alert-btn">
               Alertes
             </Button>
           </Badge>
@@ -109,9 +110,9 @@ const TrueBonDeSortie = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="stat-card stat-card-danger" hoverable>
             <Statistic 
-              title="Sorties sans bon" 
-              value={stats.sans_bon || 0} 
-              prefix={<CloseCircleOutlined />}
+              title="Sorties sauvages" 
+              value={stats.non_autorisees || 0} 
+              prefix={<ThunderboltOutlined />}
               valueStyle={{ color: '#ff4d4f' }}
             />
           </Card>
@@ -156,22 +157,22 @@ const TrueBonDeSortie = () => {
         </Col>
       </Row>
 
-      {/* Alerte */}
-      {stats.sans_bon > 0 && (
+      {/* Alerte pour sorties sauvages */}
+      {stats.non_autorisees > 0 && (
         <Alert
           message={
             <Space>
-              <WarningOutlined style={{ fontSize: 16 }} />
-              <span style={{ fontWeight: 'bold' }}>{stats.sans_bon} sortie(s) sans bon détectée(s)</span>
+              <ThunderboltOutlined style={{ fontSize: 16, color: '#ff4d4f' }} />
+              <span style={{ fontWeight: 'bold' }}>{stats.non_autorisees} sortie(s) sauvage(s) détectée(s)</span>
             </Space>
           }
-          description="Ces véhicules ont quitté leur zone de base sans bon de sortie valide. Une régularisation est nécessaire."
-          type="warning"
+          description="Ces véhicules ont quitté leur zone sans aucun justificatif (ni bon de sortie, ni pointage tablette). Intervention urgente requise."
+          type="error"
           showIcon
           closable
-          className="alert-premium"
+          className="alert-premium alert-danger"
           action={
-            <Button size="small" type="primary" ghost onClick={() => setStatutFilter('SORTIE_SANS_BON')}>
+            <Button size="small" type="primary" danger onClick={() => setStatutFilter('SORTIE_NON_AUTORISEE')}>
               Voir les détails
             </Button>
           }
@@ -218,10 +219,10 @@ const TrueBonDeSortie = () => {
                 >
                   <Option value="tous">📊 Tous les statuts</Option>
                   <Option value="CONFORME">🟢 Conforme</Option>
-                  <Option value="SORTIE_SANS_BON">🔴 Sortie sans bon</Option>
                   <Option value="SORTIE_NON_POINTEE">🟠 Non pointée</Option>
                   <Option value="BON_NON_EXECUTE">🟡 Bon non exécuté</Option>
-                  <Option value="SORTIE_NON_AUTORISEE">🔴 Non autorisée</Option>
+                  <Option value="SORTIE_NON_AUTORISEE">🔴 Sortie sauvage</Option>
+                  <Option value="ANOMALIE_A_VERIFIER">🟣 À vérifier</Option>
                 </Select>
               </div>
             </Space>

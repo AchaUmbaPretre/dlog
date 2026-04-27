@@ -78,7 +78,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
       title: 'Bon',
       dataIndex: 'numero_bon_sortie',
       key: 'bon',
-      width: 90,
+      width: 80,
       render: (bon) => bon || <Text type="danger">Aucun</Text>
     },
     {
