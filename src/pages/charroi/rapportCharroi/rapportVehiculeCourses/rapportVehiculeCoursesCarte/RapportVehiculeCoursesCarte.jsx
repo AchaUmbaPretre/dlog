@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { MapContainer, TileLayer, ZoomControl, ScaleControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import "./style/premium.css"
 import { useMonitoring } from '../../../monitoring/hooks/useMonitoring';
 import { useVehicleData } from './hooks/useVehicleData';
 import { useGroupedVehicles } from './hooks/useGroupedVehicles';

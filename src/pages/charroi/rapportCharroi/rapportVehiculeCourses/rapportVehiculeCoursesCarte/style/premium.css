@@ -1,0 +1,305 @@
+/* ============================================
+   TOOLTIP PREMIUM BLANC AVEC ICONES
+   ============================================ */
+
+.premium-tooltip-white {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.premium-tooltip-card-white {
+  min-width: 300px;
+  max-width: 340px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+/* Header */
+.tooltip-card-header-white {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 2px solid;
+  background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%);
+}
+
+.header-icon-white {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-info-white {
+  flex: 1;
+}
+
+.vehicle-title-white {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vehicle-icon {
+  font-size: 12px;
+}
+
+.vehicle-subtitle-white {
+  font-size: 10px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reg-icon {
+  font-size: 10px;
+}
+
+/* Badges */
+.tooltip-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.tooltip-badge.critical {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.tooltip-badge.warning {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #d97706;
+}
+
+/* Corps */
+.tooltip-card-body-white {
+  padding: 14px 16px;
+  background: white;
+}
+
+.info-row-white {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-label-white {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.label-icon {
+  font-size: 12px;
+  width: 18px;
+}
+
+.info-value-white {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot-white {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulseWhite 1.5s infinite;
+}
+
+.duration-highlight-white, .distance-value, .speed-value-white {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-family: monospace;
+  color: #374151;
+}
+
+.speed-value-white {
+  color: #10b981;
+  font-weight: 700;
+}
+
+/* Score section */
+.score-row-white {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  padding-top: 4px;
+}
+
+.score-header-white {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.score-label-white {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.score-icon {
+  font-size: 12px;
+}
+
+.score-percent-white {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.score-bar-container-white {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.score-bar-fill-white {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Message de recommandation */
+.recommendation-message-white {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #fffbeb;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.rec-icon {
+  font-size: 14px;
+}
+
+.rec-text-white {
+  flex: 1;
+  font-size: 10px;
+  color: #92400e;
+  line-height: 1.4;
+}
+
+/* Footer */
+.tooltip-card-footer-white {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fafbfc;
+  border-top: 1px solid #f0f0f0;
+  font-size: 9px;
+  color: #9ca3af;
+}
+
+.footer-icon {
+  font-size: 10px;
+}
+
+.footer-text-white {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: #9ca3af;
+}
+
+.update-icon {
+  font-size: 9px;
+}
+
+/* Animations */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseWhite {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* Flèche du tooltip */
+.premium-tooltip-white::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .premium-tooltip-card-white {
+    min-width: 260px;
+  }
+  
+  .header-icon-white {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  
+  .vehicle-title-white {
+    font-size: 12px;
+  }
+}
