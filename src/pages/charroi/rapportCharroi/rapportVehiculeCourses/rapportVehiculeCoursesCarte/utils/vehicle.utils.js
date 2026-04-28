@@ -35,8 +35,6 @@ export const calculateEfficiency = (plannedMinutes, actualMinutes) => {
   return Math.round(Math.max(0, Math.min(100, 100 - ratio * 100)));
 };
 
-// ============ FORMATAGE PREMIUM DES DURÉES ============
-
 export const formatPremiumDuration = (seconds) => {
   if (!seconds || seconds <= 0) return { short: '0s', full: '0 seconde' };
   
@@ -70,8 +68,6 @@ export const formatPremiumDuration = (seconds) => {
     full: fullParts.join(' ')
   };
 };
-
-// ============ DÉTERMINATION DU STATUT PREMIUM ============
 
 export const determineVehicleStatus = (speed, stopDurationSec) => {
   if (speed > 0) return VEHICLE_STATUS.MOVING;
@@ -158,12 +154,41 @@ export const getParkingRecommendation = (stopDurationSec) => {
   };
 };
 
+// ============ PARSING DES COORDONNÉES DE DESTINATION ============
+
+export const parseDestinationCoordinates = (coordinatesStr) => {
+  if (!coordinatesStr) return null;
+  try {
+    // Si c'est déjà un objet
+    if (typeof coordinatesStr === 'object') return coordinatesStr;
+    
+    // Si c'est une chaîne JSON
+    const coords = JSON.parse(coordinatesStr);
+    if (!Array.isArray(coords) || coords.length === 0) return null;
+    
+    // Calculer le centre du polygone
+    const center = coords.reduce((acc, point) => ({
+      lat: acc.lat + point.lat / coords.length,
+      lng: acc.lng + point.lng / coords.length
+    }), { lat: 0, lng: 0 });
+    
+    return {
+      polygon: coords,
+      center: [center.lat, center.lng],
+      bounds: coords.map(p => [p.lat, p.lng])
+    };
+  } catch (e) {
+    console.warn('Erreur parsing coordinates:', e);
+    return null;
+  }
+};
+
 // ============ TRANSFORMATION PRINCIPALE ============
 
 export const transformToVehicle = (rawItem) => {
   if (!rawItem) return null;
   
-  // Extraction des coordonnées
+  // Extraction des coordonnées GPS
   const coords = extractCoordinates(rawItem);
   if (!coords) return null;
   
@@ -185,8 +210,16 @@ export const transformToVehicle = (rawItem) => {
   // Formatage premium de la durée
   const formattedDuration = formatPremiumDuration(stopDurationSec);
   
+  // Détection signal perdu
+  const lastUpdate = rawItem.time || rawItem.capteurInfo?.time;
+  const hoursSinceUpdate = lastUpdate ? (Date.now() - new Date(lastUpdate)) / (1000 * 3600) : 0;
+  const isSignalLost = hoursSinceUpdate > 2;
+  
   // Détermination du statut
-  const status = determineVehicleStatus(speed, stopDurationSec);
+  let status = determineVehicleStatus(speed, stopDurationSec);
+  if (isSignalLost && speed === 0) {
+    status = VEHICLE_STATUS.NO_SIGNAL;
+  }
   
   // Calcul du score de stationnement
   const parkingScore = calculateParkingScore(stopDurationSec);
@@ -213,6 +246,15 @@ export const transformToVehicle = (rawItem) => {
     rawItem.duree_reelle_min
   );
   
+  // Batterie (si disponible)
+  const batteryLevel = rawItem.battery_level || rawItem.capteurInfo?.battery_level;
+  
+  // Coupure batterie
+  const isEngineCut = rawItem.engine_cut || rawItem.capteurInfo?.engine_cut || false;
+  
+  // Coordonnées destination
+  const destinationCoords = parseDestinationCoordinates(rawItem.coordinates);
+  
   // Statut en ligne
   const isOnline = rawItem.online === 'online' || rawItem.online === 'ack';
   
@@ -233,12 +275,14 @@ export const transformToVehicle = (rawItem) => {
     status,
     isOnline,
     engineStatus: rawItem.engine_status || false,
+    isSignalLost,
     
     // Position et mouvement
     lat: coords.lat,
     lng: coords.lng,
     speed: Math.round(speed),
     course: rawItem.course || 0,
+    lastKnownCourse: rawItem.course || 0,
     
     // Trajectoire
     trajectory,
@@ -265,6 +309,15 @@ export const transformToVehicle = (rawItem) => {
     
     // Adresse
     address: rawItem.capteurInfo?.address || rawItem.address,
+    
+    // Batterie et coupure
+    batteryLevel: batteryLevel,
+    isEngineCut: isEngineCut,
+    
+    // Destination (geofence)
+    destinationLat: destinationCoords?.center?.[0],
+    destinationLng: destinationCoords?.center?.[1],
+    destinationPolygon: destinationCoords?.polygon,
     
     // Données brutes (pour debug)
     rawData: rawItem

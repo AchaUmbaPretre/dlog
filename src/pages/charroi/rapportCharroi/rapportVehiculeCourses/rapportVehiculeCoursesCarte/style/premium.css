@@ -1,5 +1,518 @@
+/* style/premium.css - Version complète et organisée */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 /* ============================================
-   TOOLTIP PREMIUM BLANC AVEC ICONES
+   FLEET DASHBOARD - ULTRA PREMIUM
+   ============================================ */
+
+.fleet-dashboard {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0f1a 0%, #0f1622 100%);
+  overflow: hidden;
+}
+
+/* ========== SIDEBAR PREMIUM ========== */
+.fleet-sidebar {
+  position: relative;
+  width: 320px;
+  height: 100%;
+  background: rgba(18, 24, 36, 0.98);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fleet-sidebar.closed {
+  transform: translateX(-320px);
+  position: absolute;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+  transition: transform 0.2s;
+}
+
+.logo-icon:hover {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.logo-highlight {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo-subtitle {
+  font-size: 10px;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.collapse-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  transform: scale(1.02);
+}
+
+/* ========== LISTE VÉHICULES ========== */
+.vehicles-list-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.vehicle-count-badge {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.vehicles-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.vehicles-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.vehicles-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.vehicles-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.vehicles-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.vehicle-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  position: relative;
+}
+
+.vehicle-list-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
+}
+
+.vehicle-list-item.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.1));
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.vehicle-list-item.signal-lost {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+.vehicle-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+  animation: pulse-dot 2s infinite;
+}
+
+.vehicle-list-info {
+  flex: 1;
+}
+
+.vehicle-list-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.vehicle-list-plate {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.vehicle-list-speed {
+  font-size: 12px;
+  font-weight: 500;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.signal-badge {
+  font-size: 12px;
+  margin-left: 6px;
+  animation: blink 1.5s infinite;
+}
+
+/* ========== STATS RAPIDES ========== */
+.quick-stats {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  gap: 12px;
+  position: relative;
+}
+
+.quick-stat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.quick-stat:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.quick-stat > span {
+  font-size: 20px;
+  color: #3b82f6;
+}
+
+.quick-stat > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.quick-stat span {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+.quick-stat label {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.quick-stat.alert > span {
+  color: #ef4444;
+}
+
+/* ========== PANEL D'ALERTES ========== */
+.alerts-panel-premium {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  overflow: hidden;
+  z-index: 200;
+  animation: slideUp 0.3s ease;
+}
+
+.alerts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(239, 68, 68, 0.15);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.alerts-header button {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.alert-item-premium {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+}
+
+.alert-item-premium:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.alert-icon {
+  font-size: 20px;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.alert-message {
+  font-size: 11px;
+  color: #ef4444;
+}
+
+/* ========== MAP HEADER FLOTTANT ========== */
+.fleet-map-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-header-floating {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 12px;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 100px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: live-pulse 1.5s infinite;
+}
+
+.live-indicator span:last-child {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ef4444;
+  letter-spacing: 0.5px;
+}
+
+.zoom-controls-floating {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 6px;
+  border-radius: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zoom-btn {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.zoom-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.zoom-btn.primary {
+  background: #3b82f6;
+}
+
+.zoom-btn.primary:hover {
+  background: #2563eb;
+}
+
+/* ========== CLUSTER INDICATOR ========== */
+.cluster-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.3s ease;
+}
+
+.cluster-icon {
+  font-size: 20px;
+}
+
+.cluster-info {
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.cluster-info strong {
+  color: #f59e0b;
+}
+
+.cluster-indicator button {
+  padding: 6px 14px;
+  background: #3b82f6;
+  border: none;
+  border-radius: 100px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cluster-indicator button:hover {
+  background: #2563eb;
+  transform: scale(1.02);
+}
+
+/* ========== MOBILE TOGGLE ========== */
+.mobile-sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.mobile-sidebar-toggle:hover {
+  background: #3b82f6;
+}
+
+/* ============================================
+   TOOLTIP PREMIUM
    ============================================ */
 
 .premium-tooltip-white {
@@ -19,7 +532,18 @@
   animation: tooltipFadeIn 0.2s ease-out;
 }
 
-/* Header */
+.premium-tooltip-white::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white;
+}
+
+/* Tooltip Header */
 .tooltip-card-header-white {
   display: flex;
   align-items: center;
@@ -54,10 +578,6 @@
   gap: 6px;
 }
 
-.vehicle-icon {
-  font-size: 12px;
-}
-
 .vehicle-subtitle-white {
   font-size: 10px;
   color: #6b7280;
@@ -66,34 +586,7 @@
   gap: 6px;
 }
 
-.reg-icon {
-  font-size: 10px;
-}
-
-/* Badges */
-.tooltip-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.tooltip-badge.critical {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-}
-
-.tooltip-badge.warning {
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  color: #d97706;
-}
-
-/* Corps */
+/* Tooltip Body */
 .tooltip-card-body-white {
   padding: 14px 16px;
   background: white;
@@ -117,11 +610,6 @@
   color: #6b7280;
 }
 
-.label-icon {
-  font-size: 12px;
-  width: 18px;
-}
-
 .info-value-white {
   font-size: 12px;
   font-weight: 600;
@@ -139,24 +627,76 @@
   animation: pulseWhite 1.5s infinite;
 }
 
-.duration-highlight-white, .distance-value, .speed-value-white {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #f3f4f6;
-  padding: 2px 8px;
+/* ETA Section */
+.eta-section-premium {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 12px;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+.eta-title {
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.eta-destination {
   font-size: 11px;
-  font-family: monospace;
-  color: #374151;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.speed-value-white {
-  color: #10b981;
-  font-weight: 700;
+.eta-details {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* Score section */
+.eta-details div {
+  margin: 2px 0;
+}
+
+.eta-delayed {
+  color: #fcd34d;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+/* Technical Info */
+.technical-info {
+  margin: 8px 0;
+  padding: 6px;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+
+.battery-info {
+  font-size: 9px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.battery-info.low {
+  color: #f59e0b;
+}
+
+.battery-info.critical {
+  color: #ef4444;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+.engine-cut-info, .signal-lost-info {
+  font-size: 9px;
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Score Section */
 .score-row-white {
   margin-top: 12px;
   margin-bottom: 4px;
@@ -179,10 +719,6 @@
   color: #6b7280;
 }
 
-.score-icon {
-  font-size: 12px;
-}
-
 .score-percent-white {
   font-size: 12px;
   font-weight: 700;
@@ -202,29 +738,7 @@
   transition: width 0.3s ease;
 }
 
-/* Message de recommandation */
-.recommendation-message-white {
-  margin-top: 12px;
-  padding: 10px 12px;
-  background: #fffbeb;
-  border-radius: 12px;
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.rec-icon {
-  font-size: 14px;
-}
-
-.rec-text-white {
-  flex: 1;
-  font-size: 10px;
-  color: #92400e;
-  line-height: 1.4;
-}
-
-/* Footer */
+/* Tooltip Footer */
 .tooltip-card-footer-white {
   display: flex;
   align-items: center;
@@ -236,58 +750,259 @@
   color: #9ca3af;
 }
 
-.footer-icon {
-  font-size: 10px;
+/* ============================================
+   INTELLIGENT ETA STYLES
+   ============================================ */
+
+.intelligent-eta {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
 }
 
-.footer-text-white {
+.eta-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.eta-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.eta-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.eta-delay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #fef2f2;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border-left: 3px solid;
+}
+
+.eta-progress {
+  margin-bottom: 12px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.eta-last-update {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 9px;
   color: #9ca3af;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
 }
 
-.update-icon {
+.eta-arrived {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, #10b98120, transparent);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* ============================================
+   GEOFENCE STYLES
+   ============================================ */
+
+.geofence-preview {
+  margin-top: 12px;
+  padding: 8px;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+
+.geofence-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.geofence-coords {
   font-size: 9px;
+  color: #6b7280;
 }
 
-/* Animations */
+/* ============================================
+   VEHICLE MARKER STYLES
+   ============================================ */
+
+.premium-vehicle-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.premium-vehicle-marker {
+  transition: transform 0.2s;
+}
+
+.premium-vehicle-marker.hovered {
+  transform: scale(1.15);
+  z-index: 1000;
+}
+
+/* ============================================
+   POSITION CLUSTER STYLES
+   ============================================ */
+
+.position-cluster-icon {
+  background: transparent;
+}
+
+.position-cluster {
+  transition: transform 0.2s;
+  animation: pulse 2s infinite;
+}
+
+.position-cluster:hover {
+  transform: scale(1.1);
+}
+
+/* ============================================
+   ANIMATIONS GLOBALES
+   ============================================ */
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @keyframes tooltipFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulseWhite {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* ============================================
+   LEAFLET OVERRIDES
+   ============================================ */
+
+.leaflet-container {
+  background: #0f172a;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #3b82f6 !important;
+}
+
+.leaflet-control-scale-line {
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .fleet-sidebar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    height: 100%;
+    transform: translateX(-100%);
   }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.2);
+  
+  .fleet-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .map-header-floating {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .mobile-sidebar-toggle {
+    display: flex;
   }
 }
 
-/* Flèche du tooltip */
-.premium-tooltip-white::before {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid white;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
   .premium-tooltip-card-white {
     min-width: 260px;
@@ -302,4 +1017,144 @@
   .vehicle-title-white {
     font-size: 12px;
   }
+}
+
+@media (min-width: 1025px) {
+  .mobile-sidebar-toggle {
+    display: none;
+  }
+}
+
+/* Ajoute à la fin de premium.css */
+
+/* ============================================
+   ULTRA PREMIUM ADDITIONS
+   ============================================ */
+
+/* Settings Bar */
+.settings-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 6px 12px;
+  border-radius: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 50%;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.action-btn:hover {
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.05);
+}
+
+.refresh-time {
+  font-size: 10px;
+  color: #64748b;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Geofence Animation */
+.geofence-polygon-animated {
+  animation: geofencePulse 2s ease-in-out infinite;
+}
+
+@keyframes geofencePulse {
+  0%, 100% {
+    stroke-opacity: 1;
+    fill-opacity: 0.08;
+  }
+  50% {
+    stroke-opacity: 0.6;
+    fill-opacity: 0.05;
+  }
+}
+
+/* Badge Ant Design Override */
+.ant-badge-count {
+  background: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Scrollbar moderne */
+.vehicles-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s;
+}
+
+.loading-spinner-premium {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(59, 130, 246, 0.2);
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Tooltip amélioré */
+.premium-tooltip-white {
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.premium-tooltip-white:hover {
+  transform: translateY(-2px);
+}
+
+/* Badge de notification */
+.notification-badge {
+  position: relative;
+}
+
+.notification-badge::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: pulse-dot 2s infinite;
 }

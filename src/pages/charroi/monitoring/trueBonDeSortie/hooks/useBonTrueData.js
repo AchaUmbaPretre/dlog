@@ -1,20 +1,26 @@
-// hooks/useBonTrueData.js
 import { useEffect, useState, useCallback } from "react";
 import { notification } from "antd";
 import { getControles } from "../../../../../services/controleGpsService";
 
 export const useBonTrueData = (autoRefresh = true, refreshInterval = 5000) => {
+
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [initialLoading, setInitialLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
     const [lastUpdate, setLastUpdate] = useState(null);
 
-    const fetchData = useCallback(async () => {
-        setLoading(true);
+    const fetchData = useCallback(async (isRefresh = false) => {
         try {
-            // ✅ CORRIGER : getControles retourne déjà les données directement
+            if (isRefresh) {
+                setRefreshing(true); // 🔥 silent loading
+            } else {
+                setInitialLoading(true); // 🔥 first load only
+            }
+
             const response = await getControles();
             setData(response.data.data || []);
             setLastUpdate(new Date());
+
         } catch (error) {
             console.error("Erreur chargement:", error);
             notification.error({
@@ -22,28 +28,29 @@ export const useBonTrueData = (autoRefresh = true, refreshInterval = 5000) => {
                 description: "Une erreur est survenue lors du chargement des données.",
             });
         } finally {
-            setLoading(false);
+            setInitialLoading(false);
+            setRefreshing(false);
         }
     }, []);
 
     useEffect(() => {
-        fetchData();
+        fetchData(false); // initial load
 
         let interval;
+
         if (autoRefresh) {
             interval = setInterval(() => {
-                fetchData();
+                fetchData(true); // 🔥 silent refresh
             }, refreshInterval);
         }
 
-        return () => {
-            if (interval) clearInterval(interval);
-        };
+        return () => clearInterval(interval);
     }, [fetchData, autoRefresh, refreshInterval]);
 
     return {
         data,
-        loading,
+        loading: initialLoading,
+        refreshing,                  
         lastUpdate,
         fetchData,
     };

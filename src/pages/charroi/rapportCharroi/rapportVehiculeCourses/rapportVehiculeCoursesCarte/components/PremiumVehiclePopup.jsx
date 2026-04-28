@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { VEHICLE_STATUS, STATUS_ICONS, STATUS_COLORS } from '../constants/map.constants';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
+import { IntelligentETA } from './IntelligentETA';
 
 export const PremiumVehiclePopup = ({ vehicle, addressRecord }) => {
   const [activeTab, setActiveTab] = useState('info');
@@ -133,6 +134,21 @@ export const PremiumVehiclePopup = ({ vehicle, addressRecord }) => {
             </div>
           </div>
         )}
+
+        {activeTab === 'eta' && (
+      <div className="eta-tab">
+        <IntelligentETA vehicle={vehicle} />
+        
+        {vehicle.destinationPolygon && (
+          <div className="geofence-preview">
+            <div className="geofence-title">🗺️ Zone de livraison</div>
+            <div className="geofence-coords">
+              {vehicle.destinationPolygon.length} points de géofencing
+            </div>
+          </div>
+        )}
+      </div>
+    )}
         
         {activeTab === 'history' && (
           <div className="history-tab">

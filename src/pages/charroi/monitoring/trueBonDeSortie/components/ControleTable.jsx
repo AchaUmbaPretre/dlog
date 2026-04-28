@@ -75,11 +75,11 @@ const ControleTable = ({ data, loading, onRefresh }) => {
       render: (zone) => zone || '-'
     },
     {
-      title: 'Bon',
-      dataIndex: 'numero_bon_sortie',
-      key: 'bon',
-      width: 80,
-      render: (bon) => bon || <Text type="danger">Aucun</Text>
+    title: 'Bon',
+    dataIndex: 'bon_id',
+    key: 'bon',
+    width: 80,
+    render: (bonId) => bonId ? `BS-${bonId}` : <Text type="danger">Aucun</Text>
     },
     {
       title: 'BS',
@@ -136,40 +136,33 @@ const ControleTable = ({ data, loading, onRefresh }) => {
     width: 90,
     align: 'center',
     render: (niveau) => {
-        // Vérifier si niveau existe
         if (!niveau) {
         return (
-            <Tag style={{ background: '#fafafa', border: 'none', color: '#8c8c8c', borderRadius: 20 }}>
+            <Tag>
             <AlertOutlined style={{ marginRight: 6 }} />
             Non défini
             </Tag>
         );
         }
-        
+
         const map = {
-        'FAIBLE': { color: '#52c41a', bg: '#f6ffed', text: 'Faible', icon: <SafetyOutlined /> },
-        'MOYEN': { color: '#faad14', bg: '#fffbe6', text: 'Moyen', icon: <WarningOutlined /> },
-        'ELEVE': { color: '#ff4d4f', bg: '#fff2f0', text: 'Élevé', icon: <ThunderboltOutlined /> }
+        FAIBLE: { color: 'success', text: 'Faible', icon: <SafetyOutlined /> },
+        MOYEN: { color: 'warning', text: 'Moyen', icon: <WarningOutlined /> },
+        ELEVE: { color: 'error', text: 'Élevé', icon: <ThunderboltOutlined /> }
         };
-        
-        const config = map[niveau] || { color: '#8c8c8c', bg: '#fafafa', text: niveau || 'Inconnu', icon: <AlertOutlined /> };
-        
+
+        const config = map[niveau] || {
+        color: 'default',
+        text: niveau || 'Inconnu',
+        icon: <AlertOutlined />
+        };
+
         return (
-        <Tag 
-            color={config.color} 
-            style={{ 
-            background: config.bg, 
-            border: 'none',
-            fontWeight: 500,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 6,
-            padding: '4px 12px',
-            borderRadius: 20
-            }}
-        >
+        <Tag color={config.color}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             {config.icon}
             {config.text}
+            </span>
         </Tag>
         );
     }

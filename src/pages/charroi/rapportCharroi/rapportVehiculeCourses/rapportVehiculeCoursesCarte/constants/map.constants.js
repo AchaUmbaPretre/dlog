@@ -1,6 +1,8 @@
+// constants/map.constants.js
+
 export const MAP_CONFIG = {
   DEFAULT_CENTER: [-4.358313, 15.348934],
-  DEFAULT_ZOOM: 11, 
+  DEFAULT_ZOOM: 11,
   MAX_CLUSTER_RADIUS: 80,
   ANIMATION_DURATION: 2000,
   TILE_LAYER: {
@@ -15,7 +17,8 @@ export const VEHICLE_STATUS = {
   IDLE: 'idle',
   LONG_IDLE: 'long_idle',
   VERY_LONG_IDLE: 'very_long_idle',
-  OFFLINE: 'offline'
+  OFFLINE: 'offline',
+  NO_SIGNAL: 'no_signal'
 };
 
 export const STATUS_COLORS = {
@@ -24,7 +27,8 @@ export const STATUS_COLORS = {
   [VEHICLE_STATUS.IDLE]: '#f97316',
   [VEHICLE_STATUS.LONG_IDLE]: '#ef4444',
   [VEHICLE_STATUS.VERY_LONG_IDLE]: '#7f1d1d',
-  [VEHICLE_STATUS.OFFLINE]: '#6b7280'
+  [VEHICLE_STATUS.OFFLINE]: '#6b7280',
+  [VEHICLE_STATUS.NO_SIGNAL]: '#dc2626'
 };
 
 export const STATUS_ICONS = {
@@ -33,7 +37,8 @@ export const STATUS_ICONS = {
   [VEHICLE_STATUS.IDLE]: '🅿️',
   [VEHICLE_STATUS.LONG_IDLE]: '⚠️',
   [VEHICLE_STATUS.VERY_LONG_IDLE]: '🔴',
-  [VEHICLE_STATUS.OFFLINE]: '📡'
+  [VEHICLE_STATUS.OFFLINE]: '📡',
+  [VEHICLE_STATUS.NO_SIGNAL]: '🚨'
 };
 
 export const STATUS_LABELS = {
@@ -42,11 +47,17 @@ export const STATUS_LABELS = {
   [VEHICLE_STATUS.IDLE]: 'Stationnement',
   [VEHICLE_STATUS.LONG_IDLE]: 'Stationnement prolongé',
   [VEHICLE_STATUS.VERY_LONG_IDLE]: '⚠️ Stationnement critique',
-  [VEHICLE_STATUS.OFFLINE]: 'Hors ligne'
+  [VEHICLE_STATUS.OFFLINE]: 'Hors ligne',
+  [VEHICLE_STATUS.NO_SIGNAL]: 'Signal perdu'
 };
 
 export const IDLE_THRESHOLDS = {
-  IDLE: 1800,        // 30 minutes
-  LONG_IDLE: 7200,   // 2 heures
-  VERY_LONG_IDLE: 28800 // 8 heures
+  IDLE: 1800,
+  LONG_IDLE: 7200,
+  VERY_LONG_IDLE: 28800
 };
+
+// Nouveaux seuils
+export const SIGNAL_LOST_THRESHOLD = 7200; // 2 heures sans signal
+export const BATTERY_LOW_THRESHOLD = 20; // 20% batterie
+export const BATTERY_CRITICAL_THRESHOLD = 10; // 10% batterie
