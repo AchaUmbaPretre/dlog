@@ -1,25 +1,7 @@
 // components/VehicleMarker.jsx
-
 import React from 'react';
 import { Marker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
-import { 
-  CarOutlined,
-  IdcardOutlined,
-  EnvironmentOutlined,
-  ClockCircleOutlined,
-  ThunderboltOutlined,
-  DashboardOutlined,
-  CheckCircleOutlined,
-  WarningOutlined,
-  CloseCircleOutlined,
-  BellOutlined,
-  FieldTimeOutlined,
-  WifiOutlined,
-  RocketOutlined,
-  PauseCircleOutlined,
-  SafetyOutlined
-} from '@ant-design/icons';
 import { VEHICLE_STATUS, STATUS_COLORS, STATUS_LABELS } from '../constants/map.constants';
 import { PremiumVehiclePopup } from './PremiumVehiclePopup';
 
