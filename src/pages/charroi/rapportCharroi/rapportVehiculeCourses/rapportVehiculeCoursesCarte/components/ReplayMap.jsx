@@ -258,7 +258,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
           <MapContainer
             ref={mapRef}
             center={[replayPoints[0]?.lat || 0, replayPoints[0]?.lng || 0]}
-            zoom={13}
+            zoom={20}
             style={{ height: '480px', width: '100%', borderRadius: '20px' }}
             zoomControl={true}
           >
