@@ -5,6 +5,34 @@ import { isValidCoordinate, parseCoordinate } from './coordinates.utils';
 
 // ============ FONCTIONS UTILITAIRES ============
 
+const calculateCourseFromTrajectory = (tail) => {
+  if (!tail || tail.length < 2) return null;
+  
+  // Prendre les deux derniers points (les plus récents)
+  const lastPoint = tail[tail.length - 1];
+  const prevPoint = tail[tail.length - 2];
+  
+  const lat1 = parseFloat(prevPoint.lat);
+  const lon1 = parseFloat(prevPoint.lng);
+  const lat2 = parseFloat(lastPoint.lat);
+  const lon2 = parseFloat(lastPoint.lng);
+  
+  // Formule de calcul du cap
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const lat1Rad = lat1 * Math.PI / 180;
+  const lat2Rad = lat2 * Math.PI / 180;
+  
+  const y = Math.sin(dLon) * Math.cos(lat2Rad);
+  const x = Math.cos(lat1Rad) * Math.sin(lat2Rad) -
+            Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
+  
+  let bearing = Math.atan2(y, x) * 180 / Math.PI;
+  bearing = (bearing + 360) % 360;
+  
+  return bearing;
+};
+
+
 export const extractCoordinates = (rawData) => {
   const sources = [rawData, rawData.capteurInfo, rawData.device_data];
   
@@ -186,6 +214,7 @@ export const parseDestinationCoordinates = (coordinatesStr) => {
 // ============ TRANSFORMATION PRINCIPALE ============
 
 export const transformToVehicle = (rawItem) => {
+  console.log('data: ', rawItem)
   if (!rawItem) return null;
   
   // Extraction des coordonnées GPS
@@ -258,6 +287,21 @@ export const transformToVehicle = (rawItem) => {
   // Statut en ligne
   const isOnline = rawItem.online === 'online' || rawItem.online === 'ack';
   
+   let course = rawItem.course || rawItem.capteurInfo?.course || 0;
+  
+  // Si course = 0 ou undefined, essayer de calculer depuis la trajectoire
+  if ((course === 0 || course === undefined || course === null) && rawItem.tail && rawItem.tail.length >= 2) {
+    const calculatedCourse = calculateCourseFromTrajectory(rawItem.tail);
+    if (calculatedCourse !== null && calculatedCourse > 0) {
+      course = calculatedCourse;
+      console.log(`Direction calculée depuis trajectoire pour ${rawItem.name}: ${course}°`);
+    }
+  }
+  
+  if ((course === 0 || course === undefined || course === null) && rawItem.lastKnownCourse) {
+    course = rawItem.lastKnownCourse;
+  }
+
   return {
     // Identifiants
     id: String(rawItem.id_bande_sortie || rawItem.id || Math.random()),
@@ -281,8 +325,8 @@ export const transformToVehicle = (rawItem) => {
     lat: coords.lat,
     lng: coords.lng,
     speed: Math.round(speed),
-    course: rawItem.course || 0,
-    lastKnownCourse: rawItem.course || 0,
+    course: course,
+    lastKnownCourse: course,
     
     // Trajectoire
     trajectory,

@@ -5,10 +5,32 @@ export const MAP_CONFIG = {
   DEFAULT_ZOOM: 11,
   MAX_CLUSTER_RADIUS: 80,
   ANIMATION_DURATION: 2000,
-  TILE_LAYER: {
-    URL: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    ATTRIBUTION: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+  TILE_LAYERS: {
+    light: {
+      url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+    },
+    dark: {
+      url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+    },
+    satellite: {
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      attribution: 'Tiles &copy; Esri'
+    },
+    streets: {
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution: '&copy; OSM'
+    }
   }
+};
+
+// Ajout des thèmes
+export const MAP_THEMES = {
+  LIGHT: 'light',
+  DARK: 'dark',
+  SATELLITE: 'satellite',
+  STREETS: 'streets'
 };
 
 export const VEHICLE_STATUS = {

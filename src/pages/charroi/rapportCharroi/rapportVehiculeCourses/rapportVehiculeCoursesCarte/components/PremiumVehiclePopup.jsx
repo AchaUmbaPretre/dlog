@@ -189,7 +189,6 @@ export const PremiumVehiclePopup = ({ vehicle, addressRecord }) => {
         
         .popup-header-premium {
           padding: 16px;
-          margin: -12px -12px 0 -12px;
           border-radius: 12px 12px 0 0;
         }
         

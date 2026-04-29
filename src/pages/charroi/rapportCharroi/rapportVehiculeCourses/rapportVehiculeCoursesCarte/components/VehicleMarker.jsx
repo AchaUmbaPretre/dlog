@@ -133,6 +133,11 @@ export const VehicleMarker = ({ vehicle, rawData, onHover, isHovered, hasMultipl
   
   // Mise à jour de la direction
   useEffect(() => {
+    // Garder la direction même à l'arrêt (dernière direction connue)
+    if (vehicle.course) {
+      setCurrentDirection(vehicle.course);
+    }
+    // Si le véhicule roule, priorité à la course actuelle
     if (vehicle.speed > 5 && vehicle.course) {
       setCurrentDirection(vehicle.course);
     }

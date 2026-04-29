@@ -29,8 +29,6 @@ export const useMonitoring = () => {
     try {
       const { data } = await getRapportCharroiVehicule();
       setCourses(data?.listeCourse || []);
-
-      console.log(courses)
     } catch (error) {
       notification.error({
         message: 'Erreur de chargement',

@@ -4,7 +4,6 @@ import {
   RocketOutlined,
   PauseCircleOutlined,
   BarChartOutlined,
-  LineChartOutlined,
   DashboardOutlined,
   EyeOutlined,
   EyeInvisibleOutlined,
@@ -12,21 +11,29 @@ import {
   MenuUnfoldOutlined,
   ThunderboltOutlined,
   ClockCircleOutlined,
-  GlobalOutlined
+  GlobalOutlined,
+  CheckCircleOutlined,
 } from '@ant-design/icons';
-import { Badge, Tag, Space } from 'antd';
+import { Badge, Tag, Space, Progress } from 'antd';
 
 export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajectories, onToggleTrajectories }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const getEfficiencyColor = () => {
+    if (stats.avgEfficiency >= 80) return '#10b981';
+    if (stats.avgEfficiency >= 60) return '#f59e0b';
+    return '#ef4444';
+  };
+  
   return (
     <div className={`premium-control-panel ${isExpanded ? 'expanded' : 'collapsed'}`}>
       <div className="panel-header-premium" onClick={() => setIsExpanded(!isExpanded)}>
         <div className="header-left">
-          <DashboardOutlined className="logo" style={{ fontSize: 20, color: '#3b82f6' }} />
+          <DashboardOutlined className="logo" />
           <span className="title">Fleet Command Center</span>
           <div className="live-badge">
             <span className="pulse-dot"></span>
-            LIVE
+            <span>LIVE</span>
           </div>
         </div>
         <button className="toggle-btn">
@@ -36,46 +43,18 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
       
       {isExpanded && (
         <>
-          <div className="stats-grid-premium">
-            <div className="stat-premium">
-              <CarOutlined className="stat-icon" />
-              <div className="stat-info">
-                <span className="stat-value">{stats.total}</span>
-                <span className="stat-label">Véhicules</span>
-              </div>
+          {/* Indicateur de performance globale */}
+          <div className="global-efficiency-indicator">
+            <div className="efficiency-header">
+              <ThunderboltOutlined />
+              <span>Performance globale</span>
             </div>
-            
-            <div className="stat-premium moving">
-              <RocketOutlined className="stat-icon" />
-              <div className="stat-info">
-                <span className="stat-value">{stats.moving}</span>
-                <span className="stat-label">En marche</span>
-              </div>
-            </div>
-            
-            <div className="stat-premium stopped">
-              <PauseCircleOutlined className="stat-icon" />
-              <div className="stat-info">
-                <span className="stat-value">{stats.stopped}</span>
-                <span className="stat-label">Arrêtés</span>
-              </div>
-            </div>
-            
-            <div className="stat-premium efficiency">
-              <BarChartOutlined className="stat-icon" />
-              <div className="stat-info">
-                <span className="stat-value">{stats.avgEfficiency}%</span>
-                <span className="stat-label">Efficacité</span>
-              </div>
-            </div>
-            
-            <div className="stat-premium distance">
-              <LineChartOutlined className="stat-icon" />
-              <div className="stat-info">
-                <span className="stat-value">{stats.totalDistance}</span>
-                <span className="stat-label">km parcourus</span>
-              </div>
-            </div>
+            <Progress 
+              percent={stats.avgEfficiency} 
+              strokeColor={getEfficiencyColor()}
+              trailColor="#f1f5f9"
+              status={stats.avgEfficiency >= 60 ? 'active' : 'exception'}
+            />
           </div>
           
           <div className="filter-bar-premium">
@@ -85,7 +64,7 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
             >
               <GlobalOutlined />
               Tous
-              <Badge count={stats.total} style={{ backgroundColor: '#3b82f6' }} />
+              <Badge count={stats.total} />
             </button>
             
             <button
@@ -94,7 +73,7 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
             >
               <RocketOutlined />
               En marche
-              <Badge count={stats.moving} style={{ backgroundColor: '#10b981' }} />
+              <Badge count={stats.moving} />
             </button>
             
             <button
@@ -103,7 +82,7 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
             >
               <PauseCircleOutlined />
               Arrêtés
-              <Badge count={stats.stopped} style={{ backgroundColor: '#f59e0b' }} />
+              <Badge count={stats.stopped} />
             </button>
             
             <button
@@ -115,10 +94,9 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
             </button>
           </div>
 
-          {/* Informations supplémentaires */}
           <div className="additional-info">
-            <Space split={<span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>}>
-              <Tag icon={<ThunderboltOutlined />} color="success">
+            <Space size={12} wrap>
+              <Tag icon={<CheckCircleOutlined />} color="success">
                 Efficacité {stats.avgEfficiency}%
               </Tag>
               <Tag icon={<ClockCircleOutlined />} color="processing">
@@ -130,36 +108,37 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
       )}
       
       <style jsx>{`
-        .premium-control-panel {
-          position: absolute;
-          top: 20px;
-          left: 20px;
-          z-index: 1000;
-          background: rgba(15, 23, 42, 0.95);
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          border: 1px solid rgba(255,255,255,0.1);
-          box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-          transition: all 0.3s;
-          min-width: 320px;
+        .global-efficiency-indicator {
+          padding: 16px 20px 0 20px;
         }
         
-        .premium-control-panel.collapsed {
-          min-width: auto;
+        .efficiency-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 11px;
+          font-weight: 600;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 12px;
+        }
+        
+        .premium-control-panel {
+          background: white;
+          border-radius: 20px;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+          margin: 16px;
         }
         
         .panel-header-premium {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 12px 16px;
+          padding: 14px 18px;
           cursor: pointer;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
-          transition: background 0.2s;
-        }
-        
-        .panel-header-premium:hover {
-          background: rgba(255,255,255,0.05);
+          border-bottom: 1px solid #f1f5f9;
         }
         
         .header-left {
@@ -175,7 +154,7 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
         
         .title {
           font-weight: 600;
-          color: white;
+          color: #0f172a;
           font-size: 14px;
         }
         
@@ -183,59 +162,28 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
           display: flex;
           align-items: center;
           gap: 6px;
-          padding: 2px 8px;
-          background: rgba(239,68,68,0.2);
-          border-radius: 20px;
+          padding: 2px 10px;
+          background: rgba(239, 68, 68, 0.1);
+          border-radius: 30px;
           font-size: 10px;
           font-weight: 600;
           color: #ef4444;
         }
         
-        .pulse-dot {
-          width: 6px;
-          height: 6px;
-          background: #ef4444;
-          border-radius: 50%;
-          animation: pulse 1.5s infinite;
-        }
-        
-        .toggle-btn {
-          background: rgba(255,255,255,0.1);
-          border: none;
-          color: white;
-          padding: 4px 8px;
-          border-radius: 6px;
-          cursor: pointer;
-          font-size: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-        }
-        
-        .toggle-btn:hover {
-          background: rgba(255,255,255,0.2);
-        }
-        
         .stats-grid-premium {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          gap: 12px;
-          padding: 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.1);
+          gap: 8px;
+          padding: 16px 20px;
+          border-bottom: 1px solid #f1f5f9;
         }
         
         .stat-premium {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           padding: 8px;
-          border-radius: 8px;
-          transition: all 0.2s;
-        }
-        
-        .stat-premium:hover {
-          background: rgba(255,255,255,0.05);
+          border-radius: 12px;
         }
         
         .stat-icon {
@@ -243,104 +191,86 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
           color: #94a3b8;
         }
         
-        .stat-premium.moving .stat-icon {
-          color: #10b981;
-        }
-        
-        .stat-premium.stopped .stat-icon {
-          color: #f59e0b;
-        }
-        
-        .stat-premium.efficiency .stat-icon {
-          color: #8b5cf6;
-        }
-        
-        .stat-premium.distance .stat-icon {
-          color: #3b82f6;
-        }
-        
-        .stat-info {
-          display: flex;
-          flex-direction: column;
-        }
+        .stat-premium.moving .stat-icon { color: #10b981; }
+        .stat-premium.stopped .stat-icon { color: #f59e0b; }
+        .stat-premium.efficiency .stat-icon { color: #8b5cf6; }
+        .stat-premium.distance .stat-icon { color: #3b82f6; }
         
         .stat-value {
           font-size: 18px;
-          font-weight: bold;
-          color: white;
+          font-weight: 700;
+          color: #0f172a;
           line-height: 1.2;
         }
         
         .stat-label {
           font-size: 10px;
-          color: #94a3b8;
+          color: #64748b;
         }
         
         .filter-bar-premium {
           display: flex;
           gap: 8px;
-          padding: 16px;
+          padding: 16px 20px;
           flex-wrap: wrap;
+          border-bottom: 1px solid #f1f5f9;
         }
         
         .filter-premium {
-          padding: 6px 12px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 8px;
-          color: white;
+          padding: 7px 14px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          color: #0f172a;
           cursor: pointer;
           font-size: 12px;
-          transition: all 0.2s;
           display: flex;
           align-items: center;
           gap: 6px;
+          transition: all 0.2s;
         }
         
         .filter-premium:hover {
-          background: rgba(255,255,255,0.1);
+          background: #f1f5f9;
           transform: translateY(-1px);
         }
         
         .filter-premium.active {
           background: #3b82f6;
           border-color: #3b82f6;
+          color: white;
         }
         
-        .filter-premium.moving.active {
-          background: #10b981;
-        }
-        
-        .filter-premium.stopped.active {
-          background: #f59e0b;
-        }
-        
-        .filter-premium.trajectory.active {
-          background: #8b5cf6;
-        }
-        
-        .filter-premium :global(.ant-badge) {
-          margin-left: 4px;
-        }
+        .filter-premium.moving.active { background: #10b981; }
+        .filter-premium.stopped.active { background: #f59e0b; }
+        .filter-premium.trajectory.active { background: #8b5cf6; }
         
         .filter-premium :global(.ant-badge-count) {
           font-size: 10px;
-          height: 16px;
-          line-height: 16px;
-          padding: 0 4px;
-          min-width: 16px;
+          height: 18px;
+          line-height: 18px;
+          padding: 0 6px;
+          min-width: 18px;
+          background: rgba(0, 0, 0, 0.15);
+          box-shadow: none;
+        }
+        
+        .filter-premium.active :global(.ant-badge-count) {
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
         }
         
         .additional-info {
-          padding: 12px 16px;
-          border-top: 1px solid rgba(255,255,255,0.1);
+          padding: 12px 20px;
         }
         
         .additional-info :global(.ant-tag) {
           margin: 0;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: #94a3b8;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 20px;
+          padding: 4px 12px;
+          font-size: 11px;
         }
         
         @keyframes pulse {

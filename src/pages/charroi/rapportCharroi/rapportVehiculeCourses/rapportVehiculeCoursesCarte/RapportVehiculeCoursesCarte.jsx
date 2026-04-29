@@ -1,4 +1,4 @@
-// RapportVehiculeCoursesCarte.jsx
+// RapportVehiculeCoursesCarte.jsx - Version finale corrigée
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { MapContainer, TileLayer, ZoomControl, ScaleControl, Polygon } from 'react-leaflet';
@@ -14,8 +14,10 @@ import {
   DashboardOutlined,
   LineChartOutlined,
   ClockCircleOutlined,
-  BellOutlined
+  BellOutlined,
+  HistoryOutlined
 } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import "./style/premium.css";
 import { useMonitoring } from '../../../monitoring/hooks/useMonitoring';
 import { useVehicleData } from './hooks/useVehicleData';
@@ -25,6 +27,10 @@ import { EmptyState, LoadingState } from './components/LoadingState';
 import { ControlPanel } from './components/ControlPanel';
 import { PositionCluster } from './components/PositionCluster';
 import { VehicleMarker } from './components/VehicleMarker';
+import { MAP_CONFIG, MAP_THEMES } from './constants/map.constants';
+import { ThemeControl } from './components/ThemeControl';
+import { ExportButton } from './components/ExportButton';
+import { ReplayMap } from './components/ReplayMap';
 
 const RapportVehiculeCoursesCarte = () => {
   const { mergedCourses } = useMonitoring();
@@ -34,6 +40,8 @@ const RapportVehiculeCoursesCarte = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedVehicleId, setSelectedVehicleId] = useState(null);
   const [showAlertPanel, setShowAlertPanel] = useState(false);
+  const [currentTheme, setCurrentTheme] = useState(MAP_THEMES.LIGHT);
+  const [replayVehicle, setReplayVehicle] = useState(null);
   const mapRef = useRef();
 
   const vehicles = useVehicleData(mergedCourses);
@@ -192,6 +200,30 @@ const RapportVehiculeCoursesCarte = () => {
             <span className="live-dot"></span>
             <span>MONITORING EN DIRECT</span>
           </div>
+          
+          {/* Barre d'outils flottante */}
+          <div className="tools-bar">
+            <ThemeControl currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
+            <ExportButton vehicles={vehicles} stats={stats} />
+            
+            {/* Sélecteur de véhicule pour le replay */}
+            <select 
+              className="vehicle-replay-select"
+              onChange={(e) => {
+                const vehicle = vehicles.find(v => v.id === e.target.value);
+                if (vehicle) setReplayVehicle(vehicle);
+              }}
+              defaultValue=""
+            >
+              <option value="" disabled>🎬 Replay trajet</option>
+              {vehicles.map(v => (
+                <option key={v.id} value={v.id}>
+                  {v.name} - {v.registration}
+                </option>
+              ))}
+            </select>
+          </div>
+          
           <div className="zoom-controls-floating">
             <button onClick={() => mapRef.current?.zoomIn()} className="zoom-btn">
               <ZoomInOutlined />
@@ -216,8 +248,8 @@ const RapportVehiculeCoursesCarte = () => {
           <ScaleControl position="bottomleft" />
           
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
+            url={MAP_CONFIG.TILE_LAYERS[currentTheme].url}
+            attribution={MAP_CONFIG.TILE_LAYERS[currentTheme].attribution}
           />
           
           {/* Zones de destination */}
@@ -297,6 +329,14 @@ const RapportVehiculeCoursesCarte = () => {
           </button>
         )}
       </div>
+
+      {/* Modal de replay avec sa propre carte */}
+      {replayVehicle && (
+        <ReplayMap
+          vehicle={replayVehicle}
+          onClose={() => setReplayVehicle(null)}
+        />
+      )}
     </div>
   );
 };
