@@ -14,10 +14,8 @@ import {
   DashboardOutlined,
   LineChartOutlined,
   ClockCircleOutlined,
-  BellOutlined,
-  HistoryOutlined
+  BellOutlined
 } from '@ant-design/icons';
-import { Tooltip } from 'antd';
 import "./style/premium.css";
 import { useMonitoring } from '../../../monitoring/hooks/useMonitoring';
 import { useVehicleData } from './hooks/useVehicleData';

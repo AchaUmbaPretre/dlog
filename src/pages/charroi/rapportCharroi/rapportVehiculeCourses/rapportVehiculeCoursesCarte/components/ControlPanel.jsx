@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
-  CarOutlined,
   RocketOutlined,
   PauseCircleOutlined,
-  BarChartOutlined,
   DashboardOutlined,
   EyeOutlined,
   EyeInvisibleOutlined,

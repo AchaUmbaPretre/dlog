@@ -1,35 +1,59 @@
-// components/ReplayMap.jsx - Version corrigée
+// components/ReplayMap.jsx - Version finale corrigée
 
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { Modal, Slider, Button, Timeline, Tag, Progress, message } from 'antd';
-import { PlayCircleOutlined, PauseCircleOutlined, StopOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Modal, Slider, Button, Timeline, Tag, Progress, message, Badge, Card, Statistic, Row, Col, Divider } from 'antd';
+import { 
+  PlayCircleOutlined, 
+  PauseCircleOutlined, 
+  StopOutlined, 
+  ReloadOutlined,
+  ClockCircleOutlined,
+  EnvironmentOutlined,
+  CarOutlined,
+  UserOutlined,
+  FlagOutlined,
+  DashboardOutlined,
+  ThunderboltOutlined,
+  LineChartOutlined,
+  AimOutlined
+} from '@ant-design/icons';
 import 'leaflet/dist/leaflet.css';
+import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
-// Icône personnalisée pour le replay
+// Icônes personnalisées
 const createReplayIcon = () => {
   return L.divIcon({
     html: `
-      <div style="
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid white;
-        box-shadow: 0 4px 12px rgba(59,130,246,0.4);
-        animation: replay-pulse 0.8s infinite;
-      ">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="12 6 12 12 16 14"/>
-        </svg>
+      <div class="replay-marker-premium">
+        <div class="replay-marker-inner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
       </div>
     `,
-    className: 'replay-marker',
+    className: 'replay-marker-wrapper',
+    iconSize: [36, 36],
+    iconAnchor: [18, 18]
+  });
+};
+
+const createStartIcon = () => {
+  return L.divIcon({
+    html: `<div class="marker-start">🏁</div>`,
+    className: 'marker-start-wrapper',
+    iconSize: [32, 32],
+    iconAnchor: [16, 16]
+  });
+};
+
+const createEndIcon = () => {
+  return L.divIcon({
+    html: `<div class="marker-end">🎯</div>`,
+    className: 'marker-end-wrapper',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
   });
@@ -41,39 +65,38 @@ export const ReplayMap = ({ vehicle, onClose }) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [replayPoints, setReplayPoints] = useState([]);
+  const [totalDuration, setTotalDuration] = useState(0);
   const intervalRef = useRef(null);
   const mapRef = useRef(null);
   
+  // Préparer l'adresse record pour VehicleAddress - SANS time pour éviter l'erreur
+  const getAddressRecord = (lat, lng) => ({
+    lat: lat,
+    lng: lng,
+    capteurInfo: {
+      lat: lat,
+      lng: lng,
+      address: null
+    }
+  });
+  
   // Initialiser les points de replay
   useEffect(() => {
-    console.log('=== REPLAY MAP DEBUG ===');
-    console.log('Vehicle reçu:', vehicle);
+    if (!vehicle) return;
     
-    if (!vehicle) {
-      console.log('Pas de véhicule');
-      return;
-    }
-    
-    // Chercher la trajectoire dans différentes sources
     let trajectory = vehicle.trajectory;
     
-    // Si pas de trajectoire, chercher dans rawData.tail
     if ((!trajectory || trajectory.length === 0) && vehicle.rawData?.tail) {
-      console.log('Utilisation de rawData.tail');
       trajectory = vehicle.rawData.tail
         .filter(point => point.lat && point.lng)
         .map(point => [parseFloat(point.lat), parseFloat(point.lng)]);
     }
     
-    // Si toujours pas, chercher dans tail directement
     if ((!trajectory || trajectory.length === 0) && vehicle.tail) {
-      console.log('Utilisation de vehicle.tail');
       trajectory = vehicle.tail
         .filter(point => point.lat && point.lng)
         .map(point => [parseFloat(point.lat), parseFloat(point.lng)]);
     }
-    
-    console.log('Trajectoire trouvée:', trajectory?.length);
     
     if (trajectory && trajectory.length > 0) {
       const points = trajectory.map((pos, idx) => ({
@@ -84,13 +107,12 @@ export const ReplayMap = ({ vehicle, onClose }) => {
         isEnd: idx === trajectory.length - 1
       }));
       
-      console.log('Points générés:', points.length);
       setReplayPoints(points);
       setCurrentPosition(points[0]);
       setProgress(0);
       setCurrentIndex(0);
+      setTotalDuration(points.length * 0.1);
     } else {
-      console.warn('Aucune trajectoire disponible pour ce véhicule');
       message.warning('Ce véhicule n\'a pas de données de trajectoire');
     }
   }, [vehicle]);
@@ -102,7 +124,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
         setCurrentIndex(prev => {
           if (prev >= replayPoints.length - 1) {
             setIsPlaying(false);
-            message.success('Replay terminé');
+            message.success('Replay terminé 🎬');
             clearInterval(intervalRef.current);
             return prev;
           }
@@ -111,14 +133,16 @@ export const ReplayMap = ({ vehicle, onClose }) => {
           setProgress(newProgress);
           setCurrentPosition(replayPoints[newIndex]);
           
-          // Centrer la carte
           if (mapRef.current && replayPoints[newIndex]) {
-            mapRef.current.setView([replayPoints[newIndex].lat, replayPoints[newIndex].lng], 15);
+            mapRef.current.setView([replayPoints[newIndex].lat, replayPoints[newIndex].lng], 15, {
+              animate: true,
+              duration: 0.3
+            });
           }
           
           return newIndex;
         });
-      }, 100);
+      }, 80);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -138,8 +162,10 @@ export const ReplayMap = ({ vehicle, onClose }) => {
       if (mapRef.current && replayPoints[0]) {
         mapRef.current.setView([replayPoints[0].lat, replayPoints[0].lng], 15);
       }
+      setTimeout(() => setIsPlaying(true), 100);
+    } else {
+      setIsPlaying(true);
     }
-    setIsPlaying(true);
   };
   
   const handlePause = () => {
@@ -152,7 +178,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
     setCurrentIndex(0);
     setCurrentPosition(replayPoints[0]);
     if (mapRef.current && replayPoints[0]) {
-      mapRef.current.setView([replayPoints[0].lat, replayPoints[0].lng], 15);
+      mapRef.current.setView([replayPoints[0].lat, replayPoints[0].lng], 13);
     }
   };
   
@@ -169,16 +195,19 @@ export const ReplayMap = ({ vehicle, onClose }) => {
     }
   };
   
+  const totalDistance = vehicle.totalDistance || 0;
+  const avgSpeed = totalDistance > 0 ? (totalDistance / (totalDuration / 3600)).toFixed(1) : 0;
+  const remainingDistance = totalDistance * (1 - progress / 100);
+  
   if (!vehicle) return null;
   
-  // Si pas de points de replay, afficher un message
   if (replayPoints.length === 0) {
     return (
       <Modal
         title={
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 4, height: 24, background: '#3b82f6', borderRadius: 2 }} />
-            <span style={{ fontSize: 16, fontWeight: 600 }}>Replay: {vehicle.name}</span>
+            <div className="modal-title-accent" />
+            <span className="modal-title-text">Replay Trajet</span>
             <Tag color="blue">{vehicle.registration}</Tag>
           </div>
         }
@@ -188,10 +217,10 @@ export const ReplayMap = ({ vehicle, onClose }) => {
         width={500}
         className="replay-modal-premium"
       >
-        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🗺️</div>
-          <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>Aucune trajectoire disponible</div>
-          <div style={{ fontSize: 13, color: '#64748b' }}>
+        <div className="empty-state-replay">
+          <div className="empty-icon">🗺️</div>
+          <div className="empty-title">Aucune trajectoire disponible</div>
+          <div className="empty-description">
             Ce véhicule n'a pas de données de trajectoire enregistrées.
           </div>
         </div>
@@ -202,17 +231,23 @@ export const ReplayMap = ({ vehicle, onClose }) => {
   return (
     <Modal
       title={
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 4, height: 24, background: '#3b82f6', borderRadius: 2 }} />
-          <span style={{ fontSize: 16, fontWeight: 600 }}>Replay: {vehicle.name}</span>
-          <Tag color="blue">{vehicle.registration}</Tag>
-          <Tag color="green">{replayPoints.length} points</Tag>
+        <div className="modal-header-premium">
+          <div className="modal-title">
+            <div className="modal-title-accent" />
+            <span className="modal-title-text">Replay Trajet</span>
+            <div className="vehicle-badge">
+              <CarOutlined />
+              <span>{vehicle.name}</span>
+            </div>
+            <Tag color="blue">{vehicle.registration}</Tag>
+            <Tag color="cyan">{replayPoints.length} points</Tag>
+          </div>
         </div>
       }
       open={true}
       onCancel={onClose}
       footer={null}
-      width={950}
+      width={1100}
       className="replay-modal-premium"
       destroyOnClose
       maskClosable={false}
@@ -224,7 +259,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
             ref={mapRef}
             center={[replayPoints[0]?.lat || 0, replayPoints[0]?.lng || 0]}
             zoom={13}
-            style={{ height: '450px', width: '100%', borderRadius: '16px' }}
+            style={{ height: '480px', width: '100%', borderRadius: '20px' }}
             zoomControl={true}
           >
             <TileLayer
@@ -238,8 +273,8 @@ export const ReplayMap = ({ vehicle, onClose }) => {
                 positions={replayPoints.map(p => [p.lat, p.lng])}
                 color="#3b82f6"
                 weight={3}
-                opacity={0.7}
-                dashArray="5, 10"
+                opacity={0.6}
+                dashArray="8, 8"
               />
             )}
             
@@ -259,95 +294,201 @@ export const ReplayMap = ({ vehicle, onClose }) => {
                 position={[currentPosition.lat, currentPosition.lng]}
                 icon={createReplayIcon()}
               >
-                <Popup>
-                  <div style={{ textAlign: 'center' }}>
-                    <strong>{vehicle.name}</strong>
-                    <br />
-                    Position: {currentPosition.lat.toFixed(4)}, {currentPosition.lng.toFixed(4)}
-                    <br />
-                    Progression: {Math.round(progress)}%
+                <Popup className="replay-popup">
+                  <div className="popup-content">
+                    <div className="popup-title">
+                      <CarOutlined /> {vehicle.name}
+                    </div>
+                    <div className="popup-position">
+                      <VehicleAddress record={getAddressRecord(currentPosition.lat, currentPosition.lng)} />
+                    </div>
+                    <div className="popup-progress">
+                      <Progress 
+                        percent={Math.round(progress)} 
+                        size="small" 
+                        strokeColor="#3b82f6"
+                        showInfo={false}
+                      />
+                      <span>{Math.round(progress)}%</span>
+                    </div>
                   </div>
                 </Popup>
               </Marker>
             )}
             
-            {/* Points de départ et d'arrivée */}
+            {/* Point de départ */}
             {replayPoints[0] && (
               <Marker
                 position={[replayPoints[0].lat, replayPoints[0].lng]}
-                icon={L.divIcon({
-                  html: `<div style="background: #10b981; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 14px;">🏁</div>`,
-                  iconSize: [28, 28],
-                  iconAnchor: [14, 14]
-                })}
+                icon={createStartIcon()}
               >
-                <Popup>🚗 Départ</Popup>
+                <Popup className="replay-popup">
+                  <div className="popup-content">
+                    <div className="popup-title">🏁 Départ</div>
+                    <div className="popup-position">
+                      <VehicleAddress record={getAddressRecord(replayPoints[0].lat, replayPoints[0].lng)} />
+                    </div>
+                    <div className="popup-time">
+                      {vehicle.startTime ? new Date(vehicle.startTime).toLocaleString() : 'Non défini'}
+                    </div>
+                  </div>
+                </Popup>
               </Marker>
             )}
             
+            {/* Point d'arrivée */}
             {replayPoints[replayPoints.length - 1] && (
               <Marker
                 position={[replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng]}
-                icon={L.divIcon({
-                  html: `<div style="background: #ef4444; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 14px;">🎯</div>`,
-                  iconSize: [28, 28],
-                  iconAnchor: [14, 14]
-                })}
+                icon={createEndIcon()}
               >
-                <Popup>📍 Destination</Popup>
+                <Popup className="replay-popup">
+                  <div className="popup-content">
+                    <div className="popup-title">🎯 Destination</div>
+                    <div className="popup-position">
+                      <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng)} />
+                    </div>
+                    <div className="popup-destination">
+                      {vehicle.destination || 'Non définie'}
+                    </div>
+                  </div>
+                </Popup>
               </Marker>
             )}
           </MapContainer>
         </div>
         
-        {/* Contrôles */}
+        {/* Panneau de contrôle premium */}
         <div className="replay-controls-premium">
-          <div className="replay-info">
-            <div className="info-card">
-              <span className="info-label">Chauffeur</span>
-              <span className="info-value">{vehicle.driver}</span>
-            </div>
-            <div className="info-card">
-              <span className="info-label">Destination</span>
-              <span className="info-value">{vehicle.destination || 'Non définie'}</span>
-            </div>
-            <div className="info-card">
-              <span className="info-label">Distance totale</span>
-              <span className="info-value">{vehicle.totalDistance?.toFixed(1) || 0} km</span>
-            </div>
-            <div className="info-card">
-              <span className="info-label">Efficacité</span>
-              <span className="info-value" style={{ color: vehicle.efficiency >= 70 ? '#10b981' : '#f59e0b' }}>
-                {vehicle.efficiency}%
-              </span>
+          {/* Statistiques avancées */}
+          <Row gutter={16} className="stats-row">
+            <Col span={6}>
+              <Card className="stat-card" size="small">
+                <Statistic
+                  title={<span className="stat-title"><EnvironmentOutlined /> Distance</span>}
+                  value={totalDistance}
+                  precision={1}
+                  suffix="km"
+                  valueStyle={{ color: '#3b82f6', fontSize: 20 }}
+                />
+              </Card>
+            </Col>
+            <Col span={6}>
+              <Card className="stat-card" size="small">
+                <Statistic
+                  title={<span className="stat-title"><ClockCircleOutlined /> Points</span>}
+                  value={replayPoints.length}
+                  valueStyle={{ color: '#8b5cf6', fontSize: 20 }}
+                />
+              </Card>
+            </Col>
+            <Col span={6}>
+              <Card className="stat-card" size="small">
+                <Statistic
+                  title={<span className="stat-title"><LineChartOutlined /> Progression</span>}
+                  value={progress}
+                  precision={0}
+                  suffix="%"
+                  valueStyle={{ color: '#10b981', fontSize: 20 }}
+                />
+              </Card>
+            </Col>
+            <Col span={6}>
+              <Card className="stat-card" size="small">
+                <Statistic
+                  title={<span className="stat-title"><AimOutlined /> Restant</span>}
+                  value={remainingDistance}
+                  precision={1}
+                  suffix="km"
+                  valueStyle={{ color: '#f59e0b', fontSize: 20 }}
+                />
+              </Card>
+            </Col>
+          </Row>
+          
+          <Divider style={{ margin: '12px 0' }} />
+          
+          {/* Info véhicule */}
+          <div className="vehicle-info-premium">
+            <div className="info-grid">
+              <div className="info-item">
+                <UserOutlined className="info-icon" />
+                <div>
+                  <span className="info-label">Chauffeur</span>
+                  <span className="info-value">{vehicle.driver}</span>
+                </div>
+              </div>
+              <div className="info-item">
+                <FlagOutlined className="info-icon" />
+                <div>
+                  <span className="info-label">Destination</span>
+                  <span className="info-value">{vehicle.destination || 'Non définie'}</span>
+                </div>
+              </div>
+              <div className="info-item">
+                <ThunderboltOutlined className="info-icon" />
+                <div>
+                  <span className="info-label">Efficacité</span>
+                  <span className="info-value" style={{ color: vehicle.efficiency >= 70 ? '#10b981' : '#f59e0b' }}>
+                    {vehicle.efficiency}%
+                  </span>
+                </div>
+              </div>
+              <div className="info-item">
+                <DashboardOutlined className="info-icon" />
+                <div>
+                  <span className="info-label">Vitesse moy.</span>
+                  <span className="info-value">{avgSpeed} km/h</span>
+                </div>
+              </div>
             </div>
           </div>
           
-          <div className="progress-section">
+          {/* Position actuelle avec adresse */}
+          <div className="current-position-card">
+            <div className="card-title">
+              <EnvironmentOutlined /> Position actuelle
+            </div>
+            <div className="card-content">
+              <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
+            </div>
+            <div className="card-coords">
+              {currentPosition?.lat.toFixed(4)}°, {currentPosition?.lng.toFixed(4)}°
+            </div>
+          </div>
+          
+          {/* Progression */}
+          <div className="progress-section-premium">
             <div className="progress-header">
-              <span>Progression du trajet ({replayPoints.length} points)</span>
-              <span className="progress-percent">{Math.round(progress)}%</span>
+              <span>Progression du trajet</span>
+              <Badge count={`${Math.round(progress)}%`} style={{ backgroundColor: '#3b82f6' }} />
             </div>
             <Progress 
               percent={progress} 
-              strokeColor="#3b82f6"
+              strokeColor={{
+                '0%': '#3b82f6',
+                '100%': '#10b981',
+              }}
               trailColor="#e2e8f0"
               showInfo={false}
+              className="premium-progress"
             />
             <Slider 
               value={progress} 
               onChange={handleSliderChange}
               tooltip={{ formatter: (v) => `${Math.round(v)}%` }}
+              className="premium-slider"
             />
           </div>
           
-          <div className="controls-buttons">
+          {/* Boutons de contrôle */}
+          <div className="controls-buttons-premium">
             <Button 
               icon={<PlayCircleOutlined />} 
               onClick={handlePlay}
               type="primary"
               disabled={isPlaying || replayPoints.length === 0}
-              size="large"
+              className="control-btn play-btn"
             >
               Lecture
             </Button>
@@ -355,7 +496,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
               icon={<PauseCircleOutlined />} 
               onClick={handlePause}
               disabled={!isPlaying}
-              size="large"
+              className="control-btn pause-btn"
             >
               Pause
             </Button>
@@ -363,7 +504,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
               icon={<StopOutlined />} 
               onClick={handleStop}
               disabled={progress === 0 || replayPoints.length === 0}
-              size="large"
+              className="control-btn stop-btn"
             >
               Arrêt
             </Button>
@@ -374,29 +515,39 @@ export const ReplayMap = ({ vehicle, onClose }) => {
                 setTimeout(() => handlePlay(), 100);
               }}
               disabled={replayPoints.length === 0}
-              size="large"
+              className="control-btn replay-btn"
             >
               Replay
             </Button>
           </div>
           
-          <div className="timeline-section">
+          {/* Timeline avec adresses */}
+          <div className="timeline-section-premium">
             <Timeline>
-              <Timeline.Item color="green">
-                <strong>Départ</strong>
+              <Timeline.Item color="#10b981" dot={<CarOutlined />}>
+                <strong>🚗 Départ</strong>
                 <div className="timeline-date">
                   {vehicle.startTime ? new Date(vehicle.startTime).toLocaleString() : 'Non défini'}
                 </div>
-              </Timeline.Item>
-              <Timeline.Item color="blue">
-                <strong>Trajet en cours</strong>
-                <div className="timeline-date">
-                  Position actuelle: {currentPosition?.lat.toFixed(4)}°, {currentPosition?.lng.toFixed(4)}°
+                <div className="timeline-address">
+                  <VehicleAddress record={getAddressRecord(replayPoints[0]?.lat, replayPoints[0]?.lng)} />
                 </div>
               </Timeline.Item>
-              <Timeline.Item color="gray">
-                <strong>Destination</strong>
-                <div className="timeline-date">
+              <Timeline.Item color="#3b82f6" dot={<EnvironmentOutlined />}>
+                <strong>📍 Position actuelle</strong>
+                <div className="timeline-address">
+                  <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
+                </div>
+                <div className="timeline-coords">
+                  {currentPosition?.lat.toFixed(4)}°, {currentPosition?.lng.toFixed(4)}°
+                </div>
+              </Timeline.Item>
+              <Timeline.Item color="#ef4444" dot={<FlagOutlined />}>
+                <strong>🎯 Destination</strong>
+                <div className="timeline-address">
+                  <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1]?.lat, replayPoints[replayPoints.length - 1]?.lng)} />
+                </div>
+                <div className="timeline-destination">
                   {vehicle.destination || 'Non définie'}
                 </div>
               </Timeline.Item>
@@ -406,6 +557,43 @@ export const ReplayMap = ({ vehicle, onClose }) => {
       </div>
       
       <style jsx>{`
+        .modal-header-premium {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        
+        .modal-title {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        
+        .modal-title-accent {
+          width: 4px;
+          height: 24px;
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+          border-radius: 2px;
+        }
+        
+        .modal-title-text {
+          font-size: 16px;
+          font-weight: 600;
+          color: #0f172a;
+        }
+        
+        .vehicle-badge {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 4px 12px;
+          background: #f8fafc;
+          border-radius: 20px;
+          font-size: 13px;
+          font-weight: 500;
+          color: #0f172a;
+        }
+        
         .replay-premium-container {
           display: flex;
           flex-direction: column;
@@ -413,37 +601,63 @@ export const ReplayMap = ({ vehicle, onClose }) => {
         }
         
         .replay-map-container {
-          border-radius: 16px;
+          border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
         
         .replay-controls-premium {
-          background: #f8fafc;
-          border-radius: 16px;
+          background: white;
+          border-radius: 20px;
           padding: 20px;
+          border: 1px solid #e2e8f0;
         }
         
-        .replay-info {
+        .stats-row {
+          margin-bottom: 0;
+        }
+        
+        .stat-card {
+          border-radius: 12px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+        }
+        
+        .stat-title {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        
+        .vehicle-info-premium {
+          background: #f8fafc;
+          border-radius: 16px;
+          padding: 16px;
+          margin: 8px 0;
+        }
+        
+        .info-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 16px;
-          margin-bottom: 20px;
         }
         
-        .info-card {
-          background: white;
-          padding: 12px;
-          border-radius: 12px;
-          text-align: center;
-          border: 1px solid #e2e8f0;
+        .info-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        
+        .info-icon {
+          font-size: 18px;
+          color: #3b82f6;
         }
         
         .info-label {
           display: block;
           font-size: 10px;
           color: #64748b;
-          margin-bottom: 4px;
+          margin-bottom: 2px;
         }
         
         .info-value {
@@ -452,55 +666,201 @@ export const ReplayMap = ({ vehicle, onClose }) => {
           color: #0f172a;
         }
         
-        .progress-section {
-          margin-bottom: 20px;
+        .current-position-card {
+          background: linear-gradient(135deg, #eff6ff, #ffffff);
+          border: 1px solid #bfdbfe;
+          border-radius: 12px;
+          padding: 12px 16px;
+          margin: 8px 0;
+        }
+        
+        .card-title {
+          font-size: 11px;
+          font-weight: 600;
+          color: #3b82f6;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        
+        .card-content {
+          font-size: 13px;
+          font-weight: 500;
+          color: #0f172a;
+          margin-bottom: 4px;
+        }
+        
+        .card-coords {
+          font-size: 10px;
+          color: #64748b;
+          font-family: monospace;
+        }
+        
+        .progress-section-premium {
+          margin: 16px 0;
         }
         
         .progress-header {
           display: flex;
           justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
           font-size: 12px;
+          font-weight: 500;
           color: #64748b;
-          margin-bottom: 8px;
         }
         
-        .progress-percent {
-          font-weight: 600;
-          color: #3b82f6;
-        }
-        
-        .controls-buttons {
+        .controls-buttons-premium {
           display: flex;
           gap: 12px;
           justify-content: center;
-          margin-bottom: 20px;
+          margin: 20px 0;
           flex-wrap: wrap;
         }
         
-        .controls-buttons button {
+        .control-btn {
           display: flex;
           align-items: center;
           gap: 8px;
-          border-radius: 30px;
-          padding: 8px 24px;
+          border-radius: 40px;
+          padding: 8px 28px;
+          font-weight: 500;
+          transition: all 0.2s;
         }
         
-        .timeline-section {
-          background: white;
-          border-radius: 12px;
+        .play-btn {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          border: none;
+        }
+        
+        .play-btn:hover {
+          transform: scale(1.02);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .timeline-section-premium {
+          background: #fafbfc;
+          border-radius: 16px;
           padding: 16px;
-          border: 1px solid #e2e8f0;
-          max-height: 200px;
+          max-height: 240px;
           overflow-y: auto;
         }
         
-        .timeline-date {
+        .timeline-address {
           font-size: 11px;
+          color: #3b82f6;
+          margin-top: 4px;
+        }
+        
+        .timeline-coords {
+          font-size: 10px;
+          color: #94a3b8;
+          font-family: monospace;
+          margin-top: 2px;
+        }
+        
+        .timeline-destination {
+          font-size: 11px;
+          color: #ef4444;
+          margin-top: 4px;
+        }
+        
+        .empty-state-replay {
+          text-align: center;
+          padding: 60px 20px;
+        }
+        
+        .empty-icon {
+          font-size: 64px;
+          margin-bottom: 20px;
+        }
+        
+        .empty-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: #0f172a;
+          margin-bottom: 8px;
+        }
+        
+        .empty-description {
+          font-size: 13px;
+          color: #64748b;
+        }
+        
+        .popup-content {
+          padding: 12px;
+          min-width: 220px;
+        }
+        
+        .popup-title {
+          font-weight: 600;
+          margin-bottom: 8px;
+          color: #0f172a;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        
+        .popup-position {
+          font-size: 11px;
+          color: #3b82f6;
+          margin-bottom: 8px;
+        }
+        
+        .popup-progress {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        
+        .popup-time, .popup-destination {
+          font-size: 10px;
           color: #64748b;
           margin-top: 4px;
         }
         
-        @keyframes replay-pulse {
+        :global(.replay-marker-inner) {
+          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 3px solid white;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+          animation: replayPulse 0.8s infinite;
+        }
+        
+        :global(.marker-start) {
+          background: #10b981;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid white;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          font-size: 16px;
+        }
+        
+        :global(.marker-end) {
+          background: #ef4444;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid white;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+          font-size: 16px;
+        }
+        
+        @keyframes replayPulse {
           0%, 100% { transform: scale(1); opacity: 1; }
           50% { transform: scale(1.15); opacity: 0.8; }
         }
