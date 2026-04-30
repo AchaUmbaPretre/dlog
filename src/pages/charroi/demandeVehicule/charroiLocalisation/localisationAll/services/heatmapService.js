@@ -9,7 +9,6 @@ export class HeatmapService {
   }
 
   updateHeatmap(vehicles) {
-    // Stocker les véhicules pour plus tard si la carte n'est pas prête
     if (!this.map || !this.map._panes || !this.map._panes.overlayPane) {
       this.pendingVehicles = vehicles;
       console.log('Heatmap en attente, carte pas prête...');
