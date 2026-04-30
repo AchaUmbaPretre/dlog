@@ -1,5 +1,3 @@
-// components/IntelligentETA.jsx
-
 import React, { useMemo } from 'react';
 import { ClockCircleOutlined, EnvironmentOutlined, CarOutlined, WarningOutlined } from '@ant-design/icons';
 
