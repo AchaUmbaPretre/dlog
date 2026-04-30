@@ -1,12 +1,9 @@
-// components/ThemeControl.jsx
-
 import React, { useState } from 'react';
 import { 
   SunOutlined, 
   MoonOutlined, 
   GlobalOutlined, 
-  EnvironmentOutlined,
-  CloseOutlined
+  EnvironmentOutlined
 } from '@ant-design/icons';
 import { Tooltip, Dropdown, Menu } from 'antd';
 
