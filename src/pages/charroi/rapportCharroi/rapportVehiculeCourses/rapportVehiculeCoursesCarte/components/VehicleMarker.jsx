@@ -1,9 +1,7 @@
-// components/VehicleMarker.jsx - Version corrigée
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Marker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
-import { VEHICLE_STATUS, STATUS_COLORS, STATUS_ICONS, STATUS_LABELS } from '../constants/map.constants';
+import { VEHICLE_STATUS, STATUS_COLORS, STATUS_LABELS } from '../constants/map.constants';
 import { PremiumVehiclePopup } from './PremiumVehiclePopup';
 
 // Calcul de distance (Haversine)

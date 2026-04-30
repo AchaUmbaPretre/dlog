@@ -1,16 +1,13 @@
-// components/ReplayMap.jsx - Version avec overlay transparent premium
-
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import { Modal, Button, Tag, Progress, message, Slider } from 'antd';
+import { Modal, Button, Tag, message, Slider } from 'antd';
 import { 
   PlayCircleOutlined, 
   PauseCircleOutlined, 
   StopOutlined, 
   ReloadOutlined,
   ClockCircleOutlined,
-  EnvironmentOutlined,
   CarOutlined,
   UserOutlined,
   FlagOutlined,
@@ -24,7 +21,6 @@ import {
 import 'leaflet/dist/leaflet.css';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
-// Icônes simples et fiables
 const createReplayIcon = () => {
   return L.divIcon({
     html: `<div style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);"><span style="color:white; font-size:14px;">▶</span></div>`,
