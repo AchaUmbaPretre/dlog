@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ClockCircleOutlined, EnvironmentOutlined, CarOutlined, WarningOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, EnvironmentOutlined } from '@ant-design/icons';
 
 // Calcul de distance (Haversine)
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -53,7 +53,7 @@ const calculateETA = (currentLat, currentLng, destLat, destLng, currentSpeed, pl
     speed,
     delay,
     delayStatus,
-    isArrived: distance < 0.1 // Moins de 100 mètres
+    isArrived: distance < 0.1
   };
 };
 
