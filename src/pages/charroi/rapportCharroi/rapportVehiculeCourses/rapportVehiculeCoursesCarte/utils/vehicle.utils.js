@@ -212,7 +212,6 @@ export const parseDestinationCoordinates = (coordinatesStr) => {
 // ============ TRANSFORMATION PRINCIPALE ============
 
 export const transformToVehicle = (rawItem) => {
-  console.log('data: ', rawItem)
   if (!rawItem) return null;
   
   // Extraction des coordonnées GPS

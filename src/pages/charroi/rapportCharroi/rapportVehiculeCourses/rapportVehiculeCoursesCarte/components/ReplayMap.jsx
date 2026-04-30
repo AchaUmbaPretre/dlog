@@ -1,4 +1,4 @@
-// components/ReplayMap.jsx - Version complète et fonctionnelle
+// components/ReplayMap.jsx - Version avec overlay transparent premium
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
@@ -76,7 +76,6 @@ export const ReplayMap = ({ vehicle, onClose }) => {
     
     let trajectory = [];
     
-    // Chercher la trajectoire dans différentes sources
     if (vehicle.trajectory && vehicle.trajectory.length > 0) {
       trajectory = vehicle.trajectory;
       console.log('Trajectoire trouvée dans vehicle.trajectory:', trajectory.length);
@@ -110,13 +109,12 @@ export const ReplayMap = ({ vehicle, onClose }) => {
     }
   }, [vehicle]);
   
-  // Centrage automatique de la carte sur tous les points
+  // Centrage automatique de la carte
   useEffect(() => {
     if (mapRef.current && replayPoints.length > 0) {
       setTimeout(() => {
         const bounds = L.latLngBounds(replayPoints.map(p => [p.lat, p.lng]));
         mapRef.current.fitBounds(bounds, { padding: [50, 50] });
-        console.log('Carte centrée sur', replayPoints.length, 'points');
       }, 200);
     }
   }, [replayPoints]);
@@ -222,7 +220,6 @@ export const ReplayMap = ({ vehicle, onClose }) => {
   
   if (!vehicle) return null;
   
-  // État de chargement si pas de points
   if (replayPoints.length === 0) {
     return (
       <Modal
@@ -252,7 +249,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
       destroyOnClose
       closable={false}
       className="replay-modal-fixed"
-      styles={{ body: { padding: 0 } }} 
+      bodyStyle={{ padding: 0 }}
     >
       {/* Header */}
       <div style={{ 
@@ -300,7 +297,8 @@ export const ReplayMap = ({ vehicle, onClose }) => {
             zIndex: 1000, 
             display: 'flex', 
             gap: 6, 
-            background: 'white', 
+            background: 'rgba(255,255,255,0.95)', 
+            backdropFilter: 'blur(10px)',
             padding: '6px 10px', 
             borderRadius: 30, 
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
@@ -341,62 +339,69 @@ export const ReplayMap = ({ vehicle, onClose }) => {
             >
               <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
               
-              {/* Trajectoire complète */}
               {replayPoints.length > 1 && (
-                <Polyline
-                  positions={replayPoints.map(p => [p.lat, p.lng])}
-                  color="#cbd5e1"
-                  weight={3}
-                  opacity={0.6}
-                  dashArray="8, 8"
-                />
+                <>
+                  <Polyline
+                    positions={replayPoints.map(p => [p.lat, p.lng])}
+                    color="#cbd5e1"
+                    weight={3}
+                    opacity={0.6}
+                    dashArray="8, 8"
+                  />
+                  {currentIndex > 0 && (
+                    <Polyline
+                      positions={replayPoints.slice(0, currentIndex + 1).map(p => [p.lat, p.lng])}
+                      color="#3b82f6"
+                      weight={4}
+                      opacity={0.9}
+                    />
+                  )}
+                </>
               )}
               
-              {/* Trajectoire parcourue */}
-              {currentIndex > 0 && (
-                <Polyline
-                  positions={replayPoints.slice(0, currentIndex + 1).map(p => [p.lat, p.lng])}
-                  color="#3b82f6"
-                  weight={4}
-                  opacity={0.9}
-                />
-              )}
-              
-              {/* Marqueur position actuelle */}
-              {currentPosition && (
-                <Marker position={[currentPosition.lat, currentPosition.lng]} icon={createReplayIcon()} />
-              )}
-              
-              {/* Marqueur départ */}
-              {replayPoints[0] && (
-                <Marker position={[replayPoints[0].lat, replayPoints[0].lng]} icon={createStartIcon()} />
-              )}
-              
-              {/* Marqueur arrivée */}
-              {replayPoints[replayPoints.length - 1] && (
-                <Marker position={[replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng]} icon={createEndIcon()} />
-              )}
+              {currentPosition && <Marker position={[currentPosition.lat, currentPosition.lng]} icon={createReplayIcon()} />}
+              {replayPoints[0] && <Marker position={[replayPoints[0].lat, replayPoints[0].lng]} icon={createStartIcon()} />}
+              {replayPoints[replayPoints.length - 1] && <Marker position={[replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng]} icon={createEndIcon()} />}
             </MapContainer>
           </div>
           
-          {/* Progression overlay */}
+          {/* Progression overlay - VERSION TRANSPARENTE PREMIUM */}
           <div style={{ 
             position: 'absolute', 
             bottom: 16, 
             left: 16, 
             right: 16, 
-            background: 'rgba(0,0,0,0.75)', 
-            backdropFilter: 'blur(10px)', 
-            borderRadius: 12, 
-            padding: '10px 14px', 
-            zIndex: 1000 
+            background: 'rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(20px)',
+            borderRadius: 16, 
+            padding: '12px 18px', 
+            zIndex: 1000,
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 11, color: 'white' }}>
-              <span><LineChartOutlined /> {stats.totalDistance} km</span>
-              <span><AimOutlined /> {stats.totalPoints} points</span>
-              <span><ClockCircleOutlined /> {Math.round(progress)}%</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: 12, color: 'white', fontWeight: 500 }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 10, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <LineChartOutlined style={{ fontSize: 12 }} />
+                </div>
+                {stats.totalDistance} km
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 10, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <AimOutlined style={{ fontSize: 12 }} />
+                </div>
+                {stats.totalPoints} pts
+              </span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ width: 28, height: 28, borderRadius: 10, background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ClockCircleOutlined style={{ fontSize: 12 }} />
+                </div>
+                {Math.round(progress)}%
+              </span>
             </div>
-            <Progress percent={progress} strokeColor="#3b82f6" showInfo={false} size="small" />
+            <div style={{ height: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 4, overflow: 'hidden' }}>
+              <div style={{ width: `${progress}%`, height: '100%', background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)', borderRadius: 4, transition: 'width 0.3s' }} />
+            </div>
           </div>
         </div>
         
@@ -409,15 +414,16 @@ export const ReplayMap = ({ vehicle, onClose }) => {
               display: 'flex', 
               alignItems: 'center', 
               gap: 12, 
-              padding: 12, 
+              padding: 14, 
               background: '#f8fafc', 
-              borderRadius: 14, 
-              border: '1px solid #eef2ff' 
+              borderRadius: 16, 
+              border: '1px solid #eef2ff',
+              transition: 'all 0.2s'
             }}>
               <div style={{ 
-                width: 40, 
-                height: 40, 
-                borderRadius: 12, 
+                width: 44, 
+                height: 44, 
+                borderRadius: 14, 
                 background: '#eff6ff', 
                 display: 'flex', 
                 alignItems: 'center', 
@@ -429,7 +435,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
               </div>
               <div>
                 <span style={{ display: 'block', fontSize: 10, color: '#64748b' }}>Distance</span>
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#1a1a2e' }}>{stats.totalDistance} km</span>
+                <span style={{ fontSize: 20, fontWeight: 700, color: '#0f172a' }}>{stats.totalDistance} km</span>
               </div>
             </div>
             <div style={{ 
@@ -437,15 +443,16 @@ export const ReplayMap = ({ vehicle, onClose }) => {
               display: 'flex', 
               alignItems: 'center', 
               gap: 12, 
-              padding: 12, 
+              padding: 14, 
               background: '#f8fafc', 
-              borderRadius: 14, 
-              border: '1px solid #eef2ff' 
+              borderRadius: 16, 
+              border: '1px solid #eef2ff',
+              transition: 'all 0.2s'
             }}>
               <div style={{ 
-                width: 40, 
-                height: 40, 
-                borderRadius: 12, 
+                width: 44, 
+                height: 44, 
+                borderRadius: 14, 
                 background: '#f5f3ff', 
                 display: 'flex', 
                 alignItems: 'center', 
@@ -457,43 +464,43 @@ export const ReplayMap = ({ vehicle, onClose }) => {
               </div>
               <div>
                 <span style={{ display: 'block', fontSize: 10, color: '#64748b' }}>Points</span>
-                <span style={{ fontSize: 18, fontWeight: 700, color: '#1a1a2e' }}>{stats.totalPoints}</span>
+                <span style={{ fontSize: 20, fontWeight: 700, color: '#0f172a' }}>{stats.totalPoints}</span>
               </div>
             </div>
           </div>
           
           {/* Positions */}
-          <div style={{ background: '#f8fafc', borderRadius: 14, padding: 14, border: '1px solid #eef2ff' }}>
-            <div style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '1px solid #eef2ff' }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>🏁</div>
+          <div style={{ background: '#f8fafc', borderRadius: 16, padding: 16, border: '1px solid #eef2ff' }}>
+            <div style={{ display: 'flex', gap: 12, padding: '10px 0', borderBottom: '1px solid #eef2ff' }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🏁</div>
               <div style={{ flex: 1 }}>
-                <label style={{ display: 'block', fontSize: 9, color: '#64748b' }}>Départ</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#64748b', marginBottom: 2 }}>Départ</label>
                 <VehicleAddress record={getAddressRecord(replayPoints[0]?.lat, replayPoints[0]?.lng)} />
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '1px solid #eef2ff' }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e3f2fd', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>📍</div>
+            <div style={{ display: 'flex', gap: 12, padding: '10px 0', borderBottom: '1px solid #eef2ff' }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#e3f2fd', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>📍</div>
               <div style={{ flex: 1 }}>
-                <label style={{ display: 'block', fontSize: 9, color: '#64748b' }}>Position actuelle</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#64748b', marginBottom: 2 }}>Position actuelle</label>
                 <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 12, padding: '8px 0' }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>🎯</div>
+            <div style={{ display: 'flex', gap: 12, padding: '10px 0' }}>
+              <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🎯</div>
               <div style={{ flex: 1 }}>
-                <label style={{ display: 'block', fontSize: 9, color: '#64748b' }}>Destination</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#64748b', marginBottom: 2 }}>Destination</label>
                 <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1]?.lat, replayPoints[replayPoints.length - 1]?.lng)} />
               </div>
             </div>
           </div>
           
           {/* Contrôles */}
-          <div style={{ background: '#f8fafc', borderRadius: 14, padding: 14, border: '1px solid #eef2ff' }}>
+          <div style={{ background: '#f8fafc', borderRadius: 16, padding: 16, border: '1px solid #eef2ff' }}>
             <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
-              <Button icon={<PlayCircleOutlined />} onClick={handlePlay} type="primary" disabled={isPlaying} style={{ flex: 1 }}>Lecture</Button>
-              <Button icon={<PauseCircleOutlined />} onClick={handlePause} disabled={!isPlaying} style={{ flex: 1 }}>Pause</Button>
-              <Button icon={<StopOutlined />} onClick={handleStop} style={{ flex: 1 }}>Arrêt</Button>
-              <Button icon={<ReloadOutlined />} onClick={() => { handleStop(); setTimeout(() => handlePlay(), 100); }} style={{ flex: 1 }}>Replay</Button>
+              <Button icon={<PlayCircleOutlined />} onClick={handlePlay} type="primary" disabled={isPlaying} style={{ flex: 1, height: 40 }}>Lecture</Button>
+              <Button icon={<PauseCircleOutlined />} onClick={handlePause} disabled={!isPlaying} style={{ flex: 1, height: 40 }}>Pause</Button>
+              <Button icon={<StopOutlined />} onClick={handleStop} style={{ flex: 1, height: 40 }}>Arrêt</Button>
+              <Button icon={<ReloadOutlined />} onClick={() => { handleStop(); setTimeout(() => handlePlay(), 100); }} style={{ flex: 1, height: 40 }}>Replay</Button>
             </div>
             <Slider 
               value={progress} 
@@ -525,6 +532,20 @@ export const ReplayMap = ({ vehicle, onClose }) => {
         }
         .ant-slider-handle {
           border-color: #3b82f6;
+        }
+        .ant-btn-primary {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          border: none;
+        }
+        .ant-btn-primary:hover {
+          background: linear-gradient(135deg, #2563eb, #1d4ed8);
+          transform: translateY(-1px);
+        }
+        .ant-btn {
+          transition: all 0.2s;
+        }
+        .ant-btn:hover {
+          transform: translateY(-1px);
         }
       `}</style>
     </Modal>
