@@ -444,19 +444,6 @@ export const ReplayMap = ({ vehicle, onClose }) => {
             </div>
           </div>
           
-          {/* Position actuelle avec adresse */}
-          <div className="current-position-card">
-            <div className="card-title">
-              <EnvironmentOutlined /> Position actuelle
-            </div>
-            <div className="card-content">
-              <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
-            </div>
-            <div className="card-coords">
-              {currentPosition?.lat.toFixed(4)}°, {currentPosition?.lng.toFixed(4)}°
-            </div>
-          </div>
-          
           {/* Progression */}
           <div className="progress-section-premium">
             <div className="progress-header">

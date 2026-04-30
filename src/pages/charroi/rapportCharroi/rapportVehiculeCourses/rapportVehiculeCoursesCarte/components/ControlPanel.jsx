@@ -28,7 +28,7 @@ export const ControlPanel = ({ stats, filterStatus, onFilterChange, showTrajecto
       <div className="panel-header-premium" onClick={() => setIsExpanded(!isExpanded)}>
         <div className="header-left">
           <DashboardOutlined className="logo" />
-          <span className="title">Fleet Command Center</span>
+          <span className="title">Centre de flotte</span>
           <div className="live-badge">
             <span className="pulse-dot"></span>
             <span>LIVE</span>

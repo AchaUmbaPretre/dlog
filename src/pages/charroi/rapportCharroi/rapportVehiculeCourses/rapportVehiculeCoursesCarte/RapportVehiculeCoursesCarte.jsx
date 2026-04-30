@@ -86,7 +86,7 @@ const RapportVehiculeCoursesCarte = () => {
               <DashboardOutlined />
             </div>
             <div className="logo-text">
-              <span className="logo-title">Fleet<span className="logo-highlight">Command</span></span>
+              <span className="logo-title"><span className="logo-highlight">flotte</span></span>
               <span className="logo-subtitle">Real-time Monitoring</span>
             </div>
           </div>
@@ -213,7 +213,7 @@ const RapportVehiculeCoursesCarte = () => {
               }}
               defaultValue=""
             >
-              <option value="" disabled>🎬 Replay trajet</option>
+              <option value="" disabled>Replay trajet</option>
               {vehicles.map(v => (
                 <option key={v.id} value={v.id}>
                   {v.name} - {v.registration}
@@ -251,7 +251,7 @@ const RapportVehiculeCoursesCarte = () => {
           />
           
           {/* Zones de destination */}
-          {vehicles.map(vehicle => {
+{/*           {vehicles.map(vehicle => {
             if (vehicle.destinationPolygon && vehicle.destinationPolygon.length > 0) {
               const polygonPoints = vehicle.destinationPolygon.map(p => [p.lat, p.lng]);
               return (
@@ -269,7 +269,7 @@ const RapportVehiculeCoursesCarte = () => {
               );
             }
             return null;
-          })}
+          })} */}
           
           {/* Marqueurs et clusters */}
           {filteredGroups.map(group => {
