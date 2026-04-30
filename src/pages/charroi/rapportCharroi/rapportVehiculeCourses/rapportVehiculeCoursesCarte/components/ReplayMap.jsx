@@ -41,7 +41,7 @@ const createReplayIcon = () => {
 
 const createStartIcon = () => {
   return L.divIcon({
-    html: `<div class="marker-start">📍🏁</div>`,
+    html: `<div class="marker-start">Départ📍🏁</div>`,
     className: 'marker-start-wrapper',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
@@ -50,7 +50,7 @@ const createStartIcon = () => {
 
 const createEndIcon = () => {
   return L.divIcon({
-    html: `<div class="marker-end">📍🎯</div>`,
+    html: `<div class="marker-end">Destination📍🎯</div>`,
     className: 'marker-end-wrapper',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
