@@ -1,4 +1,3 @@
-// Tuiles Leaflet
 export const TILE_LAYERS = {
   streets: {
     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -31,7 +30,6 @@ export const STATUS_COLORS = {
   alarm: { primary: '#faad14', secondary: '#ffd666', text: '#ffffff' }
 };
 
-// Configuration carte
 export const MAP_CONFIG = {
   defaultZoom: 11,
   defaultCenter: [-4.358313, 15.348934],
