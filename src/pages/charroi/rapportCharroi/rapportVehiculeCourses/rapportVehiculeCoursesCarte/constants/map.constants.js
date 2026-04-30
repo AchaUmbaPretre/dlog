@@ -1,5 +1,3 @@
-// constants/map.constants.js
-
 export const MAP_CONFIG = {
   DEFAULT_CENTER: [-4.358313, 15.348934],
   DEFAULT_ZOOM: 11,
