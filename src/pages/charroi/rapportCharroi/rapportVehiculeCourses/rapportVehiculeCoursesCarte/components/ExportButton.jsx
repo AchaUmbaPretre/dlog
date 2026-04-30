@@ -42,9 +42,9 @@ export const ExportButton = ({ vehicles, stats }) => {
       <Menu.Item key="pdf" onClick={() => handleExport('pdf')} icon={<FilePdfOutlined style={{ color: '#ef4444' }} />}>
         Exporter PDF (.pdf)
       </Menu.Item>
-      <Menu.Item key="json" onClick={() => handleExport('json')} icon={<CodeOutlined style={{ color: '#f59e0b' }} />}>
+{/*       <Menu.Item key="json" onClick={() => handleExport('json')} icon={<CodeOutlined style={{ color: '#f59e0b' }} />}>
         Exporter JSON (.json)
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
   
