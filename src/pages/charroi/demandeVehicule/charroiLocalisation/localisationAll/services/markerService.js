@@ -17,7 +17,6 @@ export class MarkerService {
     const color = getStatusColor(status);
     const isMoving = status === 'moving';
     const hasAlarm = status === 'alarm';
-    // Utiliser la fonction importée directement, pas this.
     const direction = getCorrectDirection(vehicle.course);
     
     let bgColor = color;
