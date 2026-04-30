@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
+// components/ReplayMap.jsx - Version complète et fonctionnelle
+
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import { Modal, Slider, Button, Timeline, Tag, Progress, message, Badge, Card, Statistic, Row, Col, Divider } from 'antd';
+import { Modal, Button, Tag, Progress, message, Slider } from 'antd';
 import { 
   PlayCircleOutlined, 
   PauseCircleOutlined, 
@@ -12,37 +14,30 @@ import {
   CarOutlined,
   UserOutlined,
   FlagOutlined,
-  DashboardOutlined,
-  ThunderboltOutlined,
   LineChartOutlined,
-  AimOutlined
+  AimOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+  CompassOutlined,
+  CloseOutlined
 } from '@ant-design/icons';
 import 'leaflet/dist/leaflet.css';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
-
+// Icônes simples et fiables
 const createReplayIcon = () => {
   return L.divIcon({
-    html: `
-      <div class="replay-marker-premium">
-        <div class="replay-marker-inner">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-        </div>
-      </div>
-    `,
-    className: 'replay-marker-wrapper',
-    iconSize: [36, 36],
-    iconAnchor: [18, 18]
+    html: `<div style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);"><span style="color:white; font-size:14px;">▶</span></div>`,
+    className: 'custom-marker',
+    iconSize: [32, 32],
+    iconAnchor: [16, 16]
   });
 };
 
 const createStartIcon = () => {
   return L.divIcon({
-    html: `<div class="marker-start">Départ📍🏁</div>`,
-    className: 'marker-start-wrapper',
+    html: `<div style="background: #10b981; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 16px;">🏁</div>`,
+    className: 'custom-marker',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
   });
@@ -50,8 +45,8 @@ const createStartIcon = () => {
 
 const createEndIcon = () => {
   return L.divIcon({
-    html: `<div class="marker-end">Destination📍🎯</div>`,
-    className: 'marker-end-wrapper',
+    html: `<div style="background: #ef4444; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 16px;">🎯</div>`,
+    className: 'custom-marker',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
   });
@@ -63,57 +58,68 @@ export const ReplayMap = ({ vehicle, onClose }) => {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [replayPoints, setReplayPoints] = useState([]);
-  const [totalDuration, setTotalDuration] = useState(0);
   const intervalRef = useRef(null);
   const mapRef = useRef(null);
   
-  // Préparer l'adresse record pour VehicleAddress - SANS time pour éviter l'erreur
-  const getAddressRecord = (lat, lng) => ({
-    lat: lat,
-    lng: lng,
-    capteurInfo: {
-      lat: lat,
-      lng: lng,
-      address: null
-    }
+  const getAddressRecord = (lat, lng) => ({ 
+    lat, 
+    lng, 
+    capteurInfo: { lat, lng, address: null } 
   });
   
-  // Initialiser les points de replay
+  // Initialisation des points de trajectoire
   useEffect(() => {
     if (!vehicle) return;
     
-    let trajectory = vehicle.trajectory;
+    console.log('=== REPLAY MAP ===');
+    console.log('Véhicule:', vehicle.name);
     
-    if ((!trajectory || trajectory.length === 0) && vehicle.rawData?.tail) {
+    let trajectory = [];
+    
+    // Chercher la trajectoire dans différentes sources
+    if (vehicle.trajectory && vehicle.trajectory.length > 0) {
+      trajectory = vehicle.trajectory;
+      console.log('Trajectoire trouvée dans vehicle.trajectory:', trajectory.length);
+    } 
+    else if (vehicle.rawData?.tail && vehicle.rawData.tail.length > 0) {
       trajectory = vehicle.rawData.tail
         .filter(point => point.lat && point.lng)
         .map(point => [parseFloat(point.lat), parseFloat(point.lng)]);
+      console.log('Trajectoire trouvée dans rawData.tail:', trajectory.length);
     }
-    
-    if ((!trajectory || trajectory.length === 0) && vehicle.tail) {
+    else if (vehicle.tail && vehicle.tail.length > 0) {
       trajectory = vehicle.tail
         .filter(point => point.lat && point.lng)
         .map(point => [parseFloat(point.lat), parseFloat(point.lng)]);
+      console.log('Trajectoire trouvée dans vehicle.tail:', trajectory.length);
     }
     
-    if (trajectory && trajectory.length > 0) {
-      const points = trajectory.map((pos, idx) => ({
-        lat: pos[0],
-        lng: pos[1],
-        id: idx,
-        isStart: idx === 0,
-        isEnd: idx === trajectory.length - 1
+    if (trajectory.length > 0) {
+      const points = trajectory.map((pos, idx) => ({ 
+        lat: pos[0], 
+        lng: pos[1], 
+        id: idx 
       }));
-      
       setReplayPoints(points);
       setCurrentPosition(points[0]);
       setProgress(0);
       setCurrentIndex(0);
-      setTotalDuration(points.length * 0.1);
     } else {
+      console.warn('Aucune trajectoire trouvée pour ce véhicule');
       message.warning('Ce véhicule n\'a pas de données de trajectoire');
     }
   }, [vehicle]);
+  
+  // Centrage automatique de la carte sur tous les points
+  useEffect(() => {
+    if (mapRef.current && replayPoints.length > 0) {
+      setTimeout(() => {
+        const bounds = L.latLngBounds(replayPoints.map(p => [p.lat, p.lng]));
+        mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+        console.log('Carte centrée sur', replayPoints.length, 'points');
+      }, 200);
+    }
+  }, [replayPoints]);
   
   // Animation du replay
   useEffect(() => {
@@ -122,7 +128,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
         setCurrentIndex(prev => {
           if (prev >= replayPoints.length - 1) {
             setIsPlaying(false);
-            message.success('Replay terminé 🎬');
+            message.success('Replay terminé');
             clearInterval(intervalRef.current);
             return prev;
           }
@@ -132,15 +138,12 @@ export const ReplayMap = ({ vehicle, onClose }) => {
           setCurrentPosition(replayPoints[newIndex]);
           
           if (mapRef.current && replayPoints[newIndex]) {
-            mapRef.current.setView([replayPoints[newIndex].lat, replayPoints[newIndex].lng], 15, {
-              animate: true,
-              duration: 0.3
-            });
+            mapRef.current.setView([replayPoints[newIndex].lat, replayPoints[newIndex].lng], 15);
           }
           
           return newIndex;
         });
-      }, 80);
+      }, 100);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -158,7 +161,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
       setCurrentIndex(0);
       setCurrentPosition(replayPoints[0]);
       if (mapRef.current && replayPoints[0]) {
-        mapRef.current.setView([replayPoints[0].lat, replayPoints[0].lng], 15);
+        mapRef.current.setView([replayPoints[0].lat, replayPoints[0].lng], 14);
       }
       setTimeout(() => setIsPlaying(true), 100);
     } else {
@@ -176,7 +179,8 @@ export const ReplayMap = ({ vehicle, onClose }) => {
     setCurrentIndex(0);
     setCurrentPosition(replayPoints[0]);
     if (mapRef.current && replayPoints[0]) {
-      mapRef.current.setView([replayPoints[0].lat, replayPoints[0].lng], 13);
+      const bounds = L.latLngBounds(replayPoints.map(p => [p.lat, p.lng]));
+      mapRef.current.fitBounds(bounds, { padding: [50, 50] });
     }
   };
   
@@ -193,32 +197,45 @@ export const ReplayMap = ({ vehicle, onClose }) => {
     }
   };
   
-  const totalDistance = vehicle.totalDistance || 0;
-  const avgSpeed = totalDistance > 0 ? (totalDistance / (totalDuration / 3600)).toFixed(1) : 0;
-  const remainingDistance = totalDistance * (1 - progress / 100);
+  // Calcul des statistiques
+  const stats = useMemo(() => {
+    if (replayPoints.length === 0) return { totalDistance: 0, totalPoints: 0 };
+    
+    let totalDistance = 0;
+    for (let i = 1; i < replayPoints.length; i++) {
+      const prev = replayPoints[i - 1];
+      const curr = replayPoints[i];
+      const R = 6371;
+      const dLat = (curr.lat - prev.lat) * Math.PI / 180;
+      const dLon = (curr.lng - prev.lng) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(prev.lat * Math.PI/180) * Math.cos(curr.lat * Math.PI/180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      totalDistance += R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+    
+    return {
+      totalDistance: totalDistance.toFixed(1),
+      totalPoints: replayPoints.length
+    };
+  }, [replayPoints]);
   
   if (!vehicle) return null;
   
+  // État de chargement si pas de points
   if (replayPoints.length === 0) {
     return (
       <Modal
-        title={
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div className="modal-title-accent" />
-            <span className="modal-title-text">Replay Trajet</span>
-            <Tag color="blue">{vehicle.registration}</Tag>
-          </div>
-        }
         open={true}
         onCancel={onClose}
         footer={null}
         width={500}
-        className="replay-modal-premium"
+        closable={false}
       >
-        <div className="empty-state-replay">
-          <div className="empty-icon">🗺️</div>
-          <div className="empty-title">Aucune trajectoire disponible</div>
-          <div className="empty-description">
+        <div style={{ textAlign: 'center', padding: '40px' }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🗺️</div>
+          <div style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>Aucune trajectoire disponible</div>
+          <div style={{ fontSize: 13, color: '#64748b' }}>
             Ce véhicule n'a pas de données de trajectoire enregistrées.
           </div>
         </div>
@@ -228,626 +245,286 @@ export const ReplayMap = ({ vehicle, onClose }) => {
   
   return (
     <Modal
-      title={
-        <div className="modal-header-premium">
-          <div className="modal-title">
-            <div className="modal-title-accent" />
-            <span className="modal-title-text">Replay Trajet</span>
-            <div className="vehicle-badge">
-              <CarOutlined />
-              <span>{vehicle.name}</span>
-            </div>
-            <Tag color="blue">{vehicle.registration}</Tag>
-            <Tag color="cyan">{replayPoints.length} points</Tag>
-          </div>
-        </div>
-      }
       open={true}
       onCancel={onClose}
       footer={null}
       width={1100}
-      className="replay-modal-premium"
       destroyOnClose
-      maskClosable={false}
+      closable={false}
+      className="replay-modal-fixed"
+      styles={{ body: { padding: 0 } }} 
     >
-      <div className="replay-premium-container">
-        {/* Carte dédiée */}
-        <div className="replay-map-container">
-          <MapContainer
-            ref={mapRef}
-            center={[replayPoints[0]?.lat || 0, replayPoints[0]?.lng || 0]}
-            zoom={20}
-            style={{ height: '480px', width: '100%', borderRadius: '20px' }}
-            zoomControl={true}
-          >
-            <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-            />
-            
-            {/* Trajectoire complète */}
-            {replayPoints.length > 1 && (
-              <Polyline
-                positions={replayPoints.map(p => [p.lat, p.lng])}
-                color="#3b82f6"
-                weight={3}
-                opacity={0.6}
-                dashArray="8, 8"
-              />
-            )}
-            
-            {/* Trajectoire parcourue */}
-            {currentIndex > 0 && (
-              <Polyline
-                positions={replayPoints.slice(0, currentIndex + 1).map(p => [p.lat, p.lng])}
-                color="#10b981"
-                weight={4}
-                opacity={0.9}
-              />
-            )}
-            
-            {/* Position actuelle */}
-            {currentPosition && (
-              <Marker
-                position={[currentPosition.lat, currentPosition.lng]}
-                icon={createReplayIcon()}
-              >
-                <Popup className="replay-popup">
-                  <div className="popup-content">
-                    <div className="popup-title">
-                      <CarOutlined /> {vehicle.name}
-                    </div>
-                    <div className="popup-position">
-                      <VehicleAddress record={getAddressRecord(currentPosition.lat, currentPosition.lng)} />
-                    </div>
-                    <div className="popup-progress">
-                      <Progress 
-                        percent={Math.round(progress)} 
-                        size="small" 
-                        strokeColor="#3b82f6"
-                        showInfo={false}
-                      />
-                      <span>{Math.round(progress)}%</span>
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            )}
-            
-            {/* Point de départ */}
-            {replayPoints[0] && (
-              <Marker
-                position={[replayPoints[0].lat, replayPoints[0].lng]}
-                icon={createStartIcon()}
-              >
-                <Popup className="replay-popup">
-                  <div className="popup-content">
-                    <div className="popup-title">🏁 Départ</div>
-                    <div className="popup-position">
-                      <VehicleAddress record={getAddressRecord(replayPoints[0].lat, replayPoints[0].lng)} />
-                    </div>
-                    <div className="popup-time">
-                      {vehicle.startTime ? new Date(vehicle.startTime).toLocaleString() : 'Non défini'}
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            )}
-            
-            {/* Point d'arrivée */}
-            {replayPoints[replayPoints.length - 1] && (
-              <Marker
-                position={[replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng]}
-                icon={createEndIcon()}
-              >
-                <Popup className="replay-popup">
-                  <div className="popup-content">
-                    <div className="popup-title">🎯 Destination</div>
-                    <div className="popup-position">
-                      <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng)} />
-                    </div>
-                    <div className="popup-destination">
-                      {vehicle.destination || 'Non définie'}
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            )}
-          </MapContainer>
+      {/* Header */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        padding: '16px 20px', 
+        background: '#f8fafc', 
+        borderBottom: '1px solid #e2e8f0' 
+      }}>
+        <div>
+          <h2 style={{ margin: '0 0 6px 0', fontSize: '18px', fontWeight: 600 }}>{vehicle.name}</h2>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            <Tag icon={<CarOutlined />}>{vehicle.registration}</Tag>
+            <Tag icon={<UserOutlined />}>{vehicle.driver?.split(' ')[0]}</Tag>
+            <Tag icon={<FlagOutlined />}>{vehicle.destination?.split(',')[0] || 'Trajet'}</Tag>
+          </div>
+        </div>
+        <button 
+          onClick={onClose} 
+          style={{ 
+            width: 32, 
+            height: 32, 
+            background: 'white', 
+            border: '1px solid #e2e8f0', 
+            borderRadius: '50%', 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <CloseOutlined />
+        </button>
+      </div>
+      
+      <div style={{ display: 'flex', gap: 24, padding: 24 }}>
+        {/* Carte */}
+        <div style={{ flex: 2, position: 'relative' }}>
+          {/* Toolbar */}
+          <div style={{ 
+            position: 'absolute', 
+            top: 12, 
+            right: 12, 
+            zIndex: 1000, 
+            display: 'flex', 
+            gap: 6, 
+            background: 'white', 
+            padding: '6px 10px', 
+            borderRadius: 30, 
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)' 
+          }}>
+            <button 
+              onClick={() => mapRef.current?.zoomIn()} 
+              style={{ width: 28, height: 28, background: '#f8fafc', border: 'none', borderRadius: '50%', cursor: 'pointer' }}
+            >
+              <ZoomInOutlined />
+            </button>
+            <button 
+              onClick={() => mapRef.current?.zoomOut()} 
+              style={{ width: 28, height: 28, background: '#f8fafc', border: 'none', borderRadius: '50%', cursor: 'pointer' }}
+            >
+              <ZoomOutOutlined />
+            </button>
+            <button 
+              onClick={() => { 
+                if (replayPoints.length) { 
+                  const bounds = L.latLngBounds(replayPoints.map(p => [p.lat, p.lng])); 
+                  mapRef.current?.fitBounds(bounds, { padding: [50, 50] }); 
+                } 
+              }} 
+              style={{ width: 28, height: 28, background: '#f8fafc', border: 'none', borderRadius: '50%', cursor: 'pointer' }}
+            >
+              <CompassOutlined />
+            </button>
+          </div>
+          
+          {/* Map Container */}
+          <div style={{ height: 450, width: '100%', borderRadius: 16, overflow: 'hidden', background: '#f1f5f9' }}>
+            <MapContainer
+              ref={mapRef}
+              center={[-4.358313, 15.348934]}
+              zoom={13}
+              style={{ height: '100%', width: '100%' }}
+              zoomControl={false}
+            >
+              <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+              
+              {/* Trajectoire complète */}
+              {replayPoints.length > 1 && (
+                <Polyline
+                  positions={replayPoints.map(p => [p.lat, p.lng])}
+                  color="#cbd5e1"
+                  weight={3}
+                  opacity={0.6}
+                  dashArray="8, 8"
+                />
+              )}
+              
+              {/* Trajectoire parcourue */}
+              {currentIndex > 0 && (
+                <Polyline
+                  positions={replayPoints.slice(0, currentIndex + 1).map(p => [p.lat, p.lng])}
+                  color="#3b82f6"
+                  weight={4}
+                  opacity={0.9}
+                />
+              )}
+              
+              {/* Marqueur position actuelle */}
+              {currentPosition && (
+                <Marker position={[currentPosition.lat, currentPosition.lng]} icon={createReplayIcon()} />
+              )}
+              
+              {/* Marqueur départ */}
+              {replayPoints[0] && (
+                <Marker position={[replayPoints[0].lat, replayPoints[0].lng]} icon={createStartIcon()} />
+              )}
+              
+              {/* Marqueur arrivée */}
+              {replayPoints[replayPoints.length - 1] && (
+                <Marker position={[replayPoints[replayPoints.length - 1].lat, replayPoints[replayPoints.length - 1].lng]} icon={createEndIcon()} />
+              )}
+            </MapContainer>
+          </div>
+          
+          {/* Progression overlay */}
+          <div style={{ 
+            position: 'absolute', 
+            bottom: 16, 
+            left: 16, 
+            right: 16, 
+            background: 'rgba(0,0,0,0.75)', 
+            backdropFilter: 'blur(10px)', 
+            borderRadius: 12, 
+            padding: '10px 14px', 
+            zIndex: 1000 
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: 11, color: 'white' }}>
+              <span><LineChartOutlined /> {stats.totalDistance} km</span>
+              <span><AimOutlined /> {stats.totalPoints} points</span>
+              <span><ClockCircleOutlined /> {Math.round(progress)}%</span>
+            </div>
+            <Progress percent={progress} strokeColor="#3b82f6" showInfo={false} size="small" />
+          </div>
         </div>
         
-        {/* Panneau de contrôle premium */}
-        <div className="replay-controls-premium">
-          {/* Statistiques avancées */}
-          <Row gutter={16} className="stats-row">
-            <Col span={6}>
-              <Card className="stat-card" size="small">
-                <Statistic
-                  title={<span className="stat-title"><EnvironmentOutlined /> Distance</span>}
-                  value={totalDistance}
-                  precision={1}
-                  suffix="km"
-                  valueStyle={{ color: '#3b82f6', fontSize: 20 }}
-                />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card className="stat-card" size="small">
-                <Statistic
-                  title={<span className="stat-title"><ClockCircleOutlined /> Points</span>}
-                  value={replayPoints.length}
-                  valueStyle={{ color: '#8b5cf6', fontSize: 20 }}
-                />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card className="stat-card" size="small">
-                <Statistic
-                  title={<span className="stat-title"><LineChartOutlined /> Progression</span>}
-                  value={progress}
-                  precision={0}
-                  suffix="%"
-                  valueStyle={{ color: '#10b981', fontSize: 20 }}
-                />
-              </Card>
-            </Col>
-            <Col span={6}>
-              <Card className="stat-card" size="small">
-                <Statistic
-                  title={<span className="stat-title"><AimOutlined /> Restant</span>}
-                  value={remainingDistance}
-                  precision={1}
-                  suffix="km"
-                  valueStyle={{ color: '#f59e0b', fontSize: 20 }}
-                />
-              </Card>
-            </Col>
-          </Row>
-          
-          <Divider style={{ margin: '12px 0' }} />
-          
-          {/* Info véhicule */}
-          <div className="vehicle-info-premium">
-            <div className="info-grid">
-              <div className="info-item">
-                <UserOutlined className="info-icon" />
-                <div>
-                  <span className="info-label">Chauffeur</span>
-                  <span className="info-value">{vehicle.driver}</span>
-                </div>
+        {/* Panneau de contrôle */}
+        <div style={{ flex: 1, minWidth: 280, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* Stats cards */}
+          <div style={{ display: 'flex', gap: 12 }}>
+            <div style={{ 
+              flex: 1, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 12, 
+              padding: 12, 
+              background: '#f8fafc', 
+              borderRadius: 14, 
+              border: '1px solid #eef2ff' 
+            }}>
+              <div style={{ 
+                width: 40, 
+                height: 40, 
+                borderRadius: 12, 
+                background: '#eff6ff', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                color: '#3b82f6', 
+                fontSize: 20 
+              }}>
+                <LineChartOutlined />
               </div>
-              <div className="info-item">
-                <FlagOutlined className="info-icon" />
-                <div>
-                  <span className="info-label">Destination</span>
-                  <span className="info-value">{vehicle.destination || 'Non définie'}</span>
-                </div>
+              <div>
+                <span style={{ display: 'block', fontSize: 10, color: '#64748b' }}>Distance</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: '#1a1a2e' }}>{stats.totalDistance} km</span>
               </div>
-              <div className="info-item">
-                <ThunderboltOutlined className="info-icon" />
-                <div>
-                  <span className="info-label">Efficacité</span>
-                  <span className="info-value" style={{ color: vehicle.efficiency >= 70 ? '#10b981' : '#f59e0b' }}>
-                    {vehicle.efficiency}%
-                  </span>
-                </div>
+            </div>
+            <div style={{ 
+              flex: 1, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 12, 
+              padding: 12, 
+              background: '#f8fafc', 
+              borderRadius: 14, 
+              border: '1px solid #eef2ff' 
+            }}>
+              <div style={{ 
+                width: 40, 
+                height: 40, 
+                borderRadius: 12, 
+                background: '#f5f3ff', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                color: '#8b5cf6', 
+                fontSize: 20 
+              }}>
+                <ClockCircleOutlined />
               </div>
-              <div className="info-item">
-                <DashboardOutlined className="info-icon" />
-                <div>
-                  <span className="info-label">Vitesse moy.</span>
-                  <span className="info-value">{avgSpeed} km/h</span>
-                </div>
+              <div>
+                <span style={{ display: 'block', fontSize: 10, color: '#64748b' }}>Points</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: '#1a1a2e' }}>{stats.totalPoints}</span>
               </div>
             </div>
           </div>
           
-          {/* Progression */}
-          <div className="progress-section-premium">
-            <div className="progress-header">
-              <span>Progression du trajet</span>
-              <Badge count={`${Math.round(progress)}%`} style={{ backgroundColor: '#3b82f6' }} />
+          {/* Positions */}
+          <div style={{ background: '#f8fafc', borderRadius: 14, padding: 14, border: '1px solid #eef2ff' }}>
+            <div style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '1px solid #eef2ff' }}>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>🏁</div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: 9, color: '#64748b' }}>Départ</label>
+                <VehicleAddress record={getAddressRecord(replayPoints[0]?.lat, replayPoints[0]?.lng)} />
+              </div>
             </div>
-            <Progress 
-              percent={progress} 
-              strokeColor={{
-                '0%': '#3b82f6',
-                '100%': '#10b981',
-              }}
-              trailColor="#e2e8f0"
-              showInfo={false}
-              className="premium-progress"
-            />
+            <div style={{ display: 'flex', gap: 12, padding: '8px 0', borderBottom: '1px solid #eef2ff' }}>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e3f2fd', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>📍</div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: 9, color: '#64748b' }}>Position actuelle</label>
+                <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 12, padding: '8px 0' }}>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14 }}>🎯</div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', fontSize: 9, color: '#64748b' }}>Destination</label>
+                <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1]?.lat, replayPoints[replayPoints.length - 1]?.lng)} />
+              </div>
+            </div>
+          </div>
+          
+          {/* Contrôles */}
+          <div style={{ background: '#f8fafc', borderRadius: 14, padding: 14, border: '1px solid #eef2ff' }}>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+              <Button icon={<PlayCircleOutlined />} onClick={handlePlay} type="primary" disabled={isPlaying} style={{ flex: 1 }}>Lecture</Button>
+              <Button icon={<PauseCircleOutlined />} onClick={handlePause} disabled={!isPlaying} style={{ flex: 1 }}>Pause</Button>
+              <Button icon={<StopOutlined />} onClick={handleStop} style={{ flex: 1 }}>Arrêt</Button>
+              <Button icon={<ReloadOutlined />} onClick={() => { handleStop(); setTimeout(() => handlePlay(), 100); }} style={{ flex: 1 }}>Replay</Button>
+            </div>
             <Slider 
               value={progress} 
               onChange={handleSliderChange}
               tooltip={{ formatter: (v) => `${Math.round(v)}%` }}
-              className="premium-slider"
             />
-          </div>
-          
-          {/* Boutons de contrôle */}
-          <div className="controls-buttons-premium">
-            <Button 
-              icon={<PlayCircleOutlined />} 
-              onClick={handlePlay}
-              type="primary"
-              disabled={isPlaying || replayPoints.length === 0}
-              className="control-btn play-btn"
-            >
-              Lecture
-            </Button>
-            <Button 
-              icon={<PauseCircleOutlined />} 
-              onClick={handlePause}
-              disabled={!isPlaying}
-              className="control-btn pause-btn"
-            >
-              Pause
-            </Button>
-            <Button 
-              icon={<StopOutlined />} 
-              onClick={handleStop}
-              disabled={progress === 0 || replayPoints.length === 0}
-              className="control-btn stop-btn"
-            >
-              Arrêt
-            </Button>
-            <Button 
-              icon={<ReloadOutlined />} 
-              onClick={() => {
-                handleStop();
-                setTimeout(() => handlePlay(), 100);
-              }}
-              disabled={replayPoints.length === 0}
-              className="control-btn replay-btn"
-            >
-              Replay
-            </Button>
-          </div>
-          
-          {/* Timeline avec adresses */}
-          <div className="timeline-section-premium">
-            <Timeline>
-              <Timeline.Item color="#10b981" dot={<CarOutlined />}>
-                <strong>Départ</strong>
-                <div className="timeline-date">
-                  {vehicle.startTime ? new Date(vehicle.startTime).toLocaleString() : 'Non défini'}
-                </div>
-                <div className="timeline-address">
-                  <VehicleAddress record={getAddressRecord(replayPoints[0]?.lat, replayPoints[0]?.lng)} />
-                </div>
-              </Timeline.Item>
-              <Timeline.Item color="#3b82f6" dot={<EnvironmentOutlined />}>
-                <strong>Position actuelle</strong>
-                <div className="timeline-address">
-                  <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
-                </div>
-                <div className="timeline-coords">
-                  {currentPosition?.lat.toFixed(4)}°, {currentPosition?.lng.toFixed(4)}°
-                </div>
-              </Timeline.Item>
-              <Timeline.Item color="#ef4444" dot={<FlagOutlined />}>
-                <strong>Destination</strong>
-                <div className="timeline-address">
-                  <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1]?.lat, replayPoints[replayPoints.length - 1]?.lng)} />
-                </div>
-                <div className="timeline-destination">
-                  {vehicle.destination || 'Non définie'}
-                </div>
-              </Timeline.Item>
-            </Timeline>
           </div>
         </div>
       </div>
       
-      <style jsx>{`
-        .modal-header-premium {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-        
-        .modal-title {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        
-        .modal-title-accent {
-          width: 4px;
-          height: 24px;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          border-radius: 2px;
-        }
-        
-        .modal-title-text {
-          font-size: 16px;
-          font-weight: 600;
-          color: #0f172a;
-        }
-        
-        .vehicle-badge {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 4px 12px;
-          background: #f8fafc;
-          border-radius: 20px;
-          font-size: 13px;
-          font-weight: 500;
-          color: #0f172a;
-        }
-        
-        .replay-premium-container {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-        
-        .replay-map-container {
-          border-radius: 20px;
+      <style>{`
+        .replay-modal-fixed .ant-modal-content {
+          background: #ffffff;
+          border-radius: 24px;
+          padding: 0;
           overflow: hidden;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
-        
-        .replay-controls-premium {
-          background: white;
-          border-radius: 20px;
-          padding: 20px;
-          border: 1px solid #e2e8f0;
+        .custom-marker {
+          background: transparent !important;
+          border: none !important;
         }
-        
-        .stats-row {
-          margin-bottom: 0;
+        .leaflet-container {
+          background: #f1f5f9;
+          width: 100%;
+          height: 100%;
         }
-        
-        .stat-card {
-          border-radius: 12px;
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
+        .ant-slider-track {
+          background-color: #3b82f6;
         }
-        
-        .stat-title {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-        }
-        
-        .vehicle-info-premium {
-          background: #f8fafc;
-          border-radius: 16px;
-          padding: 16px;
-          margin: 8px 0;
-        }
-        
-        .info-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 16px;
-        }
-        
-        .info-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        
-        .info-icon {
-          font-size: 18px;
-          color: #3b82f6;
-        }
-        
-        .info-label {
-          display: block;
-          font-size: 10px;
-          color: #64748b;
-          margin-bottom: 2px;
-        }
-        
-        .info-value {
-          font-size: 14px;
-          font-weight: 600;
-          color: #0f172a;
-        }
-        
-        .current-position-card {
-          background: linear-gradient(135deg, #eff6ff, #ffffff);
-          border: 1px solid #bfdbfe;
-          border-radius: 12px;
-          padding: 12px 16px;
-          margin: 8px 0;
-        }
-        
-        .card-title {
-          font-size: 11px;
-          font-weight: 600;
-          color: #3b82f6;
-          text-transform: uppercase;
-          margin-bottom: 8px;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        
-        .card-content {
-          font-size: 13px;
-          font-weight: 500;
-          color: #0f172a;
-          margin-bottom: 4px;
-        }
-        
-        .card-coords {
-          font-size: 10px;
-          color: #64748b;
-          font-family: monospace;
-        }
-        
-        .progress-section-premium {
-          margin: 16px 0;
-        }
-        
-        .progress-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 12px;
-          font-size: 12px;
-          font-weight: 500;
-          color: #64748b;
-        }
-        
-        .controls-buttons-premium {
-          display: flex;
-          gap: 12px;
-          justify-content: center;
-          margin: 20px 0;
-          flex-wrap: wrap;
-        }
-        
-        .control-btn {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          border-radius: 40px;
-          padding: 8px 28px;
-          font-weight: 500;
-          transition: all 0.2s;
-        }
-        
-        .play-btn {
-          background: linear-gradient(135deg, #3b82f6, #2563eb);
-          border: none;
-        }
-        
-        .play-btn:hover {
-          transform: scale(1.02);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-        
-        .timeline-section-premium {
-          background: #fafbfc;
-          border-radius: 16px;
-          padding: 16px;
-          max-height: 240px;
-          overflow-y: auto;
-        }
-        
-        .timeline-address {
-          font-size: 11px;
-          color: #3b82f6;
-          margin-top: 4px;
-        }
-        
-        .timeline-coords {
-          font-size: 10px;
-          color: #94a3b8;
-          font-family: monospace;
-          margin-top: 2px;
-        }
-        
-        .timeline-destination {
-          font-size: 11px;
-          color: #ef4444;
-          margin-top: 4px;
-        }
-        
-        .empty-state-replay {
-          text-align: center;
-          padding: 60px 20px;
-        }
-        
-        .empty-icon {
-          font-size: 64px;
-          margin-bottom: 20px;
-        }
-        
-        .empty-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: #0f172a;
-          margin-bottom: 8px;
-        }
-        
-        .empty-description {
-          font-size: 13px;
-          color: #64748b;
-        }
-        
-        .popup-content {
-          padding: 12px;
-          min-width: 220px;
-        }
-        
-        .popup-title {
-          font-weight: 600;
-          margin-bottom: 8px;
-          color: #0f172a;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        
-        .popup-position {
-          font-size: 11px;
-          color: #3b82f6;
-          margin-bottom: 8px;
-        }
-        
-        .popup-progress {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        
-        .popup-time, .popup-destination {
-          font-size: 10px;
-          color: #64748b;
-          margin-top: 4px;
-        }
-        
-        :global(.replay-marker-inner) {
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 3px solid white;
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-          animation: replayPulse 0.8s infinite;
-        }
-        
-        :global(.marker-start) {
-          background: #10b981;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 2px solid white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-          font-size: 16px;
-        }
-        
-        :global(.marker-end) {
-          background: #ef4444;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 2px solid white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-          font-size: 16px;
-        }
-        
-        @keyframes replayPulse {
-          0%, 100% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.15); opacity: 0.8; }
+        .ant-slider-handle {
+          border-color: #3b82f6;
         }
       `}</style>
     </Modal>

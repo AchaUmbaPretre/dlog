@@ -12,14 +12,6 @@ export const useVehicleData = (mergedCourses) => {
         if (vehicle) {
           vehicle.rawData = item;
           vehicle.address = item.capteurInfo?.address || item.address;
-          
-          // ✅ LOG POUR DEBUG
-          console.log(`🚗 ${vehicle.name}:`, {
-            course: vehicle.course,
-            lastKnownCourse: vehicle.lastKnownCourse,
-            speed: vehicle.speed,
-            hasTail: item.tail?.length || 0
-          });
         }
         return vehicle;
       })

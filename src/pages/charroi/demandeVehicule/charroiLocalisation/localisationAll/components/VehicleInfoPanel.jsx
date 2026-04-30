@@ -98,7 +98,7 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
 
   return (
     <div className={className} style={{ position: 'absolute', bottom: 24, right: 24, zIndex: 1000, animation: 'slideUp 0.3s ease-out' }}>
-      <Card className="vehicle-info-panel-senior" style={{ width: isExpanded ? 400 : 360, boxShadow: '0 8px 24px rgba(0,0,0,0.12)', borderRadius: 16, overflow: 'hidden' }} bodyStyle={{ padding: 0 }}>
+      <Card className="vehicle-info-panel-senior" style={{ width: isExpanded ? 400 : 360, boxShadow: '0 8px 24px rgba(0,0,0,0.12)', borderRadius: 16, overflow: 'hidden' }} styles={{ body: { padding: 0 } }} >
         {/* Header avec gradient et direction */}
         <div style={{ background: `linear-gradient(135deg, ${isMoving ? '#1890ff' : hasAlarm ? '#faad14' : '#52c41a'} 0%, ${isMoving ? '#096dd9' : hasAlarm ? '#d48806' : '#389e0d'} 100%)`, padding: '16px 20px', position: 'relative' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>

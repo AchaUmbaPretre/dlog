@@ -40,7 +40,6 @@ export const useGroupedVehicles = (vehicles, tolerance = 0.0001) => {
       used.add(i);
     });
     
-    console.log(`📊 Regroupement: ${vehicles.length} véhicules → ${groups.length} groupes`);
     groups.forEach(group => {
       if (group.isCluster) {
         console.log(`   📍 ${group.count} véhicules au même endroit: ${group.vehicles.map(v => v.name).join(', ')}`);

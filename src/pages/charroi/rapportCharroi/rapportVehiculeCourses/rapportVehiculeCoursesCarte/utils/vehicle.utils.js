@@ -1,5 +1,3 @@
-// utils/vehicle.utils.js
-
 import { VEHICLE_STATUS, IDLE_THRESHOLDS } from '../constants/map.constants';
 import { isValidCoordinate, parseCoordinate } from './coordinates.utils';
 
@@ -294,7 +292,6 @@ export const transformToVehicle = (rawItem) => {
     const calculatedCourse = calculateCourseFromTrajectory(rawItem.tail);
     if (calculatedCourse !== null && calculatedCourse > 0) {
       course = calculatedCourse;
-      console.log(`Direction calculée depuis trajectoire pour ${rawItem.name}: ${course}°`);
     }
   }
   
