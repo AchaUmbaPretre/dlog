@@ -60,6 +60,14 @@ const LocalisationAll = () => {
     { id: 'reports', label: 'Rapport activité', icon: <BarChartOutlined /> }
   ];
 
+   if (loading || !vehicles.length) {
+    return (
+      <div className="loading-container">
+        <Spin size="large" tip="Chargement des véhicules..." />
+      </div>
+    );
+  }
+
   return (
     <div className="fleet-dashboard">
       <FleetSidebar

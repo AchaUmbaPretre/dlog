@@ -33,8 +33,8 @@ export const STATUS_COLORS = {
 
 // Configuration carte
 export const MAP_CONFIG = {
-  defaultZoom: 13,
-  defaultCenter: [-4.3147, 15.2855],
+  defaultZoom: 11,
+  defaultCenter: [-4.358313, 15.348934],
   maxZoom: 19,
   minZoom: 3,
   flyDuration: 1.5,

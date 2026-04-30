@@ -16,7 +16,7 @@ const FleetMap = forwardRef(({
   const trailServiceRef = useRef(null);
   const heatmapServiceRef = useRef(null);
   const mapReadyRef = useRef(false);
-  const initTimeoutRef = useRef(null);
+  const pendingVehiclesRef = useRef([]); // Stocker les véhicules en attente
 
   const { initMap, changeTileLayer, flyTo, getMap } = useMap(containerRef, (map) => {
     if (!mapReadyRef.current && map) {
@@ -27,12 +27,20 @@ const FleetMap = forwardRef(({
           heatmapServiceRef.current = new HeatmapService(map);
           mapReadyRef.current = true;
           
+          // AFFICHAGE IMMÉDIAT des véhicules en attente
+          if (pendingVehiclesRef.current.length > 0) {
+            markerServiceRef.current.updateMarkersAsync(
+              pendingVehiclesRef.current, 
+              onVehicleClick
+            );
+            pendingVehiclesRef.current = [];
+          }
+          
           if (onMapReady) {
             onMapReady({ flyTo, changeTileLayer });
           }
         } else {
-          if (initTimeoutRef.current) clearTimeout(initTimeoutRef.current);
-          initTimeoutRef.current = setTimeout(initServices, 100);
+          setTimeout(initServices, 50); // Réduit de 100ms à 50ms
         }
       };
       
@@ -46,59 +54,48 @@ const FleetMap = forwardRef(({
     getMap: () => getMap()
   }));
 
-  // Mise à jour des marqueurs
+  // OPTIMISATION : Mise à jour immédiate des marqueurs
   useEffect(() => {
-    if (!markerServiceRef.current || !vehicles.length || !mapReadyRef.current) return;
+    if (!vehicles.length) return;
     
-    const updateMarkers = async () => {
-      await markerServiceRef.current.updateMarkersAsync(vehicles, onVehicleClick);
-    };
-    
-    updateMarkers();
+    // Si la carte est prête, afficher immédiatement
+    if (markerServiceRef.current && mapReadyRef.current) {
+      markerServiceRef.current.updateMarkersAsync(vehicles, onVehicleClick);
+    } else {
+      // Sinon, stocker pour affichage ultérieur
+      pendingVehiclesRef.current = vehicles;
+    }
   }, [vehicles, onVehicleClick]);
 
-  // Mise à jour des traces
+  // OPTIMISATION : Traces sans délai
   useEffect(() => {
     if (!trailServiceRef.current || !mapReadyRef.current) return;
     
-    if (showTrails) {
+    if (showTrails && vehicles.length > 0) {
       trailServiceRef.current.updateTrails(vehicles);
     } else {
       trailServiceRef.current.clearTrails();
     }
   }, [vehicles, showTrails]);
 
-  // Mise à jour de la heatmap - SIMPLIFIÉE
+  // OPTIMISATION : Heatmap sans délai artificiel
   useEffect(() => {
     if (!heatmapServiceRef.current || !mapReadyRef.current) return;
     
     if (showHeatmap && vehicles.length > 0) {
-      // Utiliser setTimeout pour laisser la carte s'initialiser
-      setTimeout(() => {
-        if (heatmapServiceRef.current && mapReadyRef.current) {
-          heatmapServiceRef.current.updateHeatmap(vehicles);
-        }
-      }, 1000);
+      // SUPPRIMER le setTimeout de 1000ms !
+      heatmapServiceRef.current.updateHeatmap(vehicles);
     } else {
       heatmapServiceRef.current.clearHeatmap();
     }
   }, [vehicles, showHeatmap]);
-
-  // Nettoyage
-  useEffect(() => {
-    return () => {
-      if (initTimeoutRef.current) {
-        clearTimeout(initTimeoutRef.current);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     initMap();
   }, [initMap]);
 
   return <div ref={containerRef} style={{ height: '100%', width: '100%' }} />;
-});    
+});
 
 FleetMap.displayName = 'FleetMap';
 

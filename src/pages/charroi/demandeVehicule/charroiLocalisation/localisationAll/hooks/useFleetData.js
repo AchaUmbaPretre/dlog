@@ -7,6 +7,7 @@ import { getFalcon } from '../../../../../../services/rapportService';
 export const useFleetData = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [stats, setStats] = useState(null);
   const [error, setError] = useState(null);
   const intervalRef = useRef(null);
@@ -22,6 +23,11 @@ export const useFleetData = () => {
       setVehicles(gtmItems);
       setStats(calculateStats(gtmItems));
       setError(null);
+      
+      if (initialLoad) {
+        setInitialLoad(false);
+        setLoading(false);
+      }
     } catch (err) {
       console.error("Erreur fetchData:", err);
       setError(err);
@@ -31,10 +37,11 @@ export const useFleetData = () => {
         placement: 'topRight',
         duration: 3
       });
-    } finally {
-      setLoading(false);
+      if (initialLoad) {
+        setLoading(false);
+      }
     }
-  }, []);
+  }, [initialLoad]);
 
   useEffect(() => {
     fetchData();
@@ -50,5 +57,5 @@ export const useFleetData = () => {
     };
   }, [fetchData]);
 
-  return { vehicles, loading, stats, error, refetch: fetchData };
+  return { vehicles, loading, stats, error, refetch: fetchData, initialLoad };
 };
