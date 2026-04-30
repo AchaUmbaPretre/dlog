@@ -29,7 +29,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
 
   const columns = [
     {
-      title: 'Heure GPS',
+      title: 'GPS',
       dataIndex: 'gps_heure',
       key: 'gps_heure',
       width: 100,
@@ -38,7 +38,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
       defaultSortOrder: 'descend'
     },
     {
-      title: 'Heure tab.',
+      title: 'Pointage',
       dataIndex: 'tablette_heure',
       key: 'tablette_heure',
       width: 100,

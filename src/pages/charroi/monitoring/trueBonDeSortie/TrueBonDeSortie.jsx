@@ -110,7 +110,7 @@ const TrueBonDeSortie = () => {
         <Col xs={12} sm={8} md={6} lg={4}>
           <Card className="stat-card stat-card-danger" hoverable>
             <Statistic 
-              title="Sorties sauvages" 
+              title="Sorties sans bs" 
               value={stats.non_autorisees || 0} 
               prefix={<ThunderboltOutlined />}
               valueStyle={{ color: '#ff4d4f' }}
@@ -163,7 +163,7 @@ const TrueBonDeSortie = () => {
           message={
             <Space>
               <ThunderboltOutlined style={{ fontSize: 16, color: '#ff4d4f' }} />
-              <span style={{ fontWeight: 'bold' }}>{stats.non_autorisees} sortie(s) sauvage(s) détectée(s)</span>
+              <span style={{ fontWeight: 'bold' }}>{stats.non_autorisees} sortie(s) Sorties sans bs détectée(s)</span>
             </Space>
           }
           description="Ces véhicules ont quitté leur zone sans aucun justificatif (ni bon de sortie, ni pointage tablette). Intervention urgente requise."

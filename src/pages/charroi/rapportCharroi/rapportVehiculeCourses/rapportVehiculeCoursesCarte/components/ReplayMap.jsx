@@ -1,5 +1,3 @@
-// components/ReplayMap.jsx - Version finale corrigée
-
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -22,7 +20,7 @@ import {
 import 'leaflet/dist/leaflet.css';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 
-// Icônes personnalisées
+
 const createReplayIcon = () => {
   return L.divIcon({
     html: `
@@ -43,7 +41,7 @@ const createReplayIcon = () => {
 
 const createStartIcon = () => {
   return L.divIcon({
-    html: `<div class="marker-start">🏁</div>`,
+    html: `<div class="marker-start">📍🏁</div>`,
     className: 'marker-start-wrapper',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
@@ -52,7 +50,7 @@ const createStartIcon = () => {
 
 const createEndIcon = () => {
   return L.divIcon({
-    html: `<div class="marker-end">🎯</div>`,
+    html: `<div class="marker-end">📍🎯</div>`,
     className: 'marker-end-wrapper',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
@@ -512,7 +510,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
           <div className="timeline-section-premium">
             <Timeline>
               <Timeline.Item color="#10b981" dot={<CarOutlined />}>
-                <strong>🚗 Départ</strong>
+                <strong>Départ</strong>
                 <div className="timeline-date">
                   {vehicle.startTime ? new Date(vehicle.startTime).toLocaleString() : 'Non défini'}
                 </div>
@@ -521,7 +519,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
                 </div>
               </Timeline.Item>
               <Timeline.Item color="#3b82f6" dot={<EnvironmentOutlined />}>
-                <strong>📍 Position actuelle</strong>
+                <strong>Position actuelle</strong>
                 <div className="timeline-address">
                   <VehicleAddress record={getAddressRecord(currentPosition?.lat || 0, currentPosition?.lng || 0)} />
                 </div>
@@ -530,7 +528,7 @@ export const ReplayMap = ({ vehicle, onClose }) => {
                 </div>
               </Timeline.Item>
               <Timeline.Item color="#ef4444" dot={<FlagOutlined />}>
-                <strong>🎯 Destination</strong>
+                <strong>Destination</strong>
                 <div className="timeline-address">
                   <VehicleAddress record={getAddressRecord(replayPoints[replayPoints.length - 1]?.lat, replayPoints[replayPoints.length - 1]?.lng)} />
                 </div>
