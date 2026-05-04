@@ -42,7 +42,7 @@ const RapportVehiculeCoursesCarte = () => {
   const [replayVehicle, setReplayVehicle] = useState(null);
   const [selectedVehicles, setSelectedVehicles] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true); // Ajouté pour contrôler le centrage initial
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const mapRef = useRef();
 
   const vehicles = useVehicleData(mergedCourses);
