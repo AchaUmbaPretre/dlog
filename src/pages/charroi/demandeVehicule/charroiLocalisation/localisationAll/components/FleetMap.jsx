@@ -16,7 +16,7 @@ const FleetMap = forwardRef(({
   const trailServiceRef = useRef(null);
   const heatmapServiceRef = useRef(null);
   const mapReadyRef = useRef(false);
-  const pendingVehiclesRef = useRef([]); // Stocker les véhicules en attente
+  const pendingVehiclesRef = useRef([]);
 
   const { initMap, changeTileLayer, flyTo, getMap } = useMap(containerRef, (map) => {
     if (!mapReadyRef.current && map) {
@@ -40,10 +40,9 @@ const FleetMap = forwardRef(({
             onMapReady({ flyTo, changeTileLayer });
           }
         } else {
-          setTimeout(initServices, 50); // Réduit de 100ms à 50ms
+          setTimeout(initServices, 50);
         }
       };
-      
       initServices();
     }
   });
