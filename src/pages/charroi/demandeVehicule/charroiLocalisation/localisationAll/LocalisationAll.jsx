@@ -103,7 +103,6 @@ const LocalisationAll = () => {
       />
       
       <div className="main-content">
-        {/* Navigation Flex avec icônes Ant Design */}
         <div className="flex-nav">
           {sections.map(section => (
             <button
