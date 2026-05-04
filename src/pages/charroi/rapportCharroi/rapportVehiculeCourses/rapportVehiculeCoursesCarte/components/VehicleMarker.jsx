@@ -149,6 +149,8 @@ export const VehicleMarker = ({ vehicle, rawData, onHover, isHovered, hasMultipl
   const eta = vehicle.destinationLat && vehicle.destinationLng && vehicle.speed > 5
     ? calculateETA(currentPos[0], currentPos[1], vehicle.destinationLat, vehicle.destinationLng, vehicle.speed)
     : null;
+
+    console.log()
   
   const addressRecord = {
     capteurInfo: {
