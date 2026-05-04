@@ -31,8 +31,33 @@ export const formatDuration = (seconds) => {
 };
 
 export const formatDate = (dateString) => {
+  console.log(dateString);
   if (!dateString) return '-';
+  
+  // Si la date est au format "DD-MM-YYYY HH:MM:SS"
+  if (typeof dateString === 'string' && dateString.includes('-')) {
+    // Remplacer les tirets par des slashes pour que JS comprenne
+    const formattedDate = dateString.replace(/-/g, '/');
+    const date = new Date(formattedDate);
+    
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+  }
+  
   const date = new Date(dateString);
+  
+  if (isNaN(date.getTime())) {
+    return dateString;
+  }
+  
   return date.toLocaleString('fr-FR', {
     day: '2-digit',
     month: '2-digit',

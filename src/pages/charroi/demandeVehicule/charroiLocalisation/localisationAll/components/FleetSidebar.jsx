@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
-import { Card, Statistic, Row, Col, Button, Space, Segmented, Tooltip, Badge, Tag, List } from 'antd';
+import { Button, Space, Segmented, Tooltip } from 'antd';
 import { 
   CarOutlined, 
-  WifiOutlined, 
-  AlertOutlined, 
-  DashboardOutlined,
-  EnvironmentOutlined,
-  ClockCircleOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
   LineChartOutlined,
@@ -14,8 +9,7 @@ import {
   GlobalOutlined
 } from '@ant-design/icons';
 import { TILE_LAYERS } from '../utils/constants';
-import { formatDate } from '../utils/helpers';
-import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
+import VehicleFilter from './VehicleFilter';
 
 const FleetSidebar = ({ 
   stats, 
@@ -27,7 +21,9 @@ const FleetSidebar = ({
   onToggleHeatmap,
   showTrails,
   showHeatmap,
-  currentStyle
+  currentStyle,
+  onFilterChange,
+  selectedVehiclesIds 
 }) => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -59,90 +55,10 @@ const FleetSidebar = ({
 
       {!collapsed && (
         <>
-          <div className="stats-container">
-            <Row gutter={[12, 12]}>
-              <Col span={12}>
-                <Card size="small" className="stat-card stat-total">
-                  <Statistic 
-                    title="Total" 
-                    value={stats?.total || 0} 
-                    prefix={<CarOutlined />}
-                  />
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card size="small" className="stat-card stat-online">
-                  <Statistic 
-                    title="En ligne" 
-                    value={stats?.online || 0} 
-                    prefix={<WifiOutlined />}
-                  />
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card size="small" className="stat-card stat-moving">
-                  <Statistic 
-                    title="En mouvement" 
-                    value={stats?.moving || 0} 
-                    prefix={<DashboardOutlined />}
-                  />
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card size="small" className="stat-card stat-alerts">
-                  <Statistic 
-                    title="Alertes" 
-                    value={stats?.alerts || 0} 
-                    prefix={<AlertOutlined />}
-                  />
-                </Card>
-              </Col>
-            </Row>
-          </div>
-
-          <div className="vehicles-list">
-            <h3>Véhicules</h3>
-            <List
-              dataSource={vehicles}
-              renderItem={(vehicle) => (
-                <List.Item
-                  className={`vehicle-item ${selectedVehicle?.id === vehicle.id ? 'selected' : ''}`}
-                  onClick={() => onVehicleSelect(vehicle)}
-                >
-                  <List.Item.Meta
-                    avatar={
-                      <Badge 
-                        color={vehicle.online === 'online' ? '#52c41a' : '#faad14'}
-                        status={vehicle.online === 'online' ? 'success' : 'warning'}
-                      />
-                    }
-                    title={<strong>{vehicle.name}</strong>}
-                    description={
-                      <>
-                        <div className="vehicle-info">
-                          <Tag color={vehicle.speed > 0 ? 'blue' : 'default'}>
-                            {vehicle.speed} km/h
-                          </Tag>
-                          <div className="vehicle-coords">
-                            <EnvironmentOutlined />
-                            <VehicleAddress record={vehicle} />
-                          </div>
-                          <div className="vehicle-time">
-                            <ClockCircleOutlined /> {formatDate(vehicle.time)}
-                          </div>
-                        </div>
-                        {vehicle.sensors?.find(s => s.type === 'textual')?.value !== '-' && (
-                          <Tag color="orange" className="vehicle-alert">
-                            <AlertOutlined /> {vehicle.sensors.find(s => s.type === 'textual')?.value}
-                          </Tag>
-                        )}
-                      </>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </div>
+          <VehicleFilter 
+            vehicles={vehicles} 
+            onFilterChange={onFilterChange}
+          />
 
           <div className="sidebar-footer">
             <Space direction="vertical" size={8} style={{ width: '100%' }}>

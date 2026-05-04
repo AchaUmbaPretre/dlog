@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { Spin } from 'antd';
 import { 
   EnvironmentOutlined, 
@@ -23,9 +23,12 @@ const LocalisationAll = () => {
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [currentStyle, setCurrentStyle] = useState('streets');
   const [activeSection, setActiveSection] = useState('map');
-  
+  const [selectedVehiclesIds, setSelectedVehiclesIds] = useState([]);
+
   const mapRef = useRef();
   const { vehicles, loading, stats } = useFleetData();
+
+  const filteredVehicles = vehicles.filter(v => selectedVehiclesIds.includes(v.id));
 
   const handleVehicleSelect = useCallback((vehicle) => {
     setSelectedVehicle(vehicle);
@@ -38,12 +41,26 @@ const LocalisationAll = () => {
     setDrawerVisible(true);
   }, []);
 
+  useEffect(() => {
+    if (vehicles.length > 0 && selectedVehiclesIds.length === 0) {
+      const allIds = vehicles.map(v => v.id);
+      setSelectedVehiclesIds(allIds);
+    }
+  }, [vehicles]);
+
   const handleStyleChange = useCallback((style) => {
     setCurrentStyle(style);
     if (mapRef.current) {
       mapRef.current.changeStyle(style);
     }
   }, []);
+
+    const handleFilterChange = useCallback((selectedIds) => {
+      setSelectedVehiclesIds(selectedIds);
+      if (selectedVehicle && !selectedIds.includes(selectedVehicle.id)) {
+        setSelectedVehicle(null);
+      }
+    }, [selectedVehicle])
 
   if (loading) {
     return (
@@ -81,6 +98,8 @@ const LocalisationAll = () => {
         showTrails={showTrails}
         showHeatmap={showHeatmap}
         currentStyle={currentStyle}
+        onFilterChange={handleFilterChange}
+        selectedVehiclesIds={selectedVehiclesIds}
       />
       
       <div className="main-content">
@@ -104,7 +123,7 @@ const LocalisationAll = () => {
             <div className="map-container">
               <FleetMap
                 ref={mapRef}
-                vehicles={vehicles}
+                vehicles={filteredVehicles}
                 showTrails={showTrails}
                 showHeatmap={showHeatmap}
                 onVehicleClick={handleVehicleSelect}
