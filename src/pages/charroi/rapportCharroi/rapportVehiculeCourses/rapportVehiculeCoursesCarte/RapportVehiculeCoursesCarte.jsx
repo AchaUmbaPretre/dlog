@@ -76,7 +76,6 @@ const RapportVehiculeCoursesCarte = () => {
     return groups;
   }, [groupedVehicles, filterStatus, selectedVehicles, selectAll]);
 
-  // ✅ CORRECTION: Centrage UNIQUEMENT au chargement initial
   useEffect(() => {
     if (vehicles.length > 0 && mapRef.current && isInitialLoad) {
       setTimeout(() => {
