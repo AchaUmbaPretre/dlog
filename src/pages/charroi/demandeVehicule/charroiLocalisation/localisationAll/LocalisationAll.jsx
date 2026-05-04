@@ -67,7 +67,6 @@ const LocalisationAll = () => {
 
   // Statistiques pour les badges
   const activeVehiclesCount = vehicles.filter(v => v.online === 'online').length;
-  const movingCount = vehicles.filter(v => v.speed > 0).length;
   const alertCount = vehicles.filter(v => v.alarm === 1).length;
 
   const sections = [

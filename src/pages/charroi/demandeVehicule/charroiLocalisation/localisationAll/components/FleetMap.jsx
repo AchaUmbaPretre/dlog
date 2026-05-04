@@ -7,7 +7,7 @@ import { HeatmapService } from '../services/heatmapService';
 const FleetMap = forwardRef(({ 
   vehicles, 
   showTrails, 
-  showHeatmap,
+  showHeatmap, 
   onVehicleClick,
   onMapReady 
 }, ref) => {
