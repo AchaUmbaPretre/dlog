@@ -1,5 +1,3 @@
-// components/HistoryReplay.jsx
-
 import React, { useState, useEffect, useRef } from 'react';
 import { PlayCircleOutlined, PauseCircleOutlined, StopOutlined, HistoryOutlined, ReloadOutlined } from '@ant-design/icons';
 import { Modal, Slider, Button, Timeline, Tag, message, Progress } from 'antd';

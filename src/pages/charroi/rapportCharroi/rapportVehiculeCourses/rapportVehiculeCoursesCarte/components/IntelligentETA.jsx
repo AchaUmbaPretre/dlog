@@ -18,7 +18,7 @@ const calculateETA = (currentLat, currentLng, destLat, destLng, currentSpeed, pl
   if (!destLat || !destLng) return null;
   
   const distance = calculateDistance(currentLat, currentLng, destLat, destLng);
-  const speed = Math.max(currentSpeed, 30); // Vitesse minimale 30 km/h
+  const speed = Math.max(currentSpeed, 30);
   const estimatedHours = distance / speed;
   const estimatedMinutes = estimatedHours * 60;
   

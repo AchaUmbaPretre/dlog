@@ -13,7 +13,6 @@ import {
   ReloadOutlined, 
   FireOutlined
 } from '@ant-design/icons';
-import { formatDate } from '../utils/helpers';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 import TimeFilter from './TimeFilter';
 
@@ -23,9 +22,6 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedVehicles, setSelectedVehicles] = useState([]);
   const [selectAll, setSelectAll] = useState(true);
-  const [timeFilter, setTimeFilter] = useState('now');
-  const [vehiclesByTime, setVehiclesByTime] = useState([]);
-
 
   // INITIALISATION : Sélectionner tous les véhicules par défaut
   useEffect(() => {

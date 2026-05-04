@@ -1,6 +1,3 @@
-// components/DestinationGeofence.jsx
-
-import React from 'react';
 import { Polygon, Marker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 
