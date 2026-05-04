@@ -1,7 +1,5 @@
-// RapportVehiculeCoursesCarte.jsx - Version finale corrigée
-
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { MapContainer, TileLayer, ZoomControl, ScaleControl, Polygon } from 'react-leaflet';
+import { MapContainer, TileLayer, ZoomControl, ScaleControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { 
@@ -14,8 +12,10 @@ import {
   DashboardOutlined,
   LineChartOutlined,
   ClockCircleOutlined,
-  BellOutlined
+  BellOutlined,
+  CloseOutlined
 } from '@ant-design/icons';
+import { Checkbox, Tooltip, Badge } from 'antd';
 import "./style/premium.css";
 import { useMonitoring } from '../../../monitoring/hooks/useMonitoring';
 import { useVehicleData } from './hooks/useVehicleData';
@@ -40,6 +40,9 @@ const RapportVehiculeCoursesCarte = () => {
   const [showAlertPanel, setShowAlertPanel] = useState(false);
   const [currentTheme, setCurrentTheme] = useState(MAP_THEMES.LIGHT);
   const [replayVehicle, setReplayVehicle] = useState(null);
+  const [selectedVehicles, setSelectedVehicles] = useState(new Set());
+  const [selectAll, setSelectAll] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // Ajouté pour contrôler le centrage initial
   const mapRef = useRef();
 
   const vehicles = useVehicleData(mergedCourses);
@@ -51,14 +54,42 @@ const RapportVehiculeCoursesCarte = () => {
     v.isSignalLost || (v.batteryLevel && v.batteryLevel <= 20) || v.isEngineCut
   );
 
-  const filteredGroups = groupedVehicles.filter(group => 
-    filterStatus === 'all' || group.vehicles.some(v => v.status === filterStatus)
-  );
+  // Filtrer les groupes en fonction des véhicules sélectionnés
+  const filteredGroups = React.useMemo(() => {
+    let groups = groupedVehicles;
+    
+    if (filterStatus !== 'all') {
+      groups = groups.filter(group => 
+        group.vehicles.some(v => v.status === filterStatus)
+      );
+    }
+    
+    if (selectedVehicles.size > 0 && !selectAll) {
+      groups = groups
+        .map(group => ({
+          ...group,
+          vehicles: group.vehicles.filter(v => selectedVehicles.has(v.id))
+        }))
+        .filter(group => group.vehicles.length > 0);
+    }
+    
+    return groups;
+  }, [groupedVehicles, filterStatus, selectedVehicles, selectAll]);
 
-  const handleExpandCluster = useCallback((vehicles) => {
-    console.log(`📌 Expansion du cluster avec ${vehicles.length} véhicules`);
-  }, []);
+  // ✅ CORRECTION: Centrage UNIQUEMENT au chargement initial
+  useEffect(() => {
+    if (vehicles.length > 0 && mapRef.current && isInitialLoad) {
+      setTimeout(() => {
+        const allPoints = vehicles.map(v => [v.lat, v.lng]);
+        const bounds = L.latLngBounds(allPoints);
+        mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+        setIsInitialLoad(false);
+        console.log('📍 Carte centrée initialement sur tous les véhicules');
+      }, 500);
+    }
+  }, [vehicles, isInitialLoad]);
 
+  // ✅ Fonction manuelle pour recentrer (appelée par le bouton)
   const handleFitBounds = useCallback(() => {
     if (vehicles.length > 0 && mapRef.current) {
       const allPoints = vehicles.map(v => [v.lat, v.lng]);
@@ -67,14 +98,57 @@ const RapportVehiculeCoursesCarte = () => {
     }
   }, [vehicles]);
 
-  useEffect(() => {
-    handleFitBounds();
-  }, [vehicles, handleFitBounds]);
+  // Gérer la sélection
+  const handleSelectVehicle = (vehicleId, checked) => {
+    setSelectedVehicles(prev => {
+      const newSet = new Set(prev);
+      if (checked) {
+        newSet.add(vehicleId);
+      } else {
+        newSet.delete(vehicleId);
+        setSelectAll(false);
+      }
+      return newSet;
+    });
+  };
+
+  const handleSelectAll = (checked) => {
+    setSelectAll(checked);
+    if (checked) {
+      const allIds = vehicles.map(v => v.id);
+      setSelectedVehicles(new Set(allIds));
+    } else {
+      setSelectedVehicles(new Set());
+    }
+  };
+
+  const handleClearSelection = () => {
+    setSelectedVehicles(new Set());
+    setSelectAll(false);
+  };
+
+  const handleCenterOnSelected = () => {
+    if (selectedVehicles.size === 0) return;
+    
+    const selectedVehiclesList = vehicles.filter(v => selectedVehicles.has(v.id));
+    if (selectedVehiclesList.length > 0 && mapRef.current) {
+      const allPoints = selectedVehiclesList.map(v => [v.lat, v.lng]);
+      const bounds = L.latLngBounds(allPoints);
+      mapRef.current.fitBounds(bounds, { padding: [50, 50] });
+    }
+  };
+
+  const handleExpandCluster = useCallback((vehicles) => {
+    console.log(`📌 Expansion du cluster avec ${vehicles.length} véhicules`);
+  }, []);
 
   if (!mergedCourses) return <LoadingState />;
   if (vehicles.length === 0) {
     return <EmptyState onDebug={() => console.log('Données brutes:', mergedCourses)} />;
   }
+
+  const selectedCount = selectedVehicles.size;
+  const totalCount = vehicles.length;
 
   return (
     <div className="fleet-dashboard">
@@ -106,6 +180,38 @@ const RapportVehiculeCoursesCarte = () => {
           onToggleTrajectories={() => setShowTrajectories(!showTrajectories)}
         />
 
+        {/* Barre d'action de sélection */}
+        <div className="selection-bar">
+          <div className="selection-info">
+            <Checkbox 
+              checked={selectAll || (selectedCount > 0 && selectedCount === totalCount)}
+              indeterminate={selectedCount > 0 && selectedCount < totalCount}
+              onChange={(e) => handleSelectAll(e.target.checked)}
+            >
+              Tous les véhicules
+            </Checkbox>
+            {selectedCount > 0 && (
+              <Badge count={selectedCount} style={{ backgroundColor: '#3b82f6' }} />
+            )}
+          </div>
+          <div className="selection-actions">
+            {selectedCount > 0 && (
+              <>
+                <Tooltip title="Centrer sur la sélection">
+                  <button className="selection-btn" onClick={handleCenterOnSelected}>
+                    <CompassOutlined />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Effacer la sélection">
+                  <button className="selection-btn" onClick={handleClearSelection}>
+                    <CloseOutlined />
+                  </button>
+                </Tooltip>
+              </>
+            )}
+          </div>
+        </div>
+
         {/* Liste des véhicules */}
         <div className="vehicles-list-panel">
           <div className="panel-title">
@@ -118,20 +224,29 @@ const RapportVehiculeCoursesCarte = () => {
               <div
                 key={vehicle.id}
                 className={`vehicle-list-item ${selectedVehicleId === vehicle.id ? 'active' : ''} ${vehicle.isSignalLost ? 'signal-lost' : ''}`}
-                onClick={() => {
-                  setSelectedVehicleId(vehicle.id);
-                  mapRef.current?.flyTo([vehicle.lat, vehicle.lng], 15, { duration: 1 });
-                }}
               >
-                <div className="vehicle-status-dot" style={{ background: vehicle.isSignalLost ? '#dc2626' : vehicle.speed > 0 ? '#10b981' : '#f59e0b' }} />
-                <div className="vehicle-list-info">
-                  <div className="vehicle-list-name">{vehicle.name}</div>
-                  <div className="vehicle-list-plate">{vehicle.registration}</div>
+                <Checkbox 
+                  checked={selectedVehicles.has(vehicle.id)}
+                  onChange={(e) => handleSelectVehicle(vehicle.id, e.target.checked)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <div 
+                  className="vehicle-list-content"
+                  onClick={() => {
+                    setSelectedVehicleId(vehicle.id);
+                    mapRef.current?.flyTo([vehicle.lat, vehicle.lng], 15, { duration: 1 });
+                  }}
+                >
+                  <div className="vehicle-status-dot" style={{ background: vehicle.isSignalLost ? '#dc2626' : vehicle.speed > 0 ? '#10b981' : '#f59e0b' }} />
+                  <div className="vehicle-list-info">
+                    <div className="vehicle-list-name">{vehicle.name}</div>
+                    <div className="vehicle-list-plate">{vehicle.registration}</div>
+                  </div>
+                  <div className="vehicle-list-speed">
+                    {vehicle.speed > 0 ? `${vehicle.speed} km/h` : 'Stationné'}
+                  </div>
+                  {vehicle.isSignalLost && <div className="signal-badge">📡</div>}
                 </div>
-                <div className="vehicle-list-speed">
-                  {vehicle.speed > 0 ? `${vehicle.speed} km/h` : 'Stationné'}
-                </div>
-                {vehicle.isSignalLost && <div className="signal-badge">📡</div>}
               </div>
             ))}
           </div>
@@ -204,7 +319,6 @@ const RapportVehiculeCoursesCarte = () => {
             <ThemeControl currentTheme={currentTheme} onThemeChange={setCurrentTheme} />
             <ExportButton vehicles={vehicles} stats={stats} />
             
-            {/* Sélecteur de véhicule pour le replay */}
             <select 
               className="vehicle-replay-select"
               onChange={(e) => {
@@ -229,11 +343,20 @@ const RapportVehiculeCoursesCarte = () => {
             <button onClick={() => mapRef.current?.zoomOut()} className="zoom-btn">
               <ZoomOutOutlined />
             </button>
+            {/* ✅ Bouton "Voir tout" pour recentrer manuellement */}
             <button onClick={handleFitBounds} className="zoom-btn primary">
               <CompassOutlined />
             </button>
           </div>
         </div>
+
+        {/* Indicateur de filtrage */}
+        {selectedVehicles.size > 0 && selectedVehicles.size < totalCount && (
+          <div className="filter-indicator">
+            <span>📌 {selectedVehicles.size} véhicule(s) sélectionné(s) sur {totalCount}</span>
+            <button onClick={handleClearSelection}>Afficher tout</button>
+          </div>
+        )}
 
         <MapContainer
           ref={mapRef}
@@ -250,28 +373,6 @@ const RapportVehiculeCoursesCarte = () => {
             attribution={MAP_CONFIG.TILE_LAYERS[currentTheme].attribution}
           />
           
-          {/* Zones de destination */}
-{/*           {vehicles.map(vehicle => {
-            if (vehicle.destinationPolygon && vehicle.destinationPolygon.length > 0) {
-              const polygonPoints = vehicle.destinationPolygon.map(p => [p.lat, p.lng]);
-              return (
-                <Polygon
-                  key={`geofence-${vehicle.id}`}
-                  positions={polygonPoints}
-                  pathOptions={{
-                    color: '#ef4444',
-                    fillColor: '#ef4444',
-                    fillOpacity: 0.08,
-                    weight: 1.5,
-                    dashArray: '6, 6'
-                  }}
-                />
-              );
-            }
-            return null;
-          })} */}
-          
-          {/* Marqueurs et clusters */}
           {filteredGroups.map(group => {
             if (group.isCluster && !expandAllClusters) {
               return (
@@ -320,7 +421,6 @@ const RapportVehiculeCoursesCarte = () => {
           </div>
         )}
 
-        {/* Bouton toggle sidebar pour mobile */}
         {!isSidebarOpen && (
           <button className="mobile-sidebar-toggle" onClick={() => setIsSidebarOpen(true)}>
             <MenuUnfoldOutlined />
@@ -328,7 +428,6 @@ const RapportVehiculeCoursesCarte = () => {
         )}
       </div>
 
-      {/* Modal de replay avec sa propre carte */}
       {replayVehicle && (
         <ReplayMap
           vehicle={replayVehicle}
