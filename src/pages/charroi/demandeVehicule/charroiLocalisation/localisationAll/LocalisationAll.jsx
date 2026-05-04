@@ -55,12 +55,12 @@ const LocalisationAll = () => {
     }
   }, []);
 
-    const handleFilterChange = useCallback((selectedIds) => {
-      setSelectedVehiclesIds(selectedIds);
-      if (selectedVehicle && !selectedIds.includes(selectedVehicle.id)) {
-        setSelectedVehicle(null);
-      }
-    }, [selectedVehicle])
+  const handleFilterChange = useCallback((selectedIds) => {
+    setSelectedVehiclesIds(selectedIds);
+    if (selectedVehicle && !selectedIds.includes(selectedVehicle.id)) {
+      setSelectedVehicle(null);
+    }
+  }, [selectedVehicle])
 
   if (loading) {
     return (
