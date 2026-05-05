@@ -2,7 +2,6 @@ import { useMemo, useEffect } from "react";
 import { Card } from "antd";
 import { MapContainer, TileLayer, Marker, Polyline, Tooltip, useMap } from "react-leaflet";
 
-/* Ajuste automatiquement le zoom pour montrer toutes les positions */
 const FitBounds = ({ positions, maxZoom = 16, minZoom = 4 }) => {
   const map = useMap();
 

@@ -38,23 +38,23 @@ const CharroiLocalisation = () => {
     'Direction': true
   });
 
-  const fetchData = async () => {
-    try {
-      const falconData = await getFalcon();
-      const items = falconData.data[0].items || [];
-/*       const gtmItems = items.filter(item => item.name && item.name.startsWith('GTM'));
- */
-      setFalcon(items);
-      setLoading(false);
-    } catch (error) {
-      console.error("Erreur fetchData:", error);
-      notification.error({
-        message: 'Erreur de chargement',
-        description: 'Impossible de charger les données véhicules.',
-      });
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const falconData = await getFalcon();
+        const items = falconData.data[0].items || [];
+  /*       const gtmItems = items.filter(item => item.name && item.name.startsWith('GTM'));
+  */
+        setFalcon(items);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erreur fetchData:", error);
+        notification.error({
+          message: 'Erreur de chargement',
+          description: 'Impossible de charger les données véhicules.',
+        });
+        setLoading(false);
+      }
+    };
 
     useEffect(() => {
         fetchData();
@@ -65,6 +65,8 @@ const CharroiLocalisation = () => {
 
         return () => clearInterval(interval);
     }, []);
+
+    console.log(falcon)
 
     const toggleColumnVisibility = (columnName, e) => {
       e.stopPropagation();
