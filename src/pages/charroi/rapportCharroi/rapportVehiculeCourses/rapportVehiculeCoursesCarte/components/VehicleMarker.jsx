@@ -82,7 +82,6 @@ export const VehicleMarker = ({ vehicle, rawData, onHover, isHovered, hasMultipl
   const [isVehicleMoving, setIsVehicleMoving] = useState(vehicle.speed > 5);
   const [currentDirection, setCurrentDirection] = useState(vehicle.course || 0);
   
-  // Animation du déplacement
   useEffect(() => {
     const newPos = [vehicle.lat, vehicle.lng];
     const oldPos = previousPosRef.current || currentPos;
@@ -149,8 +148,6 @@ export const VehicleMarker = ({ vehicle, rawData, onHover, isHovered, hasMultipl
   const eta = vehicle.destinationLat && vehicle.destinationLng && vehicle.speed > 5
     ? calculateETA(currentPos[0], currentPos[1], vehicle.destinationLat, vehicle.destinationLng, vehicle.speed)
     : null;
-
-    console.log()
   
   const addressRecord = {
     capteurInfo: {

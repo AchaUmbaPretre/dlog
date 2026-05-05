@@ -51,3 +51,9 @@ export const VEHICLE_STATUS = {
   STOPPED: 'stopped',
   ALARM: 'alarm'
 };
+
+export const MAGIC_NUMBER = {
+  MARKER_SIZE : 44,
+  SIGNAL_LOST_THRESHOLD : 7200000,
+  MOVING_SPEED_THRESHOLD : 5
+}

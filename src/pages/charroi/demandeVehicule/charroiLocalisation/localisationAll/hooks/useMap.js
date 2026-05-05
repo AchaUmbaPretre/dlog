@@ -1,28 +1,29 @@
+// hooks/useMap.js
 import { useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import { TILE_LAYERS, MAP_CONFIG } from '../utils/constants';
 
-export const useMap = (containerRef, onMapReady) => {
+export const useMap = (containerRef) => {
   const mapRef = useRef(null);
   const currentTileLayerRef = useRef(null);
 
-  const initMap = useCallback((center = MAP_CONFIG.defaultCenter) => {
-    if (!containerRef.current || mapRef.current) return;
+  const initMap = useCallback((onReadyCallback) => {
+    if (!containerRef.current || mapRef.current) return null;
 
-    mapRef.current = L.map(containerRef.current).setView(center, MAP_CONFIG.defaultZoom);
+    mapRef.current = L.map(containerRef.current).setView(MAP_CONFIG.defaultCenter, MAP_CONFIG.defaultZoom);
     
-    // Ajout de la couche par défaut
     currentTileLayerRef.current = L.tileLayer(TILE_LAYERS.streets.url, {
       attribution: TILE_LAYERS.streets.attribution,
-      maxZoom: MAP_CONFIG.maxZoom
+      maxZoom: MAP_CONFIG.maxZoom,
+      minZoom: MAP_CONFIG.minZoom
     }).addTo(mapRef.current);
 
-    if (onMapReady) {
-      onMapReady(mapRef.current);
+    if (onReadyCallback && typeof onReadyCallback === 'function') {
+      onReadyCallback(mapRef.current);
     }
 
     return mapRef.current;
-  }, [containerRef, onMapReady]);
+  }, [containerRef]);
 
   const changeTileLayer = useCallback((layerKey) => {
     if (!mapRef.current || !TILE_LAYERS[layerKey]) return;
@@ -33,7 +34,8 @@ export const useMap = (containerRef, onMapReady) => {
 
     currentTileLayerRef.current = L.tileLayer(TILE_LAYERS[layerKey].url, {
       attribution: TILE_LAYERS[layerKey].attribution,
-      maxZoom: MAP_CONFIG.maxZoom
+      maxZoom: MAP_CONFIG.maxZoom,
+      minZoom: MAP_CONFIG.minZoom
     }).addTo(mapRef.current);
   }, []);
 
@@ -46,6 +48,11 @@ export const useMap = (containerRef, onMapReady) => {
 
   const getMap = useCallback(() => mapRef.current, []);
 
+  const setView = useCallback((center, zoom) => {
+    if (!mapRef.current) return;
+    mapRef.current.setView(center, zoom);
+  }, []);
+
   useEffect(() => {
     return () => {
       if (mapRef.current) {
@@ -55,5 +62,5 @@ export const useMap = (containerRef, onMapReady) => {
     };
   }, []);
 
-  return { initMap, changeTileLayer, flyTo, getMap };
+  return { initMap, changeTileLayer, flyTo, getMap, setView };
 };
