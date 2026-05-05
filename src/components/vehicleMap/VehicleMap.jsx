@@ -9,35 +9,35 @@ const FitBounds = ({ positions, maxZoom = 16, minZoom = 4 }) => {
     if (positions && positions.length > 0) {
       map.fitBounds(positions, { padding: [50, 50], maxZoom, minZoom });
     }
-  }, [map, positions, maxZoom, minZoom]);
-  return null;
-};
+    }, [map, positions, maxZoom, minZoom]);
+    return null;
+  };
 
-/* --- Calcul distance en km --- */
-function getDistanceKm(lat1, lon1, lat2, lon2) {
-  const R = 6371;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * Math.PI / 180) *
-      Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) ** 2;
-  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
-}
-
-/* --- Filtre les mouvements irréalistes (>500 m) --- */
-function filterUnrealisticMoves(positions, maxDistanceKm = 0.5) {
-  if (positions.length < 2) return positions;
-  const result = [positions[0]];
-  for (let i = 1; i < positions.length; i++) {
-    const [lat1, lon1] = result[result.length - 1];
-    const [lat2, lon2] = positions[i];
-    const d = getDistanceKm(lat1, lon1, lat2, lon2);
-    if (d < maxDistanceKm) result.push(positions[i]);
+  /* --- Calcul distance en km --- */
+  function getDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) ** 2;
+    return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
   }
-  return result;
-}
+
+  /* --- Filtre les mouvements irréalistes (>500 m) --- */
+  function filterUnrealisticMoves(positions, maxDistanceKm = 0.5) {
+    if (positions.length < 2) return positions;
+    const result = [positions[0]];
+    for (let i = 1; i < positions.length; i++) {
+      const [lat1, lon1] = result[result.length - 1];
+      const [lat2, lon2] = positions[i];
+      const d = getDistanceKm(lat1, lon1, lat2, lon2);
+      if (d < maxDistanceKm) result.push(positions[i]);
+    }
+    return result;
+  }
 
 const VehicleMap = ({ positions = [], lineColor = "blue", height = 300 }) => {
   const validPositions = useMemo(() => {
