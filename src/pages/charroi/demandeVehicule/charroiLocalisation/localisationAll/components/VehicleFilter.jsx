@@ -138,13 +138,16 @@ const fetchVehicleHistory = async (vehicle, dateRange = null) => {
     }
   };
 
-  // Gérer la sélection d'un véhicule avec chargement de l'historique
   const handleVehicleSelect = async (vehicleId, checked) => {
     let newSelected;
     if (checked) {
       newSelected = [...selectedVehicles, vehicleId];
     } else {
       newSelected = selectedVehicles.filter(id => id !== vehicleId);
+      // Désélection: supprimer la trace
+      window.dispatchEvent(new CustomEvent('vehicle-history-removed', { 
+        detail: { vehicleId } 
+      }));
     }
     
     setSelectedVehicles(newSelected);

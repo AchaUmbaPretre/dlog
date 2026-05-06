@@ -16,7 +16,8 @@ const FleetMap = forwardRef(({
   const mapRef = useRef(null);
   const markerManagerRef = useRef(null);
   const trailServiceRef = useRef(null);
-  const historyTrailsRef = useRef(new Map());
+  const historyTrailsRef = useRef(new Map()); // Pour stocker les lignes
+  const historyMarkersRef = useRef(new Map()); // ✅ NOUVEAU : Pour stocker les marqueurs
   const mapReadyRef = useRef(false);
   const pendingVehiclesRef = useRef([]);
 
@@ -26,12 +27,24 @@ const FleetMap = forwardRef(({
   const displayVehicleHistory = useCallback((vehicleId, history, map) => {
     if (!map || !history || history.length === 0) return;
     
+    // Supprimer l'ancienne trace et les anciens marqueurs
     if (historyTrailsRef.current.has(vehicleId)) {
       const oldTrail = historyTrailsRef.current.get(vehicleId);
       if (oldTrail && map.removeLayer) {
         map.removeLayer(oldTrail);
       }
       historyTrailsRef.current.delete(vehicleId);
+    }
+    
+    // ✅ Supprimer les anciens marqueurs
+    if (historyMarkersRef.current.has(vehicleId)) {
+      const oldMarkers = historyMarkersRef.current.get(vehicleId);
+      oldMarkers.forEach(marker => {
+        if (marker && map.removeLayer) {
+          map.removeLayer(marker);
+        }
+      });
+      historyMarkersRef.current.delete(vehicleId);
     }
     
     let positions = [];
@@ -46,6 +59,7 @@ const FleetMap = forwardRef(({
     if (positions.length < 2) return;
     
     try {
+      // Créer la trace
       const historyTrail = L.polyline(positions, {
         color: '#722ed1',
         weight: 4,
@@ -54,6 +68,9 @@ const FleetMap = forwardRef(({
       }).addTo(map);
       
       historyTrailsRef.current.set(vehicleId, historyTrail);
+      
+      // Créer les marqueurs
+      const markers = [];
       
       const startIcon = L.divIcon({
         html: '<div style="background: #52c41a; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
@@ -69,23 +86,27 @@ const FleetMap = forwardRef(({
         iconAnchor: [7, 7]
       });
       
-      L.marker(positions[0], { icon: startIcon })
+      const startMarker = L.marker(positions[0], { icon: startIcon })
         .bindTooltip('Début', { permanent: false, direction: 'top' })
         .addTo(map);
       
-      L.marker(positions[positions.length - 1], { icon: endIcon })
+      const endMarker = L.marker(positions[positions.length - 1], { icon: endIcon })
         .bindTooltip('Fin', { permanent: false, direction: 'top' })
         .addTo(map);
+      
+      markers.push(startMarker, endMarker);
+      historyMarkersRef.current.set(vehicleId, markers);
       
     } catch (error) {
       console.error('Erreur affichage historique:', error);
     }
   }, []);
 
-  // Supprimer l'historique
+  // Supprimer l'historique (trace + marqueurs)
   const removeVehicleHistory = useCallback((vehicleId, map) => {
     if (!map) return;
     
+    // Supprimer la trace
     if (historyTrailsRef.current.has(vehicleId)) {
       const trail = historyTrailsRef.current.get(vehicleId);
       if (trail && map.removeLayer) {
@@ -93,6 +114,18 @@ const FleetMap = forwardRef(({
         console.log(`🗑️ Trace supprimée pour le véhicule ${vehicleId}`);
       }
       historyTrailsRef.current.delete(vehicleId);
+    }
+    
+    // ✅ Supprimer les marqueurs
+    if (historyMarkersRef.current.has(vehicleId)) {
+      const markers = historyMarkersRef.current.get(vehicleId);
+      markers.forEach(marker => {
+        if (marker && map.removeLayer) {
+          map.removeLayer(marker);
+        }
+      });
+      historyMarkersRef.current.delete(vehicleId);
+      console.log(`🗑️ Marqueurs supprimés pour le véhicule ${vehicleId}`);
     }
   }, []);
 

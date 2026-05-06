@@ -110,18 +110,19 @@ export const useVehicleSelection = () => {
     }
   }, [fetchVehicleHistory]);
 
-    const handleVehicleDeselect = useCallback(() => {
-    if (selectedVehicle) {
-        console.log(`🗑️ Désélection du véhicule: ${selectedVehicle.name}`);
-        
-        window.dispatchEvent(new CustomEvent('vehicle-history-removed', { 
-        detail: { vehicleId: selectedVehicle.id } 
-        }));
-        
-        setSelectedVehicle(null);
-    }
-    }, [selectedVehicle]);
-
+    // useVehicleSelection.js - Modifiez handleVehicleDeselect
+const handleVehicleDeselect = useCallback(() => {
+  if (selectedVehicle) {
+    console.log(`🗑️ Désélection du véhicule: ${selectedVehicle.name}`);
+    
+    // Émettre un événement pour supprimer la trace
+    window.dispatchEvent(new CustomEvent('vehicle-history-removed', { 
+      detail: { vehicleId: selectedVehicle.id } 
+    }));
+    
+    setSelectedVehicle(null);
+  }
+}, [selectedVehicle]);
   const handleFilterChange = useCallback((selectedIds, currentVehicle) => {
     setSelectedVehiclesIds(selectedIds);
     if (currentVehicle && !selectedIds.includes(currentVehicle.id)) {
