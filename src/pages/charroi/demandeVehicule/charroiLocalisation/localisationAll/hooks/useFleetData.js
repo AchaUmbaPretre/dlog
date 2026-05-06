@@ -31,12 +31,12 @@ export const useFleetData = () => {
     } catch (err) {
       console.error("Erreur fetchData:", err);
       setError(err);
-      notification.error({
+/*       notification.error({
         message: 'Erreur de chargement',
         description: 'Impossible de charger les données véhicules.',
         placement: 'topRight',
         duration: 3
-      });
+      }); */
       if (initialLoad) {
         setLoading(false);
       }

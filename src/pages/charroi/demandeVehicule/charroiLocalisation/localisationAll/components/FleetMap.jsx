@@ -22,11 +22,10 @@ const FleetMap = forwardRef(({
 
   const { initMap, changeTileLayer, flyTo, getMap } = useMap(containerRef);
 
-  // Afficher l'historique d'un véhicule sur la carte
+  // Afficher l'historique
   const displayVehicleHistory = useCallback((vehicleId, history, map) => {
     if (!map || !history || history.length === 0) return;
     
-    // Supprimer l'ancienne trace
     if (historyTrailsRef.current.has(vehicleId)) {
       const oldTrail = historyTrailsRef.current.get(vehicleId);
       if (oldTrail && map.removeLayer) {
@@ -35,7 +34,6 @@ const FleetMap = forwardRef(({
       historyTrailsRef.current.delete(vehicleId);
     }
     
-    // Extraire les positions
     let positions = [];
     if (Array.isArray(history) && history.length > 0) {
       if (Array.isArray(history[0])) {
@@ -57,7 +55,6 @@ const FleetMap = forwardRef(({
       
       historyTrailsRef.current.set(vehicleId, historyTrail);
       
-      // Marqueur début
       const startIcon = L.divIcon({
         html: '<div style="background: #52c41a; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
         className: 'history-marker',
@@ -65,7 +62,6 @@ const FleetMap = forwardRef(({
         iconAnchor: [7, 7]
       });
       
-      // Marqueur fin
       const endIcon = L.divIcon({
         html: '<div style="background: #ff4d4f; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>',
         className: 'history-marker',
@@ -81,14 +77,50 @@ const FleetMap = forwardRef(({
         .bindTooltip('Fin', { permanent: false, direction: 'top' })
         .addTo(map);
       
-      // Centrer la carte
-      const bounds = L.latLngBounds(positions);
-      map.fitBounds(bounds, { padding: [50, 50] });
-      
     } catch (error) {
       console.error('Erreur affichage historique:', error);
     }
   }, []);
+
+  // Supprimer l'historique
+  const removeVehicleHistory = useCallback((vehicleId, map) => {
+    if (!map) return;
+    
+    if (historyTrailsRef.current.has(vehicleId)) {
+      const trail = historyTrailsRef.current.get(vehicleId);
+      if (trail && map.removeLayer) {
+        map.removeLayer(trail);
+        console.log(`🗑️ Trace supprimée pour le véhicule ${vehicleId}`);
+      }
+      historyTrailsRef.current.delete(vehicleId);
+    }
+  }, []);
+
+  // Écouter l'événement d'ajout
+  useEffect(() => {
+    const handleHistoryLoaded = (event) => {
+      const { vehicleId, history } = event.detail;
+      if (mapReadyRef.current && mapRef.current) {
+        displayVehicleHistory(vehicleId, history, mapRef.current);
+      }
+    };
+    
+    window.addEventListener('vehicle-history-loaded', handleHistoryLoaded);
+    return () => window.removeEventListener('vehicle-history-loaded', handleHistoryLoaded);
+  }, [displayVehicleHistory]);
+
+  // Écouter l'événement de suppression
+  useEffect(() => {
+    const handleHistoryRemoved = (event) => {
+      const { vehicleId } = event.detail;
+      if (mapReadyRef.current && mapRef.current) {
+        removeVehicleHistory(vehicleId, mapRef.current);
+      }
+    };
+    
+    window.addEventListener('vehicle-history-removed', handleHistoryRemoved);
+    return () => window.removeEventListener('vehicle-history-removed', handleHistoryRemoved);
+  }, [removeVehicleHistory]);
 
   // Écouter l'événement
   useEffect(() => {
