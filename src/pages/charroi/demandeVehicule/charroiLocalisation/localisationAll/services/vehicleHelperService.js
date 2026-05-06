@@ -15,25 +15,50 @@ export class VehicleHelperService {
     } else {
       return 'Stationné';
     }
-    
-    const days = Math.floor(seconds / 86400);
+  
+    const years = Math.floor(seconds / (86400 * 365));
+    const months = Math.floor((seconds % (86400 * 365)) / (86400 * 30));
+    const days = Math.floor((seconds % (86400 * 30)) / 86400);
     const hours = Math.floor((seconds % 86400) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
+  
+    // Années
+    if (years > 0) {
+      if (months > 0) {
+        if (years === 1) return `🕐 1 an ${months} mois`;
+        return `🕐 ${years} ans ${months} mois`;
+      }
+      if (years === 1) return `🕐 1 an`;
+      return `🕐 ${years} ans`;
+    }
     
+    // Mois
+    if (months > 0) {
+      if (days > 0) {
+        if (months === 1) return `🕐 1 mois ${days}j`;
+        return `🕐 ${months} mois ${days}j`;
+      }
+      if (months === 1) return `🕐 1 mois`;
+      return `🕐 ${months} mois`;
+    }
+    
+    // Jours
     if (days > 0) {
       if (hours > 0) return `🕐 ${days}j ${hours}h`;
       return `🕐 ${days}j`;
     }
+    
+    // Heures
     if (hours > 0) {
       if (minutes > 0) return `🕐 ${hours}h ${minutes}min`;
       return `🕐 ${hours}h`;
     }
-    if (minutes > 0) {
-      if (secs > 0) return `🕐 ${minutes}min ${secs}s`;
-      return `🕐 ${minutes}min`;
-    }
-    return `🕐 ${secs}s`;
+    
+    // Minutes
+    if (minutes > 0) return `🕐 ${minutes}min`;
+    
+    // Secondes
+    return `🕐 ${seconds}s`;
   }
 
   static formatAddress(vehicle, fallbackAddress = null) {

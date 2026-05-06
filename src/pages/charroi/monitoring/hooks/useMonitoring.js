@@ -14,14 +14,13 @@ export const useMonitoring = () => {
     try {
       const { data } = await getFalcon();
 
-      const gtmItems =
+/*       const gtmItems =
         data?.[0]?.items?.filter(
           (item) => item.name && item.name.startsWith('GTM')
         ) || [];
-
+ */
       setFalcon(data?.[0]?.items);
 
-    console.log(data?.[0]?.items)
     } catch (error) {
       console.error('Erreur Falcon:', error);
     }

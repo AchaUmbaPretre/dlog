@@ -1,4 +1,3 @@
-// hooks/useMap.js
 import { useEffect, useRef, useCallback } from 'react';
 import L from 'leaflet';
 import { TILE_LAYERS, MAP_CONFIG } from '../utils/constants';

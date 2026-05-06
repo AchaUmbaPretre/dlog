@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Card, Checkbox, Input, Space, Tag, Badge, Button, Typography, Tooltip, Divider } from 'antd';
+import { useState, useEffect, useRef } from 'react'; // Ajoutez useRef
+import { Card, Checkbox, Input, Space, Tag, Badge, Button, Typography, Tooltip, Divider, message } from 'antd';
 import { 
   SearchOutlined, 
   CarOutlined, 
@@ -10,64 +10,195 @@ import {
   AlertOutlined,
   WifiOutlined,
   DashboardOutlined,
-  ReloadOutlined, 
-  FireOutlined
+  HistoryOutlined
 } from '@ant-design/icons';
 import { VehicleAddress } from '../../../../../../utils/vehicleAddress';
 import TimeFilter from './TimeFilter';
+import { getEventHistory } from '../../../../../../services/rapportService';
+import config from '../../../../../../config';
 
 const { Text } = Typography;
 
-const VehicleFilter = ({ vehicles, onFilterChange }) => {
+const VehicleFilter = ({ vehicles, onFilterChange, onHistoryLoad }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedVehicles, setSelectedVehicles] = useState([]);
   const [selectAll, setSelectAll] = useState(true);
+  const [loadingHistory, setLoadingHistory] = useState(false);
+  const [historyCache, setHistoryCache] = useState(new Map());
+  const [isInitialized, setIsInitialized] = useState(false); // Ajouté
+  const apiHash = config.api_hash;
 
-  // INITIALISATION : Sélectionner tous les véhicules par défaut
+  // INITIALISATION UNIQUE : Sélectionner tous les véhicules une seule fois
   useEffect(() => {
-    if (vehicles.length > 0 && selectedVehicles.length === 0) {
+    if (!isInitialized && vehicles.length > 0) {
       const allIds = vehicles.map(v => v.id);
       setSelectedVehicles(allIds);
       onFilterChange(allIds);
       setSelectAll(true);
+      setIsInitialized(true);
+      console.log('✅ Initialisation unique: tous les véhicules sélectionnés');
     }
-  }, [vehicles]);
+  }, [vehicles, onFilterChange, isInitialized]);
 
-  // Mettre à jour selectAll quand selectedVehicles change
+  // Mettre à jour selectAll quand selectedVehicles change (après initialisation)
   useEffect(() => {
-    if (vehicles.length > 0) {
+    if (isInitialized && vehicles.length > 0) {
       setSelectAll(selectedVehicles.length === vehicles.length);
     }
-  }, [selectedVehicles, vehicles]);
+  }, [selectedVehicles, vehicles, isInitialized]);
 
   // Filtrer les véhicules par recherche
   const filteredVehicles = vehicles.filter(v =>
     v.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Gérer la sélection d'un véhicule
-  const handleVehicleSelect = (vehicleId, checked) => {
+const fetchVehicleHistory = async (vehicle, dateRange = null) => {
+  const cacheKey = `${vehicle.id}_${dateRange?.from || 'default'}_${dateRange?.to || 'default'}`;
+  
+  console.log(`🔍 fetchVehicleHistory appelé pour: ${vehicle.name} (ID: ${vehicle.id})`);
+  
+  if (historyCache.has(cacheKey)) {
+    console.log(`💾 Utilisation du cache pour ${vehicle.name}, ${historyCache.get(cacheKey)?.length || 0} points`);
+    if (onHistoryLoad) {
+      onHistoryLoad(vehicle.id, historyCache.get(cacheKey));
+    }
+    return historyCache.get(cacheKey);
+  }
+
+  try {
+    const now = new Date();
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    
+    const from = dateRange?.from || yesterday.toISOString().slice(0, 19).replace('T', ' ');
+    const to = dateRange?.to || now.toISOString().slice(0, 19).replace('T', ' ');
+    
+    const params = {
+      device_id: vehicle.id,
+      from_date: from.split(' ')[0],
+      from_time: from.split(' ')[1] || '00:00:00',
+      to_date: to.split(' ')[0],
+      to_time: to.split(' ')[1] || '23:59:59',
+      lang: 'fr',
+      limit: 1000,
+      user_api_hash: apiHash
+    };
+    
+    console.log(`📡 Appel API pour ${vehicle.name}`);
+    
+    const response = await getEventHistory(params);
+    
+    console.log(`📥 Réponse API reçue pour ${vehicle.name}`);
+    
+    // DÉCLARER positions AVANT de l'utiliser
+    let positions = [];
+    
+    if (response?.data?.items && Array.isArray(response.data.items)) {
+      console.log(`📊 ${response.data.items.length} éléments trouvés dans response.data.items`);
+      
+      for (const event of response.data.items) {
+        if (event?.items && Array.isArray(event.items)) {
+          for (const point of event.items) {
+            if (point.lat && point.lng) {
+              // Stocker comme tableau [lat, lng] pour Leaflet
+              positions.push([parseFloat(point.lat), parseFloat(point.lng)]);
+            }
+          }
+        }
+      }
+    }
+    
+    console.log(`📍 Positions extraites pour ${vehicle.name}: ${positions.length}`);
+    
+    if (positions.length > 0) {
+      console.log(`📌 Première position: [${positions[0][0]}, ${positions[0][1]}]`);
+      console.log(`📌 Dernière position: [${positions[positions.length-1][0]}, ${positions[positions.length-1][1]}]`);
+    }
+    
+    setHistoryCache(prev => new Map(prev).set(cacheKey, positions));
+    
+    if (onHistoryLoad) {
+      console.log(`📢 Appel de onHistoryLoad pour ${vehicle.name} avec ${positions.length} points`);
+      onHistoryLoad(vehicle.id, positions);
+    }
+    
+    return positions;
+  } catch (error) {
+    console.error('❌ Erreur lors du chargement de l\'historique:', error);
+    message.error(`Impossible de charger l'historique pour ${vehicle.name}`);
+    return [];
+  }
+};
+
+  // Charger l'historique pour un véhicule sélectionné
+  const loadHistoryForVehicle = async (vehicle, isSelected) => {
+    if (isSelected) {
+      setLoadingHistory(true);
+      await fetchVehicleHistory(vehicle);
+      setLoadingHistory(false);
+    }
+  };
+
+  // Gérer la sélection d'un véhicule avec chargement de l'historique
+  const handleVehicleSelect = async (vehicleId, checked) => {
     let newSelected;
     if (checked) {
       newSelected = [...selectedVehicles, vehicleId];
     } else {
       newSelected = selectedVehicles.filter(id => id !== vehicleId);
     }
+    
     setSelectedVehicles(newSelected);
     onFilterChange(newSelected);
+    
+    const vehicle = vehicles.find(v => v.id === vehicleId);
+    if (vehicle && checked) {
+      console.log("Chargement historique pour:", vehicle.name);
+      await loadHistoryForVehicle(vehicle, checked);
+    }
   };
 
   // Sélectionner tous les véhicules
-  const handleSelectAll = (checked) => {
+  const handleSelectAll = async (checked) => {
     if (checked) {
       const allIds = vehicles.map(v => v.id);
       setSelectedVehicles(allIds);
       onFilterChange(allIds);
+      setSelectAll(true);
+      
+      message.info('Chargement des historiques en cours...');
+      setLoadingHistory(true);
+      
+      for (const vehicle of vehicles) {
+        await fetchVehicleHistory(vehicle);
+      }
+      
+      setLoadingHistory(false);
+      message.success('Historiques chargés');
     } else {
       setSelectedVehicles([]);
       onFilterChange([]);
+      setSelectAll(false);
     }
-    setSelectAll(checked);
+  };
+
+  // Recharger l'historique pour tous les véhicules sélectionnés
+  const reloadAllHistories = async () => {
+    if (selectedVehicles.length === 0) {
+      message.warning('Aucun véhicule sélectionné');
+      return;
+    }
+    
+    setLoadingHistory(true);
+    message.info(`Chargement de l'historique pour ${selectedVehicles.length} véhicule(s)...`);
+    
+    const selectedVehiclesList = vehicles.filter(v => selectedVehicles.includes(v.id));
+    
+    for (const vehicle of selectedVehiclesList) {
+      await fetchVehicleHistory(vehicle);
+    }
+    
+    setLoadingHistory(false);
+    message.success('Historiques mis à jour');
   };
 
   // Compter les véhicules
@@ -84,6 +215,18 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
           <span style={{ fontWeight: 600, fontSize: 13 }}>Filtre véhicules</span>
           <Badge count={selectedVehicles.length} showZero color="#1890ff" style={{ fontSize: 10 }} />
         </Space>
+      }
+      extra={
+        <Tooltip title="Recharger les historiques">
+          <Button
+            type="text"
+            size="small"
+            icon={<HistoryOutlined style={{ fontSize: 12 }} />}
+            onClick={reloadAllHistories}
+            loading={loadingHistory}
+            disabled={selectedVehicles.length === 0}
+          />
+        </Tooltip>
       }
       style={{ marginBottom: 12, borderRadius: 12 }}
       bodyStyle={{ padding: '12px' }}
@@ -109,12 +252,7 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
               fontWeight: 500,
               borderRadius: 6
             }}
-            onClick={() => {
-              const allIds = vehicles.map(v => v.id);
-              setSelectedVehicles(allIds);
-              onFilterChange(allIds);
-              setSelectAll(true);
-            }}
+            onClick={() => handleSelectAll(!selectAll)}
           >
             <Space size={4}>
               <CarOutlined style={{ fontSize: 11 }} />
@@ -146,10 +284,17 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
               fontWeight: 500,
               borderRadius: 6
             }}
-            onClick={() => {
+            onClick={async () => {
               const onlineIds = vehicles.filter(v => v.online === 'online').map(v => v.id);
               setSelectedVehicles(onlineIds);
               onFilterChange(onlineIds);
+              
+              setLoadingHistory(true);
+              const onlineVehicles = vehicles.filter(v => v.online === 'online');
+              for (const vehicle of onlineVehicles) {
+                await fetchVehicleHistory(vehicle);
+              }
+              setLoadingHistory(false);
             }}
           >
             <Space size={4}>
@@ -182,10 +327,17 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
               fontWeight: 500,
               borderRadius: 6
             }}
-            onClick={() => {
+            onClick={async () => {
               const movingIds = vehicles.filter(v => v.speed > 0).map(v => v.id);
               setSelectedVehicles(movingIds);
               onFilterChange(movingIds);
+              
+              setLoadingHistory(true);
+              const movingVehicles = vehicles.filter(v => v.speed > 0);
+              for (const vehicle of movingVehicles) {
+                await fetchVehicleHistory(vehicle);
+              }
+              setLoadingHistory(false);
             }}
           >
             <Space size={4}>
@@ -218,10 +370,17 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
               fontWeight: 500,
               borderRadius: 6
             }}
-            onClick={() => {
+            onClick={async () => {
               const alertIds = vehicles.filter(v => v.alarm === 1).map(v => v.id);
               setSelectedVehicles(alertIds);
               onFilterChange(alertIds);
+              
+              setLoadingHistory(true);
+              const alertVehicles = vehicles.filter(v => v.alarm === 1);
+              for (const vehicle of alertVehicles) {
+                await fetchVehicleHistory(vehicle);
+              }
+              setLoadingHistory(false);
             }}
           >
             <Space size={4}>
@@ -242,7 +401,7 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
       </div>
 
       {/* Barre de recherche compacte */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12, alignItems: 'center' }}>
         <Input
             placeholder="Rechercher un véhicule..."
             prefix={<SearchOutlined style={{ color: '#8c8c8c', fontSize: 12 }} />}
@@ -256,7 +415,7 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
             setSelectedVehicles(ids);
             onFilterChange(ids);
         }} />
-        </div>
+      </div>
 
       {/* Actions globales compactes */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 12, justifyContent: 'space-between' }}>
@@ -265,6 +424,7 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
           icon={<CheckSquareOutlined style={{ fontSize: 11 }} />}
           onClick={() => handleSelectAll(true)}
           disabled={selectAll}
+          loading={loadingHistory}
           style={{ fontSize: 11, height: 26, borderRadius: 6 }}
         >
           Tout sélectionner
@@ -286,6 +446,7 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
       <div style={{ maxHeight: 380, overflowY: 'auto' }}>
         {filteredVehicles.map(vehicle => {
           const hasAlarm = vehicle.sensors?.find(s => s.type === 'textual')?.value !== '-';
+          const isSelected = selectedVehicles.includes(vehicle.id);
           
           return (
             <div 
@@ -295,15 +456,15 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
                 borderBottom: '1px solid #f0f0f0',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                background: selectedVehicles.includes(vehicle.id) ? '#e6f7ff' : 'transparent',
+                background: isSelected ? '#e6f7ff' : 'transparent',
                 borderRadius: 6,
                 marginBottom: 2
               }}
-              onClick={() => handleVehicleSelect(vehicle.id, !selectedVehicles.includes(vehicle.id))}
+              onClick={() => handleVehicleSelect(vehicle.id, !isSelected)}
             >
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                 <Checkbox 
-                  checked={selectedVehicles.includes(vehicle.id)}
+                  checked={isSelected}
                   onChange={(e) => {
                     e.stopPropagation();
                     handleVehicleSelect(vehicle.id, e.target.checked);
@@ -320,6 +481,11 @@ const VehicleFilter = ({ vehicles, onFilterChange }) => {
                         color={vehicle.online === 'online' ? '#52c41a' : '#faad14'}
                         status={vehicle.online === 'online' ? 'success' : 'warning'}
                       />
+                      {isSelected && historyCache.has(`${vehicle.id}_default_default`) && (
+                        <Tooltip title="Historique chargé">
+                          <HistoryOutlined style={{ fontSize: 10, color: '#52c41a' }} />
+                        </Tooltip>
+                      )}
                     </Space>
                     <Tag color={vehicle.speed > 0 ? 'blue' : 'default'} style={{ margin: 0, fontSize: 10, padding: '0 6px', height: 18, lineHeight: '18px' }}>
                       {vehicle.speed} km/h

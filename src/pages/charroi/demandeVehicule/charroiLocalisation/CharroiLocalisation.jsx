@@ -48,10 +48,10 @@ const CharroiLocalisation = () => {
         setLoading(false);
       } catch (error) {
         console.error("Erreur fetchData:", error);
-        notification.error({
+/*         notification.error({
           message: 'Erreur de chargement',
           description: 'Impossible de charger les données véhicules.',
-        });
+        }); */
         setLoading(false);
       }
     };
@@ -65,8 +65,6 @@ const CharroiLocalisation = () => {
 
         return () => clearInterval(interval);
     }, []);
-
-    console.log(falcon)
 
     const toggleColumnVisibility = (columnName, e) => {
       e.stopPropagation();

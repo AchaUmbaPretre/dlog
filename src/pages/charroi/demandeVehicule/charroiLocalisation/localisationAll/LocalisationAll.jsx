@@ -1,156 +1,53 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { Badge, Tooltip } from 'antd';
-import { 
-  EnvironmentOutlined, 
-  CarOutlined, 
-  ToolOutlined, 
-  BarChartOutlined,
-  ThunderboltOutlined,
-  RocketOutlined
-} from '@ant-design/icons';
+import { useRef, useEffect, useCallback } from 'react';
 import { useFleetData } from './hooks/useFleetData';
+import { useTabNavigation } from './hooks/useTabNavigation';
+import { useVehicleSelection } from './hooks/useVehicleSelection';
+import { useMapControls } from './hooks/useMapControls';
+import { useDrawer } from './hooks/useDrawer';
 import './styles/mapStyles.css';
-import FleetMap from './components/FleetMap';
-import VehicleInfoPanel from './components/VehicleInfoPanel';
 import FleetSidebar from './components/FleetSidebar';
 import VehicleDetailDrawer from './components/VehicleDetailDrawer';
-import DailyActivityReport from './components/DailyActivityReport';
-import DrivingBehaviorAnalysis from './components/DrivingBehaviorAnalysis';
-import MaintenancePredictor from './components/MaintenancePredictor';
+import TabNavigation from './components/TabNavigation';
+import ContentRenderer from './components/ContentRenderer';
+import Loader from './components/Loader';
 
 const LocalisationAll = () => {
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [drawerVisible, setDrawerVisible] = useState(false);
-  const [showTrails, setShowTrails] = useState(true);
-  const [showHeatmap, setShowHeatmap] = useState(false);
-  const [currentStyle, setCurrentStyle] = useState('streets');
-  const [activeSection, setActiveSection] = useState('map');
-  const [selectedVehiclesIds, setSelectedVehiclesIds] = useState([]);
-  const [hoveredTab, setHoveredTab] = useState(null);
-
   const mapRef = useRef();
   const { vehicles, loading, stats } = useFleetData();
+  
+  const { activeSection, hoveredTab, handleTabChange, handleTabHover, handleTabLeave } = useTabNavigation('map');
+  const { 
+    selectedVehicle, 
+    selectedVehiclesIds, 
+    vehicleHistories,  // Ajouté
+    loadingHistory,   
+    handleVehicleSelect, 
+    handleVehicleDeselect, 
+    handleFilterChange,
+    initializeAllVehicles 
+  } = useVehicleSelection();
+  const { showTrails, showHeatmap, currentStyle, toggleTrails, toggleHeatmap, handleStyleChange } = useMapControls();
+  const { drawerVisible, openDrawer, closeDrawer } = useDrawer();
 
   const filteredVehicles = vehicles.filter(v => selectedVehiclesIds.includes(v.id));
 
-  const handleVehicleSelect = useCallback((vehicle) => {
-    setSelectedVehicle(vehicle);
-    if (mapRef.current) {
-      mapRef.current.flyToVehicle(vehicle.lat, vehicle.lng);
+  const handleHistoryLoad = useCallback((vehicleId, history) => {
+  console.log(`🎯 Historique reçu pour ${vehicleId}: ${history?.length} points`);
+  
+  if (history && history.length > 0) {
+      window.dispatchEvent(new CustomEvent('vehicle-history-loaded', { 
+        detail: { vehicleId, history } 
+      }));
     }
   }, []);
 
-  const handleShowDetails = useCallback(() => {
-    setDrawerVisible(true);
-  }, []);
-
+  // Initialisation
   useEffect(() => {
-    if (vehicles.length > 0 && selectedVehiclesIds.length === 0) {
-      const allIds = vehicles.map(v => v.id);
-      setSelectedVehiclesIds(allIds);
-    }
-  }, [vehicles]);
-
-  const handleStyleChange = useCallback((style) => {
-    setCurrentStyle(style);
-    if (mapRef.current) {
-      mapRef.current.changeStyle(style);
-    }
-  }, []);
-
-  const handleFilterChange = useCallback((selectedIds) => {
-    setSelectedVehiclesIds(selectedIds);
-    if (selectedVehicle && !selectedIds.includes(selectedVehicle.id)) {
-      setSelectedVehicle(null);
-    }
-  }, [selectedVehicle]);
-
-  // Statistiques pour les badges
-  const activeVehiclesCount = vehicles.filter(v => v.online === 'online').length;
-  const alertCount = vehicles.filter(v => v.alarm === 1).length;
-
-  const sections = [
-    { 
-      id: 'map', 
-      label: 'Carte', 
-      icon: <EnvironmentOutlined />, 
-      description: 'Visualisation géographique',
-      badge: filteredVehicles.length,
-      badgeColor: '#1890ff'
-    },
-    { 
-      id: 'driving', 
-      label: 'Conduite', 
-      icon: <CarOutlined />, 
-      description: 'Analyse comportementale',
-      badge: null,
-      badgeColor: '#52c41a'
-    },
-    { 
-      id: 'maintenance', 
-      label: 'Maintenance', 
-      icon: <ToolOutlined />, 
-      description: 'Suivi préventif',
-      badge: alertCount,
-      badgeColor: '#faad14'
-    },
-    { 
-      id: 'reports', 
-      label: 'Rapports', 
-      icon: <BarChartOutlined />, 
-      description: 'Statistiques avancées',
-      badge: null,
-      badgeColor: null
-    }
-  ];
-
-  const getSectionContent = () => {
-    switch(activeSection) {
-      case 'map':
-        return (
-          <div className="map-container">
-            <FleetMap
-              ref={mapRef}
-              vehicles={filteredVehicles}
-              showTrails={showTrails}
-              showHeatmap={showHeatmap}
-              onVehicleClick={handleVehicleSelect}
-              onMapReady={(mapControls) => {
-                console.log('Carte prête');
-              }}
-            />
-            {selectedVehicle && (
-              <VehicleInfoPanel
-                vehicle={selectedVehicle}
-                onClose={() => setSelectedVehicle(null)}
-                onShowDetails={handleShowDetails}
-              />
-            )}
-          </div>
-        );
-      case 'driving':
-        return <DrivingBehaviorAnalysis vehicles={vehicles} />;
-      case 'maintenance':
-        return <MaintenancePredictor vehicles={vehicles} />;
-      case 'reports':
-        return <DailyActivityReport vehicles={vehicles} />;
-      default:
-        return null;
-    }
-  };
+    initializeAllVehicles(vehicles);
+  }, [vehicles, initializeAllVehicles]);
 
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="premium-loader">
-          <RocketOutlined className="loader-icon" />
-          <div className="loader-text">Chargement de votre flotte...</div>
-          <div className="loader-progress">
-            <div className="loader-progress-bar"></div>
-          </div>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
@@ -160,83 +57,46 @@ const LocalisationAll = () => {
         vehicles={vehicles}
         selectedVehicle={selectedVehicle}
         onVehicleSelect={handleVehicleSelect}
-        onStyleChange={handleStyleChange}
-        onToggleTrails={() => setShowTrails(!showTrails)}
-        onToggleHeatmap={() => setShowHeatmap(!showHeatmap)}
+        onStyleChange={(style) => handleStyleChange(style, mapRef)}
+        onToggleTrails={toggleTrails}
+        onToggleHeatmap={toggleHeatmap}
         showTrails={showTrails}
         showHeatmap={showHeatmap}
         currentStyle={currentStyle}
         onFilterChange={handleFilterChange}
         selectedVehiclesIds={selectedVehiclesIds}
+        onHistoryLoad={handleHistoryLoad}
       />
       
       <div className="main-content">
-        <div className="premium-tabs">
-          <div className="tabs-container">
-            {sections.map(section => (
-              <Tooltip 
-                key={section.id} 
-                title={section.description}
-                placement="bottom"
-                mouseEnterDelay={0.3}
-              >
-                <button
-                  className={`premium-tab ${activeSection === section.id ? 'active' : ''}`}
-                  onClick={() => setActiveSection(section.id)}
-                  onMouseEnter={() => setHoveredTab(section.id)}
-                  onMouseLeave={() => setHoveredTab(null)}
-                >
-                  <div className="tab-icon-wrapper">
-                    <span className="tab-icon">{section.icon}</span>
-                    {section.badge !== null && section.badge > 0 && (
-                      <Badge 
-                        count={section.badge} 
-                        size="small"
-                        style={{ 
-                          backgroundColor: section.badgeColor,
-                          position: 'absolute',
-                          top: -8,
-                          right: -12,
-                          fontSize: 10,
-                          height: 18,
-                          minWidth: 18,
-                          lineHeight: '18px',
-                          boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
-                        }} 
-                      />
-                    )}
-                  </div>
-                  <span className="tab-label">{section.label}</span>
-                  <div className="tab-underline"></div>
-                </button>
-              </Tooltip>
-            ))}
-          </div>
-          
-          {/* Indicateur de statut en temps réel */}
-          <div className="realtime-status">
-            <div className="status-dot"></div>
-            <span className="status-text">
-              {activeVehiclesCount} véhicule(s) actif(s)
-            </span>
-            <div className="status-divider"></div>
-            <ThunderboltOutlined className="status-icon" />
-            <span className="status-text">Temps réel</span>
-          </div>
-        </div>
+        <TabNavigation
+          activeSection={activeSection}
+          onTabChange={handleTabChange}
+          onTabHover={handleTabHover}
+          onTabLeave={handleTabLeave}
+          stats={stats}
+          filteredCount={filteredVehicles.length}
+        />
 
-        {/* Contenu avec animation */}
-        <div className="flex-content">
-          <div className="content-wrapper fade-in">
-            {getSectionContent()}
-          </div>
-        </div>
+        <ContentRenderer
+          activeSection={activeSection}
+          vehicles={vehicles}
+          filteredVehicles={filteredVehicles}
+          showTrails={showTrails}
+          showHeatmap={showHeatmap}
+          selectedVehicle={selectedVehicle}
+          onVehicleSelect={(vehicle) => handleVehicleSelect(vehicle, mapRef)}
+          onVehicleDeselect={handleVehicleDeselect}
+          onShowDetails={openDrawer}
+          mapRef={mapRef}
+          vehicleHistories={vehicleHistories}  // Ajouté
+        />
       </div>
       
       <VehicleDetailDrawer
         vehicle={selectedVehicle}
         visible={drawerVisible}
-        onClose={() => setDrawerVisible(false)}
+        onClose={closeDrawer}
       />
 
       <style jsx>{`
@@ -462,60 +322,6 @@ const LocalisationAll = () => {
           min-height: 500px;
           border-radius: 20px;
           overflow: hidden;
-        }
-        
-        /* Premium Loader */
-        .premium-loader {
-          text-align: center;
-          padding: 60px;
-        }
-        
-        .loader-icon {
-          font-size: 48px;
-          color: #667eea;
-          animation: spin 2s linear infinite;
-          margin-bottom: 20px;
-        }
-        
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
-        .loader-text {
-          font-size: 16px;
-          color: #666;
-          margin-bottom: 20px;
-        }
-        
-        .loader-progress {
-          width: 200px;
-          height: 4px;
-          background: #e8e8e8;
-          border-radius: 4px;
-          overflow: hidden;
-          margin: 0 auto;
-        }
-        
-        .loader-progress-bar {
-          width: 60%;
-          height: 100%;
-          background: linear-gradient(90deg, #667eea, #764ba2);
-          border-radius: 4px;
-          animation: loading 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes loading {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
-        
-        .loading-container {
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         /* Scrollbar personnalisée */

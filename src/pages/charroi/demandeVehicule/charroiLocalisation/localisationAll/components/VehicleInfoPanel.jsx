@@ -22,7 +22,6 @@ const { Text, Title } = Typography;
 const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
   const [copied, setCopied] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [addressLoaded, setAddressLoaded] = useState(false);
 
   const vehicleData = useMemo(() => {
     if (!vehicle) return null;

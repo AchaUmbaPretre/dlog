@@ -23,7 +23,8 @@ const FleetSidebar = ({
   showHeatmap,
   currentStyle,
   onFilterChange,
-  selectedVehiclesIds 
+  selectedVehiclesIds,
+  onHistoryLoad  // ← AJOUTER CETTE PROP
 }) => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -58,6 +59,7 @@ const FleetSidebar = ({
           <VehicleFilter 
             vehicles={vehicles} 
             onFilterChange={onFilterChange}
+            onHistoryLoad={onHistoryLoad}  // ← PASSER LA PROP
           />
 
           <div className="sidebar-footer">

@@ -55,7 +55,7 @@ export const fetchAddress = async (vehicle) => {
   }
 
   // 🔹 Essayer OpenCage
-  try {
+/*   try {
     const res = await fetch(
       `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${API_KEY}&language=fr`
     );
@@ -68,23 +68,7 @@ export const fetchAddress = async (vehicle) => {
     }
   } catch (err) {
     console.warn("OpenCage échoué, tentative avec Nominatim:", err);
-  }
-
-  // 🔹 Fallback Nominatim
-  try {
-    const nominatimRes = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&accept-language=fr`
-    );
-    const nomData = await nominatimRes.json();
-    const nomAddr = cleanAddress(nomData.display_name);
-    if (nomAddr) {
-      addressCache[key] = nomAddr;
-      localStorage.setItem("vehicleAddressCache", JSON.stringify(addressCache));
-      return nomAddr;
-    }
-  } catch (err) {
-    console.error("Erreur reverse geocoding Nominatim:", err);
-  }
+  } */
 
   return "";
 };
