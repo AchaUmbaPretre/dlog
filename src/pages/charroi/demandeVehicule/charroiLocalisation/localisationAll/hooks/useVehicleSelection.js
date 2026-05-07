@@ -10,7 +10,6 @@ export const useVehicleSelection = () => {
   const [loadingHistory, setLoadingHistory] = useState(false);
   const apiHash = config.api_hash;
 
-  // Récupérer l'historique d'un véhicule - Jour complet (00:00 à 23:59)
   const fetchVehicleHistory = useCallback(async (vehicle, dateRange = null) => {
     const cacheKey = `${vehicle.id}_${dateRange?.from || 'today'}_${dateRange?.to || 'today'}`;
     
@@ -81,7 +80,6 @@ export const useVehicleSelection = () => {
   }, [vehicleHistories, apiHash]);
 
   const handleVehicleSelect = useCallback(async (vehicle, mapRef) => {
-    console.log(`🎯 Sélection du véhicule: ${vehicle.name}`);
     
     setSelectedVehicle(vehicle);
     if (mapRef?.current) {
@@ -91,9 +89,7 @@ export const useVehicleSelection = () => {
     setLoadingHistory(true);
     const positions = await fetchVehicleHistory(vehicle);
     setLoadingHistory(false);
-    
-    console.log(`📊 ${positions.length} positions récupérées pour ${vehicle.name}`);
-    
+        
     if (positions.length > 0) {
       window.dispatchEvent(new CustomEvent('vehicle-history-loaded', { 
         detail: { 
@@ -110,7 +106,6 @@ export const useVehicleSelection = () => {
 
 const handleVehicleDeselect = useCallback(() => {
   if (selectedVehicle) {
-    console.log(`🗑️ Désélection du véhicule: ${selectedVehicle.name}`);
     
     // Émettre un événement pour supprimer la trace
     window.dispatchEvent(new CustomEvent('vehicle-history-removed', { 
