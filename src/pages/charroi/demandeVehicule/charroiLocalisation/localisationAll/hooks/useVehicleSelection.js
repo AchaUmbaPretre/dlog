@@ -1,5 +1,3 @@
-// hooks/useVehicleSelection.js - Version corrigée (jour complet)
-
 import { useState, useCallback } from 'react';
 import { message } from 'antd';
 import { getEventHistory } from '../../../../../../services/rapportService';
@@ -110,7 +108,6 @@ export const useVehicleSelection = () => {
     }
   }, [fetchVehicleHistory]);
 
-    // useVehicleSelection.js - Modifiez handleVehicleDeselect
 const handleVehicleDeselect = useCallback(() => {
   if (selectedVehicle) {
     console.log(`🗑️ Désélection du véhicule: ${selectedVehicle.name}`);
