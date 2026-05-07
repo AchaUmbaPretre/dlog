@@ -166,10 +166,10 @@ const VehicleInfoPanel = ({ vehicle, onClose, onShowDetails, className }) => {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+{/*               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Space><ThunderboltOutlined />Contact</Space>
                 <Tag color={isEngineOn ? 'green' : 'default'}>{isEngineOn ? 'ON' : 'OFF'}</Tag>
-              </div>
+              </div> */}
 
               {door && (
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>

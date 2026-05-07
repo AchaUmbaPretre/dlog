@@ -97,6 +97,7 @@ const LocalisationAll = () => {
         vehicle={selectedVehicle}
         visible={drawerVisible}
         onClose={closeDrawer}
+        vehicleHistory={vehicleHistories.get(`${selectedVehicle?.id}_today_today`)} // Passe l'historique
       />
 
       <style jsx>{`
