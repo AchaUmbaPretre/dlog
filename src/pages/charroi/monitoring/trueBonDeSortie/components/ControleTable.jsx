@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Table, Tag, Badge, Button, Space, Tooltip, Modal, Form, Select, Input, message, Typography, Divider } from 'antd';
-import { EyeOutlined, CheckCircleOutlined, ThunderboltOutlined, AlertOutlined, SafetyOutlined, CloseCircleOutlined, WarningOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { Table, Tag, Badge, Button, Space, Modal, Form, Select, Input, message, Typography, Divider } from 'antd';
+import { CheckCircleOutlined, ThunderboltOutlined, AlertOutlined, SafetyOutlined, CloseCircleOutlined, WarningOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { regulariserSortie } from '../../../../../services/controleGpsService';
+import { formatDuration } from '../../../../../utils/renderTooltips';
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -55,7 +56,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
         const isOk = Math.abs(ecart) <= 30;
         return (
           <Tag color={isOk ? 'success' : 'error'} style={{ margin: 0 }}>
-            {Math.abs(ecart)} min
+            {formatDuration(ecart)}
           </Tag>
         );
       }
@@ -167,7 +168,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
         );
     }
     },
-    {
+/*     {
       title: 'Action',
       key: 'action',
       width: 80,
@@ -185,7 +186,7 @@ const ControleTable = ({ data, loading, onRefresh }) => {
           />
         </Tooltip>
       )
-    }
+    } */
   ];
 
   const handleRegulariser = async (values) => {

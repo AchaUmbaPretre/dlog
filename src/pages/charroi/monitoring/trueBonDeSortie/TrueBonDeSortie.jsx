@@ -238,12 +238,10 @@ const TrueBonDeSortie = () => {
                   loading={loading}
                   className="action-btn"
                 >
-                  Rafraîchir
                 </Button>
               </Tooltip>
               <Dropdown overlay={exportMenu} placement="bottomRight">
                 <Button icon={<ExportOutlined />} className="action-btn">
-                  Exporter
                 </Button>
               </Dropdown>
             </Space>
