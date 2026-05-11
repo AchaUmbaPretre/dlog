@@ -25,7 +25,12 @@ const RapportMoniUtilitaire = () => {
     const fetchVehicles = async () => {
       try {
         const { data } = await getFalcon();
-        setVehicles(data?.[0]?.items || []);
+
+        const gtmItems =
+        data?.[0]?.items?.filter(
+          (item) => item.name && item.name.startsWith('GTM')
+        ) || [];
+        setVehicles(gtmItems || []);
       } catch {
         message.error("Erreur lors du chargement des véhicules.");
       }

@@ -47,8 +47,14 @@ const ModeTvCardPonct = ({ datas }) => {
   const fetchData = async () => {
     try {
       const response = await getFalcon();
+      const gtmItems =
+        response.data?.[0]?.items?.filter(
+          (item) => item.name && item.name.startsWith('GTM')
+        ) || [];
+
       const items = response?.data?.[0]?.items || [];
-      setFalcon(items);
+      setFalcon(gtmItems);
+      
     } catch (error) {
       console.error("Erreur fetchData:", error);
       notification.error({

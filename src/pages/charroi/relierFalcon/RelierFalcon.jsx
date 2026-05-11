@@ -50,7 +50,12 @@ const RelierFalcon = ({ fetchData }) => {
         getVehicule(),
       ]);
 
-      const falconList = falconRes.data[0].items || [];
+      const gtmItems =
+        falconRes.data?.[0]?.items?.filter(
+          (item) => item.name && item.name.startsWith('GTM')
+      ) || [];
+
+      const falconList = gtmItems || [];
       const vehiculeList = vehiculeRes.data.data || [];
 
       const merged = falconList.map((f) => {
