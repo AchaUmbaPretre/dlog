@@ -260,7 +260,7 @@ const RelierFalcon = ({ fetchData }) => {
       bordered
     >
       {loading ? (
-        <div style={{height:'100%', width:'100%', margin:0}}>
+        <div style={{height:'100%', width:'100%', margin:0, display:'flex', alignItems:'center', justifyContent:'center'}}>
         <Spin tip="Chargement..." size="large" />
         </div>
       ) : (
