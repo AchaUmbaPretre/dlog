@@ -283,7 +283,7 @@ export const useBandeColumns = ({
             title: (
               <Space>
                 <CalendarOutlined style={{ color: 'blue' }} />
-                <Text strong>Depart</Text>
+                <Text strong>Démarrée</Text>
               </Space>
             ),
             dataIndex: 'sortie_time',
@@ -314,7 +314,7 @@ export const useBandeColumns = ({
             title: (
               <Space>
                 <CalendarOutlined style={{ color: 'blue' }} />
-                <Text strong>Retour</Text>
+                <Text strong>Terminée</Text>
               </Space>
             ),
             dataIndex: 'retour_time',
@@ -357,7 +357,121 @@ export const useBandeColumns = ({
                     </div>
                   );
               },
+              ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
           },
+
+          {
+            title: (
+              <Space>
+                <CheckCircleOutlined style={{ color: '#1890ff' }} />
+                <Text strong>Mission</Text>
+              </Space>
+            ),
+            dataIndex: 'statut_mission',
+            key: 'statut_mission',
+            align: 'center',
+            render: (text) => {
+
+              const statusConfig = {
+                en_attente: {
+                  color: 'orange',
+                  label: 'En attente',
+                },
+                en_cours: {
+                  color: 'blue',
+                  label: 'En cours',
+                },
+                terminee: {
+                  color: 'green',
+                  label: 'Terminée',
+                },
+              };
+
+              const config = statusConfig[text] || {
+                color: 'default',
+                label: text || 'Inconnu',
+              };
+
+              return (
+                <Tag color={config.color}>
+                  {config.label}
+                </Tag>
+              );
+            },
+            ...(columnsVisibility['Mission'] ? {} : { className: 'hidden-column' })
+          },
+          {
+            title: (
+              <Space>
+                <EnvironmentOutlined style={{ color: '#13c2c2' }} />
+                <Text strong>Distance (KM)</Text>
+              </Space>
+            ),
+            dataIndex: 'distance_km',
+            key: 'distance_km',
+            align: 'center',
+            render: (text) => (
+              <Tag color="cyan">
+                {text ? `${Number(text).toFixed(2)} km` : '0.00 km'}
+              </Tag>
+            ),
+            ...(columnsVisibility['Distance'] ? {} : { className: 'hidden-column' })
+          },
+
+          {
+            title: (
+              <Space>
+                <FieldTimeOutlined style={{ color: '#fa8c16' }} />
+                <Text strong>Carburant (L)</Text>
+              </Space>
+            ),
+            dataIndex: 'carburant_litres',
+            key: 'carburant_litres',
+            align: 'center',
+            render: (text) => (
+              <Tag color="orange">
+                {text ? `${Number(text).toFixed(2)} L` : '0.00 L'}
+              </Tag>
+            ),
+            ...(columnsVisibility['Carburant'] ? {} : { className: 'hidden-column' })
+          },
+
+          {
+            title: (
+              <Space>
+                <EnvironmentOutlined style={{ color: '#722ed1' }} />
+                <Text strong>Distance Approche</Text>
+              </Space>
+            ),
+            dataIndex: 'distance_approche_km',
+            key: 'distance_approche_km',
+            align: 'center',
+            render: (text) => (
+              <Tag color="purple">
+                {text ? `${Number(text).toFixed(2)} km` : '0.00 km'}
+              </Tag>
+            ),
+            ...(columnsVisibility['Distance Approche'] ? {} : { className: 'hidden-column' })
+          },
+
+          {
+            title: (
+              <Space>
+                <FieldTimeOutlined style={{ color: '#eb2f96' }} />
+                <Text strong>Carburant Approche</Text>
+              </Space>
+            ),
+            dataIndex: 'carburant_approche_litres',
+            key: 'carburant_approche_litres',
+            align: 'center',
+            render: (text) => (
+              <Tag color="magenta">
+                {text ? `${Number(text).toFixed(2)} L` : '0.00 L'}
+              </Tag>
+            ),
+            ...(columnsVisibility['Carburant Approche'] ? {} : { className: 'hidden-column' })
+          },
+
           {
             title: (
               <Space>
