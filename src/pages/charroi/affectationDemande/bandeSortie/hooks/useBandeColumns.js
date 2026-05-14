@@ -283,7 +283,7 @@ export const useBandeColumns = ({
             title: (
               <Space>
                 <CalendarOutlined style={{ color: 'blue' }} />
-                <Text strong>Démarrée</Text>
+                <Text strong>Départ</Text>
               </Space>
             ),
             dataIndex: 'sortie_time',
@@ -314,7 +314,7 @@ export const useBandeColumns = ({
             title: (
               <Space>
                 <CalendarOutlined style={{ color: 'blue' }} />
-                <Text strong>Terminée</Text>
+                <Text strong>Retour</Text>
               </Space>
             ),
             dataIndex: 'retour_time',
@@ -359,8 +359,7 @@ export const useBandeColumns = ({
               },
               ...(columnsVisibility['Statut'] ? {} : { className: 'hidden-column' })
           },
-
-          {
+         {
             title: (
               <Space>
                 <CheckCircleOutlined style={{ color: '#1890ff' }} />

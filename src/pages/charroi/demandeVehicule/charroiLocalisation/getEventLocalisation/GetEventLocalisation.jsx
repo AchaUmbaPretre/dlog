@@ -43,7 +43,7 @@ const GetEventLocalisation = () => {
 
       if (data?.items?.data?.length) {
         const eventsData = data.items.data;
-        const gtmItems = eventsData.filter(item => item.device_name && item.device_name.startsWith('GTM'));
+        const gtmItems = eventsData; /* .filter(item => item.device_name && item.device_name.startsWith('GTM')); */
 
         const processed = processEvents(gtmItems);
 

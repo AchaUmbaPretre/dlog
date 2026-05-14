@@ -19,7 +19,7 @@ export const useMonitoring = () => {
           (item) => item.name && item.name.startsWith('GTM')
         ) || [];
 
-      setFalcon(gtmItems);
+      setFalcon(data?.[0]?.items);
 
     } catch (error) {
       console.error('Erreur Falcon:', error);

@@ -20,8 +20,8 @@ export const useFleetData = () => {
         item.name && item.name.startsWith('GTM')
       );
       
-      setVehicles(gtmItems);
-      setStats(calculateStats(gtmItems));
+      setVehicles(items);
+      setStats(calculateStats(items));
       setError(null);
       
       if (initialLoad) {

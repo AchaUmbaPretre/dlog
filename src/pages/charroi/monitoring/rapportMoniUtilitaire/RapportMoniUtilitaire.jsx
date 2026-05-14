@@ -28,9 +28,9 @@ const RapportMoniUtilitaire = () => {
 
         const gtmItems =
         data?.[0]?.items?.filter(
-          (item) => item.name && item.name.startsWith('GTM')
+          (item) => data?.[0]?.items && item.name.startsWith('GTM')
         ) || [];
-        setVehicles(gtmItems || []);
+        setVehicles(data?.[0]?.items || []);
       } catch {
         message.error("Erreur lors du chargement des véhicules.");
       }

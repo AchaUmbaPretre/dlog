@@ -71,7 +71,7 @@ const RapportEvent = () => {
     );
   }, [searchText, reportData]);
 
-  const gtmItems = filteredData.filter(item => item.device_name && item.device_name.startsWith('GTM'));
+  const gtmItems = filteredData; /* .filter(item => item.device_name && item.device_name.startsWith('GTM')); */
 
   const closeAllModals = () => {
     setModalType(null);

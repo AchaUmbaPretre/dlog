@@ -56,9 +56,9 @@ const MoniRealTime = () => {
 
       const eventsData = data?.items?.data || [];
 
-      const gtmItems = eventsData.filter(item => item.device_name && item.device_name.startsWith('GTM'));
+      const gtmItems = eventsData/* .filter(item => item.device_name && item.device_name.startsWith('GTM')); */
 
-      const durations = calculateZoneDurations(gtmItems);
+      const durations = calculateZoneDurations(eventsData);
 
       const mapped = durations.map(e => ({ ...e, vehicule: e.vehicule }));
       setEvents(mapped);

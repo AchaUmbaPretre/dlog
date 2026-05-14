@@ -54,7 +54,7 @@ const ModeTvCardPonct = ({ datas }) => {
 
       const items = response?.data?.[0]?.items || [];
       setFalcon(gtmItems);
-      
+
     } catch (error) {
       console.error("Erreur fetchData:", error);
       notification.error({
