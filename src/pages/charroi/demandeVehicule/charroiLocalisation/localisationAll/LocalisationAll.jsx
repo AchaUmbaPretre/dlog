@@ -17,18 +17,20 @@ const LocalisationAll = () => {
   const { vehicles, loading, stats } = useFleetData();
   
   const { activeSection, handleTabChange, handleTabHover, handleTabLeave } = useTabNavigation('map');
-const { 
-  selectedVehicle, 
-  selectedVehiclesIds, 
-  vehicleHistories,
-  loadingHistory,   
-  selectVehicle,
-  handleVehicleDeselect,  // ← AJOUTEZ CETTE LIGNE
-  loadAndDisplayHistory,
-  removeHistory,
-  handleFilterChange,
-  initializeAllVehicles
-} = useVehicleSelection();
+  const { 
+    selectedVehicle,        // Pour le détail (carte)
+    activeVehicle,          // Pour l'historique (liste)
+    selectedVehiclesIds, 
+    vehicleHistories,
+    loadingHistory,   
+    selectVehicleForDetail, // Clic sur carte
+    selectActiveVehicle,    // Clic sur liste
+    closeDetailPanel,       // Fermer le panneau
+    loadAndDisplayHistory,
+    removeHistory,
+    handleFilterChange,
+    initializeAllVehicles
+  } = useVehicleSelection();
   const { showTrails, showHeatmap, currentStyle, toggleTrails, toggleHeatmap, handleStyleChange } = useMapControls();
   const { drawerVisible, openDrawer, closeDrawer } = useDrawer();
   const [showHistory, setShowHistory] = useState(false);
@@ -36,19 +38,20 @@ const {
   const filteredVehicles = vehicles.filter(v => selectedVehiclesIds.includes(v.id));
 
   const handleToggleHistory = useCallback(() => {
-    if (!selectedVehicle) {
-      message.warning('Veuillez d\'abord sélectionner un véhicule');
+    // Utiliser activeVehicle (sélectionné dans la liste) pour l'historique
+    if (!activeVehicle) {
+      message.warning('Veuillez d\'abord sélectionner un véhicule dans la liste');
       return;
     }
     const newShowHistory = !showHistory;
     setShowHistory(newShowHistory);
     if (newShowHistory) {
-      loadAndDisplayHistory(selectedVehicle);
+      loadAndDisplayHistory(activeVehicle);
     } else {
-      removeHistory(selectedVehicle.id);
+      removeHistory(activeVehicle.id);
       message.info('Historique masqué');
     }
-  }, [showHistory, selectedVehicle, loadAndDisplayHistory, removeHistory]);
+  }, [showHistory, activeVehicle, loadAndDisplayHistory, removeHistory]);
 
   useEffect(() => {
     initializeAllVehicles(vehicles);
@@ -64,7 +67,8 @@ const {
         stats={stats}
         vehicles={vehicles}
         selectedVehicle={selectedVehicle}
-        onVehicleSelect={selectVehicle}
+        onVehicleSelect={selectVehicleForDetail}      // Pour la carte
+        onActiveVehicleChange={selectActiveVehicle}   // Pour la liste
         onStyleChange={(style) => handleStyleChange(style, mapRef)}
         onToggleTrails={toggleTrails}
         onToggleHeatmap={toggleHeatmap}
@@ -94,8 +98,8 @@ const {
           showTrails={showTrails}
           showHeatmap={showHeatmap}
           selectedVehicle={selectedVehicle}
-          onVehicleSelect={selectVehicle}
-          onVehicleDeselect={handleVehicleDeselect}  // ← CORRECTION : utilisez la vraie fonction
+          onVehicleSelect={selectVehicleForDetail}
+          onVehicleDeselect={closeDetailPanel}
           onShowDetails={openDrawer}
           mapRef={mapRef}
           vehicleHistories={vehicleHistories}

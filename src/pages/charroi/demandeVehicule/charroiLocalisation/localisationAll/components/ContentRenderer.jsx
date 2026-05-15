@@ -33,13 +33,13 @@ const ContentRenderer = ({
                 console.log('Carte prête');
               }}
             />
-    {/*         {selectedVehicle && (
+            {selectedVehicle && (
               <VehicleInfoPanel
                 vehicle={selectedVehicle}
-                onClose={onVehicleDeselect}  // ← Correction ici
+                onClose={onVehicleDeselect}
                 onShowDetails={onShowDetails}
               />
-            )} */}
+            )}
           </div>
         );
       case 'driving':

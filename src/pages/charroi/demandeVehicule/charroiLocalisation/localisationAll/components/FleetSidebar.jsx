@@ -16,7 +16,8 @@ const FleetSidebar = ({
   stats, 
   vehicles, 
   selectedVehicle,
-  onVehicleSelect,
+  onVehicleSelect,      // Pour la carte
+  onActiveVehicleChange, // Pour la liste
   onStyleChange,
   onToggleTrails,
   onToggleHeatmap,
@@ -53,7 +54,7 @@ const FleetSidebar = ({
           <VehicleFilter 
             vehicles={vehicles} 
             onFilterChange={onFilterChange}
-            onVehicleClick={onVehicleSelect}
+            onActiveVehicleChange={onActiveVehicleChange}
           />
           <div className="sidebar-footer">
             <Space direction="vertical" size={8} style={{ width: '100%' }}>

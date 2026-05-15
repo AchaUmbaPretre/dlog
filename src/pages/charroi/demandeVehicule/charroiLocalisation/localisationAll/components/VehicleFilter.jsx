@@ -16,7 +16,7 @@ import TimeFilter from './TimeFilter';
 
 const { Text } = Typography;
 
-const VehicleFilter = ({ vehicles, onFilterChange, onVehicleClick }) => {
+const VehicleFilter = ({ vehicles, onFilterChange, onActiveVehicleChange }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedVehicles, setSelectedVehicles] = useState([]);
   const [selectAll, setSelectAll] = useState(true);
@@ -129,15 +129,16 @@ const VehicleFilter = ({ vehicles, onFilterChange, onVehicleClick }) => {
               style={{ padding: '8px', borderBottom: '1px solid #f0f0f0', cursor: 'pointer', transition: 'all 0.2s', background: isSelected ? '#e6f7ff' : 'transparent', borderRadius: 6, marginBottom: 2 }}
               onClick={() => {
                 handleVehicleSelect(vehicle.id, !isSelected);
-                if (onVehicleClick && !isSelected) {
-                  onVehicleClick(vehicle);
+                // Sélectionner le véhicule actif pour l'historique (SANS ouvrir le détail)
+                if (onActiveVehicleChange && !isSelected) {
+                  onActiveVehicleChange(vehicle);
                 }
               }}
             >
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                 <Checkbox 
                   checked={isSelected}
-                  onChange={(e) => { e.stopPropagation(); handleVehicleSelect(vehicle.id, e.target.checked); if (onVehicleClick && e.target.checked) { onVehicleClick(vehicle); } }}
+                  onChange={(e) => { e.stopPropagation(); handleVehicleSelect(vehicle.id, e.target.checked); if (onActiveVehicleChange && e.target.checked) { onActiveVehicleChange(vehicle); } }}
                   style={{ marginTop: 1 }}
                   size="small"
                 />

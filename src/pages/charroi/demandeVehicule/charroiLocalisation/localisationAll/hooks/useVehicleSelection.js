@@ -4,7 +4,8 @@ import { getEventHistory } from '../../../../../../services/rapportService';
 import config from '../../../../../../config';
 
 export const useVehicleSelection = () => {
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [selectedVehicle, setSelectedVehicle] = useState(null); // Pour le détail (carte)
+  const [activeVehicle, setActiveVehicle] = useState(null); // Pour l'historique (sélection)
   const [selectedVehiclesIds, setSelectedVehiclesIds] = useState([]);
   const [vehicleHistories, setVehicleHistories] = useState(new Map());
   const [loadingHistory, setLoadingHistory] = useState(false);
@@ -61,10 +62,23 @@ export const useVehicleSelection = () => {
     }
   }, [vehicleHistories, apiHash]);
 
-  const selectVehicle = useCallback((vehicle) => {
-    console.log('🎯 selectVehicle:', vehicle?.name);
+  // Sélection pour l'affichage du détail (clic sur la carte)
+  const selectVehicleForDetail = useCallback((vehicle) => {
+    console.log('🎯 selectVehicleForDetail (carte):', vehicle?.name);
     setSelectedVehicle(vehicle);
     return vehicle;
+  }, []);
+
+  // Sélection pour l'historique (clic sur la liste/checkbox)
+  const selectActiveVehicle = useCallback((vehicle) => {
+    console.log('🎯 selectActiveVehicle (liste):', vehicle?.name);
+    setActiveVehicle(vehicle);
+    return vehicle;
+  }, []);
+
+  // Fermer le panneau de détail
+  const closeDetailPanel = useCallback(() => {
+    setSelectedVehicle(null);
   }, []);
 
   const loadAndDisplayHistory = useCallback(async (vehicle) => {
@@ -101,11 +115,14 @@ export const useVehicleSelection = () => {
   }, [selectedVehiclesIds.length]);
 
   return {
-    selectedVehicle,
+    selectedVehicle,        // Pour le détail (carte)
+    activeVehicle,          // Pour l'historique (liste)
     selectedVehiclesIds,
     vehicleHistories,
     loadingHistory,
-    selectVehicle,
+    selectVehicleForDetail, // Clic sur carte
+    selectActiveVehicle,    // Clic sur liste/checkbox
+    closeDetailPanel,       // Fermer le panneau
     loadAndDisplayHistory,
     removeHistory,
     handleFilterChange,
