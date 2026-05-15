@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import { Form } from "antd";
-import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getVehiculeDispo } from "../../../../../services/charroiService";
+import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getVehiculeDispo, getTypeMission } from "../../../../../services/charroiService";
 import { getClient } from "../../../../../services/clientService";
 import { useSelector } from "react-redux";
 
@@ -15,17 +15,19 @@ export const useAffectationData = ({ id_demande_vehicule }) => {
     const [ motif, setMotif ] = useState([]);
     const [ service, setService ] = useState([]);
     const [ client, setClient ] = useState([]);
+    const [types, setTypes] = useState([]);
 
     const load = useCallback( async() => {
             setLoadingData(true);
             try {
-                const [vehiculeData, chaufferData, serviceData, motifData, clientData, localData] = await Promise.all([
+                const [vehiculeData, chaufferData, serviceData, motifData, clientData, localData, typeData] = await Promise.all([
                     getVehiculeDispo(),
                     getChauffeur(),
                     getServiceDemandeur(),
                     getMotif(),
                     getClient(),
-                    getDestination()
+                    getDestination(),
+                    getTypeMission()
                 ]);
     
                 setVehicule(vehiculeData.data);
@@ -34,7 +36,7 @@ export const useAffectationData = ({ id_demande_vehicule }) => {
                 setMotif(motifData.data);
                 setClient(clientData.data);
                 setDestination(localData.data);
-    
+                setTypes(typeData.data)
                 if(id_demande_vehicule) {
                     const { data : d } = await getDemandeVehiculeOne(id_demande_vehicule);
                     form.setFieldsValue({
@@ -69,6 +71,7 @@ export const useAffectationData = ({ id_demande_vehicule }) => {
         motif,
         service,
         client,
+        types,
         reload: load
     }
 }

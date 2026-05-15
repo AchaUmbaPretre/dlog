@@ -9,7 +9,8 @@ import {
     getMotif, 
     getTypeVehicule, 
     getVehicule, 
-    getServiceDemandeur 
+    getServiceDemandeur,
+    getTypeMission
 } from "../../../../../../services/charroiService";
 import { getClient } from "../../../../../../services/clientService";
 import { getSociete } from "../../../../../../services/userService";
@@ -26,6 +27,7 @@ export const useBandeSortieData = (affectationId) => {
     const [destination, setDestination] = useState([]);
     const [societe, setSociete] = useState([]);
     const userId = useSelector(state => state.user?.currentUser?.id_utilisateur);
+    const [typesMission, setTypesMission] = useState([]);
 
     // 🔹 Déplacer load ici pour le rendre accessible à reload
     const load = useCallback(async () => {
@@ -43,7 +45,8 @@ export const useBandeSortieData = (affectationId) => {
                 motifData,
                 clientData,
                 destinationData,
-                societeData
+                societeData,
+                typeMissionData
             ] = await Promise.all([
                 getVehicule(),
                 getChauffeur(),
@@ -52,7 +55,8 @@ export const useBandeSortieData = (affectationId) => {
                 getMotif(),
                 getClient(),
                 getDestination(),
-                getSociete()
+                getSociete(),
+                getTypeMission()
             ]);
 
             if (!active) return;
@@ -65,6 +69,7 @@ export const useBandeSortieData = (affectationId) => {
             setClient(clientData.data || []);
             setDestination(destinationData.data || []);
             setSociete(societeData.data || []);
+            setTypesMission(typeMissionData.data || []);
 
             if (affectationId) {
                 const { data: d } = await getAffectationDemandeOne(affectationId);
@@ -82,7 +87,8 @@ export const useBandeSortieData = (affectationId) => {
                         id_client: affectation.id_client,
                         id_destination: affectation.id_destination,
                         personne_bord: affectation.personne_bord,
-                        commentaire: affectation.commentaire
+                        commentaire: affectation.commentaire,
+                        id_type_mission : affectation.id_type_mission
                     });
                 }
             }
@@ -113,7 +119,8 @@ export const useBandeSortieData = (affectationId) => {
         client,
         destination,
         societe,
-        reload: load
+        reload: load,
+        typesMission
     };
 };
 

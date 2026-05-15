@@ -108,7 +108,6 @@ export const useBandeColumns = ({
               </Tooltip>
             ),
             ...(columnsVisibility['Chauffeur'] ? {} : { className: 'hidden-column' }),
-    
           },
           {
             title: (
@@ -274,16 +273,16 @@ export const useBandeColumns = ({
                 <Tag icon={<FieldTimeOutlined />} color={isValid ? "blue" : "red"}>
                   {isValid ? date.format('DD-MM-YYYY HH:mm') : 'Aucune'}
                 </Tag>
-              );
+              );          
             },
             ...(columnsVisibility['Retour'] ? {} : { className: 'hidden-column' })
-    
+  
           },
           {
             title: (
               <Space>
                 <CalendarOutlined style={{ color: 'blue' }} />
-                <Text strong>Départ</Text>
+                <Text strong>Démarrée</Text>
               </Space>
             ),
             dataIndex: 'sortie_time',
@@ -314,7 +313,7 @@ export const useBandeColumns = ({
             title: (
               <Space>
                 <CalendarOutlined style={{ color: 'blue' }} />
-                <Text strong>Retour</Text>
+                <Text strong>Terminée</Text>
               </Space>
             ),
             dataIndex: 'retour_time',

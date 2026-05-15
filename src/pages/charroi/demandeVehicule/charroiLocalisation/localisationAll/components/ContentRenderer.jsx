@@ -1,4 +1,3 @@
-// components/ContentRenderer.jsx
 import FleetMap from './FleetMap';
 import VehicleInfoPanel from './VehicleInfoPanel';
 import DailyActivityReport from './DailyActivityReport';
@@ -16,7 +15,7 @@ const ContentRenderer = ({
   onVehicleDeselect,
   onShowDetails,
   mapRef,
-  vehicleHistories  // Nouvelle prop
+  vehicleHistories
 }) => {
   const renderContent = () => {
     switch(activeSection) {
@@ -34,13 +33,13 @@ const ContentRenderer = ({
                 console.log('Carte prête');
               }}
             />
-            {selectedVehicle && (
+    {/*         {selectedVehicle && (
               <VehicleInfoPanel
                 vehicle={selectedVehicle}
-                onClose={onVehicleDeselect}
+                onClose={onVehicleDeselect}  // ← Correction ici
                 onShowDetails={onShowDetails}
               />
-            )}
+            )} */}
           </div>
         );
       case 'driving':

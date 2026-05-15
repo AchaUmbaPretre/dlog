@@ -1,6 +1,6 @@
 const config = {
     
-REACT_APP_SERVER_DOMAIN : 'http://localhost:8080',
+REACT_APP_SERVER_DOMAIN : 'https://apidlog.loginsmart-cd.com',
 
 API_KEY : 'f7c5292b587d4fff9fb1d00f3b6f3f73',
 

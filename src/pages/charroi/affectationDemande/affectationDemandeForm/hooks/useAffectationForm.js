@@ -12,6 +12,7 @@ export function useAffectationForm(id_demande_vehicule, { onSaved } = {}) {
         motif,
         service,
         client,
+        types,
         reload
     } = useAffectationData({id_demande_vehicule});
     const { submitting, submit } = useAffectationSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
@@ -42,7 +43,8 @@ export function useAffectationForm(id_demande_vehicule, { onSaved } = {}) {
         reload,
         submitting,
         handleFinish,
-        doSubmit
+        doSubmit,
+        types
     }
     
 }

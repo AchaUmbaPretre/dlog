@@ -16,9 +16,9 @@ export const useFleetData = () => {
     try {
       const falconData = await getFalcon();
       const items = falconData.data[0].items || [];
-      const gtmItems = items.filter(item => 
+/*       const gtmItems = items.filter(item => 
         item.name && item.name.startsWith('GTM')
-      );
+      ); */
       
       setVehicles(items);
       setStats(calculateStats(items));

@@ -17,7 +17,8 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
             client,
             destination,
             societe,
-            reload
+            reload,
+            typesMission
         } = useBandeSortieData(affectationId);
     const { submitting, submit } = useBandeSortieSubmit({ onSuccess: () => { reload(); onSaved && onSaved(); }});
 
@@ -57,6 +58,7 @@ export function useBandeSortieForm(affectationId, { onSaved } = {}) {
         reload,
         submitting,
         handleFinish,
-        doSubmit
+        doSubmit,
+        typesMission
     }
 }

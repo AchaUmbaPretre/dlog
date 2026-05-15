@@ -9,7 +9,7 @@ const AffectationsForm = ({closeModal, fetchData}) => {
     const userId = useSelector((state) => state.user?.currentUser?.id_utilisateur);
     const [chauffeur, setChauffeur] = useState([]);
     const [site, setSite] = useState([]);
-
+    
     const fetchDatas = async () => {
         setLoading(true)
 

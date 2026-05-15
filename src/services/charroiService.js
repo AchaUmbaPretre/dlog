@@ -669,3 +669,8 @@ export const getSortieEntreeOne = async (id) => {
 export const getStatusBs = async () => {
     return axios.get(`${DOMAIN}/api/charroi/status_bs`);
 }
+
+//Type des missions
+export const getTypeMission = async () => {
+    return axios.get(`${DOMAIN}/api/missions/type-mission`);
+}
