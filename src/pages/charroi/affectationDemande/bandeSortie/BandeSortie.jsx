@@ -27,7 +27,7 @@ const BandeSortie = () => {
       "#" : true,
       "Service" : false,
       "Chauffeur" : true,
-      "Destination" : true,
+      "Destination" : false,
       "Retour effectif" : true,
       "Depart" : true,
       "Véhicule" : true,

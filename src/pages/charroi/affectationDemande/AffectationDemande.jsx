@@ -22,10 +22,10 @@ const AffectationDemande = () => {
     const [modalType, setModalType] = useState(null);
     const [affectationId, setAffectationId] = useState('');
     const [columnsVisibility, setColumnsVisibility] = useState({
-      "Service" : true,
-      "Demandeur" : true,
+      "Service" : false,
+      "Demandeur" : false,
       "Departement" : false,
-      "Destination" : true,
+      "Destination" : false,
       "Chauffeur" : true,
       "Véhicule" : true,
       "Immatriculation" : true,
