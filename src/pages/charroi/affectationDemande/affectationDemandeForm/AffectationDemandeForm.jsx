@@ -75,7 +75,7 @@ const AffectationDemandeForm = ({closeModal, fetchData, id_demande_vehicule}) =>
 
             cancel();
 
-            if (createBS && selectedTypeMission?.code === 'bon_sortie') {
+            if (createBS) {
                 setModalType('Bande');
             } else {
                 closeModal();

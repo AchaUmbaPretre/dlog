@@ -240,7 +240,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                         <Form.Item
                                             label="Motif"
                                             name="id_motif_demande"
-                                            rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
+                                            rules={[{ required: false, message: 'Veuillez sélectionner un motif' }]}
                                         >
                                             { loadingData ? <Skeleton.Input active={true} /> : 
                                             <Select
@@ -264,7 +264,7 @@ const BandeSortieForm = ({closeModal, fetchData, affectationId}) => {
                                         <Form.Item
                                             label="Service demandeur"
                                             name="id_demandeur"
-                                            rules={[{ required: true, message: 'Veuillez sélectionner un motif' }]}
+                                            rules={[{ required: false, message: 'Veuillez sélectionner un motif' }]}
                                         >
                                             { loadingData ? <Skeleton.Input active={true} /> : 
                                             <Select
