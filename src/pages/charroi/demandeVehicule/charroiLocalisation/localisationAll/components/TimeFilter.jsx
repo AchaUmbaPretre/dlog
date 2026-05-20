@@ -1,4 +1,4 @@
-// TimeFilter.jsx - Compatible avec stop_duration_sec
+// TimeFilter.jsx
 import { useState, useEffect } from 'react';
 import { Select, Badge, Tooltip, Space } from 'antd';
 import {
