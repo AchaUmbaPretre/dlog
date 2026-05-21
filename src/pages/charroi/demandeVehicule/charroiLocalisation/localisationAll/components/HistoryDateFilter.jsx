@@ -23,20 +23,15 @@ import {
   CalendarOutlined, 
   ClockCircleOutlined, 
   HistoryOutlined,
-  CloseOutlined,
   SunOutlined,
   SettingOutlined,
   CheckOutlined,
-  ReloadOutlined,
   SaveOutlined,
   ClearOutlined,
   FilterOutlined,
-  EyeOutlined,
   MoonOutlined,
   RiseOutlined,
-  FallOutlined,
   RocketOutlined,
-  StarOutlined,
   LineChartOutlined
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
@@ -236,12 +231,12 @@ const HistoryDateFilter = ({
     message.success(`Filtre "${filter.name}" chargé`);
   };
 
-  const deleteSavedFilter = (filterId) => {
+/*   const deleteSavedFilter = (filterId) => {
     const updatedFilters = savedFilters.filter(f => f.id !== filterId);
     setSavedFilters(updatedFilters);
     localStorage.setItem('flog_history_filters', JSON.stringify(updatedFilters));
     message.success('Filtre supprimé');
-  };
+  }; */
 
   const handleApply = () => {
     let startDate = null;

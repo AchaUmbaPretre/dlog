@@ -1,6 +1,6 @@
 // components/HistoryControl.jsx
 import React, { useState } from 'react';
-import { Button, Tooltip, Badge, Dropdown } from 'antd';
+import { Button, Tooltip, Badge } from 'antd';
 import { HistoryOutlined, FilterOutlined } from '@ant-design/icons';
 import HistoryDateFilter from './HistoryDateFilter';
 
