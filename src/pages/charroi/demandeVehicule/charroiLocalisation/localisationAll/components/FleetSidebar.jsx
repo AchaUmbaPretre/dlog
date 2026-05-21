@@ -6,8 +6,7 @@ import {
   MenuFoldOutlined,
   LineChartOutlined,
   ThunderboltOutlined,
-  GlobalOutlined,
-  FilterOutlined
+  GlobalOutlined
 } from '@ant-design/icons';
 import { TILE_LAYERS } from '../utils/constants';
 import VehicleFilter from './VehicleFilter';
