@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Form, Row, Modal, Input, Checkbox, Card, Col, DatePicker, message, Skeleton, Select, Button } from 'antd';
-import { SendOutlined, PlusOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Form, Row, Modal, Input, Checkbox, Card, Col, DatePicker, Skeleton, Select, Button } from 'antd';
+import { SendOutlined, PlusOutlined } from '@ant-design/icons';
 
 import ReleveBonDeSortie from '../releveBonDeSortie/ReleveBonDeSortie';
 import { useBandeSortieForm } from './hooks/useBandeSortieForm';

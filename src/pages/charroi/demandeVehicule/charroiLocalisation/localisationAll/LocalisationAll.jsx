@@ -38,7 +38,6 @@ const LocalisationAll = () => {
   const filteredVehicles = vehicles.filter(v => selectedVehiclesIds.includes(v.id));
 
   const handleToggleHistory = useCallback(() => {
-    // Utiliser activeVehicle (sélectionné dans la liste) pour l'historique
     if (!activeVehicle) {
       message.warning('Veuillez d\'abord sélectionner un véhicule dans la liste');
       return;
