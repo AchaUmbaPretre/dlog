@@ -1,102 +1,146 @@
+// hooks/useVehicleSelection.js
 import { useState, useCallback } from 'react';
 import { message } from 'antd';
 import { getEventHistory } from '../../../../../../services/rapportService';
 import config from '../../../../../../config';
 
 export const useVehicleSelection = () => {
-  const [selectedVehicle, setSelectedVehicle] = useState(null); // Pour le détail (carte)
-  const [activeVehicle, setActiveVehicle] = useState(null); // Pour l'historique (sélection)
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [activeVehicle, setActiveVehicle] = useState(null);
   const [selectedVehiclesIds, setSelectedVehiclesIds] = useState([]);
   const [vehicleHistories, setVehicleHistories] = useState(new Map());
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const [activeHistoryFilter, setActiveHistoryFilter] = useState(null);
   const apiHash = config.api_hash;
 
-  const fetchVehicleHistory = useCallback(async (vehicle) => {
-    const cacheKey = `${vehicle.id}_today`;
-    
-    if (vehicleHistories.has(cacheKey)) {
-      return vehicleHistories.get(cacheKey);
-    }
+  // Récupérer l'historique avec filtre de date
+// hooks/useVehicleSelection.js - Partie corrigée
 
-    try {
+const fetchVehicleHistory = useCallback(async (vehicle, dateFilter = null) => {
+  // Utiliser l'ID du véhicule et les dates pour la clé de cache
+  const cacheKey = `${vehicle.id}_${dateFilter?.from_date || 'default'}_${dateFilter?.to_date || 'default'}`;
+  
+  if (vehicleHistories.has(cacheKey)) {
+    console.log(`💾 Cache hit pour ${vehicle.name}: ${vehicleHistories.get(cacheKey)?.length} points`);
+    return vehicleHistories.get(cacheKey);
+  }
+
+  try {
+    let from_date, from_time, to_date, to_time;
+    
+    if (dateFilter && dateFilter.from_date && dateFilter.to_date) {
+      // Utiliser les dates du filtre
+      from_date = dateFilter.from_date;
+      from_time = dateFilter.from_time || '00:00:00';
+      to_date = dateFilter.to_date;
+      to_time = dateFilter.to_time || '23:59:59';
+    } else {
+      // Par défaut: aujourd'hui
       const now = new Date();
       const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
       const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
       
-      const fromDate = todayStart.toISOString().slice(0, 19).replace('T', ' ');
-      const toDate = todayEnd.toISOString().slice(0, 19).replace('T', ' ');
-      
-      const params = {
-        device_id: vehicle.id,
-        from_date: fromDate.split(' ')[0],
-        from_time: fromDate.split(' ')[1],
-        to_date: toDate.split(' ')[0],
-        to_time: toDate.split(' ')[1],
-        lang: 'fr',
-        limit: 1000,
-        user_api_hash: apiHash
-      };
-      
-      const response = await getEventHistory(params);
-      
-      let positions = [];
-      
-      if (response?.data?.items && Array.isArray(response.data.items)) {
-        for (const event of response.data.items) {
-          if (event?.items && Array.isArray(event.items)) {
-            for (const point of event.items) {
-              if (point.lat && point.lng) {
-                positions.push([parseFloat(point.lat), parseFloat(point.lng)]);
-              }
+      from_date = todayStart.toISOString().slice(0, 10);
+      from_time = '00:00:00';
+      to_date = todayEnd.toISOString().slice(0, 10);
+      to_time = '23:59:59';
+    }
+    
+    const params = {
+      device_id: vehicle.id,
+      from_date: from_date,
+      from_time: from_time,
+      to_date: to_date,
+      to_time: to_time,
+      lang: 'fr',
+      limit: 5000,
+      user_api_hash: apiHash
+    };
+    
+    console.log('📡 Appel API getEventHistory avec params:', params);
+    
+    const response = await getEventHistory(params);
+    
+    console.log('📥 Réponse API reçue:', response?.data?.items?.length || 0, 'événements');
+    
+    let positions = [];
+    
+    // Extraction des positions
+    if (response?.data?.items && Array.isArray(response.data.items)) {
+      for (const event of response.data.items) {
+        if (event?.items && Array.isArray(event.items)) {
+          for (const point of event.items) {
+            if (point.lat && point.lng) {
+              positions.push([parseFloat(point.lat), parseFloat(point.lng)]);
             }
           }
         }
       }
-      
-      setVehicleHistories(prev => new Map(prev).set(cacheKey, positions));
-      return positions;
-      
-    } catch (error) {
-      console.error('Erreur fetch:', error);
-      return [];
     }
-  }, [vehicleHistories, apiHash]);
+    
+    console.log(`📍 Positions extraites pour ${vehicle.name}: ${positions.length}`);
+    
+    if (positions.length === 0) {
+      console.warn('⚠️ Aucune position trouvée pour la période demandée');
+    }
+    
+    setVehicleHistories(prev => new Map(prev).set(cacheKey, positions));
+    return positions;
+    
+  } catch (error) {
+    console.error('❌ Erreur fetch:', error);
+    message.error(`Impossible de charger l'historique pour ${vehicle.name}`);
+    return [];
+  }
+}, [vehicleHistories, apiHash]);
 
-  // Sélection pour l'affichage du détail (clic sur la carte)
   const selectVehicleForDetail = useCallback((vehicle) => {
-    console.log('🎯 selectVehicleForDetail (carte):', vehicle?.name);
     setSelectedVehicle(vehicle);
     return vehicle;
   }, []);
 
-  // Sélection pour l'historique (clic sur la liste/checkbox)
   const selectActiveVehicle = useCallback((vehicle) => {
-    console.log('🎯 selectActiveVehicle (liste):', vehicle?.name);
     setActiveVehicle(vehicle);
     return vehicle;
   }, []);
 
-  // Fermer le panneau de détail
   const closeDetailPanel = useCallback(() => {
     setSelectedVehicle(null);
   }, []);
 
-  const loadAndDisplayHistory = useCallback(async (vehicle) => {
+  const loadAndDisplayHistory = useCallback(async (vehicle, dateFilter = null) => {
     if (!vehicle) return;
-    console.log('📡 Chargement historique pour:', vehicle.name);
+    
+    console.log('📡 Chargement historique pour:', vehicle.name, dateFilter);
     setLoadingHistory(true);
-    const positions = await fetchVehicleHistory(vehicle);
+    
+    if (dateFilter) {
+      setActiveHistoryFilter(dateFilter);
+    }
+    
+    const positions = await fetchVehicleHistory(vehicle, dateFilter);
     setLoadingHistory(false);
     
     if (positions.length > 0) {
       window.dispatchEvent(new CustomEvent('vehicle-history-loaded', { 
-        detail: { vehicleId: vehicle.id, history: positions }
+        detail: { vehicleId: vehicle.id, history: positions, filter: dateFilter }
       }));
-      message.success(`${positions.length} points chargés`);
+      message.success(`${positions.length} points d'historique chargés`);
     } else {
-      message.info(`Aucun historique pour ${vehicle.name}`);
+      message.info(`Aucun historique trouvé pour ${vehicle.name}`);
     }
+    
+    return positions;
   }, [fetchVehicleHistory]);
+
+  const clearHistoryFilter = useCallback((vehicleId) => {
+    setActiveHistoryFilter(null);
+    if (vehicleId) {
+      window.dispatchEvent(new CustomEvent('vehicle-history-removed', { 
+        detail: { vehicleId } 
+      }));
+    }
+  }, []);
 
   const removeHistory = useCallback((vehicleId) => {
     window.dispatchEvent(new CustomEvent('vehicle-history-removed', { 
@@ -115,15 +159,17 @@ export const useVehicleSelection = () => {
   }, [selectedVehiclesIds.length]);
 
   return {
-    selectedVehicle,        // Pour le détail (carte)
-    activeVehicle,          // Pour l'historique (liste)
+    selectedVehicle,
+    activeVehicle,
     selectedVehiclesIds,
     vehicleHistories,
     loadingHistory,
-    selectVehicleForDetail, // Clic sur carte
-    selectActiveVehicle,    // Clic sur liste/checkbox
-    closeDetailPanel,       // Fermer le panneau
+    activeHistoryFilter,
+    selectVehicleForDetail,
+    selectActiveVehicle,
+    closeDetailPanel,
     loadAndDisplayHistory,
+    clearHistoryFilter,
     removeHistory,
     handleFilterChange,
     initializeAllVehicles

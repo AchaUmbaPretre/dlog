@@ -18,15 +18,17 @@ const LocalisationAll = () => {
   
   const { activeSection, handleTabChange, handleTabHover, handleTabLeave } = useTabNavigation('map');
   const { 
-    selectedVehicle,        // Pour le détail (carte)
-    activeVehicle,          // Pour l'historique (liste)
-    selectedVehiclesIds, 
+    selectedVehicle,
+    activeVehicle,
+    selectedVehiclesIds,
     vehicleHistories,
-    loadingHistory,   
-    selectVehicleForDetail, // Clic sur carte
-    selectActiveVehicle,    // Clic sur liste
-    closeDetailPanel,       // Fermer le panneau
+    loadingHistory,
+    activeHistoryFilter,
+    selectVehicleForDetail,
+    selectActiveVehicle,
+    closeDetailPanel,
     loadAndDisplayHistory,
+    clearHistoryFilter,
     removeHistory,
     handleFilterChange,
     initializeAllVehicles
@@ -36,6 +38,22 @@ const LocalisationAll = () => {
   const [showHistory, setShowHistory] = useState(false);
 
   const filteredVehicles = vehicles.filter(v => selectedVehiclesIds.includes(v.id));
+
+  const handleLoadHistoryWithFilter = useCallback(async (vehicle, filterParams) => {
+  if (!vehicle) return;
+  
+    // Supprimer l'ancien historique
+    removeHistory(vehicle.id);
+    
+    // Charger le nouvel historique avec filtre
+    await loadAndDisplayHistory(vehicle, filterParams);
+  }, [loadAndDisplayHistory, removeHistory]);
+
+  // Nouvelle fonction pour effacer l'historique
+  const handleClearHistory = useCallback((vehicleId) => {
+    clearHistoryFilter(vehicleId);
+    message.info('Historique effacé');
+  }, [clearHistoryFilter]);
 
   const handleToggleHistory = useCallback(() => {
     if (!activeVehicle) {
@@ -66,8 +84,8 @@ const LocalisationAll = () => {
         stats={stats}
         vehicles={vehicles}
         selectedVehicle={selectedVehicle}
-        onVehicleSelect={selectVehicleForDetail}      // Pour la carte
-        onActiveVehicleChange={selectActiveVehicle}   // Pour la liste
+        onVehicleSelect={selectVehicleForDetail}
+        onActiveVehicleChange={selectActiveVehicle}
         onStyleChange={(style) => handleStyleChange(style, mapRef)}
         onToggleTrails={toggleTrails}
         onToggleHeatmap={toggleHeatmap}
@@ -78,7 +96,11 @@ const LocalisationAll = () => {
         selectedVehiclesIds={selectedVehiclesIds}
         showHistory={showHistory}
         onToggleHistory={handleToggleHistory}
+        onLoadHistoryWithFilter={handleLoadHistoryWithFilter}
+        onClearHistory={handleClearHistory}
+        activeVehicle={activeVehicle}
       />
+
       
       <div className="main-content">
         <TabNavigation

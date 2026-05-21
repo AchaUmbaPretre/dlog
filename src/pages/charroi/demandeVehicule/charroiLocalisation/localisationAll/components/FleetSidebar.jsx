@@ -7,17 +7,18 @@ import {
   LineChartOutlined,
   ThunderboltOutlined,
   GlobalOutlined,
-  HistoryOutlined
+  FilterOutlined
 } from '@ant-design/icons';
 import { TILE_LAYERS } from '../utils/constants';
 import VehicleFilter from './VehicleFilter';
+import HistoryControl from './HistoryControl';
 
 const FleetSidebar = ({ 
   stats, 
   vehicles, 
   selectedVehicle,
-  onVehicleSelect,      // Pour la carte
-  onActiveVehicleChange, // Pour la liste
+  onVehicleSelect,
+  onActiveVehicleChange,
   onStyleChange,
   onToggleTrails,
   onToggleHeatmap,
@@ -27,7 +28,10 @@ const FleetSidebar = ({
   onFilterChange,
   selectedVehiclesIds,
   showHistory,
-  onToggleHistory
+  onToggleHistory,
+  onLoadHistoryWithFilter,
+  onClearHistory,
+  activeVehicle
 }) => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -57,17 +61,33 @@ const FleetSidebar = ({
             onActiveVehicleChange={onActiveVehicleChange}
           />
           <div className="sidebar-footer">
-            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+            <Space direction="vertical" size={12} style={{ width: '100%' }}>
               <Segmented block value={currentStyle} onChange={onStyleChange} options={styleOptions} />
+              
+              <HistoryControl
+                vehicle={activeVehicle}
+                onLoadHistory={onLoadHistoryWithFilter}
+                onClearHistory={onClearHistory}
+                showHistory={showHistory}
+                onToggleHistory={onToggleHistory}
+              />
+              
               <Space style={{ width: '100%' }} size={8}>
-                <Tooltip title={showHistory ? "Masquer l'historique" : "Afficher l'historique"}>
-                  <Button type={showHistory ? 'primary' : 'default'} icon={<HistoryOutlined />} onClick={onToggleHistory} style={{ flex: 1 }} />
-                </Tooltip>
                 <Tooltip title="Traces">
-                  <Button type={showTrails ? 'primary' : 'default'} icon={<LineChartOutlined />} onClick={onToggleTrails} style={{ flex: 1 }} />
+                  <Button 
+                    type={showTrails ? 'primary' : 'default'}
+                    icon={<LineChartOutlined />}
+                    onClick={onToggleTrails}
+                    style={{ flex: 1 }}
+                  />
                 </Tooltip>
                 <Tooltip title="Heatmap">
-                  <Button type={showHeatmap ? 'primary' : 'default'} icon={<ThunderboltOutlined />} onClick={onToggleHeatmap} style={{ flex: 1 }} />
+                  <Button 
+                    type={showHeatmap ? 'primary' : 'default'}
+                    icon={<ThunderboltOutlined />}
+                    onClick={onToggleHeatmap}
+                    style={{ flex: 1 }}
+                  />
                 </Tooltip>
               </Space>
             </Space>
