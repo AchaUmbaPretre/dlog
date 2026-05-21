@@ -109,7 +109,6 @@ const LocalisationAll = () => {
           stats={stats}
           filteredCount={filteredVehicles.length}
         />
-
         <ContentRenderer
           activeSection={activeSection}
           vehicles={vehicles}
