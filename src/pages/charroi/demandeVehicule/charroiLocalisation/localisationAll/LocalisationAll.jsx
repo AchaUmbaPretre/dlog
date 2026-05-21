@@ -15,7 +15,6 @@ import Loader from './components/Loader';
 const LocalisationAll = () => {
   const mapRef = useRef();
   const { vehicles, loading, stats } = useFleetData();
-  
   const { activeSection, handleTabChange, handleTabHover, handleTabLeave } = useTabNavigation('map');
   const { 
     selectedVehicle,
