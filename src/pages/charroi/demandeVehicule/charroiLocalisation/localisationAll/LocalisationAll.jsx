@@ -100,7 +100,6 @@ const LocalisationAll = () => {
         onClearHistory={handleClearHistory}
         activeVehicle={activeVehicle}
       />
-
       
       <div className="main-content">
         <TabNavigation
