@@ -30,7 +30,7 @@ import {
 import { getEvent, getEventHistory } from "../../../../../services/rapportService";
 import config from "../../../../../config";
 import VehicleCard from "../../../../../components/vehicleCard/VehicleCard";
-import { EnvironmentOutlined, InfoCircleOutlined, CarOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, InfoCircleOutlined, CarOutlined } from '@ant-design/icons';
 import VehicleMap from "../../../../../components/vehicleMap/VehicleMap";
 import { calculateZoneDurations } from "../../../../../utils/calculateZoneDurations";
 import GetDetailCheckpZone from "./getDetailCheckpZone/GetDetailCheckpZone";
@@ -53,7 +53,7 @@ ChartJS.register(
 );
 
 const { RangePicker } = DatePicker;
-const { Title: AntTitle, Text } = Typography;
+const { Title: AntTitle } = Typography;
 const { Panel } = Collapse;
 
 const GetHistory = ({ id }) => {
