@@ -118,7 +118,7 @@ const VehicleFilter = ({ vehicles, onFilterChange, onActiveVehicleChange }) => {
 
       <Divider style={{ margin: '8px 0 12px 0' }} />
 
-      <div style={{ maxHeight: 350, overflowY: 'auto' }}>
+      <div style={{ maxHeight: 300, overflowY: 'auto' }}>
         {filteredVehicles.map(vehicle => {
           const hasAlarm = vehicle.sensors?.find(s => s.type === 'textual')?.value !== '-';
           const isSelected = selectedVehicles.includes(vehicle.id);
