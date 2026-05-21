@@ -325,6 +325,7 @@ const HistoryDateFilter = ({
       open={visible}
       onCancel={onClose}
       width={800}
+      centered
       footer={null}
       styles={{ body: { padding: '24px' } }}
     >
