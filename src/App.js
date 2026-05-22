@@ -401,6 +401,10 @@ function App() {
         {
           path:'/scan',
           element: secure('/scan', <Scan/>)
+        },
+        {
+          path:'/scan',
+          element: secure('/scan', <Scan/>)
         }
       ]
     },
