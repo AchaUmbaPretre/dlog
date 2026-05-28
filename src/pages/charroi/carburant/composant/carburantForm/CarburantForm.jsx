@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import {
   getChauffeur,
   getTypeCarburant,
+  getVehicule,
 } from "../../../../../services/charroiService";
 
 import {
@@ -120,12 +121,12 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
     setLoading((prev) => ({ ...prev, data: true }));
     try {
       const [vehiculeRes, fournisseurRes, chauffeurRes] = await Promise.all([
-        getCarburantVehicule(),
+        getVehicule(),
         getFournisseur_activiteOne(5),
         getChauffeur(),
       ]);
 
-      setVehicules(vehiculeRes?.data || []);
+      setVehicules(vehiculeRes?.data?.data || []);
       setFournisseurs(fournisseurRes?.data || []);
       setChauffeurs(chauffeurRes?.data?.data || []);
     } catch (error) {
@@ -305,7 +306,7 @@ const CarburantForm = ({ closeModal, fetchData, idCarburant }) => {
                         placeholder="Sélectionnez un véhicule"
                         optionFilterProp="label"
                         options={vehicules.map((v) => ({
-                          value: v.id_enregistrement,
+                          value: v.id_vehicule,
                           label: `${v.immatriculation} / ${v.nom_marque}`,
                         }))}
                         onChange={setVehiculeDataId}
