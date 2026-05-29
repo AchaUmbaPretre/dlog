@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -12,8 +13,8 @@ export const getClientCount = async () => {
 }
 
 export const getClient = async () => {
-    return axios.get(`${DOMAIN}/api/client`);
-  };
+  return userRequest.get(`${DOMAIN}/api/client`);
+};
 
 export const getClientPermission = async (userId) => {
     return axios.get(`${DOMAIN}/api/client/client_permission?userId=${userId}`);

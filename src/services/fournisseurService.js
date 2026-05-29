@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -8,11 +9,11 @@ export const getFournisseurCount = async () => {
   };
   
 export const getFournisseur = async () => {
-    return axios.get(`${DOMAIN}/api/fournisseur`);
-  };
+    return userRequest.get(`${DOMAIN}/api/fournisseur`);
+};
 
 export const getFournisseur_activite = async () => {
-    return axios.get(`${DOMAIN}/api/fournisseur/fournisseur_activite`);
+    return userRequest.get(`${DOMAIN}/api/fournisseur/fournisseur_activite`);
   };
 
 export const getFournisseur_activiteOne = async (id) => {

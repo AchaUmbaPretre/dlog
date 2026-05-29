@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -53,7 +54,7 @@ export const getVehiculeCount = async () => {
 }
 
 export const getVehicule = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/vehicule`);
+    return userRequest.get(`${DOMAIN}/api/vehicule`);
 }
 
 export const getVehiculeDispo = async () => {

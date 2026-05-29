@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -9,7 +10,7 @@ export const getMenusAllOne = async (userId) => {
 
 
 export const getMenusOne = async () => {
-    return axios.get(`${DOMAIN}/api/permission/add`);
+    return userRequest.get(`${DOMAIN}/api/permission/add`);
   };
 
 export const getMenus = async (userId) => {
