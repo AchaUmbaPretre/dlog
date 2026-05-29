@@ -116,11 +116,11 @@ export const getTypeFonction = async () => {
 
 //Chauffeur
 export const getChauffeur = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/chauffeur`);
+    return userRequest.get(`${DOMAIN}/api/chauffeur`);
 }
 
 export const postChauffeur = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/chauffeur`, data, {
+    return userRequest.post(`${DOMAIN}/api/chauffeur`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

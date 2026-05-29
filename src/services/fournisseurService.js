@@ -21,5 +21,5 @@ export const getFournisseur_activiteOne = async (id) => {
   };
 
 export const postFournisseur = async (data) => {
-  return axios.post(`${DOMAIN}/api/fournisseur`, data);
+  return userRequest.post(`${DOMAIN}/api/fournisseur`, data);
 };
