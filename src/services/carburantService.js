@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -28,7 +29,7 @@ export const putRelierCarburantVehicule = async (id, data) => {
 };
   
 export const getCarburant = async (data) => {
-  return axios.post(`${DOMAIN}/api/carburant`, data);
+  return userRequest.post(`${DOMAIN}/api/carburant`, data);
 };
 
 export const getCarburantLimitThree = async (id_vehicule) => {
@@ -48,7 +49,7 @@ export const getCarburantOne = async (id_vehicule, id_carburant) => {
   };
 
 export const postCarburant = async (data) => {
-  return axios.post(`${DOMAIN}/api/carburant/post_carburant`, data);
+  return userRequest.post(`${DOMAIN}/api/carburant/post_carburant`, data);
 };
 
 export const putCarburant = async (data) => {
