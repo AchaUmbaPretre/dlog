@@ -27,7 +27,9 @@ export const putCarburantVehicule = async (id_vehicule_carburant, data) => {
 export const putRelierCarburantVehicule = async (id, data) => {
     return axios.put(`${DOMAIN}/api/carburant/relier_vehiculeCarburant?id_vehicule=${id}`, data);
 };
-  
+
+//FIN
+
 export const getCarburant = async (data) => {
   return userRequest.post(`${DOMAIN}/api/carburant`, data);
 };
@@ -103,7 +105,7 @@ export const getRapportCatPeriode = async (
   date_start,
   date_end
 ) => {
-  return axios.get(`${DOMAIN}/api/carburant/rapport_periode_cat`, {
+  return userRequest.get(`${DOMAIN}/api/carburant/rapport_periode_cat`, {
     params: {
       month,
       id_vehicule,
@@ -116,7 +118,7 @@ export const getRapportCatPeriode = async (
 };
 
 export const getRapportVehiculePeriode = async (filter) => {
-  return axios.post(`${DOMAIN}/api/carburant/rapport_periode_vehicule`, filter);
+  return userRequest.post(`${DOMAIN}/api/carburant/rapport_periode_vehicule`, filter);
 };
 
 export const getMoisCarburant = async (annee) => {
@@ -128,11 +130,11 @@ export const getAnneeCarburant = async () => {
 };
 
 export const getRapportCarbMonth = async (filter) => {
-  return axios.post(`${DOMAIN}/api/carburant/rapport_Carburant_Month`, filter);
+  return userRequest.post(`${DOMAIN}/api/carburant/rapport_Carburant_Month`, filter);
 };
 
 export const getCarburantByMonth = (mois, annee) => {
-  return axios.get(`${DOMAIN}/api/carburant/by-month`, {
+  return userRequest.get(`${DOMAIN}/api/carburant/by-month`, {
     params: { mois, annee }
   });
 };
