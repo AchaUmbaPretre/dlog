@@ -4,7 +4,9 @@ import { UploadOutlined } from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import { Button, Form, Upload, Input, Row, Col, Select, DatePicker, Skeleton, Divider, InputNumber, Radio, Space, message, Modal } from 'antd';
 import getCroppedImg from '../../../utils/getCroppedImg';
-import { getCatVehicule, getCouleur, getDisposition, getLubrifiant, getMarque, getModele, getTypeCarburant, getTypePneus, postVehicule, putVehicule } from '../../../services/charroiService';
+import { getCatVehicule, getCouleur, getDisposition, getLubrifiant, getMarque, getModele, getTypeCarburant, getTypePneus } from '../../../services/charroiService';
+import { postVehicule, putVehicule } from '../../../services/vehiculeService';
+
 const { Option } = Select;
 
 const CharroiForm = ({idVehicule, closeModal, fetchData}) => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CarOutlined, TruckOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { Table, Tooltip, Typography, Input, Space, notification, Button, Popconfirm } from 'antd';
-import { getVehiculeOccupe, rendreVehiculeDispo } from '../../../../services/charroiService';
+import { getVehiculeOccupe, rendreVehiculeDispo } from '../../../../services/vehiculeService';
 
 const { Search } = Input;
 const { Text } = Typography;

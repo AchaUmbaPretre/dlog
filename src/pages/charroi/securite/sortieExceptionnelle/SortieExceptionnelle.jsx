@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Form, Row, Input, Card, Col, message, Skeleton, Select, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import { getChauffeur, getDestination, getMotif, getServiceDemandeur,getVehiculeDispo, postSortieVehiculeExceptionnel } from '../../../../services/charroiService';
+import { getChauffeur, getDestination, getMotif, getServiceDemandeur, postSortieVehiculeExceptionnel } from '../../../../services/charroiService';
+import { getVehiculeDispo } from '../../../../services/vehiculeService';
 import { getClient } from '../../../../services/clientService';
 
 const SortieExceptionnelle = ({closeModal}) => {

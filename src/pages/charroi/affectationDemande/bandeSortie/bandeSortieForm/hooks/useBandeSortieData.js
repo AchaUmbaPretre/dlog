@@ -8,10 +8,10 @@ import {
     getDestination, 
     getMotif, 
     getTypeVehicule, 
-    getVehicule, 
     getServiceDemandeur,
     getTypeMission
 } from "../../../../../../services/charroiService";
+import { getVehicule } from "../../../../../../services/vehiculeService"
 import { getClient } from "../../../../../../services/clientService";
 import { getSociete } from "../../../../../../services/userService";
 

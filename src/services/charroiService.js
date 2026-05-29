@@ -48,55 +48,6 @@ export const getLubrifiant = async () => {
     return axios.get(`${DOMAIN}/api/charroi/lubrifiant`);
 };
 
-//Vehicule
-export const getVehiculeCount = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/vehicule_count`);
-}
-
-export const getVehicule = async () => {
-    return userRequest.get(`${DOMAIN}/api/vehicule`);
-}
-
-export const getVehiculeDispo = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/vehicule_dispo`);
-}
-
-export const getVehiculeOccupe = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/vehicule_occupe`);
-}
-
-export const rendreVehiculeDispo = async (id) => {
-    return axios.put(`${DOMAIN}/api/charroi/vehicule/rend_dispo`, null, {
-        params: {
-            id_vehicule: id
-        }
-    });
-};
-
-export const getVehiculeOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/vehicule/one?id_vehicule=${id}`);
-}
-
-export const postVehicule = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/vehicule`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-    });
-}
-
-export const putVehicule = async (id, data) => {
-    return axios.put(`${DOMAIN}/api/charroi/vehicule?id_vehicule=${id}`, data);
-}
-
-export const putVehiculeSupprime = async (id) => {
-    return axios.put(`${DOMAIN}/api/charroi/vehicule_estSupprime?id_vehicule=${id}`);
-}
-
-export const putRelierVehiculeFalcon = async (id, data) => {
-    return axios.put(`${DOMAIN}/api/charroi/vehicule_falcon?id_vehicule=${id}`, data);
-}
-
 //Site véhicule
 export const postSiteVehicule = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/site_vehicule`, data);

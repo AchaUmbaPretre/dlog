@@ -22,7 +22,7 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { getCarburantVehicule, putRelierCarburantVehicule } from "../../../../services/carburantService";
-import { getVehicule } from "../../../../services/charroiService";
+import { getVehicule } from "../../../../services/vehiculeService";
 
 const { Text } = Typography;
 const { confirm } = Modal;

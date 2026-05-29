@@ -20,7 +20,7 @@ import {
   DashboardOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { getVehiculeOne } from "../../../services/charroiService";
+import { getVehiculeOne } from "../../../services/vehiculeService";
 import config from "../../../config";
 import vehiculeImg from "../../../assets/vehicule.png";
 import "./vehiculeDetail.scss";

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getStatutVehicule, getTypeReparation, getVehicule } from '../../../services/charroiService';
+import { getStatutVehicule, getTypeReparation } from '../../../services/charroiService';
+import { getVehicule } from '../../../services/vehiculeService';
 import { Select, Skeleton, notification } from 'antd';
 
 const FilterInspectionGen = ({ onFilter}) => {

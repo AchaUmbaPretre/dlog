@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Form, DatePicker, Button, Row, Col, Card, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import { getVehiculeCourseOne, putBonSortieUpdateDate } from '../../../../../services/charroiService';
+import { getVehiculeCourseOne, putBonSortieUpdateDate } from '../../../../../services/charroiService';  
 import { useSelector } from 'react-redux';
 
 const UpdateTime = ({ closeModal, fetchData, id_bon }) => {

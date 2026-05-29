@@ -3,6 +3,7 @@ import { Col, DatePicker, Form, Input, Row, Select, Skeleton, Button, Divider} f
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
 import { getChauffeur, getTypeReparation, getVehicule } from '../../../../services/charroiService';
+import { getVehicule } from '../../../../services/vehiculeService';
 
 const { Option } = Select;
 

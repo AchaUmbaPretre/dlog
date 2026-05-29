@@ -24,7 +24,7 @@ import {
 import {
   getVehicule,
   putRelierVehiculeFalcon,
-} from "../../../services/charroiService";
+} from "../../../services/vehiculeService";
 import { getFalcon } from "../../../services/rapportService";
 import "./relierFalcon.scss";
 

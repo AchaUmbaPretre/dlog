@@ -2,7 +2,7 @@ import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, P
 import { MenuOutlined, MoreOutlined, StopOutlined, ThunderboltOutlined, WarningOutlined, AlertOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import config from '../../../config';
-import { getVehicule, putVehicule } from '../../../services/charroiService';
+import { getVehicule, putVehicule } from '../../../services/vehiculeService';
 import { getFalcon } from '../../../services/rapportService';
 import vehiculeImg from './../../../assets/vehicule.png'
 import moment from 'moment';

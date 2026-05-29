@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import { Form } from "antd";
-import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getVehiculeDispo, getTypeMission } from "../../../../../services/charroiService";
+import { getChauffeur, getDemandeVehiculeOne, getDestination, getMotif, getServiceDemandeur, getTypeMission } from "../../../../../services/charroiService";
+import { getVehiculeDispo } from "../../../../../services/vehiculeService";
+
 import { getClient } from "../../../../../services/clientService";
 import { useSelector } from "react-redux";
 

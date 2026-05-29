@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import {
   getCatVehicule,
   getDestination,
-  getServiceDemandeur,
-  getVehicule
+  getServiceDemandeur
 } from '../../../../../../../services/charroiService';
+import {
+  getVehicule
+} from '../../../../../../../services/vehiculeService';
 import { getDepartement } from '../../../../../../../services/departementService';
 
 const { Option } = Select;

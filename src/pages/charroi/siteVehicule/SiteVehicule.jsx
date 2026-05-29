@@ -22,7 +22,8 @@ import {
   CarOutlined,
   EnvironmentOutlined,
 } from '@ant-design/icons';
-import { getSite, getVehiculeOne, postSiteVehicule } from '../../../services/charroiService';
+import { getSite, postSiteVehicule } from '../../../services/charroiService';
+import { getVehiculeOne } from '../../../services/vehiculeService';
 import './siteVehicule.scss';
 
 const { Title, Text } = Typography;

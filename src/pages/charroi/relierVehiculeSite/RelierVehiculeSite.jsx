@@ -1,7 +1,8 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import { Form, Select, Divider, Button, notification, Card, Progress, Typography } from "antd";
 import "./relierVehiculeSite.scss";
-import { getSite, getVehicule, postSite, postSiteVehicule } from "../../../services/charroiService";
+import { getSite, postSite, postSiteVehicule } from "../../../services/charroiService";
+import { getVehicule } from "../../../services/vehiculeService";
 
 const { Option } = Select;
 const { Title } = Typography;

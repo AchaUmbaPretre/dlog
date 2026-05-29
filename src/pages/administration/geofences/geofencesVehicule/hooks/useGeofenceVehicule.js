@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { notification } from 'antd';
-import { getVehicule } from '../../../../../services/charroiService';
+import { getVehicule } from '../../../../../services/vehiculeService';
 import { deleteGeofenceVehicule, getGeofenceVehiculeById, postGeofenceVehicule, putGeofenceVehicule } from '../../../../../services/geofenceService';
 
 export const useGeofenceVehicule = (idGeofence) => {

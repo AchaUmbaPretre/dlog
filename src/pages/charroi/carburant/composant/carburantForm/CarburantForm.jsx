@@ -19,12 +19,13 @@ import {
 } from "@ant-design/icons";
 import moment from "moment";
 import { useSelector } from "react-redux";
-
 import {
   getChauffeur,
   getTypeCarburant,
-  getVehicule,
 } from "../../../../../services/charroiService";
+import {
+  getVehicule
+} from "../../../../../services/vehiculeService";
 
 import {
   getCarburantLimitTen,
