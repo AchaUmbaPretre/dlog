@@ -26,13 +26,13 @@ const RapportVehiculePeriode = () => {
             // 1️⃣ Créer une clé stable "YYYY-MM"
             const months = Array.from(
                 new Set(
-                    data.map(item =>
+                    data.data.map(item =>
                         `${item.Année}-${String(item.Mois).padStart(2, "0")}`
                     )
                 )
             ).sort();
 
-            const grouped = data.reduce((acc, curr) => {
+            const grouped = data.data.reduce((acc, curr) => {
                 const key = `${curr.Année}-${String(curr.Mois).padStart(2, "0")}`;
 
                 let existing = acc.find(item => item.id_vehicule === curr.id_vehicule);

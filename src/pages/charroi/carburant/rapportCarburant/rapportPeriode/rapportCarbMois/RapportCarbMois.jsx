@@ -37,7 +37,7 @@ const RapportCarbMois = () => {
     try {
       const { data } = await getRapportCarbMonth(filteredDatas);
 
-      const groupedData = data.map((item, index) => ({
+      const groupedData = data.data.map((item, index) => ({
         id: index + 1,
         Mois: `${moment().month(item.mois - 1).format('MMM')} - ${item.annee}`,
         total_consom: item.consommation_totale,
