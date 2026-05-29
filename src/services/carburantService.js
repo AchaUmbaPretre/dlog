@@ -33,11 +33,11 @@ export const getCarburant = async (data) => {
 };
 
 export const getCarburantLimitThree = async (id_vehicule) => {
-    return axios.get(`${DOMAIN}/api/carburant/limit_three?id_vehicule=${id_vehicule}`);
+    return userRequest.get(`${DOMAIN}/api/carburant/limit_three?id_vehicule=${id_vehicule}`);
   };
 
 export const getCarburantLimitTen = async (id_vehicule) => {
-    return axios.get(`${DOMAIN}/api/carburant/limit_ten?id_vehicule=${id_vehicule}`);
+    return userRequest.get(`${DOMAIN}/api/carburant/limit_ten?id_vehicule=${id_vehicule}`);
   };
 
 export const getCarburantOne = async (id_vehicule, id_carburant) => {
@@ -79,7 +79,7 @@ export const postCarburantPrice = async (data) => {
 
 //Rapport
 export const getRapportCarburant = async (date_debut, date_fin) => {
-  return axios.get(`${DOMAIN}/api/carburant/rapport_carburant`, {
+  return userRequest.get(`${DOMAIN}/api/carburant/rapport_carburant`, {
     params: {
       date_debut,
       date_fin
@@ -88,7 +88,7 @@ export const getRapportCarburant = async (date_debut, date_fin) => {
 };
 
 export const getRapportConsomGen = async (period) => {
-  return axios.get(`${DOMAIN}/api/carburant/rapport_consom_gen`, {
+  return userRequest.get(`${DOMAIN}/api/carburant/rapport_consom_gen`, {
     params: {
       period
     }
