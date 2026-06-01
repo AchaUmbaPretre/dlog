@@ -16,16 +16,16 @@ export const postTypeReparation = async (data) => {
 
 //Controle technique
 export const getControleTechnique = async () => {
-    return axios.get(`${DOMAIN}/api/reparation/controle_technique`);
+    return userRequest.get(`${DOMAIN}/api/reparation/controle_technique`);
 }
 
 export const postControleTechnique = async (data) => {
-    return axios.post(`${DOMAIN}/api/reparation/controle_technique`, data);
+    return userRequest.post(`${DOMAIN}/api/reparation/controle_technique`, data);
 }
 
 //Réparation
 export const getReparation = async () => {
-    return axios.get(`${DOMAIN}/api/reparation`);
+    return userRequest.get(`${DOMAIN}/api/reparation`);
 }
 
 export const getReparationOneV = async (id) => {
@@ -37,11 +37,11 @@ export const getReparationOne = async (id, inspectionId) => {
 }
 
 export const postReparation = async (data) => {
-    return axios.post(`${DOMAIN}/api/reparation`, data);
+    return userRequest.post(`${DOMAIN}/api/reparation`, data);
 }
 
 export const deleteReparation= async (data) => {
-    return axios.post(`${DOMAIN}/api/reparation/delete_reparation`, data );
+    return userRequest.post(`${DOMAIN}/api/reparation/delete_reparation`, data );
 }
 
 export const putReparation = async ({ id_sud_reparation, id_reparation, formData }) => {
@@ -64,11 +64,11 @@ export const putReparation = async ({ id_sud_reparation, id_reparation, formData
 
 //Réparation Image
 export const getReparationImage = async (id_reparation, id_inspection_gen ) => {
-    return axios.get(`${DOMAIN}/api/reparation/reparation_image?id_reparation=${id_reparation}&id_inspection_gen=${id_inspection_gen}`);
+    return userRequest.get(`${DOMAIN}/api/reparation/reparation_image?id_reparation=${id_reparation}&id_inspection_gen=${id_inspection_gen}`);
 };
 
 export const postReparationImage = async (data) => {
-    return axios.post(`${DOMAIN}/api/reparation/reparation_image`, data , {
+    return userRequest.post(`${DOMAIN}/api/reparation/reparation_image`, data , {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
