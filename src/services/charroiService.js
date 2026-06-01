@@ -6,7 +6,7 @@ const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
 export const getCatVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/cat_vehicule`);
-  };
+};
 
 export const getMarque = async () => {
     return axios.get(`${DOMAIN}/api/charroi/marque`);
@@ -128,82 +128,10 @@ export const postAffectation = async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/affectation`, data);
 }
 
-//Controle technique
-export const getControleTechnique = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/controle_technique`);
-}
-
-export const postControleTechnique = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/controle_technique`, data);
-}
-
-//Type de reparation
-export const getTypeReparation = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/type_reparation`);
-}
-
-
-export const postTypeReparation = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/type_reparation`, data);
-}
-
 //Statut véhicule
 export const getStatutVehicule = async () => {
     return axios.get(`${DOMAIN}/api/charroi/statut_vehicule`);
 }
-
-//Réparation
-export const getReparation = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/reparation`);
-}
-
-export const getReparationOneV = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/reparationOneV?id_sud_reparation=${id}`);
-}
-
-export const getReparationOne = async (id, inspectionId) => {
-    return axios.get(`${DOMAIN}/api/charroi/reparationOne?id_sud_reparation=${id}&id_inspection_gen=${inspectionId}`);
-}
-
-export const postReparation = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/reparation`, data);
-}
-
-export const deleteReparation= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/delete_reparation`, data );
-}
-
-
-export const putReparation = async ({ id_sud_reparation, id_reparation, formData }) => {
-    try {
-      return await axios.put(
-        `${DOMAIN}/api/charroi/reparation`,
-        formData,
-        {
-          params: {
-            id_sud_reparation,
-            id_reparation
-          }
-        }
-      );
-    } catch (error) {
-      console.error("Erreur dans putReparation:", error);
-      throw error;
-    }
-  };
-
-//Réparation Image
-export const getReparationImage = async (id_reparation, id_inspection_gen ) => {
-    return axios.get(`${DOMAIN}/api/charroi/reparation_image?id_reparation=${id_reparation}&id_inspection_gen=${id_inspection_gen}`);
-}
-
-export const postReparationImage = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/reparation_image`, data , {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-    });
-} 
 
 //Carateristique rep
 export const getCarateristiqueRep = async () => {

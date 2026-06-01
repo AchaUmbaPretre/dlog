@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas';
 import { icons } from '../../../../utils/prioriteIcons';
 import { getType_photo } from '../../../../services/batimentService';
-import { postReparationImage } from '../../../../services/charroiService';
+import { postReparationImage } from '../../../../services/reparateurService';
 
 const { TextArea } = Input;
 

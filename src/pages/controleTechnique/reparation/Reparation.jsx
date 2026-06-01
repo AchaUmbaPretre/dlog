@@ -3,7 +3,6 @@ import { ToolOutlined, ExclamationCircleOutlined, FileImageOutlined, EditOutline
 import { Input, Button, Typography, Tooltip, message, Dropdown, Menu, Space, notification, Table, Tag, Modal } from 'antd';
 import moment from 'moment';
 import ReparationForm from './reparationForm/ReparationForm';
-import { deleteReparation, getReparation } from '../../../services/charroiService';
 import SuiviReparationForm from './suiviReparation/suiviReparationForm/SuiviReparationForm';
 import ReparationDetail from './reparationDetail/ReparationDetail';
 import DocumentReparation from './documentReparation/DocumentReparation';
@@ -14,6 +13,7 @@ import 'jspdf-autotable';
 import { useSelector } from 'react-redux';
 import ReparationImage from './reparationImage/ReparationImage';
 import { statusIcons, statutIcons } from '../../../utils/prioriteIcons';
+import { deleteReparation, getReparation } from '../../../services/reparateurService';
 
 const { Search } = Input;
 const { Text } = Typography;

@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getPiece, getStatutVehicule, getTypeReparation } from '../../../../services/charroiService';
+import { getPiece, getStatutVehicule } from '../../../../services/charroiService';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { getCat_inspection } from '../../../../services/batimentService';
+import { getTypeReparation } from '../../../../services/reparateurService';
 
 const ReclamationForm = ({closeModal, fetchData, id_sud_reparation}) => {
     const [form] = Form.useForm();

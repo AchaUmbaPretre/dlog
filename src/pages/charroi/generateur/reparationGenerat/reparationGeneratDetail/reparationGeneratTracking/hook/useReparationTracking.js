@@ -6,12 +6,12 @@ import {
 import {
   getEvaluation,
   getPiece,
-  getStatutVehicule,
-  getTypeReparation
+  getStatutVehicule
 } from "../../../../../../../services/charroiService";
 import {
   getRepSousGeneById
 } from "../../../../../../../services/generateurService";
+import { getTypeReparation } from "../../../../../../../services/reparateurService";
 
 const initialState = {
   evaluation: [],

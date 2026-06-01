@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, Modal, Card, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { SendOutlined, PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { getFournisseur } from '../../../../services/fournisseurService';
-import { getInspectionValide, getReparationOneV, getStatutVehicule, getTypeReparation, postReparation, putReparation } from '../../../../services/charroiService';
+import { getInspectionValide, getStatutVehicule } from '../../../../services/charroiService';
 import { getVehicule } from '../../../../services/vehiculeService';
 import { useSelector } from 'react-redux';
 import { getTypes } from '../../../../services/typeService';
 import moment from 'moment';
 import ReparationDetail from '../reparationDetail/ReparationDetail';
 import { useMenu } from '../../../../context/MenuProvider';
+import { getReparationOneV, getTypeReparation, postReparation, putReparation } from '../../../../services/reparateurService';
 
 const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations}) => {
     const [form] = Form.useForm();

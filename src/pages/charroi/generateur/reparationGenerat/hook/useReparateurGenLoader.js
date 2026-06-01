@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { getGenerateur } from "../../../../../services/generateurService";
 import { getFournisseur } from "../../../../../services/fournisseurService";
-import { getStatutVehicule, getTypeReparation } from "../../../../../services/charroiService";
+import { getStatutVehicule } from "../../../../../services/charroiService";
 import { getCat_inspection } from "../../../../../services/batimentService";
+import { getTypeReparation } from "../../../../../services/reparateurService";
 
 
 export function useReparateurGenLoader() {

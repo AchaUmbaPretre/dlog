@@ -3,7 +3,6 @@ import { Input, Button, notification, Table, Tag, Tabs, Modal } from 'antd';
 import { RetweetOutlined, CarOutlined, AuditOutlined, FileSearchOutlined, ShopOutlined, ScanOutlined, WarningOutlined, CloseCircleOutlined, CheckCircleOutlined,  ToolOutlined,UserOutlined,  CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import ControleTechniqueForm from './controleTechniqueForm/ControleTechniqueForm';
-import { getControleTechnique } from '../../services/charroiService';
 import TabPane from 'antd/es/tabs/TabPane';
 import Reparation from './reparation/Reparation';
 import InspectionGen from '../inspectionGen/InspectionGen';
@@ -12,6 +11,7 @@ import AuditLogInspection from './auditLogInspection/AuditLogInspection';
 import { useSelector } from 'react-redux';
 import Piece from '../piece/Piece';
 import TypeReparation from '../typeReparation/TypeReparation';
+import { getControleTechnique } from '../../services/reparateurService';
 
 const { Search } = Input;
 

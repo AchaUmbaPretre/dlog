@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Form, notification, Input, InputNumber, Row, Select, Skeleton, Button, Divider, message } from 'antd';
 import { MinusCircleOutlined, SendOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { getChauffeur, getTypeReparation, postControleTechnique } from '../../../services/charroiService';
+import { getChauffeur } from '../../../services/charroiService';
 import { getVehicule } from '../../../services/vehiculeService';
 
 import { getFournisseur } from '../../../services/fournisseurService';
 import { useSelector } from 'react-redux';
+import { getTypeReparation, postControleTechnique } from '../../../services/reparateurService';
 
 const { Option } = Select;
 

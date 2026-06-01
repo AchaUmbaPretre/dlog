@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Form, Row, Divider, Card, Col, Upload, message, notification, InputNumber, Skeleton, Select, Button, Input, DatePicker } from 'antd';
 import { SendOutlined, UploadOutlined, PlusCircleOutlined, MinusCircleOutlined  } from '@ant-design/icons';
-import {  getChauffeur, getStatutVehicule, getSubInspectionOneV, getTypeReparation, postInspectionGen, putSubInspection } from '../../../services/charroiService';
+import {  getChauffeur, getStatutVehicule, getSubInspectionOneV, postInspectionGen, putSubInspection } from '../../../services/charroiService';
 import { getVehicule } from '../../../services/vehiculeService';
 import { useSelector } from 'react-redux';
 import { getCat_inspection } from '../../../services/batimentService';
@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas';
 import moment from 'moment';
 import config from '../../../config';
 import { useMenu } from '../../../context/MenuProvider';
+import { getTypeReparation } from '../../../services/reparateurService';
 
 const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
     const DOMAIN = config.REACT_APP_SERVER_DOMAIN;

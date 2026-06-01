@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Col, Form, notification, Input, Row, Button, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import { postTypeReparation } from '../../../services/charroiService';
+import { postTypeReparation } from '../../../services/reparateurService';
 
 const TypeReparationForm = ({closeModal, fetchData}) => {
     const [form] = Form.useForm();
