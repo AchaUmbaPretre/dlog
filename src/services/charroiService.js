@@ -168,15 +168,8 @@ export const getSubInspectionOne = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/sub_inspection_genOne?id_sub_inspection_gen=${id}`);
 }
 
-/* export const putSubInspection = async (id) => {
-    console.log(id)
-    return axios.put(`${DOMAIN}/api/charroi/sub_inspection_gen?data=${id}`);
-}
- */
-
 export const putSubInspection = async ({ id_sub_inspection_gen, id_inspection_gen, formData }) => {
 
-    console.log(id_sub_inspection_gen)
     try {
       return await axios.put(
         `${DOMAIN}/api/charroi/sub_inspection_gen`, // pas d'ID dans l'URL
@@ -195,7 +188,7 @@ export const putSubInspection = async ({ id_sub_inspection_gen, id_inspection_ge
       console.error("Erreur dans putSubInspection :", error);
       throw error;
     }
-  };
+};
 
 
 export const deleteInspectionGen= async (data) => {
@@ -209,6 +202,7 @@ export const putInspectionGenImage= async (data) => {
         },
       });
 }
+
 //Inspection validé
 export const getInspectionValideAll = async (id) => {
     return axios.get(`${DOMAIN}/api/charroi/inspection_validation_all?id_inspection_gen=${id}`);
@@ -235,23 +229,6 @@ export const postSuiviInspections= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/suivi_inspections`, data );
 }
 
-//Suivi reparation
-
-export const getSuiviReparation= async (id, inspectionId) => {
-    return axios.get(`${DOMAIN}/api/charroi/suivi_reparation?id_reparation=${id}&id_inspection_gen=${inspectionId}`);
-}
-
-export const getSuiviReparationOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/suivi_reparationOne?id_sud_reparation=${id}`);
-}
-
-export const postSuiviReparation= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/suivi_reparation`, data );
-}
-
-export const putSuiviReparation= async (id, data) => {
-    return axios.put(`${DOMAIN}/api/charroi/suivi_reparation?id_suivi_reparation=${id}`, data);
-}
 
 //Evaluation
 export const getEvaluation = async () => {

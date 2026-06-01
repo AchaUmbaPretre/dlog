@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Button, Skeleton, Tooltip, Menu, Dropdown, Modal, Divider, Space, Table, notification, Tag } from 'antd';
 import { EyeOutlined, ToolOutlined, FileTextOutlined, UserOutlined, MoreOutlined } from '@ant-design/icons';
-import { getReclamation, getSuiviReparation } from '../../../../services/charroiService';
+import { getReclamation } from '../../../../services/charroiService';
 import moment from 'moment';
 import './reparationDetail.scss'
 import { evaluationStatusMap, statutIcons } from '../../../../utils/prioriteIcons';
@@ -9,7 +9,7 @@ import SuiviReparationForm from '../suiviReparation/suiviReparationForm/SuiviRep
 import ReclamationForm from '../reclamationForm/ReclamationForm';
 import config from '../../../../config';
 import TravailEffectue from '../travailEffectue/TravailEffectue';
-import { getReparationImage, getReparationOne } from '../../../../services/reparateurService';
+import { getReparationImage, getReparationOne, getSuiviReparation  } from '../../../../services/reparateurService';
 
 const ReparationDetail = ({ idReparation, inspectionId }) => {
     const [data, setData] = useState(null);

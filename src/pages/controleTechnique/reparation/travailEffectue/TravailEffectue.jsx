@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Form, Select, Input, Button, Col, Row, Skeleton, Table, Tag, InputNumber, message } from 'antd';
+import { Card, Form, Select, Input, Button, Col, Row, Skeleton, InputNumber, message } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
-import { getEvaluation, getPiece, getSuiviReparationOne, putSuiviReparation } from '../../../../services/charroiService';
+import { getEvaluation, getPiece } from '../../../../services/charroiService';
 import { getCat_inspection } from '../../../../services/batimentService';
 import './travailEffectue.scss'
+import { getSuiviReparationOne, putSuiviReparation } from '../../../../services/reparateurService';
 
 const TravailEffectue = ({idReparations, closeModal, fetchData}) => {
         const [form] = Form.useForm();
