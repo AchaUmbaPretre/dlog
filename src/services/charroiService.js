@@ -212,27 +212,26 @@ export const getInspectionValide = async (id) => {
 }
 
 export const postInspectionValide= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/inspection_validation`, data );
+    return userRequest.post(`${DOMAIN}/api/charroi/inspection_validation`, data );
 }
 
 export const putInspectionValide= async (data) => {
-    return axios.put(`${DOMAIN}/api/charroi/inspection_validation_put`, data );
+    return userRequest.put(`${DOMAIN}/api/charroi/inspection_validation_put`, data );
 }
 
 //Suivie Inspection
 export const getSuiviInspections = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/suivi_inspections?id_sub_inspection_gen=${id}`);
+    return userRequest.get(`${DOMAIN}/api/charroi/suivi_inspections?id_sub_inspection_gen=${id}`);
 }
 
 export const postSuiviInspections= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/suivi_inspections`, data );
+    return userRequest.post(`${DOMAIN}/api/charroi/suivi_inspections`,data );
 }
 
 //Evaluation
 export const getEvaluation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/evaluation`);
 }
-
 
 //Piece
 export const getCatPiece = async () => {
