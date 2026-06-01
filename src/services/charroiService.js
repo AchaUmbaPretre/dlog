@@ -140,15 +140,15 @@ export const getCarateristiqueRep = async () => {
 
 //Inspection gen
 export const getInspectionGen = async (searchValue, data) => {
-    return axios.post(`${DOMAIN}/api/charroi/inspection_gens?searchValue=${searchValue}`, data);
+    return userRequest.post(`${DOMAIN}/api/charroi/inspection_gens?searchValue=${searchValue}`, data);
 }
 
 export const getInspectionResume = async () => {
-    return axios.get(`${DOMAIN}/api/charroi/inspection_gen_resume`);
+    return userRequest.get(`${DOMAIN}/api/charroi/inspection_gen_resume`);
 }
 
 export const postInspectionGen= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/inspection_gen`, data , {
+    return userRequest.post(`${DOMAIN}/api/charroi/inspection_gen`, data , {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -157,11 +157,11 @@ export const postInspectionGen= async (data) => {
 
 // SUB Inspection
 export const getSubInspection = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/sub_inspection_gen?idInspection=${id}`);
+    return userRequest.get(`${DOMAIN}/api/charroi/sub_inspection_gen?idInspection=${id}`);
 }
 
 export const getSubInspectionOneV = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/sub_inspection_genOneV?id_sub_inspection_gen=${id}`);
+    return userRequest.get(`${DOMAIN}/api/charroi/sub_inspection_genOneV?id_sub_inspection_gen=${id}`);
 }
 
 export const getSubInspectionOne = async (id) => {
@@ -190,26 +190,25 @@ export const putSubInspection = async ({ id_sub_inspection_gen, id_inspection_ge
     }
 };
 
-
 export const deleteInspectionGen= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/delete_inspection`, data );
-}
+};
   
 export const putInspectionGenImage= async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/put_inspection_gen_image`, data , {
+    return userRequest.post(`${DOMAIN}/api/charroi/put_inspection_gen_image`, data , {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-}
+};
 
 //Inspection validé
 export const getInspectionValideAll = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/inspection_validation_all?id_inspection_gen=${id}`);
+    return userRequest.get(`${DOMAIN}/api/charroi/inspection_validation_all?id_inspection_gen=${id}`);
 }
 
 export const getInspectionValide = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/inspection_validation?id_sub_inspection_gen=${id}`);
+    return userRequest.get(`${DOMAIN}/api/charroi/inspection_validation?id_sub_inspection_gen=${id}`);
 }
 
 export const postInspectionValide= async (data) => {
@@ -228,7 +227,6 @@ export const getSuiviInspections = async (id) => {
 export const postSuiviInspections= async (data) => {
     return axios.post(`${DOMAIN}/api/charroi/suivi_inspections`, data );
 }
-
 
 //Evaluation
 export const getEvaluation = async () => {
