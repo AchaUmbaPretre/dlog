@@ -3,7 +3,8 @@ import { Card, Button, Table, Form, notification, Input, Select, Upload, Tag } f
 import { FileTextOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import { getTagProps } from '../../../utils/prioriteIcons';
 import config from '../../../config';
-import { getDocumentInspection, postDocumentReparation } from '../../../services/charroiService';
+import { getDocumentInspection } from '../../../services/charroiService';
+import { postDocumentReparation } from '../../../services/reparateurService';
 
 const { Option } = Select;
 

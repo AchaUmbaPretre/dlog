@@ -4,7 +4,7 @@ import { Card, Button, Table, Form, notification, Input, Select, Upload, Popconf
 import { FileTextOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
 import config from '../../../../config';
 import { getTagProps } from '../../../../utils/prioriteIcons';
-import { getDocumentReparation, postDocumentReparation } from '../../../../services/charroiService';
+import { getDocumentReparation, postDocumentReparation } from '../../../../services/reparateurService';
 
 const { Option } = Select;
 

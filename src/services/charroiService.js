@@ -235,18 +235,6 @@ export const getEvaluation = async () => {
     return axios.get(`${DOMAIN}/api/charroi/evaluation`);
 }
 
-//Document reparation
-export const getDocumentReparation = async (id) => {
-    return axios.get(`${DOMAIN}/api/charroi/document_reparation?id_sud_reparation=${id}`);
-}
-
-export const postDocumentReparation = async (data) => {
-    return axios.post(`${DOMAIN}/api/charroi/document_reparation`, data , {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-    });
-}
 
 //Piece
 export const getCatPiece = async () => {

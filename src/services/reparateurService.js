@@ -90,3 +90,16 @@ export const postSuiviReparation= async (data) => {
 export const putSuiviReparation= async (id, data) => {
     return axios.put(`${DOMAIN}/api/reparation/suivi_reparation?id_suivi_reparation=${id}`, data);
 };
+
+//Document reparation
+export const getDocumentReparation = async (id) => {
+    return axios.get(`${DOMAIN}/api/reparation/document_reparation?id_sud_reparation=${id}`);
+}
+
+export const postDocumentReparation = async (data) => {
+    return axios.post(`${DOMAIN}/api/raparation/document_reparation`, data , {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+    });
+}
