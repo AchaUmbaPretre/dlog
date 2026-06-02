@@ -12,8 +12,6 @@ const InspectionGenAll = ({ inspectionId }) => {
   const [form] = Form.useForm();
   const [globalDate, setGlobalDate] = useState('');
 
-  console.log(inspectionId);
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -60,6 +58,9 @@ const InspectionGenAll = ({ inspectionId }) => {
     
     setLoading(true);
     try {
+      console.log('Valeurs complètes du formulaire:', values);
+      console.log('ID Fournisseur:', values.id_fournisseur);
+
       // Vérifier que le fournisseur est sélectionné
       if (!values.id_fournisseur) {
         message.error('Veuillez sélectionner un fournisseur');
@@ -73,6 +74,7 @@ const InspectionGenAll = ({ inspectionId }) => {
       const requestData = {
         id_vehicule: inspectionId?.id_vehicule,
         cout: totalCout,
+        id_fournisseur: values.id_fournisseur, // AJOUTÉ - c'était manquant !
         reparations: values.reparations.map(rep => ({
           id_type_reparation: rep.id_type_reparation,
           montant: rep.montant || 0,
@@ -82,7 +84,6 @@ const InspectionGenAll = ({ inspectionId }) => {
         
         date_entree: moment().format('YYYY-MM-DD'),
         date_prevu: moment().add(3, 'days').format('YYYY-MM-DD'),
-        id_fournisseur: values.id_fournisseur, // Maintenant défini
         commentaire: values.commentaire || null,
         code_rep: values.code_rep || `REP-${Date.now()}`,
         kilometrage: inspectionId?.kilometrage || null,
@@ -92,7 +93,6 @@ const InspectionGenAll = ({ inspectionId }) => {
       };
 
       console.log('Données envoyées au backend:', requestData);
-      console.log('ID Fournisseur sélectionné:', values.id_fournisseur);
 
       const res = await postReparation(requestData);
       
@@ -112,7 +112,6 @@ const InspectionGenAll = ({ inspectionId }) => {
     }
   };
 
-  // Surveiller les changements du formulaire pour debug
   const handleFormChange = (changedValues, allValues) => {
     console.log('Valeurs du formulaire:', allValues);
     console.log('id_fournisseur value:', allValues.id_fournisseur);
@@ -200,18 +199,13 @@ const InspectionGenAll = ({ inspectionId }) => {
               ]}
             >
               <Select
-                allowClear
                 showSearch
+                optionFilterProp="label"
                 options={fournisseur.map((item) => ({
                   value: item.id_fournisseur,
                   label: `${item.nom_fournisseur}`,
                 }))}
                 placeholder="Sélectionnez un fournisseur"
-                optionFilterProp="label"
-                onChange={(value) => {
-                  console.log('Fournisseur sélectionné:', value);
-                  form.setFieldValue('id_fournisseur', value);
-                }}
               />
             </Form.Item>
           </Col>
@@ -222,7 +216,6 @@ const InspectionGenAll = ({ inspectionId }) => {
             >
               <Input 
                 placeholder="Code réparation (optionnel)"
-                defaultValue={`REP-${Date.now()}`}
               />
             </Form.Item>
           </Col>
@@ -382,6 +375,7 @@ const InspectionGenAll = ({ inspectionId }) => {
                         onClick={() => remove(name)}
                         style={{ marginTop: 0 }}
                       >
+                        Supprimer
                       </Button>
                     </Col>
                   </Row>
