@@ -69,6 +69,7 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
           id_type_reparation: rep.id_type_reparation,
           montant: rep.montant || 0,
           description: rep.description,
+          id_statut : 9,
           date_reparation: rep.date_reparation || globalDate || moment().format('YYYY-MM-DD')
         })),
         
