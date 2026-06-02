@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { userRequest } from '../requestMethods';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -171,7 +172,7 @@ export const getAuditLog = async () => {
 
 //Notification
 export const getNotification = async (id) => {
-  return axios.get(`${DOMAIN}/api/tache/notification?user_id=${id}`)
+  return userRequest.get(`${DOMAIN}/api/tache/notification?user_id=${id}`)
 }
 
 export const getNotificationOne = async (id) => {
