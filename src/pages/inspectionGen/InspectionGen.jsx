@@ -351,7 +351,7 @@ const getActionMenu = (record, openModal) => {
         handleRepair(openModal, record);
         break;
       case 'reparerDirect':
-        openModal('reparerDirect', record.id_inspection_gen);
+        openModal('reparerDirect', record);
         break
       case 'modifier':
         openModal('Edit', record.id_sub_inspection_gen);
@@ -1137,7 +1137,7 @@ const getActionMenu = (record, openModal) => {
           width={1000}
           centered
         >
-          <InspectionGenAll/>
+          <InspectionGenAll inspectionId={inspectionId} />
         </Modal>
     </>
   )

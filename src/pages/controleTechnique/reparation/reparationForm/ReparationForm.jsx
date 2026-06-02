@@ -209,7 +209,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
                                             allowClear
                                                 showSearch
                                                 options={fournisseur.map((item) => ({
-                                                    value: item.id_fournisseur                                           ,
+                                                    value: item.id_fournisseur,
                                                     label: `${item.nom_fournisseur}`,
                                                 }))}
                                                 placeholder="Sélectionnez un fournisseur..."
