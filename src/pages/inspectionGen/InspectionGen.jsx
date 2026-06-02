@@ -25,6 +25,7 @@ import ReparationDetail from '../controleTechnique/reparation/reparationDetail/R
 import CatInspection from '../catInspection/CatInspection';
 import InspectionRapport from './inspectionRapport/InspectionRapport';
 import { useMenu } from '../../context/MenuProvider';
+import InspectionGenAll from './inspectionGenAll/InspectionGenAll';
 
 const { Text } = Typography;
 const { Search } = Input;
@@ -350,7 +351,7 @@ const getActionMenu = (record, openModal) => {
         handleRepair(openModal, record);
         break;
       case 'reparerDirect':
-        openModal('reparerDirect', record);
+        openModal('reparerDirect', record.id_inspection_gen);
         break
       case 'modifier':
         openModal('Edit', record.id_sub_inspection_gen);
@@ -1133,10 +1134,10 @@ const getActionMenu = (record, openModal) => {
           visible={modalType === 'reparerDirect'}
           onCancel={closeAllModals}
           footer={null}
-          width={1150}
+          width={1000}
           centered
         >
-          DIVDDDD
+          <InspectionGenAll/>
         </Modal>
     </>
   )
