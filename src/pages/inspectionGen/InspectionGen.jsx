@@ -1137,7 +1137,7 @@ const getActionMenu = (record, openModal) => {
           width={950}
           centered
         >
-          <InspectionGenAll inspectionId={inspectionId} closeModal={() => setModalType(null)} fetchDatas={fetchData} />
+          <InspectionGenAll inspectionId={inspectionId} closeModal={() => setModalType(null)} fetchDatas={fetchDataInsp} />
         </Modal>
     </>
   )
