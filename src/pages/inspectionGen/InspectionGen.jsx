@@ -1134,10 +1134,10 @@ const getActionMenu = (record, openModal) => {
           visible={modalType === 'reparerDirect'}
           onCancel={closeAllModals}
           footer={null}
-          width={1000}
+          width={950}
           centered
         >
-          <InspectionGenAll inspectionId={inspectionId} />
+          <InspectionGenAll inspectionId={inspectionId} closeModal={() => setModalType(null)} fetchDatas={fetchData} />
         </Modal>
     </>
   )

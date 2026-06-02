@@ -5,7 +5,7 @@ import { getTypeReparation, postReparation } from '../../../services/reparateurS
 import { getFournisseur } from '../../../services/fournisseurService';
 import moment from 'moment';
 
-const InspectionGenAll = ({ inspectionId }) => {
+const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
   const [loading, setLoading] = useState(false);
   const [fournisseur, setFournisseur] = useState([]);
   const [reparation, setReparation] = useState([]);
@@ -58,23 +58,13 @@ const InspectionGenAll = ({ inspectionId }) => {
     
     setLoading(true);
     try {
-      console.log('Valeurs complètes du formulaire:', values);
-      console.log('ID Fournisseur:', values.id_fournisseur);
-
-      // Vérifier que le fournisseur est sélectionné
-      if (!values.id_fournisseur) {
-        message.error('Veuillez sélectionner un fournisseur');
-        setLoading(false);
-        return;
-      }
-
       // Calculer le coût total des réparations
       const totalCout = values.reparations.reduce((sum, rep) => sum + (rep.montant || 0), 0);
 
       const requestData = {
         id_vehicule: inspectionId?.id_vehicule,
         cout: totalCout,
-        id_fournisseur: values.id_fournisseur, // AJOUTÉ - c'était manquant !
+        id_fournisseur: values.id_fournisseur,
         reparations: values.reparations.map(rep => ({
           id_type_reparation: rep.id_type_reparation,
           montant: rep.montant || 0,
@@ -92,14 +82,14 @@ const InspectionGenAll = ({ inspectionId }) => {
         inspection_gen: inspectionId?.id_inspection_gen || null
       };
 
-      console.log('Données envoyées au backend:', requestData);
-
       const res = await postReparation(requestData);
       
       message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
       form.resetFields();
       form.setFieldsValue({ reparations: [{}] });
       setGlobalDate('');
+      fetchDatas();
+      closeModal();
     } catch (error) {
       console.error("Erreur lors de l'ajout de la réparation:", error);
       message.error({ content: 'Une erreur est survenue.', key: loadingKey });
@@ -187,88 +177,89 @@ const InspectionGenAll = ({ inspectionId }) => {
         </>
       )}
 
-      <Divider orientation="left">Informations complémentaires</Divider>
-      <Card style={{ marginBottom: 20 }}>
-        <Row gutter={16}>
-          <Col xs={24} md={12}>
-            <Form.Item
-              name="id_fournisseur"
-              label="Fournisseur"
-              rules={[
-                { required: true, message: 'Veuillez sélectionner un fournisseur' }
-              ]}
-            >
-              <Select
-                showSearch
-                optionFilterProp="label"
-                options={fournisseur.map((item) => ({
-                  value: item.id_fournisseur,
-                  label: `${item.nom_fournisseur}`,
-                }))}
-                placeholder="Sélectionnez un fournisseur"
-              />
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={12}>
-            <Form.Item
-              name="code_rep"
-              label="Code réparation"
-            >
-              <Input 
-                placeholder="Code réparation (optionnel)"
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col xs={24}>
-            <Form.Item
-              name="commentaire"
-              label="Commentaire"
-            >
-              <Input.TextArea
-                placeholder="Commentaire (optionnel)"
-                rows={3}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Card>
-
-      <Divider orientation="left">Réparations</Divider>
-      <Card style={{ marginBottom: 20 }}>
-        <Row gutter={12} align="bottom">
-          <Col xs={24} md={16}>
-            <div style={{ marginBottom: 8, fontWeight: 500 }}>
-              <CalendarOutlined /> Date globale pour toutes les réparations
-            </div>
-            <Input 
-              type="date"
-              value={globalDate}
-              onChange={(e) => setGlobalDate(e.target.value)}
-              style={{ width: '100%' }}
-              placeholder="Sélectionner une date pour toutes les réparations"
-            />
-          </Col>
-          <Col xs={24} md={8}>
-            <Button 
-              type="default" 
-              icon={<CalendarOutlined />}
-              onClick={applyGlobalDate}
-              style={{ width: '100%' }}
-            >
-              Appliquer à toutes les lignes
-            </Button>
-          </Col>
-        </Row>
-      </Card>
-
+      {/* TOUT doit être à l'intérieur du Form */}
       <Form 
         form={form} 
         onFinish={onFinish} 
         onValuesChange={handleFormChange}
         initialValues={{ reparations: [{}] }}
       >
+        <Divider orientation="left">Informations complémentaires</Divider>
+        <Card style={{ marginBottom: 20 }}>
+          <Row gutter={16}>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="id_fournisseur"
+                label="Fournisseur"
+                rules={[
+                  { required: true, message: 'Veuillez sélectionner un fournisseur' }
+                ]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="label"
+                  options={fournisseur.map((item) => ({
+                    value: item.id_fournisseur,
+                    label: `${item.nom_fournisseur}`,
+                  }))}
+                  placeholder="Sélectionnez un fournisseur"
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={12}>
+              <Form.Item
+                name="code_rep"
+                label="Code réparation"
+              >
+                <Input 
+                  placeholder="Code réparation (optionnel)"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col xs={24}>
+              <Form.Item
+                name="commentaire"
+                label="Commentaire"
+              >
+                <Input.TextArea
+                  placeholder="Commentaire (optionnel)"
+                  rows={3}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Card>
+
+        <Divider orientation="left">Réparations</Divider>
+        <Card style={{ marginBottom: 20 }}>
+          <Row gutter={12} align="bottom">
+            <Col xs={24} md={16}>
+              <div style={{ marginBottom: 8, fontWeight: 500 }}>
+                <CalendarOutlined /> Date globale pour toutes les réparations
+              </div>
+              <Input 
+                type="date"
+                value={globalDate}
+                onChange={(e) => setGlobalDate(e.target.value)}
+                style={{ width: '100%' }}
+                placeholder="Sélectionner une date pour toutes les réparations"
+              />
+            </Col>
+            <Col xs={24} md={8}>
+              <Button 
+                type="default" 
+                icon={<CalendarOutlined />}
+                onClick={applyGlobalDate}
+                style={{ width: '100%' }}
+              >
+                Appliquer à toutes les lignes
+              </Button>
+            </Col>
+          </Row>
+        </Card>
+
         <Form.List name="reparations">
           {(fields, { add, remove }) => (
             <>
@@ -324,7 +315,6 @@ const InspectionGenAll = ({ inspectionId }) => {
                       </Form.Item>
                     </Col>
 
-                    {/* Date de réparation individuelle */}
                     <Col xs={24} md={5}>
                       <div style={{ marginBottom: 8, fontWeight: 500 }}>
                         Date de réparation
@@ -363,7 +353,6 @@ const InspectionGenAll = ({ inspectionId }) => {
                       </Form.Item>
                     </Col>
 
-                    {/* Bouton suppression */}
                     <Col xs={24} md={2}>
                       <div style={{ marginBottom: 8, fontWeight: 500, visibility: 'hidden' }}>
                         Action
@@ -375,7 +364,6 @@ const InspectionGenAll = ({ inspectionId }) => {
                         onClick={() => remove(name)}
                         style={{ marginTop: 0 }}
                       >
-                        Supprimer
                       </Button>
                     </Col>
                   </Row>
