@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Input, Button, Tabs, Menu, Tooltip, Typography, message, Skeleton, Tag, Table, Space, Dropdown, Modal, notification } from 'antd';
-import { FileSearchOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
+import { FileSearchOutlined, ThunderboltOutlined, StockOutlined, AppstoreOutlined, EditOutlined, FileImageOutlined, ExclamationCircleOutlined, DeleteOutlined, ExportOutlined, FileExcelOutlined, FilePdfOutlined,  UserOutlined, PlusOutlined, CloseCircleOutlined, ToolOutlined, MenuOutlined, DownOutlined, EyeOutlined, FileTextOutlined, MoreOutlined, CarOutlined, CalendarOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import InspectionGenForm from './inspectionGenForm/InspectionGenForm';
 import { deleteInspectionGen, getInspectionGen} from '../../services/charroiService';
 import moment from 'moment';
@@ -331,89 +331,103 @@ const InspectionGen = () => {
     setVehicule(vehicule)
   };
 
-  const getActionMenu = (record, openModal) => {
-    const handleClick = ({ key }) => {
-
-      switch (key) {
-        case 'voirDetail':
-          openModal('DetailInspection', record.id_inspection_gen)
-          break;
-        case 'validerInspection':
-          handleValider(openModal, record)
-          break;
-        case 'DetailSuivi':
-          openModal('DetailSuivi', record.id_sub_inspection_gen)
-          break;
-        case 'ajouterSuivi':
-          openModal('AddSuivi', record.id_sub_inspection_gen)
-          break;
-        case 'reparer':
-          handleRepair(openModal, record);
-          break;
-        case 'modifier':
-          openModal('Edit', record.id_sub_inspection_gen)
-          break;
-        case 'document':
-          openModal('Document', record.id_sub_inspection_gen)
-          break;
-        case 'image':
-          openModal('Image', record.id_sub_inspection_gen, record.immatriculation)
-          break;
-        default:
-          break;
-        }
-        };
-      
-        return (
-          <Menu onClick={handleClick}>
-            <Menu.SubMenu
-              key="inspection"
-              title={
-                <>
-                  <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
-                </>
-              }
-            >
-              <Menu.Item key="voirDetail">
-                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
-              </Menu.Item>
-              <Menu.Item key="validerInspection">
-                <PlusOutlined style={{ color: 'orange' }} /> Valider
-              </Menu.Item>
-            </Menu.SubMenu>
-            <Menu.Divider />
-
-            <Menu.SubMenu
-              key="tracking"
-              title={
-                <>
-                  <FileSearchOutlined style={{ color: 'green' }} /> Tracking
-                </>
-              }
-            >
-              <Menu.Item key="DetailSuivi">
-                <EyeOutlined style={{ color: 'green' }} /> Voir Détail
-              </Menu.Item>
-              <Menu.Item key="ajouterSuivi">
-                <PlusOutlined style={{ color: 'orange' }} /> Ajouter
-              </Menu.Item>
-            </Menu.SubMenu>
-            <Menu.Divider />
-
-            <Menu.Item key="reparer">
-                <ToolOutlined style={{ color: 'orange' }} /> Réparer
-            </Menu.Item>
-
-            <Menu.Item key="document">
-              <FileTextOutlined style={{ color: 'blue' }} /> Document
-            </Menu.Item>
-
-            <Menu.Item key="image">
-              <FileImageOutlined style={{ color: 'magenta' }} /> Image
-            </Menu.Item>
-          </Menu>
-        );
+const getActionMenu = (record, openModal) => {
+  const handleClick = ({ key }) => {
+    switch (key) {
+      case 'voirDetail':
+        openModal('DetailInspection', record.id_inspection_gen);
+        break;
+      case 'validerInspection':
+        handleValider(openModal, record);
+        break;
+      case 'DetailSuivi':
+        openModal('DetailSuivi', record.id_sub_inspection_gen);
+        break;
+      case 'ajouterSuivi':
+        openModal('AddSuivi', record.id_sub_inspection_gen);
+        break;
+      case 'reparer':
+        handleRepair(openModal, record);
+        break;
+      case 'reparerDirect':
+        openModal('reparerDirect', record);
+        break
+      case 'modifier':
+        openModal('Edit', record.id_sub_inspection_gen);
+        break;
+      case 'document':
+        openModal('Document', record.id_sub_inspection_gen);
+        break;
+      case 'image':
+        openModal('Image', record.id_sub_inspection_gen, record.immatriculation);
+        break;
+      default:
+        break;
+    }
   };
+
+  return (
+    <Menu onClick={handleClick}>
+      <Menu.SubMenu
+        key="inspection"
+        title={
+          <>
+            <FileTextOutlined style={{ color: '#1890ff' }} /> Inspection
+          </>
+        }
+      >
+        <Menu.Item key="voirDetail">
+          <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+        </Menu.Item>
+        <Menu.Item key="validerInspection">
+          <PlusOutlined style={{ color: 'orange' }} /> Valider
+        </Menu.Item>
+      </Menu.SubMenu>
+      <Menu.Divider />
+
+      <Menu.SubMenu
+        key="tracking"
+        title={
+          <>
+            <FileSearchOutlined style={{ color: 'green' }} /> Tracking
+          </>
+        }
+      >
+        <Menu.Item key="DetailSuivi">
+          <EyeOutlined style={{ color: 'green' }} /> Voir Détail
+        </Menu.Item>
+        <Menu.Item key="ajouterSuivi">
+          <PlusOutlined style={{ color: 'orange' }} /> Ajouter
+        </Menu.Item>
+      </Menu.SubMenu>
+      <Menu.Divider />
+
+      <Menu.SubMenu
+        key="reparerItem"
+        title={
+          <>
+            <ToolOutlined style={{ color: 'orange' }} /> Réparer
+          </>
+        }
+      >
+        <Menu.Item key="reparer">
+          <ToolOutlined style={{ color: '#fa8c16' }} /> Réparer
+        </Menu.Item>
+        <Menu.Item key="reparerDirect">
+          <ThunderboltOutlined style={{ color: '#faad14' }} /> Réparer direct
+        </Menu.Item>
+      </Menu.SubMenu>
+
+      <Menu.Item key="document">
+        <FileTextOutlined style={{ color: 'blue' }} /> Document
+      </Menu.Item>
+
+      <Menu.Item key="image">
+        <FileImageOutlined style={{ color: 'magenta' }} /> Image
+      </Menu.Item>
+    </Menu>
+  );
+};
 
   const columnStyles = {
         title: {
@@ -1112,6 +1126,17 @@ const InspectionGen = () => {
           centered
         >
           <InspectionRapport />
+        </Modal>
+
+        <Modal
+          title=""
+          visible={modalType === 'reparerDirect'}
+          onCancel={closeAllModals}
+          footer={null}
+          width={1150}
+          centered
+        >
+          DIVDDDD
         </Modal>
     </>
   )
