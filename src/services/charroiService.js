@@ -157,7 +157,7 @@ export const postInspectionGen= async (data) => {
 
 // SUB Inspection
 export const getSubInspection = async (id) => {
-    return userRequest.get(`${DOMAIN}/api/charroi/sub_inspection_gen?idInspection=${id}`);
+    return axios.get(`${DOMAIN}/api/charroi/sub_inspection_gen?idInspection=${id}`);
 }
 
 export const getSubInspectionOneV = async (id) => {
@@ -171,7 +171,7 @@ export const getSubInspectionOne = async (id) => {
 export const putSubInspection = async ({ id_sub_inspection_gen, id_inspection_gen, formData }) => {
 
     try {
-      return await axios.put(
+      return await userRequest.put(
         `${DOMAIN}/api/charroi/sub_inspection_gen`, // pas d'ID dans l'URL
         formData,
         {

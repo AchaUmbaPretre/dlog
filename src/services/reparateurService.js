@@ -76,15 +76,15 @@ export const postReparationImage = async (data) => {
 
 //Suivi reparation
 export const getSuiviReparation= async (id, inspectionId) => {
-    return axios.get(`${DOMAIN}/api/reparation/suivi_reparation?id_reparation=${id}&id_inspection_gen=${inspectionId}`);
+    return userRequest.get(`${DOMAIN}/api/reparation/suivi_reparation?id_reparation=${id}&id_inspection_gen=${inspectionId}`);
 };
 
 export const getSuiviReparationOne = async (id) => {
-    return axios.get(`${DOMAIN}/api/reparation/suivi_reparationOne?id_sud_reparation=${id}`);
+    return userRequest.get(`${DOMAIN}/api/reparation/suivi_reparationOne?id_sud_reparation=${id}`);
 };
 
 export const postSuiviReparation= async (data) => {
-    return axios.post(`${DOMAIN}/api/reparation/suivi_reparation`, data );
+    return userRequest.post(`${DOMAIN}/api/reparation/suivi_reparation`, data );
 };
 
 export const putSuiviReparation= async (id, data) => {
@@ -93,11 +93,11 @@ export const putSuiviReparation= async (id, data) => {
 
 //Document reparation
 export const getDocumentReparation = async (id) => {
-    return axios.get(`${DOMAIN}/api/reparation/document_reparation?id_sud_reparation=${id}`);
+    return userRequest.get(`${DOMAIN}/api/reparation/document_reparation?id_sud_reparation=${id}`);
 }
 
 export const postDocumentReparation = async (data) => {
-    return axios.post(`${DOMAIN}/api/raparation/document_reparation`, data , {
+    return userRequest.post(`${DOMAIN}/api/raparation/document_reparation`, data , {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
