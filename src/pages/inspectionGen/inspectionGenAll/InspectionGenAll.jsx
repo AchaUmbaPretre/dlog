@@ -103,7 +103,6 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
 
   return (
     <div>
-      {/* Informations du véhicule */}
       {inspectionId && (
         <>
           <Divider orientation="left">Informations du véhicule</Divider>
