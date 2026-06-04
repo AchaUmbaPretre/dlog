@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 import { userRequest } from '../requestMethods';
+import moment from 'moment';
 
 const DOMAIN = config.REACT_APP_SERVER_DOMAIN;
 
@@ -137,4 +138,17 @@ export const getCarburantByMonth = (mois, annee) => {
   return userRequest.get(`${DOMAIN}/api/carburant/by-month`, {
     params: { mois, annee }
   });
+};
+
+export const getDashboardCarburant = (periode, date_debut, date_fin) => {
+  const params = {
+    periode: periode || '30j'
+  };
+  
+  if (date_debut && date_fin) {
+    params.date_debut = moment(date_debut).format('YYYY-MM-DD');
+    params.date_fin = moment(date_fin).format('YYYY-MM-DD');
+  }
+  
+  return axios.get(`${DOMAIN}/api/carburant/dashboard_carburant`, { params });
 };

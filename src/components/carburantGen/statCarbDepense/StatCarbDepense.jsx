@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+// StatCarbDepense.jsx
+import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,22 +10,21 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
 import { Line } from "react-chartjs-2";
-
 import {
   ArrowUpOutlined,
   CalendarOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
-
 import {
   Segmented,
   DatePicker,
   Button,
   Popover,
+  Spin,
+  Empty,
 } from "antd";
-
+import moment from "moment";
 import "./statCarbDepense.scss";
 
 const { RangePicker } = DatePicker;
@@ -39,228 +39,195 @@ ChartJS.register(
   Legend
 );
 
-const StatCarbDepense = () => {
-  const [period, setPeriod] = useState("30j");
-  const [open, setOpen] = useState(false);
+const StatCarbDepense = ({ 
+  data, 
+  loading, 
+  periode, 
+  updatePeriode, 
+  updateDateRange, 
+  refresh 
+}) => {
+  const [open, setOpen] = React.useState(false);
 
-  const data = useMemo(
-    () => ({
-      labels: [
-        "Jan",
-        "Fév",
-        "Mar",
-        "Avr",
-        "Mai",
-        "Jun",
-        "Jul",
-        "Aoû",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Déc",
-      ],
+  // Vérification que les props sont bien présentes
+  console.log('StatCarbDepense props:', { 
+    hasData: !!data, 
+    loading, 
+    periode, 
+    hasUpdatePeriode: typeof updatePeriode === 'function',
+    hasUpdateDateRange: typeof updateDateRange === 'function',
+    hasRefresh: typeof refresh === 'function'
+  });
 
+  const chartData = useMemo(() => {
+    if (!data?.evolution) {
+      return {
+        labels: [],
+        datasets: []
+      };
+    }
+
+    return {
+      labels: data.evolution.labels,
       datasets: [
         {
           label: "Dépenses",
-
-          data: [
-            12000,
-            14500,
-            13200,
-            17000,
-            18500,
-            21000,
-            24560,
-            23500,
-            28000,
-            31000,
-            29500,
-            34000,
-          ],
-
+          data: data.evolution.depenses,
           borderColor: "#3A5FCD",
-
           borderWidth: 3,
-
           tension: 0.45,
-
           fill: true,
-
           pointRadius: 0,
-
           pointHoverRadius: 7,
-
           pointHoverBackgroundColor: "#fff",
-
           pointHoverBorderColor: "#3A5FCD",
-
           pointHoverBorderWidth: 3,
-
           backgroundColor: (context) => {
             const chart = context.chart;
             const { ctx, chartArea } = chart;
-
             if (!chartArea) return null;
-
-            const gradient =
-              ctx.createLinearGradient(
-                0,
-                chartArea.top,
-                0,
-                chartArea.bottom
-              );
-
-            gradient.addColorStop(
-              0,
-              "rgba(58,95,205,.25)"
-            );
-
-            gradient.addColorStop(
-              1,
-              "rgba(58,95,205,0)"
-            );
-
+            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+            gradient.addColorStop(0, "rgba(58,95,205,.25)");
+            gradient.addColorStop(1, "rgba(58,95,205,0)");
             return gradient;
           },
         },
-
         {
           label: "Période précédente",
-
-          data: [
-            10000,
-            12500,
-            12000,
-            15000,
-            16500,
-            18000,
-            21000,
-            20500,
-            24000,
-            26000,
-            25000,
-            29000,
-          ],
-
-          borderColor:
-            "rgba(140,140,140,.4)",
-
+          data: data.evolution.depenses_prec,
+          borderColor: "rgba(140,140,140,.4)",
           borderDash: [6, 6],
-
           borderWidth: 2,
-
           pointRadius: 0,
-
           tension: 0.45,
         },
       ],
-    }),
-    []
-  );
+    };
+  }, [data]);
 
   const options = {
     responsive: true,
-
     maintainAspectRatio: false,
-
     interaction: {
       mode: "index",
       intersect: false,
     },
-
     plugins: {
       legend: {
         display: false,
       },
-
       tooltip: {
         backgroundColor: "#111827",
-
         cornerRadius: 14,
-
         padding: 14,
-
         displayColors: false,
+        callbacks: {
+          label: (context) => {
+            return `${context.dataset.label}: ${new Intl.NumberFormat('fr-FR', { 
+              style: 'currency', 
+              currency: 'USD' 
+            }).format(context.raw)}`;
+          }
+        }
       },
     },
-
     scales: {
       x: {
         grid: {
           display: false,
         },
-
         border: {
           display: false,
         },
       },
-
       y: {
         border: {
           display: false,
         },
-
         grid: {
-          color:
-            "rgba(148,163,184,.08)",
+          color: "rgba(148,163,184,.08)",
         },
-
         ticks: {
-          callback: (value) =>
-            `${value / 1000}k`,
+          callback: (value) => `${value / 1000}k`,
         },
       },
     },
   };
 
+  const handlePeriodChange = (value) => {
+    console.log('handlePeriodChange called with:', value);
+    if (updatePeriode && typeof updatePeriode === 'function') {
+      updatePeriode(value);
+    } else {
+      console.error('updatePeriode is not a function:', updatePeriode);
+    }
+  };
+
+  const handleDateRangeChange = (dates) => {
+    console.log('handleDateRangeChange called with:', dates);
+    if (dates && dates[0] && dates[1]) {
+      if (updateDateRange && typeof updateDateRange === 'function') {
+        updateDateRange(dates);
+        setOpen(false);
+      } else {
+        console.error('updateDateRange is not a function:', updateDateRange);
+      }
+    }
+  };
+
+  const handleRefresh = () => {
+    console.log('handleRefresh called');
+    if (refresh && typeof refresh === 'function') {
+      refresh();
+    } else {
+      console.error('refresh is not a function:', refresh);
+    }
+  };
+
+  if (loading && !data) {
+    return (
+      <div className="fuelExpenseChart">
+        <div style={{ textAlign: 'center', padding: 50 }}>
+          <Spin size="large" tip="Chargement des données..." />
+        </div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="fuelExpenseChart">
+        <Empty description="Aucune donnée disponible" />
+      </div>
+    );
+  }
+
   return (
     <div className="fuelExpenseChart">
-
       <div className="chartHeader">
-
         <div className="chartInfo">
-
           <span className="chartTitle">
             Evolution des dépenses carburant
           </span>
-
           <div className="chartKpi">
-
-            <h2>34 000 $</h2>
-
-            <div className="growthBadge">
+            <h2>{data.kpi?.depenses.valeur_formatee || '0 $'}</h2>
+            <div className={`growthBadge ${data.kpi?.depenses.positif ? 'positive' : 'negative'}`}>
               <ArrowUpOutlined />
-              12.5%
+              {Math.abs(data.kpi?.depenses.tendance || 0)}%
             </div>
-
           </div>
-
         </div>
 
         <div className="chartToolbar">
-
           <Segmented
             size="small"
-            value={period}
-            onChange={setPeriod}
+            value={periode}
+            onChange={handlePeriodChange}
             options={[
-              {
-                label: "7J",
-                value: "7j",
-              },
-              {
-                label: "30J",
-                value: "30j",
-              },
-              {
-                label: "90J",
-                value: "90j",
-              },
-              {
-                label: "1A",
-                value: "1y",
-              },
+              { label: "7J", value: "7j" },
+              { label: "30J", value: "30j" },
+              { label: "90J", value: "90j" },
+              { label: "1A", value: "1y" },
             ]}
           />
 
@@ -269,33 +236,30 @@ const StatCarbDepense = () => {
             open={open}
             onOpenChange={setOpen}
             content={
-              <RangePicker />
+              <RangePicker 
+                onChange={handleDateRangeChange}
+                disabledDate={(current) => {
+                  return current && current > moment().endOf('day');
+                }}
+              />
             }
           >
-            <Button
-              icon={
-                <CalendarOutlined />
-              }
-            />
+            <Button icon={<CalendarOutlined />} />
           </Popover>
 
-          <Button
-            icon={<ReloadOutlined />}
-          />
-
+          <Button icon={<ReloadOutlined />} onClick={handleRefresh} />
         </div>
-
       </div>
 
       <div className="chartDivider" />
 
       <div className="chartContainer">
-        <Line
-          data={data}
-          options={options}
-        />
+        {chartData.labels.length > 0 ? (
+          <Line data={chartData} options={options} />
+        ) : (
+          <Empty description="Aucune donnée d'évolution disponible" />
+        )}
       </div>
-
     </div>
   );
 };

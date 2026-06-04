@@ -1,4 +1,5 @@
-import React from "react";
+// StatiCarbItems.jsx
+import React from 'react';
 import {
   DollarOutlined,
   DashboardOutlined,
@@ -7,45 +8,61 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
 } from "@ant-design/icons";
-
+import { Skeleton } from 'antd';
 import "./statiCarbItems.scss";
 
-const stats = [
-  {
-    title: "Dépenses",
-    value: "24 560 $",
-    trend: "+12.5%",
-    positive: true,
-    icon: <DollarOutlined />,
-    color: "blue",
-  },
-  {
-    title: "Volume",
-    value: "8 652 L",
-    trend: "+8.7%",
-    positive: true,
-    icon: <DashboardOutlined />,
-    color: "cyan",
-  },
-  {
-    title: "Ravitaillements",
-    value: "156",
-    trend: "+5.3%",
-    positive: true,
-    icon: <CarOutlined />,
-    color: "purple",
-  },
-  {
-    title: "Coût moyen",
-    value: "1.42 $",
-    trend: "-2.1%",
-    positive: false,
-    icon: <RiseOutlined />,
-    color: "orange",
-  },
-];
+const StatiCarbItems = ({ data, loading }) => {
+  if (loading) {
+    return (
+      <div className="fuelStats">
+        {[1, 2, 3, 4].map((item) => (
+          <div key={item} className="fuelCard">
+            <Skeleton active paragraph={{ rows: 2 }} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
-const StatiCarbItems = () => {
+  const stats = [
+    {
+      title: "Dépenses",
+      value: data?.kpi?.depenses.valeur_formatee || "0 $",
+      value_raw: data?.kpi?.depenses.valeur || 0,
+      trend: `${Math.abs(data?.kpi?.depenses.tendance || 0)}%`,
+      positive: data?.kpi?.depenses.positif || false,
+      icon: <DollarOutlined />,
+      color: "blue",
+    },
+    {
+      title: "Volume",
+      value: data?.kpi?.volume.valeur_formatee || "0 L",
+      value_raw: data?.kpi?.volume.valeur || 0,
+      trend: `${Math.abs(data?.kpi?.volume.tendance || 0)}%`,
+      positive: data?.kpi?.volume.positif || false,
+      icon: <DashboardOutlined />,
+      color: "cyan",
+    },
+    {
+      title: "Ravitaillements",
+      value: data?.kpi?.ravitaillements.valeur_formatee || "0",
+      value_raw: data?.kpi?.ravitaillements.valeur || 0,
+      trend: `${Math.abs(data?.kpi?.ravitaillements.tendance || 0)}%`,
+      positive: data?.kpi?.ravitaillements.positif || false,
+      icon: <CarOutlined />,
+      color: "purple",
+    },
+    {
+      title: "Coût moyen",
+      value: data?.kpi?.coutMoyen.valeur_formatee || "0 $",
+      value_raw: data?.kpi?.coutMoyen.valeur || 0,
+      trend: `${Math.abs(data?.kpi?.coutMoyen.tendance || 0)}%`,
+      positive: data?.kpi?.coutMoyen.positif || false,
+      icon: <RiseOutlined />,
+      color: "orange",
+    },
+  ];
+
   return (
     <div className="fuelStats">
       {stats.map((item, index) => (
@@ -68,9 +85,7 @@ const StatiCarbItems = () => {
 
             <div
               className={`fuelCardBadge ${
-                item.positive
-                  ? "positive"
-                  : "negative"
+                item.positive ? "positive" : "negative"
               }`}
             >
               {item.positive ? (
@@ -78,7 +93,6 @@ const StatiCarbItems = () => {
               ) : (
                 <ArrowDownOutlined />
               )}
-
               {item.trend}
             </div>
           </div>
