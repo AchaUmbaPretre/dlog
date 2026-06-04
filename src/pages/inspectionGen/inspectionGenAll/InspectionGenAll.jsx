@@ -16,7 +16,6 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
     fetchData();
   }, []);
 
-  // Appliquer la date globale à toutes les réparations
   const applyGlobalDate = () => {
     if (!globalDate) {
       message.warning('Veuillez d\'abord sélectionner une date');
@@ -58,7 +57,6 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
     
     setLoading(true);
     try {
-      // Calculer le coût total des réparations
       const totalCout = values.reparations.reduce((sum, rep) => sum + (rep.montant || 0), 0);
 
       const requestData = {
@@ -83,7 +81,7 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
         inspection_gen: inspectionId?.id_inspection_gen || null
       };
 
-      const res = await postReparation(requestData);
+       await postReparation(requestData);
       
       message.success({ content: 'La réparation a été enregistrée avec succès.', key: loadingKey });
       form.resetFields();
@@ -101,11 +99,6 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleFormChange = (changedValues, allValues) => {
-    console.log('Valeurs du formulaire:', allValues);
-    console.log('id_fournisseur value:', allValues.id_fournisseur);
   };
 
   return (
@@ -170,7 +163,7 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
               <Col xs={24} md={6}>
                 <div style={{ fontSize: 12, color: '#666' }}>Budget validé</div>
                 <div style={{ fontSize: 14, fontWeight: 'bold', color: '#52c41a' }}>
-                  {inspectionId.budget_valide ? `${inspectionId.budget_valide} FCFA` : 'Non renseigné'}
+                  {inspectionId.budget_valide ? `${inspectionId.budget_valide} $` : 'Non renseigné'}
                 </div>
               </Col>
             </Row>
@@ -178,11 +171,9 @@ const InspectionGenAll = ({ inspectionId, closeModal, fetchDatas }) => {
         </>
       )}
 
-      {/* TOUT doit être à l'intérieur du Form */}
       <Form 
         form={form} 
         onFinish={onFinish} 
-        onValuesChange={handleFormChange}
         initialValues={{ reparations: [{}] }}
       >
         <Divider orientation="left">Informations complémentaires</Divider>
