@@ -1,0 +1,117 @@
+.fuelExpenseChart {
+  flex: 2;
+  background: var(--card-bg);
+
+  border: 1px solid var(--card-border);
+
+  border-radius: 24px;
+
+  padding: 20px;
+
+  height: 430px;
+
+  box-shadow:
+    0 1px 3px rgba(0,0,0,.03),
+    0 10px 25px rgba(0,0,0,.04);
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 15px;
+}
+
+.chartTitle {
+  color: var(--text-secondary);
+
+  font-size: .85rem;
+
+  font-weight: 500;
+}
+
+.chartKpi {
+  margin-top: 8px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  h2 {
+    margin: 0;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    color: var(--title-color);
+  }
+}
+
+.growthBadge {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(34,197,94,.08);
+
+  color: #22c55e;
+
+  font-weight: 700;
+
+  font-size: .8rem;
+}
+
+.chartToolbar {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.chartToolbar .ant-segmented {
+  background: var(--body-bg);
+
+  border: 1px solid var(--card-border);
+
+  border-radius: 12px;
+
+  padding: 3px;
+}
+
+.chartToolbar
+.ant-segmented-item-selected {
+  background: #3A5FCD;
+
+  color: white;
+}
+
+.chartToolbar .ant-btn {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 12px;
+}
+
+.chartDivider {
+  margin-top: 15px;
+
+  margin-bottom: 15px;
+
+  height: 1px;
+
+  background:
+    rgba(148,163,184,.08);
+}
+
+.chartContainer {
+  height: calc(100% - 105px);
+}

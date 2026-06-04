@@ -1,0 +1,271 @@
+.fuelDistribution {
+  background: var(--card-bg);
+
+  border: 1px solid var(--card-border);
+
+  border-radius: 24px;
+
+  padding: 22px;
+
+  height: 430px;
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, .03),
+    0 12px 30px rgba(0, 0, 0, .04);
+
+  transition: .3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.distributionHeader {
+  margin-bottom: 22px;
+}
+
+.distributionLabel {
+  font-size: .85rem;
+
+  color: var(--text-secondary);
+
+  letter-spacing: .5px;
+}
+
+.headerStats {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 8px
+}
+
+.headerGrowth {
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(34, 197, 94, .08);
+
+  color: #22c55e;
+
+  font-size: .8rem;
+
+  font-weight: 700;
+}
+
+.distributionBody {
+  display: flex;
+
+  gap: 25px;
+
+  height: 320px;
+}
+
+.distributionChart {
+  flex: 1;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.chartGlow {
+  position: absolute;
+
+  width: 220px;
+
+  height: 220px;
+
+  border-radius: 50%;
+
+  background: rgba(58, 95, 205, .08);
+
+  filter: blur(50px);
+
+  z-index: 0;
+}
+
+.centerKPI {
+  position: absolute;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  h2 {
+    margin: 4px 0;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    color: var(--title-color);
+  }
+
+  svg {
+    font-size: 18px;
+
+    color: #3A5FCD;
+  }
+
+  span {
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    font-size: .75rem;
+
+    color: var(--text-secondary);
+  }
+
+  small {
+    margin-top: 5px;
+
+    color: var(--text-secondary);
+
+    font-size: .75rem;
+  }
+}
+
+.distributionLegend {
+  flex: 1.2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 12px;
+}
+
+.legendItem {
+  padding: 14px;
+
+  border-radius: 16px;
+
+  background: rgba(120, 120, 120, .04);
+
+  border: 1px solid transparent;
+
+  transition: all .25s ease;
+
+  &:hover {
+    transform:
+      translateX(6px)
+      scale(1.01);
+
+    border-color:
+      rgba(58, 95, 205, .12);
+
+    background:
+      rgba(58, 95, 205, .04);
+  }
+}
+
+.legendTop {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.legendLeft {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  h4 {
+    margin: 0;
+
+    font-size: .95rem;
+
+    color: var(--title-color);
+  }
+
+  span {
+    font-size: .75rem;
+
+    color: var(--text-secondary);
+  }
+}
+
+.legendDot {
+  width: 12px;
+
+  height: 12px;
+
+  border-radius: 50%;
+}
+
+.legendRight {
+  text-align: right;
+}
+
+.legendPercent {
+  font-size: 1rem;
+
+  font-weight: 800;
+
+  color: var(--title-color);
+}
+
+.trend {
+  margin-top: 4px;
+
+  font-size: .75rem;
+
+  font-weight: 700;
+}
+
+.positive {
+  color: #22c55e;
+}
+
+.negative {
+  color: #ef4444;
+}
+
+.legendProgress {
+  margin-top: 12px;
+
+  height: 7px;
+
+  border-radius: 999px;
+
+  background: rgba(120, 120, 120, .08);
+
+  overflow: hidden;
+}
+
+.legendProgressFill {
+  height: 100%;
+
+  border-radius: 999px;
+
+  transition: width .6s ease;
+}

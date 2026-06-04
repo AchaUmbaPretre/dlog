@@ -9,7 +9,9 @@ import StatistiqueItems from '../statistiqueItems/StatistiqueItems';
 import { useSelector } from 'react-redux';
 import { notifyWarning } from '../../utils/notifyWarning';
 import StatisticItems from './statisticItems/StatisticItems';
-import StatiCarbItems from '../statiCarbItems/StatiCarbItems';
+import StatiCarbItems from '../carburantGen/statiCarbItems/StatiCarbItems';
+import StatCarbDepense from '../carburantGen/statCarbDepense/StatCarbDepense';
+import StatCarbRepartion from '../carburantGen/statCarbRepartion/StatCarbRepartion';
 
 const Statistique = () => {
     const [loading, setLoading] = useState(true);
@@ -87,21 +89,26 @@ const Statistique = () => {
 
     return (
         <div className="statistique">
-                            <StatiCarbItems/>
-
+            <StatiCarbItems/>
 {/*             <div className="statistique_rows">
                 <StatisticItems loading={loading} role={role} stats={stats} />
            </div> */}
             <div className="statistique_bottom">
-                <div className="statistique_bottom_rows1">
-                    <StatChart />
-                </div>
-                {
+{/*                 <div className="statistique_bottom_rows1">
+                    <StatCarbDepense />
+                </div> */}
+                <>
+                    <StatCarbDepense />
+                </>
+{/*                 {
                     role === 'Admin' &&
                     <div className="statistique_bottom_rows2">
                         <StatistiqueItems />
                     </div>
-                }
+                } */}
+                <>
+                    <StatCarbRepartion />
+                </>
             </div>
         </div>
     );
