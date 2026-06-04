@@ -1,0 +1,259 @@
+@import "../../style.scss";
+
+.fuelStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  @include mobileXR {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.fuelCard {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 125px;
+
+  padding: 18px;
+
+  border-radius: 22px;
+
+  background: var(--card-bg);
+
+  border: 1px solid var(--card-border);
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.03),
+    0 10px 25px rgba(0, 0, 0, 0.04);
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+      0 15px 35px rgba(0, 0, 0, 0.08);
+
+    .fuelCardGlow {
+      opacity: 0.15;
+    }
+
+    .fuelCardLine {
+      width: 100%;
+    }
+  }
+}
+
+.fuelCardGlow {
+  position: absolute;
+
+  top: -50px;
+  right: -50px;
+
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
+
+  filter: blur(45px);
+
+  opacity: 0.05;
+
+  transition: 0.4s ease;
+}
+
+.fuelCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fuelCardTitleSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fuelCardIcon {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+}
+
+.fuelCardTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.fuelCardBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  padding: 4px 10px;
+
+  border-radius: 999px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.positive {
+  background: rgba(34, 197, 94, 0.08);
+  color: #22c55e;
+}
+
+.negative {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+.fuelCardValue {
+  margin-top: 16px;
+
+  font-size: 2rem;
+  font-weight: 900;
+
+  color: var(--title-color);
+
+  line-height: 1;
+}
+
+.fuelCardBottom {
+  margin-top: 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fuelCardDesc {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}
+
+.miniBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+
+  span {
+    width: 3px;
+    border-radius: 50px;
+  }
+
+  span:nth-child(1) {
+    height: 10px;
+  }
+
+  span:nth-child(2) {
+    height: 18px;
+  }
+
+  span:nth-child(3) {
+    height: 13px;
+  }
+
+  span:nth-child(4) {
+    height: 22px;
+  }
+
+  span:nth-child(5) {
+    height: 16px;
+  }
+}
+
+.fuelCardLine {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 0;
+
+  height: 3px;
+
+  transition: 0.35s ease;
+}
+
+/* BLEU */
+
+.blue {
+  .fuelCardGlow {
+    background: #3a5fcd;
+  }
+
+  .fuelCardIcon {
+    background: rgba(58, 95, 205, 0.08);
+    color: #3a5fcd;
+  }
+
+  .miniBars span,
+  .fuelCardLine {
+    background: #3a5fcd;
+  }
+}
+
+/* CYAN */
+
+.cyan {
+  .fuelCardGlow {
+    background: #2ba4c6;
+  }
+
+  .fuelCardIcon {
+    background: rgba(43, 164, 198, 0.08);
+    color: #2ba4c6;
+  }
+
+  .miniBars span,
+  .fuelCardLine {
+    background: #2ba4c6;
+  }
+}
+
+/* PURPLE */
+
+.purple {
+  .fuelCardGlow {
+    background: #8b5cf6;
+  }
+
+  .fuelCardIcon {
+    background: rgba(139, 92, 246, 0.08);
+    color: #8b5cf6;
+  }
+
+  .miniBars span,
+  .fuelCardLine {
+    background: #8b5cf6;
+  }
+}
+
+/* ORANGE */
+
+.orange {
+  .fuelCardGlow {
+    background: #ff8c42;
+  }
+
+  .fuelCardIcon {
+    background: rgba(255, 140, 66, 0.08);
+    color: #ff8c42;
+  }
+
+  .miniBars span,
+  .fuelCardLine {
+    background: #ff8c42;
+  }
+}

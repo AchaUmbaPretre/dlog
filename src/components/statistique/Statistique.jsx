@@ -9,6 +9,7 @@ import StatistiqueItems from '../statistiqueItems/StatistiqueItems';
 import { useSelector } from 'react-redux';
 import { notifyWarning } from '../../utils/notifyWarning';
 import StatisticItems from './statisticItems/StatisticItems';
+import StatiCarbItems from '../statiCarbItems/StatiCarbItems';
 
 const Statistique = () => {
     const [loading, setLoading] = useState(true);
@@ -86,9 +87,11 @@ const Statistique = () => {
 
     return (
         <div className="statistique">
-            <div className="statistique_rows">
+                            <StatiCarbItems/>
+
+{/*             <div className="statistique_rows">
                 <StatisticItems loading={loading} role={role} stats={stats} />
-            </div>
+           </div> */}
             <div className="statistique_bottom">
                 <div className="statistique_bottom_rows1">
                     <StatChart />
