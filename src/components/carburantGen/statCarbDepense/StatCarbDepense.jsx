@@ -209,13 +209,6 @@ const StatCarbDepense = ({
           <span className="chartTitle">
             Evolution des dépenses carburant
           </span>
-          <div className="chartKpi">
-            <h2>{data.kpi?.depenses.valeur_formatee || '0 $'}</h2>
-            <div className={`growthBadge ${data.kpi?.depenses.positif ? 'positive' : 'negative'}`}>
-              <ArrowUpOutlined />
-              {Math.abs(data.kpi?.depenses.tendance || 0)}%
-            </div>
-          </div>
         </div>
 
         <div className="chartToolbar">
