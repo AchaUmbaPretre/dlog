@@ -76,13 +76,6 @@
 
   border-radius: 18px;
 
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.03),
-      rgba(255,255,255,.01)
-    );
-
   border:
     1px solid rgba(255,255,255,.05);
 
@@ -97,18 +90,6 @@
 
   box-shadow:
     0 12px 30px rgba(58,95,205,.08);
-}
-
-.leader {
-  border-color:
-    rgba(255,193,7,.25);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,193,7,.08),
-      rgba(255,193,7,.01)
-    );
 }
 
 .consomTop {
