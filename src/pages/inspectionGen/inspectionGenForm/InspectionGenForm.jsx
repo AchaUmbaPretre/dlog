@@ -108,7 +108,10 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
             formData.append('date_inspection', values.date_inspection);
             formData.append('date_prevu', values.date_prevu);
             formData.append('id_statut_vehicule', values.id_statut_vehicule);
-            formData.append('kilometrage', values.kilometrage);
+            formData.append(
+                'kilometrage',
+                values.kilometrage ?? 0
+            );
             formData.append('user_cr', userId);
     
             // Récupération de l'élément image-container
