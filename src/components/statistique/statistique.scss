@@ -153,6 +153,10 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap:20px;
     margin-top:20px;
+      @include mobileXR {
+        display: flex;
+        flex-direction: column;
+      }
 }
 
   .statistique_row .ant-skeleton {

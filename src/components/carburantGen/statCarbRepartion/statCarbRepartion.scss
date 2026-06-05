@@ -1,5 +1,7 @@
+@import '../../../style.scss';
+
 .fuelDistribution {
-  flex: 1;
+  flex: 1.5;
   background: var(--card-bg);
 
   border: 1px solid var(--card-border);
@@ -71,6 +73,10 @@
   gap: 25px;
 
   height: 320px;
+
+      @include mobileXR {
+      flex-direction: column;
+    }
 }
 
 .distributionChart {

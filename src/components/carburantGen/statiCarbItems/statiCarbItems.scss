@@ -126,7 +126,10 @@
 
   color: var(--title-color);
 
-  line-height: 1;
+
+  @include mobileXR {
+    font-size: 1.5rem;
+  }
 }
 
 .fuelCardBottom {
