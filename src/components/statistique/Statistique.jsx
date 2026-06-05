@@ -3,6 +3,9 @@ import StatiCarbItems from '../carburantGen/statiCarbItems/StatiCarbItems';
 import StatCarbDepense from '../carburantGen/statCarbDepense/StatCarbDepense';
 import StatCarbRepartion from '../carburantGen/statCarbRepartion/StatCarbRepartion';
 import { useDashboardCarburant } from '../carburantGen/hooks/useDashboardCarburant';
+import RavitaillementRecent from '../carburantGen/ravitaillementRecent/RavitaillementRecent';
+import CarbTopConsom from '../carburantGen/carbTopConsom/CarbTopConsom';
+import Statfournisseur from '../carburantGen/statfournisseur/Statfournisseur';
 
 const Statistique = () => {
     const {
@@ -52,6 +55,23 @@ const Statistique = () => {
                 />
                 <StatCarbRepartion 
                     data={data}
+                    loading={loading}
+                />
+            </div>
+
+            <div className="statistique_bottom statistic_bottom_v2">
+                <RavitaillementRecent
+                    data={data?.ravaillementsRecents}
+                    loading={loading}
+                />
+
+                <CarbTopConsom
+                    data={data?.topVehicules}
+                    loading={loading}
+                />
+
+                <Statfournisseur
+                    data={data?.topFournisseurs}
                     loading={loading}
                 />
             </div>

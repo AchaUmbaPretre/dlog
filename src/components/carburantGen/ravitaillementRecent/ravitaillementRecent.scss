@@ -1,0 +1,159 @@
+.ravitaillementRecent {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.ravitHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.sectionLabel {
+  font-size: .7rem;
+  letter-spacing: 1px;
+  color: #3A5FCD;
+  font-weight: 800;
+}
+
+.ravitHeader h3 {
+  margin: 4px 0;
+  color: var(--title-color);
+}
+
+.ravitHeader p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .8rem;
+}
+
+.ravitCount {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(58,95,205,.08);
+
+  color: #3A5FCD;
+
+  font-weight: 800;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 14px;
+}
+
+.timelineLeft {
+  position: relative;
+  width: 18px;
+}
+
+.timelineDot {
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+
+  background: #3A5FCD;
+
+  box-shadow:
+    0 0 15px rgba(58,95,205,.5);
+}
+
+.timelineLine {
+  position: absolute;
+  top: 14px;
+  left: 6px;
+
+  width: 2px;
+  height: calc(100% + 18px);
+
+  background:
+    rgba(58,95,205,.15);
+}
+
+.timelineCard {
+  flex: 1;
+
+  padding: 14px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.02);
+
+  border:
+    1px solid rgba(255,255,255,.05);
+
+  transition: .25s ease;
+}
+
+.timelineCard:hover {
+  transform: translateX(4px);
+}
+
+.timelineTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vehicleInfo {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.vehicleIcon {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(58,95,205,.08);
+
+  color: #3A5FCD;
+}
+
+.litreBadge {
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(16,185,129,.08);
+
+  color: #10B981;
+
+  font-weight: 700;
+}
+
+.timelineBottom {
+  margin-top: 12px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: .75rem;
+
+  color: var(--text-secondary);
+}

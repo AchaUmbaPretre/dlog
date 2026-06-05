@@ -1,0 +1,113 @@
+.statfournisseur {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.supplierHeader {
+  margin-bottom: 24px;
+}
+
+.supplierHeader h3 {
+  margin: 4px 0;
+  color: var(--title-color);
+}
+
+.supplierHeader p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .8rem;
+}
+
+.supplierList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.supplierCard {
+  padding: 16px;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,.02);
+
+  border:
+    1px solid rgba(255,255,255,.05);
+
+  transition: .25s ease;
+}
+
+.supplierCard:hover {
+  transform: translateY(-3px);
+}
+
+.supplierCard.leader {
+  border-color:
+    rgba(255,193,7,.25);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,193,7,.08),
+      rgba(255,193,7,.01)
+    );
+}
+
+.supplierTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.supplierIdentity {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.supplierRank {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(16,185,129,.08);
+
+  color: #10B981;
+
+  font-weight: 800;
+}
+
+.supplierProgress {
+  margin-top: 14px;
+
+  height: 10px;
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+  background:
+    rgba(120,120,120,.08);
+}
+
+.supplierFill {
+  height: 100%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #10B981,
+      #34D399
+    );
+}
