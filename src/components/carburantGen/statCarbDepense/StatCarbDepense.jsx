@@ -1,4 +1,3 @@
-// StatCarbDepense.jsx
 import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
@@ -48,16 +47,6 @@ const StatCarbDepense = ({
   refresh 
 }) => {
   const [open, setOpen] = React.useState(false);
-
-  // Vérification que les props sont bien présentes
-  console.log('StatCarbDepense props:', { 
-    hasData: !!data, 
-    loading, 
-    periode, 
-    hasUpdatePeriode: typeof updatePeriode === 'function',
-    hasUpdateDateRange: typeof updateDateRange === 'function',
-    hasRefresh: typeof refresh === 'function'
-  });
 
   const chartData = useMemo(() => {
     if (!data?.evolution) {
@@ -155,7 +144,6 @@ const StatCarbDepense = ({
   };
 
   const handlePeriodChange = (value) => {
-    console.log('handlePeriodChange called with:', value);
     if (updatePeriode && typeof updatePeriode === 'function') {
       updatePeriode(value);
     } else {
@@ -164,7 +152,6 @@ const StatCarbDepense = ({
   };
 
   const handleDateRangeChange = (dates) => {
-    console.log('handleDateRangeChange called with:', dates);
     if (dates && dates[0] && dates[1]) {
       if (updateDateRange && typeof updateDateRange === 'function') {
         updateDateRange(dates);
@@ -176,7 +163,6 @@ const StatCarbDepense = ({
   };
 
   const handleRefresh = () => {
-    console.log('handleRefresh called');
     if (refresh && typeof refresh === 'function') {
       refresh();
     } else {
