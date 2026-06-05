@@ -10,14 +10,17 @@
 }
 
 .supplierHeader h3 {
-  margin: 4px 0;
-  color: var(--title-color);
+   margin: 0;
+   font-size: 1rem;
+   font-weight: 700;
+   color: var(--title-color);
 }
 
 .supplierHeader p {
   margin: 0;
   color: var(--text-secondary);
   font-size: .8rem;
+  margin-top: 4px;
 }
 
 .supplierList {

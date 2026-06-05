@@ -32,10 +32,9 @@
 }
 
 .topConsomHeader h3 {
-  margin: 4px 0;
-
-  font-size: 1.25rem;
-
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--title-color);
 }
 
@@ -45,6 +44,7 @@
   font-size: .8rem;
 
   color: var(--text-secondary);
+  margin-top: 4px;
 }
 
 .topConsomBadge {

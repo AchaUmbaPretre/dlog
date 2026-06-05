@@ -20,10 +20,6 @@ const Statfournisseur = ({
 
         <div>
 
-          <span className="sectionLabel">
-            FOURNISSEURS
-          </span>
-
           <h3>
             Top Fournisseurs
           </h3>

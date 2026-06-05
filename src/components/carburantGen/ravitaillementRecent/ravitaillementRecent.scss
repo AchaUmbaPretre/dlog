@@ -2,158 +2,144 @@
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 24px;
-  padding: 22px;
+  padding: 24px;
+  height: 100%;
 }
 
 .ravitHeader {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
 }
 
-.sectionLabel {
-  font-size: .7rem;
-  letter-spacing: 1px;
-  color: #3A5FCD;
-  font-weight: 800;
-}
-
 .ravitHeader h3 {
-  margin: 4px 0;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--title-color);
 }
 
 .ravitHeader p {
-  margin: 0;
+  margin-top: 4px;
+  font-size: 0.8rem;
   color: var(--text-secondary);
-  font-size: .8rem;
 }
 
 .ravitCount {
-  width: 50px;
-  height: 50px;
-
-  border-radius: 16px;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background:
-    rgba(58,95,205,.08);
+  border-radius: 12px;
 
+  background: rgba(58, 95, 205, 0.08);
   color: #3A5FCD;
 
-  font-weight: 800;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .timelineItem {
   display: flex;
-  gap: 14px;
-}
+  align-items: center;
+  justify-content: space-between;
 
-.timelineLeft {
-  position: relative;
-  width: 18px;
-}
-
-.timelineDot {
-  width: 14px;
-  height: 14px;
-
-  border-radius: 50%;
-
-  background: #3A5FCD;
-
-  box-shadow:
-    0 0 15px rgba(58,95,205,.5);
-}
-
-.timelineLine {
-  position: absolute;
-  top: 14px;
-  left: 6px;
-
-  width: 2px;
-  height: calc(100% + 18px);
-
-  background:
-    rgba(58,95,205,.15);
-}
-
-.timelineCard {
-  flex: 1;
-
-  padding: 14px;
+  padding: 14px 16px;
 
   border-radius: 18px;
 
-  background:
-    rgba(255,255,255,.02);
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.04);
 
-  border:
-    1px solid rgba(255,255,255,.05);
-
-  transition: .25s ease;
+  transition: all .25s ease;
 }
 
-.timelineCard:hover {
-  transform: translateX(4px);
+.timelineItem:hover {
+  transform: translateY(-2px);
+  border-color: rgba(58,95,205,.15);
 }
 
-.timelineTop {
+.timelineLeft {
   display: flex;
-  justify-content: space-between;
-}
-
-.vehicleInfo {
-  display: flex;
-  gap: 12px;
   align-items: center;
+  gap: 14px;
+  flex: 1;
 }
 
 .vehicleIcon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 
-  border-radius: 12px;
+  border-radius: 14px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background:
-    rgba(58,95,205,.08);
+  background: rgba(58,95,205,.08);
 
   color: #3A5FCD;
+  font-size: 16px;
+}
+
+.vehicleInfo h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--title-color);
+}
+
+.vehicleInfo span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.timelineRight {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .litreBadge {
-  padding: 8px 12px;
+  padding: 8px 14px;
 
   border-radius: 999px;
 
-  background:
-    rgba(16,185,129,.08);
-
+  background: rgba(16,185,129,.08);
   color: #10B981;
 
+  font-size: 0.8rem;
   font-weight: 700;
 }
 
-.timelineBottom {
-  margin-top: 12px;
+.amountInfo {
+  text-align: right;
+}
+
+.amountInfo h5 {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--title-color);
+  font-weight: 700;
+}
+
+.amountInfo span {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
 
   display: flex;
-  justify-content: space-between;
-
-  font-size: .75rem;
-
-  color: var(--text-secondary);
+  align-items: center;
+  gap: 5px;
+  justify-content: flex-end;
 }

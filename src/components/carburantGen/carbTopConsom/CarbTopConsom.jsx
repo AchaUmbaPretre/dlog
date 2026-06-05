@@ -16,9 +16,6 @@ const CarbTopConsom = ({ data = [] }) => {
       <div className="topConsomHeader">
 
         <div>
-          <span className="sectionLabel">
-            PERFORMANCE
-          </span>
 
           <h3>
             Top Consommation

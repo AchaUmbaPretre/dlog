@@ -16,10 +16,6 @@ const RavitaillementRecent = ({
 
         <div>
 
-          <span className="sectionLabel">
-            ACTIVITÉ
-          </span>
-
           <h3>
             Ravitaillements récents
           </h3>
@@ -38,92 +34,55 @@ const RavitaillementRecent = ({
 
       <div className="timeline">
 
-        {data
-          .slice(0, 5)
-          .map((item, index) => (
+        {data.slice(0, 5).map((item) => (
+
             <div
-              key={item.id}
-              className="timelineItem"
+            key={item.id}
+            className="timelineItem"
             >
 
-              <div className="timelineLeft">
+            <div className="timelineLeft">
 
-                <div className="timelineDot" />
-
-                {
-                  index !== 4 &&
-                  <div className="timelineLine" />
-                }
-
-              </div>
-
-              <div className="timelineCard">
-
-                <div className="timelineTop">
-
-                  <div className="vehicleInfo">
-
-                    <div className="vehicleIcon">
-                      <CarOutlined />
-                    </div>
-
-                    <div>
-
-                      <h4>
-                        {
-                          item.vehicule
-                            ?.immatriculation
-                        }
-                      </h4>
-
-                      <span>
-                        {
-                          item.type_carburant
-                        }
-                      </span>
-
-                    </div>
-
-                  </div>
-
-                  <div className="litreBadge">
-
-                    {
-                      item.quantite
-                        ?.formate
-                    }
-
-                  </div>
-
+                <div className="vehicleIcon">
+                <CarOutlined />
                 </div>
 
-                <div className="timelineBottom">
+                <div className="vehicleInfo">
+                <h4>
+                    {item.vehicule?.immatriculation}
+                </h4>
 
-                  <div>
-
-                    <DashboardOutlined />
-
-                    {
-                      item.montant
-                        ?.usd_formate
-                    }
-
-                  </div>
-
-                  <div>
-
-                    <ClockCircleOutlined />
-
-                    {item.date}
-
-                  </div>
-
+                <span>
+                    {item.type_carburant}
+                </span>
                 </div>
-
-              </div>
 
             </div>
-          ))}
+
+            <div className="timelineRight">
+
+                <div className="litreBadge">
+                {item.quantite?.formate}
+                </div>
+
+                <div className="amountInfo">
+
+                <h5>
+                    {item.montant?.usd_formate}
+                </h5>
+
+                <span>
+                    <ClockCircleOutlined />
+                    {item.date?.split(" ")[0]}
+                </span>
+
+                </div>
+
+            </div>
+
+            </div>
+
+        ))}
 
       </div>
 
