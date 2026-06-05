@@ -136,7 +136,7 @@ const StatCarbRepartion = ({ data, loading }) => {
           <div className="chartGlow" />
           <Doughnut data={chartData} options={options} />
           <div className="centerKPI">
-            <DashboardOutlined />
+            <DashboardOutlined style={{background:'#fff'}} />
             <h2>{normalizedData.totalLitres.toLocaleString('fr-FR')}</h2>
             <span>Litres</span>
             <small>Total consommé</small>

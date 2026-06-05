@@ -45,6 +45,7 @@ const Statistique = () => {
         <div className="statistique">
             <StatiCarbItems data={data} loading={loading} />
             <div className="statistique_bottom">
+            
                 <StatCarbDepense 
                     data={data}
                     loading={loading}
