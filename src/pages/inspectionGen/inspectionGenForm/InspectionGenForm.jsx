@@ -105,8 +105,16 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
             // Champs principaux
             formData.append('id_vehicule', values.id_vehicule);
             formData.append('id_chauffeur', values.id_chauffeur);
-            formData.append('date_inspection', values.date_inspection);
-            formData.append('date_prevu', values.date_prevu);
+            formData.append(
+                'date_inspection',
+                values.date_inspection?.format('YYYY-MM-DD')
+            );
+            formData.append(
+                'date_prevu',
+                values.date_prevu
+                    ? values.date_prevu.format('YYYY-MM-DD')
+                    : ''
+            );
             formData.append('id_statut_vehicule', values.id_statut_vehicule);
             formData.append(
                 'kilometrage',
@@ -332,7 +340,7 @@ const InspectionGenForm = ({closeModal, fetchData, idSubInspectionGen}) => {
                                     label="Date prevue"
                                     rules={[
                                         {
-                                            required: false,
+                                            required: true,
                                             message: 'Veuillez fournir une date...',
                                         },
                                     ]}

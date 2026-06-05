@@ -97,7 +97,7 @@ const ReparationForm = ({closeModal, fetchData, subInspectionId, idReparations})
         closeAllModals();
         setModalType(type);
         setIdReparation(idReparation)
-      };
+    };
         
     const onFinish = async (values) => {
         await form.validateFields();
