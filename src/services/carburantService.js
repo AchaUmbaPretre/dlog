@@ -150,5 +150,5 @@ export const getDashboardCarburant = (periode, date_debut, date_fin) => {
     params.date_fin = moment(date_fin).format('YYYY-MM-DD');
   }
   
-  return axios.get(`${DOMAIN}/api/carburant/dashboard_carburant`, { params });
+  return userRequest.get(`${DOMAIN}/api/carburant/dashboard_carburant`, { params });
 };
