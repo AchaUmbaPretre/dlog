@@ -17,17 +17,7 @@ const Statistique = () => {
         updatePeriode,
         updateDateRange,
         refresh
-    } = useDashboardCarburant();
-
-    // Vérification des fonctions
-    console.log('Statistique props:', {
-        loading,
-        hasData: !!data,
-        periode,
-        hasUpdatePeriode: typeof updatePeriode === 'function',
-        hasUpdateDateRange: typeof updateDateRange === 'function',
-        hasRefresh: typeof refresh === 'function'
-    });
+    } = useDashboardCarburant();   
 
     if (error) {
         return (
