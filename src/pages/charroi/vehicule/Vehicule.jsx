@@ -2,7 +2,7 @@ import { Table, Button, Image, Input, message, Dropdown, Menu, Space, Tooltip, P
 import { MenuOutlined, MoreOutlined, StopOutlined, ThunderboltOutlined, WarningOutlined, AlertOutlined, DownOutlined, EnvironmentOutlined, RetweetOutlined, CarOutlined, DeleteOutlined, EyeOutlined, TruckOutlined, CalendarOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import config from '../../../config';
-import { getVehicule, putVehicule } from '../../../services/vehiculeService';
+import { getVehicule, putVehicule, putVehiculeSupprime } from '../../../services/vehiculeService';
 import { getFalcon } from '../../../services/rapportService';
 import vehiculeImg from './../../../assets/vehicule.png'
 import moment from 'moment';
@@ -43,7 +43,7 @@ const Vehicule = () => {
   });
   const handleDelete = async (id) => {
         try {
-        await putVehicule(id);
+        await putVehiculeSupprime(id);
         setData(data.filter((item) => item.id_vehicule !== id));
         message.success('Suppression du véhicule effectuée avec succès');
         } catch (error) {
