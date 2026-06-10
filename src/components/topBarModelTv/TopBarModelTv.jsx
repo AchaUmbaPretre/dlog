@@ -120,6 +120,6 @@ const TopBarModelTv = () => {
       </div>
     </div>
   );
-};
+   };
 
 export default TopBarModelTv;

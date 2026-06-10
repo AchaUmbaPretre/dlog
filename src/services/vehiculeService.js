@@ -41,7 +41,7 @@ export const postVehicule = async (data) => {
 }
 
 export const putVehicule = async (id, data) => {
-    return axios.put(`${DOMAIN}/api/vehicule?id_vehicule=${id}`, data);
+    return userRequest.put(`${DOMAIN}/api/vehicule?id_vehicule=${id}`, data);
 }
 
 export const putVehiculeSupprime = async (id) => {
